@@ -7,9 +7,7 @@ SPECIFICATION No. 2                                         ViaThinkSoft
 First Draft: 2010                                       2 September 2024
 
 
-    Retrieving information about Object Identifiers in a consistent
-         way that is both human-readable and machine-readable,
-              using the OID Information Protocol (OID-IP).
+               === OID Information Protocol (OID-IP) ===
 
 Abstract
 
@@ -21,7 +19,6 @@ Abstract
 
 Identification of this Document
 
-   Title:     OID Information Protocol (OID-IP)
    Revision:  2024-09-02
    State:     In Force
    URL:       https://github.com/ViaThinkSoft/standards/blob/main/\
@@ -50,6 +47,9 @@ Copyright Notice
    the document authors.  All rights reserved.
 
    Licensed under the terms of the Apache 2.0 License.
+
+
+
  
 
 

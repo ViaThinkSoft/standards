@@ -65,9 +65,7 @@
 .\" This and other comments in this template can safely be deleted.
 
 .ce 3
-Retrieving information about Object Identifiers in a consistent
-way that is both human-readable and machine-readable,
-using the OID Information Protocol (OID-IP).
+=== OID Information Protocol (OID-IP) ===
 .fi
 .in 3
 
@@ -81,7 +79,6 @@ Identification of this Document
 
 .in 3
 .nf
-Title:     OID Information Protocol (OID-IP)
 Revision:  2024-09-02
 State:     In Force
 URL:       https://github.com/ViaThinkSoft/standards/blob/main/\\

@@ -1,0 +1,307 @@
+.\" This document was created using "Nroff Internet Draft Editor"
+.\" Note that a hotfix is required to use this program after 1st January 2020:
+.\" https://misc.daniel-marschall.de/patches/nroffedit/
+.\"
+.\" Alternative, you can compile this document on Linux, using the following command:
+.\"        nroff -T ascii -ms viathinksoft-std-0001-std.nroff | ./fix_formfeed.pl > viathinksoft-std-0001-std.txt
+.\" Note that "-ms" only works if the package "groff" is installed.
+.\" fix.pl needs to be executed to replace FORMFEED.
+.\" Note that the Linux command does not auto-generate the Table of Contents, since this is a NroffEdit feature!
+.\"
+.\" Note about section titles: According to RFC7322, the section capitalization should be Chicago Manual of Style
+.\" Use this tool: https://titlecaseconverter.com/ 
+.\"
+.\" These values are required for my Debian Linux system (nroff) so that it outputs the same lines like NroffEdit
+.pl 95n
+.nr HM 6n
+.nr FM 8n
+.\" Page length
+.\".pl 10.0i
+.\" Page offset
+.po 0
+.\" Length of line
+.ll 7.2i
+.\" Length of title
+.lt 7.2i
+.\" Line Length (ms macro)
+.nr LL 7.2i
+.\" Title line length
+.nr LT 7.2i
+.\" Left footer text
+.ds LF Marschall
+.\" Right footer text. "FORMFEED" will be replaced by a post-processing script.
+.ds RF FORMFEED[Page %]
+.\" Left header text
+.ds LH VTS/WF STD. 1
+.\" Right header text
+.ds RH 2 September 2024
+.\" Center header text
+.ds CH VTS/WF Standards
+.\" Center footer text
+.ds CF 
+.\" Hyphenation mode set to 0
+.hy 0
+.\" Disable hyphenation
+.nh
+.\" Adjust text left
+.ad l
+.\" Set indent (can be overridden for a single line using .ti = temporary indent)
+.in 0
+
+.nf
+.tl 'VIATHINKSOFT/WEBFAN''D. Marschall'
+.tl 'SPECIFICATION No. 1''ViaThinkSoft'
+.tl 'First Draft: 2024''2 September 2024'
+.fi
+
+.\" Note. The ".tl" directive is used to generate the leading header 
+.\" in Internet drafts. The information specified after ".tl" provides
+.\" left, center and right components of a line separated by the ' character
+.\" in the following manner:
+.\" 
+.\"  .tl '<left component>'<center component>'<right component>'
+.\"
+.\" Only the left and right components are used in Internet-draft headers
+.\" This and other comments in this template can safely be deleted.
+
+.ce 3
+=== ViaThinkSoft/Webfan Standard Specification ===
+.fi
+.in 3
+
+.ti 0
+Abstract
+
+This document describes how the standards for ViaThinkSoft and Webfan are defined, written, and published.
+
+.ti 0
+Identification of this Document
+
+.in 3
+.nf
+Revision:  2024-09-02
+State:     In Force
+URL:       https://github.com/ViaThinkSoft/standards/blob/main/\\
+           viathinksoft-std-0001-std.txt
+URN:       urn:viathinksoft.de:std:0001:2024-09-02
+OID:       1.3.6.1.4.1.37476.3.0.0
+           { iso(1) identified-organization(3) dod(6) internet(1)
+             private(4) enterprise(1) 37476 specifications(3)
+             misc(0) viathinksoft-webfan-standard(0) }
+WEID:      weid:pen:SX0-3-0-0-5
+IETF/RFC:  (None)
+.fi
+
+.ti 0
+Attachments
+
+(None)
+
+.ti 0
+Copyright Notice
+
+Copyright (c) 2024 ViaThinkSoft and the persons identified as the
+document authors.  All rights reserved.
+
+Licensed under the terms of the Apache 2.0 License.
+.br
+.\" These values are required for my Debian Linux system (nroff) so that it outputs the same lines like NroffEdit
+.nr HM 8n
+.nr FM 8n
+.bp
+.pl 96n
+.\" \# TD4  -- Set TOC depth by altering this value (TD5 = depth 5)
+.\" \# TOC  -- Beginning of auto updated Table of Contents
+.in 0
+Table of Contents
+
+.nf
+   1  Introduction  . . . . . . . . . . . . . . . . . . . . . . . . .  3
+     1.1  Terminology . . . . . . . . . . . . . . . . . . . . . . . .  3
+   2  Tool Chain  . . . . . . . . . . . . . . . . . . . . . . . . . .  3
+   3  General Structure . . . . . . . . . . . . . . . . . . . . . . .  3
+     3.1  First Page Structure  . . . . . . . . . . . . . . . . . . .  4
+     3.2  Other Pages Structure . . . . . . . . . . . . . . . . . . .  5
+   5  Security Considerations . . . . . . . . . . . . . . . . . . . .  5
+   6  IANA Considerations . . . . . . . . . . . . . . . . . . . . . .  5
+   7  References  . . . . . . . . . . . . . . . . . . . . . . . . . .  5
+     7.1  Normative References  . . . . . . . . . . . . . . . . . . .  5
+     7.2  Informative References  . . . . . . . . . . . . . . . . . .  5
+   Acknowledgements . . . . . . . . . . . . . . . . . . . . . . . . .  6
+   Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . . .  6
+.fi
+.in 3
+
+.\" \# ETC -- End of auto updated Table of Contents
+
+.bp
+.ti 0
+1  Introduction
+
+This document describes how the standards for ViaThinkSoft and Webfan are defined, written, and published.
+
+The current standards are published here:  https://github.com/ViaThinkSoft/standards
+
+They receive a sequencial number.
+
+.ti 0
+1.1  Terminology
+
+The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in BCP\014 [RFC2119] [RFC8174] when, and only when, they appear in all capitals, as shown here.
+
+.in 3
+.ti 0
+2  Tool Chain
+
+The documents should be written in Nroff Internet Draft Editor by 3xA Security. It can be downloaded here:
+.br
+https://aaa-sec.com/nroffedit/
+.br
+https://misc.daniel-marschall.de/patches/nroffedit/ ("year 2020" patch)
+
+.in 3
+.ti 0
+3  General Structure
+
+The overall structure, style, and look-and-feel of a ViaThinkSoft/Webfan standard should be similar to the IETF Internet Drafts.  Note that the documentation and style of some standards are not yet done, and hence these standards look a bit "rough" and a lot of IETF rules are currently broken.
+
+A key difference between an IETF Internet Draft and a VTS/WF Standard is the first page and the header and footer lines of the pages.
+.bp
+.ti 0
+3.1  First Page Structure
+
+.nf
+Title Page Header Left Top:
+- Line 1:  VIATHINKSOFT/WEBFAN
+- Line 2:  SPECIFICATION No. <Number>
+- Line 3:  First Draft: <Date>
+
+Title Page Header Center:
+- Empty
+
+Title Page Header Right Top:
+- Line 1:  Main Author
+- Line 2:  Organization (ViaThinkSoft or Webfan)
+- Line 3:  Current Revision <Date>
+
+"Title" (Short title, not a sentence)
+
+"Identification of this Document"
+- Line 1:  "Revision" in format yyyy-mm-dd
+- Line 2:  "State" is either "In Force" or
+                             "Work-In-Progress" or
+                             "Deprecated"
+- Line 3:  "URL" links to the TXT file on GitHub
+- Line 4:  "URN" is urn:viathinksoft.de:std:<nnnn>:<yyyy-mm-dd>
+- Line 5:  "OID" is the base OID of the standard,
+           in dot-notation and ASN.1 notation
+- Line 6:  "WEID" is the WEID notation of the base OID of the
+           standard.
+- Line 7:  "IETF/RFC" is filled with the RFC or I-D name, in
+           case this revision is in-sync with IETF.
+
+"Attachments"
+- Either "(None)" or a list of titles and their URLs
+
+"Copyright Notice"
+- Should be an OSS license like Apache 2
+
+Footer Left:
+- Author Family Name
+
+Footer Center:
+- Empty
+
+Footer Right:
+- "[Page <n>]"
+.fi
+.bp
+.ti 0
+3.2  Other Pages Structure
+
+.nf
+Header Left:
+- "VTS/WF STD. <n>"
+
+Header Center:
+- Short Title
+
+Header Right:
+- Current Revision Date
+
+Footer Left:
+- Author Family Name
+
+Footer Center:
+- Empty
+
+Footer Right:
+- "[Page <n>]"
+.fi
+
+
+.ti 0
+5  Security Considerations
+
+None.
+
+.ti 0
+6  IANA Considerations
+
+There are no IANA Considerations.
+
+.ti 0
+7  References
+
+.ti 0
+7.1  Normative References
+.in 14
+
+.\" https://www.rfc-editor.org/refs/ref2119.txt
+.ti 3
+[RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate Requirement Levels", BCP\014, RFC\02119, DOI\010.17487/RFC2119, March\01997,
+.br
+<https://www.rfc-editor.org/info/rfc2119>.
+
+.in 3
+.ti 0
+7.2  Informative References
+.in 14
+
+.ti 3
+None
+.bp
+.in 3
+.ti 0
+Acknowledgements
+.in 3
+
+I would like to thank Melanie Wehowski for her long time support in OIDplus and WEID projects.
+
+Thanks to the authors of these free tools which did a very good job in validating various contents of this document:
+
+.in 3
+- "Grammarly" spell and grammar checker
+.in 5
+https://app.grammarly.com/
+.in 3
+
+This document was written in Nroff Internet Draft Editor by 3xA Security.
+.br
+https://aaa-sec.com/nroffedit/
+.br
+https://misc.daniel-marschall.de/patches/nroffedit/ ("year 2020" patch)
+
+.ti 0
+Authors' Addresses
+.in 3
+
+.nf
+Daniel Marschall
+Postfach 11 53
+69243 Bammental
+Germany
+
+Email: daniel-marschall@viathinksoft.de
+URI:   https://www.viathinksoft.com/
+.fi
