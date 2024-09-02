@@ -122,11 +122,11 @@ Table of Contents
    3  General Structure . . . . . . . . . . . . . . . . . . . . . . .  3
      3.1  First Page Structure  . . . . . . . . . . . . . . . . . . .  4
      3.2  Other Pages Structure . . . . . . . . . . . . . . . . . . .  5
-   5  Security Considerations . . . . . . . . . . . . . . . . . . . .  5
-   6  IANA Considerations . . . . . . . . . . . . . . . . . . . . . .  5
-   7  References  . . . . . . . . . . . . . . . . . . . . . . . . . .  5
-     7.1  Normative References  . . . . . . . . . . . . . . . . . . .  5
-     7.2  Informative References  . . . . . . . . . . . . . . . . . .  5
+   4  Security Considerations . . . . . . . . . . . . . . . . . . . .  5
+   5  IANA Considerations . . . . . . . . . . . . . . . . . . . . . .  5
+   6  References  . . . . . . . . . . . . . . . . . . . . . . . . . .  5
+     6.1  Normative References  . . . . . . . . . . . . . . . . . . .  5
+     6.2  Informative References  . . . . . . . . . . . . . . . . . .  5
    Acknowledgements . . . . . . . . . . . . . . . . . . . . . . . . .  6
    Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . . .  6
 .fi
@@ -241,20 +241,20 @@ Footer Right:
 
 
 .ti 0
-5  Security Considerations
+4  Security Considerations
 
 None.
 
 .ti 0
-6  IANA Considerations
+5  IANA Considerations
 
 There are no IANA Considerations.
 
 .ti 0
-7  References
+6  References
 
 .ti 0
-7.1  Normative References
+6.1  Normative References
 .in 14
 
 .\" https://www.rfc-editor.org/refs/ref2119.txt
@@ -265,7 +265,7 @@ There are no IANA Considerations.
 
 .in 3
 .ti 0
-7.2  Informative References
+6.2  Informative References
 .in 14
 
 .ti 3
