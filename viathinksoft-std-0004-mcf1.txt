@@ -1,0 +1,280 @@
+ 
+
+
+
+VIATHINKSOFT/WEBFAN                                         D. Marschall
+SPECIFICATION No. 4                                         ViaThinkSoft
+First Draft: 2023                                       3 September 2024
+
+
+          === ViaThinkSoft Modular Crypt Format 1.0 (MCF1) ===
+
+Abstract
+
+   This document describes how the standards for ViaThinkSoft and Webfan
+   are defined, written, and published.
+
+Identification of this Document
+
+   Revision:  2024-09-03
+   State:     In Force
+   URL:       https://github.com/ViaThinkSoft/standards/blob/main/\
+              viathinksoft-std-0004-mcf1.txt
+   URN:       urn:viathinksoft.de:std:0004:2024-09-03
+   OID:       1.3.6.1.4.1.37476.3.0.1.1
+              { iso(1) identified-organization(3) dod(6) internet(1)
+                private(4) enterprise(1) 37476 specifications(3)
+                misc(0) modular-crypt-format(1) vts-crypt-v1(1) }
+   WEID:      weid:pen:SX0-3-0-1-1-5
+   IETF/RFC:  (None)
+
+Attachments
+
+   (None)
+
+Copyright Notice
+
+   Copyright (c) 2023-2024 ViaThinkSoft and the persons identified as
+   the document authors.  All rights reserved.
+
+   Licensed under the terms of the Apache 2.0 License.
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+Marschall                                                       [Page 1]
+
+VTS/WF STD. 4               VTS/WF Standards            3 September 2024
+
+
+Table of Contents
+
+   1  Introduction  . . . . . . . . . . . . . . . . . . . . . . . . .  3
+     1.1  Terminology . . . . . . . . . . . . . . . . . . . . . . . .  3
+   2  MCF Structure . . . . . . . . . . . . . . . . . . . . . . . . .  3
+   3  Reference Implementations . . . . . . . . . . . . . . . . . . .  4
+   4  Test Vectors  . . . . . . . . . . . . . . . . . . . . . . . . .  4
+   5  Security Considerations . . . . . . . . . . . . . . . . . . . .  5
+   6  IANA Considerations . . . . . . . . . . . . . . . . . . . . . .  5
+   7  References  . . . . . . . . . . . . . . . . . . . . . . . . . .  5
+     7.1  Normative References  . . . . . . . . . . . . . . . . . . .  5
+     7.2  Informative References  . . . . . . . . . . . . . . . . . .  5
+   Acknowledgements . . . . . . . . . . . . . . . . . . . . . . . . .  5
+   Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . . .  5
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+Marschall                                                       [Page 2]
+
+VTS/WF STD. 4               VTS/WF Standards            3 September 2024
+
+
+1  Introduction
+
+   ViaThinkSoft Modular Crypt Format 1.0 performs a simple hash or HMAC
+   operation and stores the result in a Modular Crypt Format compatible
+   string.  No key derivation function or iterations are performed.
+
+   ViaThinkSoft MCF was invented to allow old passwords (e.g. MD5 with
+   salt) to be easily converted to a MCF notation ($...$...$) so that
+   these old passwords can be stored in the same data structure as newer
+   crypt passwords, until they get upgraded to a newer hash.  But it can
+   also be used to encapsulate modern hash algorithms like SHA3/512 into
+   a MCF format, so that they can be stored together with other MCF
+   passwords such as bcrypt.
+
+   Another innovation is to use Object Identifiers (OIDs) as MCF
+   algorithm identifier. Algorithm identifiers such as $1$, $2$, ... are
+   nice to remember and short, but can quickly lead to conflicts, and
+   soon you run out of short identifiers.
+
+1.1  Terminology
+
+   The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
+   "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and
+   "OPTIONAL" in this document are to be interpreted as described in
+   BCP 14 [RFC2119] [RFC8174] when, and only when, they appear in all
+   capitals, as shown here.
+
+2  MCF Structure
+
+   Format of VTS MCF1:
+
+   $<id>$<params>$<salt>$<hash>
+
+   <id> is 1.3.6.1.4.1.37476.3.0.1.1
+
+   <params> is a=<algo>,m=<mode>[,i=<iterations>]
+
+   where <algo> is any valid hash algorithm (name scheme of PHP
+   hash_algos() preferred), e.g.
+   - sha3-512
+   - sha3-384
+   - sha3-256
+   - sha3-224
+   - sha512
+   - sha512/256
+   - sha512/224
+   - sha384
+   - sha256
+ 
+
+
+Marschall                                                       [Page 3]
+
+VTS/WF STD. 4               VTS/WF Standards            3 September 2024
+
+
+   - sha224
+   - sha1
+   - md5
+
+   Not possible with MCF1 are these hashes (because they have a special
+   salt-handling and output their own crypt format):
+   - bcrypt [Standardized crypt identifier 2, 2a, 2x, 2y]
+   - argon2i [Crypt identifier argon2i, not standardized]
+   - argon2id [Crypt identifier argon2i, not standardized]
+
+   Valid <mode> parameters:
+   - sp = salt + password
+   - ps = password + salt
+   - sps = salt + password + salt
+   - shp = salt + Hash(password)
+   - hps = Hash(password) + salt
+   - shps = salt + Hash(password) + salt
+   - hmac = HMAC (salt is the key)
+   - pbkdf2 = PBKDF2-HMAC
+
+   <iterations> can be omitted if 0.  It is required for mode m=pbkdf2. 
+   For sp/ps/sps/shp/hps/shps/hmac, it is optional.
+
+   Like most Crypt-hashes, <salt> and <hash> are Radix64 coded with
+   alphabet
+   './0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'
+   and without padding.
+
+3  Reference Implementations
+
+   Reference implementation in PHP:
+   https://github.com/danielmarschall/php_utils/blob/master/
+   vts_crypt.inc.php
+
+4  Test Vectors
+
+   Hash:       $1.3.6.1.4.1.37476.3.0.1.1$a=sha3-
+   256,m=sp$$2Ud0hUTh//swVxoilAltWQ/9LQ189eZcdJ/hA5HkV/C
+   Algorithm:  SHA3-256
+   Mode:       sp (Salt || Password)
+   Salt:       None
+
+
+   Hash:       $1.3.6.1.4.1.37476.3.0.1.1$a=sha3-
+   256,m=sp$CAT/9cvgCuS$dqNf5hJf0p09lYx.9rvI/c96swTz58tGhipuhobl8Ke
+   Algorithm:  SHA3-256
+   Mode:       sp (Salt || Password)
+   Salt:       8 Bytes
+ 
+
+
+Marschall                                                       [Page 4]
+
+VTS/WF STD. 4               VTS/WF Standards            3 September 2024
+
+
+5  Security Considerations
+
+   Hash values play a crucial role in various security contexts, such as
+   password verification.  For detailed guidance on securely managing
+   hashes, please consult the relevant literature or documentation.
+
+6  IANA Considerations
+
+   There are no IANA Considerations.
+
+7  References
+
+7.1  Normative References
+
+   [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
+              Requirement Levels", BCP 14, RFC 2119,
+              DOI 10.17487/RFC2119, March 1997,
+              <https://www.rfc-editor.org/info/rfc2119>.
+
+7.2  Informative References
+
+   None
+
+Acknowledgements
+
+   I would like to thank Melanie Wehowski for her long time support in
+   OIDplus and WEID projects.
+
+   Thanks to the authors of these free tools which did a very good job
+   in validating various contents of this document:
+
+   - "Grammarly" spell and grammar checker
+     https://app.grammarly.com/
+
+   This document was written in Nroff Internet Draft Editor by 3xA
+   Security.
+   https://aaa-sec.com/nroffedit/
+   https://misc.daniel-marschall.de/patches/nroffedit/ ("year 2020"
+   patch)
+
+Authors' Addresses
+
+   Daniel Marschall
+   Postfach 11 53
+   69243 Bammental
+   Germany
+   Email: daniel-marschall@viathinksoft.de
+   URI:   https://www.viathinksoft.com/
+
+
+
+Marschall                                                       [Page 5]
