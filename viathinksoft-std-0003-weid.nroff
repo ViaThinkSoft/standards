@@ -122,19 +122,20 @@ Table of Contents
      2.1  Namespace "weid:" for "Class C" WEIDs . . . . . . . . . . .  4
      2.2  Sub-Namespace "weid:pen:" for "Class B" WEIDs . . . . . . .  4
      2.3  Sub-Namespace "weid:root:" for "Class A" WEIDs  . . . . . .  4
-   3  Construction of a WEID  . . . . . . . . . . . . . . . . . . . .  4
-   4  Specification Changes . . . . . . . . . . . . . . . . . . . . .  5
-     4.1  Spec Change 8: Recommendations for WEID notation  . . . . .  5
-     4.2  Spec Change 9: Recommendations for WEID notation  . . . . .  6
-     4.3  Spec Change 10: Domain-WEID ("Class D" WEID)  . . . . . . .  6
-     4.4  Spec Change 11: Proprietary Namespaces  . . . . . . . . . .  6
-   5  Additional notes  . . . . . . . . . . . . . . . . . . . . . . .  7
+     2.4  Sub-Namespace "weid:<DomainName>:" for "Class D" (Domain)
+          WEID  . . . . . . . . . . . . . . . . . . . . . . . . . . .  4
+     2.5  Sub-Namespace "weid:x-<Name>:" for Proprietary Namespaces .  5
+   3  Construction of a WEID  . . . . . . . . . . . . . . . . . . . .  5
+   4  Notation  . . . . . . . . . . . . . . . . . . . . . . . . . . .  7
+     4.1  Recommendations . . . . . . . . . . . . . . . . . . . . . .  7
+     4.2  Wildcard Notation (No Checksum) . . . . . . . . . . . . . .  7
+   5  Additional Notes  . . . . . . . . . . . . . . . . . . . . . . .  7
    6  Security Considerations . . . . . . . . . . . . . . . . . . . .  8
    7  IANA Considerations . . . . . . . . . . . . . . . . . . . . . .  8
    8  References  . . . . . . . . . . . . . . . . . . . . . . . . . .  8
      8.1  Normative References  . . . . . . . . . . . . . . . . . . .  8
      8.2  Informative References  . . . . . . . . . . . . . . . . . .  8
-   Acknowledgements . . . . . . . . . . . . . . . . . . . . . . . . .  9
+   Acknowledgements . . . . . . . . . . . . . . . . . . . . . . . . .  8
    Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . . .  9
 .fi
 .in 3
@@ -145,9 +146,9 @@ Table of Contents
 .ti 0
 1  Introduction
 
-An Object Identifier (OID) is an extensively used identification mechanism jointly developed by ITU-T and ISO/IEC for naming any type of object, concept, or "thing" with a globally unambiguous name. (More information about OIDs can be found at www.oid-info.com).
+An Object Identifier (OID) is an extensively used identification mechanism jointly developed by ITU-T and ISO/IEC for naming any type of object, concept, or "thing" with a globally unambiguous name.  More information about OIDs can be found at www.oid-info.com.
 
-To get an OID in accordance with Recommendation ITU-T X.600 assigned, you need to find a Registration Authority that assigns you an OID. You can obtain an OID as WEID and manage your own arc, e.g. by:
+To get an OID in accordance with Recommendation ITU-T X.600 assigned, you need to find a Registration Authority that assigns you an OID.  You can obtain an OID as WEID and manage your own arc, e.g. by:
 
 - IANA Private Enterprise Numbers (PEN)
 .br
@@ -173,7 +174,7 @@ WEID notation:     weid:root:2-RR-2
 .fi
 .in 3
 
-In the initial version of the WEID specification of 2011, only OIDs below the WEID root arc 1.3.6.1.4.1.37553.8 could be used. In a later definition by Daniel Marschall, any existing OID can be written in WEID notation, by defining sub-namespaces.
+In the initial version of the WEID specification of 2011, only OIDs below the WEID root arc 1.3.6.1.4.1.37553.8 could be used.  In a later definition by Daniel Marschall, any existing OID can be written in WEID notation, by defining sub-namespaces.
 
 .ti 0
 1.1  Terminology
@@ -186,7 +187,7 @@ The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "S
 
 Uniform Resource Name (URN) [RFC2141] Namespace Identifiers (NIDs) for use by WEID are being specified in this document.
 
-The registry of sub-namespaces (URN prefixes) has currently the following entries:
+Sub-namespaces are defined by the WEID consortium (ViaThinkSoft and WebFan) in a Specification Change.  The registry of sub-namespaces (URN prefixes) has currently the following entries:
 .bp
 .ti 0
 2.1  Namespace "weid:" for "Class C" WEIDs
@@ -195,7 +196,7 @@ Root OID is 1.3.6.1.4.1.37553.8
 
 Example: OID 1.3.6.1.4.1.37553.8.32488192274 can be written as weid:EXAMPLE-3 (3 is the check digit)
 
-The registration of WEID Alphanumeric OIDs beneath this arc is managed by Webfan.de in order of FRDLWEB. You can assign a Private WEID by Frdlweb here: https://registry.frdl.de/?goto=com.frdlweb.freeweid
+The registration of WEID Alphanumeric OIDs beneath this arc is managed by Webfan.de in order of FRDLWEB.  You can assign a Private WEID by Frdlweb here: https://registry.frdl.de/?goto=com.frdlweb.freeweid
 
 .ti 0
 2.2  Sub-Namespace "weid:pen:" for "Class B" WEIDs
@@ -204,7 +205,7 @@ Root OID is 1.3.6.1.4.1
 
 Example: OID 1.3.6.1.4.1.37476.9999 can be written as weid:pen:SX0-7PR-6 (6 is the check digit)
 
-The registration of Private Enterprise Numbers (PEN) is managed by IANA. You can register a PEN here: https://pen.iana.org/pen/PenApplication.page
+The registration of Private Enterprise Numbers (PEN) is managed by IANA.  You can register a PEN here: https://pen.iana.org/pen/PenApplication.page
 
 .ti 0
 2.3  Sub-Namespace "weid:root:" for "Class A" WEIDs
@@ -213,7 +214,44 @@ Root OID is the OID tree root
 
 Example: OID 2.999 can be written as weid:root:2-RR-2 (2 is the check digit)
 
-More sub-namespaces can be added to this registry in the future. The sub-namespaces must be defined by the WEID consortium (ViaThinkSoft and WebFan) in a Specification Change.
+.ti 0
+2.4  Sub-Namespace "weid:<DomainName>:" for "Class D" (Domain) WEID
+
+All WEID sub-namespaces containing at least one dot (.) in the second URN part are treated as domain names.
+
+The notation "weid:example.com:ABC-DEF-?" is equal to the Class C WEID "weid:9-DNS-COM-EXAMPLE-ABC-DEF-?".
+
+The resulting WEID is called Domain-WEID or "Class D" WEID.
+
+Note that the check digit is equal for both notations since it is based on the resulting OID.
+
+TLD-Only domains are not allowed for the purpose of forming a Domain-WEID.
+
+Only ASCII notations can be used; therefore the Punycode notation MUST be used.
+
+A Domain-WEID can be converted to Class A/B/C WEID, but the reverse conversion is ambiguous ("where does the domain name end and where does the identifier part start?")
+
+.ti 0
+2.5  Sub-Namespace "weid:x-<Name>:" for Proprietary Namespaces
+
+The second URN part of such namespaces must begin with "x-", for example, "weid:x-contoso:ABC-DEF-?" could be a WEID defined by Contoso Ltd.
+
+As usual for WEID, the namespace is case insensitive.
+
+To avoid confusion with Spec Change 10 Domain-WEID, the sub-namespace must not contain a dot (.).
+
+The vendor has complete control over the namespace and can define the behavior.  However, it is recommended to make use of Base36 and the weLuhn check digit.
+
+Since the vendor specifies the namespace, it is up to the vendor if they allow the mapping of their WEID-Namespace to the OID-Tree.  In comparison to class A/B/C/D WEID which are 100% OID compatible, custom / vendor-specific WEIDs might not be OID-compatible at all.
+
+Currently, the following custom namespaces are known:
+
+.in 7
+.ti 3
+(1) weid:x-frdl:[Base36_NS]-[SubNS]:[Base36_ID]-[CheckDigit] to be defined/implemented by Frdlweb.
+.in 3
+
+If you know more namespaces, or if you are the author of a custom namespace, please let us know.
 
 .ti 0
 3  Construction of a WEID
@@ -232,129 +270,93 @@ The construction of a WEID is demonstrated with the example OID 2.999:
 
 .in 7
 .ti 3
-(3) Now, an appropriate namespace (and sub-namespace if applicable) will be added. In our case, a fitting (sub-)namespace is weid:root:, so we now have weid:root:2-RR
+(3) A Luhn-based check digit (called WeLuhn) is added, preceded by a hyphen.
 .in 3
-
-.in 7
-.ti 3
-(4) In the end, a Luhn-based check digit (called WeLuhn) is added. If the WEID contains at least one arc, then the check digit is preceded by a hyphen.
-.in 3
-
-The WeLuhn algorithm works this way:
-
-.in 9
-.ti 3
-(4.1) First, we take the OID in dot notation (e.g. 2.999)
-.in 3
-
-.in 9
-.ti 3
-(4.2) The arcs will be converted from base 10 to base 36, so we have 2-RR. Padding zeros must not be present and need to be stripped.
-.in 3
-
-.in 9
-.ti 3
-(4.3) The hyphens are removed, so we now have 2RR.
-.in 3
-
-.in 9
-.ti 3
-(4.4) "A" will be replaced with 10, "B" will be replaced with 11, etc., so we now have 22727.
-.in 3
-
-This number is the payload for the normal Luhn algorithm which works as follows:
-
-.in 9
-.ti 3
-(4.5) Start from the rightmost digit. Moving left, double the value of every second digit (including the rightmost digit).
-.in 3
-
-.in 9
-.ti 3
-(4.6) Sum the digits of the resulting value in each position.
-.in 3
-
-.in 9
-.ti 3
-(4.7) Sum the resulting values from all positions, s.
-.in 3
-
-.in 9
-.ti 3
-(4.8) The check digit is calculated by ((10-s mod 10) mod 10). In our case, the Luhn checksum is 2.
-.in 3
-
-.in 7
-.ti 3
-(5) Our final WEID notation for OID 2.999 is weid:root:2-RR-2.
-.in 3
-
-.ti 0
-4  Specification Changes
-
-.ti 0
-4.1  Spec Change 8: Recommendations for WEID notation
-
-When choosing a (sub-)namespace, it is recommended to choose a sub-namespace that is closest to the OID you want to describe, producing the shortest WEID therefore. For example, weid:pen:SX0-7PR-6 should be chosen rather than weid:root:1-3-6-1-4-1-SX0-7PR-6
-
-The arcs in a WEID should be written in upper-case, but lowercase can be interpreted, too.
-
-The URN namespace (weid:, weid:pen:, weid:root:) is case insensitive, but it is recommended to write it in lowercase.
-.bp 
-Padding with 0 characters is valid (e.g. weid:000EXAMPLE-3), but not recommended. The paddings do not count toward the WeLuhn check digit.
-
-.ti 0
-4.2  Spec Change 9: Recommendations for WEID notation
-
-In Spec Change 9 (8 March 2022), an alternative syntax of WEIDs is defined. This alternative syntax replaces the checksum with a wildcard in the form of a question mark symbol, for example, weid:root:2-RR-? instead of weid:root:2-RR-2. One useful scenario can be the documentation of incomplete/template WEIDs. Another usage is converters (like our online converter) which can help you replace the wildcard with the correct checksum.
-
-.ti 0
-4.3  Spec Change 10: Domain-WEID ("Class D" WEID)
-
-Spec Change 10 (7 August 2023) allows domain names to be used as WEID sub-namespace.
-
-All WEID sub-namespaces containing at least one dot (.) are treated as domain names.
-
-The notation weid:example.com:ABC-DEF-? is equal to weid:9-DNS-COM-EXAMPLE-ABC-DEF-?.
-
-The resulting WEID is called Domain-WEID or "Class D" WEID.
-
-Note that the check digit is equal for both notations since it is based on the resulting OID.
-
-TLD-Only domains are not allowed for the purpose of forming a Domain-WEID.
-
-A Domain-WEID can be converted to Class A/B/C WEID, but the reverse conversion is ambiguous ("where does the domain name end and where does the identifier part start?")
-
-.ti 0
-4.4  Spec Change 11: Proprietary Namespaces
-
-Spec Change 11 (7 August 2023) allows custom / vendor-specific WEID sub-namespaces.
-
-Such namespaces must begin with x-, for example: weid:x-contoso:ABC-DEF-? could be a WEID defined by Contoso Ltd.
-
-As usual for WEID, the namespace is case insensitive.
 .bp
-To avoid confusion with Spec Change 10 Domain-WEID, the sub-namespace must not contain a dot (.).
+The WeLuhn check digit is calculated as follows:
 
-The vendor has complete control over the namespace and can define the behavior. However, it is recommended to make use of Base36 and the weLuhn check digit.
+.in 9
+.ti 3
+(3.1) First, we take the OID in dot notation (e.g. 2.999)
+.in 3
 
-Since the vendor specifies the namespace, it is up to the vendor if they allow the mapping of their WEID-Namespace to the OID-Tree. In comparison to class A/B/C/D WEID which are 100% OID compatible, custom WEID might not be OID-compatible at all.
+.in 9
+.ti 3
+(3.2) The arcs will be converted from base 10 to base 36, so we have 2-RR.  Padding zeros must not be present and need to be stripped.
+.in 3
 
-Currently, the following custom namespaces are known:
+.in 9
+.ti 3
+(3.3) The hyphens are removed, so we now have 2RR.
+.in 3
+
+.in 9
+.ti 3
+(3.4) "A" will be replaced with 10, "B" will be replaced with "11", etc., so we now have "22727".
+.in 3
+
+This number is the payload for the standard Luhn algorithm which works as follows:
+
+.in 9
+.ti 3
+(3.5) Start from the rightmost digit.  Moving left, double the value of every second digit (including the rightmost digit).
+.in 3
+
+.in 9
+.ti 3
+(3.6) Sum the digits of the resulting value in each position.
+.in 3
+
+.in 9
+.ti 3
+(3.7) Sum the resulting values from all positions, "s".
+.in 3
+
+.in 9
+.ti 3
+(3.8) The check digit is calculated by "((10-s mod 10) mod 10)".  In our case, the Luhn checksum is "2".
+.in 3
 
 .in 7
 .ti 3
-(1) weid:x-frdl:[Base36_NS]-[SubNS]:[Base36_ID]-[CheckDigit] to be defined/implemented by Frdlweb.
+(4) Choose the (sub-)namespace that is closest to the OID your are describing:
+
+- If the OID is 1.3.6.1.4.1.37553.8.xxx, then replace the prefix "1-3-6-1-4-1-SZ5-8-" with "weid:" (Class C WEID).
+
+- Otherwise, if the OID is 1.3.6.1.4.1.xxx, then replace the prefix "1-3-6-1-4-1-" with "weid:pen:" (Class B WEID).
+
+- Otherwise, prepend "weid:root:" (Class A WEID).
 .in 3
 
-If you know more namespaces, or if you are the author of a custom namespace, please let us know.
+In our example, we choose "weid:root:" and our final WEID notation for OID "2.999" is "weid:root:2-RR-2", which is a Class A WEID.
+.bp
+
+
 
 .ti 0
-5  Additional notes
+4  Notation
 
-Any WEID (except for Custom WEID as defined in Spec Change 11) can be represented by an OID and vice-versa. Therefore, a WEID has all attributes of an OID (e.g. it can be used to generate a Version 5 SHA1 name-based UUID with the Namespace UUID 6ba7b812-9dad-11d1-80b4-00c04fd430c8 according to IETF RFC-4122).
+.ti 0
+4.1  Recommendations
 
-Please note that some clients handling OIDs cannot handle arcs that have a specific size. Implementers of WEID strongly encourage allowing arbitrary length arcs (i.e. implementing BigInteger rather than 32-bit integers).
+The arcs in a WEID SHOULD be written in upper-case, but lowercase can be interpreted, too.
+
+The URN namespace (weid:, weid:pen:, weid:root:) is case insensitive, but it is RECOMMENDED to write it in lowercase.
+
+Padding with 0 characters is valid (e.g. weid:000EXAMPLE-3), but NOT RECOMMENDED.  The paddings do not count toward the WeLuhn check digit.
+
+.ti 0
+4.2  Wildcard Notation (No Checksum)
+
+An alternative syntax for WEID replaces the checksum with a wildcard in the form of a question mark symbol, for example, "weid:root:2-RR-?" instead of "weid:root:2-RR-2".  One useful scenario can be the documentation of incomplete/template WEIDs, e.g. "weid:pen:SX0-Something-?".  Another usage is converters (like our online converter) which can help you replace the wildcard with the correct checksum.
+
+
+.ti 0
+5  Additional Notes
+
+Any WEID (except for Custom WEID as defined in Spec Change 11) can be represented by an OID and vice-versa. Therefore, a WEID has all attributes of an OID (e.g. it can be used to generate a Version 5 SHA1 name-based UUID with the Namespace UUID "6ba7b812-9dad-11d1-80b4-00c04fd430c8" according to [RFC 4122]).
+
+Please note that some clients handling OIDs cannot handle arcs that have a specific size.  Implementers of WEID strongly encourage allowing arbitrary length arcs (i.e. implementing BigInteger rather than 32-bit integers).
 
 At www.weid.info you can find more information and announcements of changes.
 
@@ -387,7 +389,7 @@ There are no IANA Considerations.
 
 \." https://www.rfc-editor.org/refs/ref2141.txt
 .ti 3
-[RFC2141]  Moats, R., "URN Syntax", RFC 2141, DOI 10.17487/RFC2141, May\01997,
+[RFC2141]  Moats, R., "URN Syntax", RFC\02141, DOI\010.17487/RFC2141, May\01997,
 .br
 <https://www.rfc-editor.org/info/rfc2141>.
 
@@ -396,9 +398,12 @@ There are no IANA Considerations.
 8.2  Informative References
 .in 14
 
+\." https://www.rfc-editor.org/refs/ref4122.txt
 .ti 3
-None
-.bp
+[RFC4122]  Leach, P., Mealling, M., and R. Salz, "A Universally Unique IDentifier (UUID) URN Namespace", RFC\04122, DOI\010.17487/RFC4122, July\02005,
+.br
+<https://www.rfc-editor.org/info/rfc4122>.
+
 .in 3
 .ti 0
 Acknowledgements
@@ -419,7 +424,7 @@ This document was written in Nroff Internet Draft Editor by 3xA Security.
 https://aaa-sec.com/nroffedit/
 .br
 https://misc.daniel-marschall.de/patches/nroffedit/ ("year 2020" patch)
-
+.bp
 .ti 0
 Authors' Addresses
 .in 3
