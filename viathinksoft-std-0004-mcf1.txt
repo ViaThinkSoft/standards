@@ -30,7 +30,9 @@ Identification of this Document
 
 Attachments
 
-   (None)
+   Reference implementation in PHP:
+   https://github.com/danielmarschall/php_utils/blob/master/
+   vts_crypt.inc.php
 
 Copyright Notice
 
@@ -48,14 +50,12 @@ Copyright Notice
 
 
 
-
-
  
 
 
 Marschall                                                       [Page 1]
 
-VTS/WF STD. 4               VTS/WF Standards            3 September 2024
+VTS/WF STD. 4              ViaThinkSoft MCF1            3 September 2024
 
 
 Table of Contents
@@ -63,15 +63,15 @@ Table of Contents
    1  Introduction  . . . . . . . . . . . . . . . . . . . . . . . . .  3
      1.1  Terminology . . . . . . . . . . . . . . . . . . . . . . . .  3
    2  MCF Structure . . . . . . . . . . . . . . . . . . . . . . . . .  3
-   3  Reference Implementations . . . . . . . . . . . . . . . . . . .  4
-   4  Test Vectors  . . . . . . . . . . . . . . . . . . . . . . . . .  4
-   5  Security Considerations . . . . . . . . . . . . . . . . . . . .  5
-   6  IANA Considerations . . . . . . . . . . . . . . . . . . . . . .  5
-   7  References  . . . . . . . . . . . . . . . . . . . . . . . . . .  5
-     7.1  Normative References  . . . . . . . . . . . . . . . . . . .  5
-     7.2  Informative References  . . . . . . . . . . . . . . . . . .  5
+   3  Test Vectors  . . . . . . . . . . . . . . . . . . . . . . . . .  4
+   4  Security Considerations . . . . . . . . . . . . . . . . . . . .  4
+   5  IANA Considerations . . . . . . . . . . . . . . . . . . . . . .  5
+   6  References  . . . . . . . . . . . . . . . . . . . . . . . . . .  5
+     6.1  Normative References  . . . . . . . . . . . . . . . . . . .  5
+     6.2  Informative References  . . . . . . . . . . . . . . . . . .  5
    Acknowledgements . . . . . . . . . . . . . . . . . . . . . . . . .  5
    Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . . .  5
+
 
 
 
@@ -111,7 +111,7 @@ Table of Contents
 
 Marschall                                                       [Page 2]
 
-VTS/WF STD. 4               VTS/WF Standards            3 September 2024
+VTS/WF STD. 4              ViaThinkSoft MCF1            3 September 2024
 
 
 1  Introduction
@@ -167,7 +167,7 @@ VTS/WF STD. 4               VTS/WF Standards            3 September 2024
 
 Marschall                                                       [Page 3]
 
-VTS/WF STD. 4               VTS/WF Standards            3 September 2024
+VTS/WF STD. 4              ViaThinkSoft MCF1            3 September 2024
 
 
    - sha224
@@ -198,13 +198,7 @@ VTS/WF STD. 4               VTS/WF Standards            3 September 2024
    './0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'
    and without padding.
 
-3  Reference Implementations
-
-   Reference implementation in PHP:
-   https://github.com/danielmarschall/php_utils/blob/master/
-   vts_crypt.inc.php
-
-4  Test Vectors
+3  Test Vectors
 
    Hash:       $1.3.6.1.4.1.37476.3.0.1.1$a=sha3-
    256,m=sp$$2Ud0hUTh//swVxoilAltWQ/9LQ189eZcdJ/hA5HkV/C
@@ -212,40 +206,40 @@ VTS/WF STD. 4               VTS/WF Standards            3 September 2024
    Mode:       sp (Salt || Password)
    Salt:       None
 
-
    Hash:       $1.3.6.1.4.1.37476.3.0.1.1$a=sha3-
    256,m=sp$CAT/9cvgCuS$dqNf5hJf0p09lYx.9rvI/c96swTz58tGhipuhobl8Ke
    Algorithm:  SHA3-256
    Mode:       sp (Salt || Password)
    Salt:       8 Bytes
- 
 
-
-Marschall                                                       [Page 4]
-
-VTS/WF STD. 4               VTS/WF Standards            3 September 2024
-
-
-5  Security Considerations
+4  Security Considerations
 
    Hash values play a crucial role in various security contexts, such as
    password verification.  For detailed guidance on securely managing
    hashes, please consult the relevant literature or documentation.
 
-6  IANA Considerations
+ 
+
+
+Marschall                                                       [Page 4]
+
+VTS/WF STD. 4              ViaThinkSoft MCF1            3 September 2024
+
+
+5  IANA Considerations
 
    There are no IANA Considerations.
 
-7  References
+6  References
 
-7.1  Normative References
+6.1  Normative References
 
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,
               DOI 10.17487/RFC2119, March 1997,
               <https://www.rfc-editor.org/info/rfc2119>.
 
-7.2  Informative References
+6.2  Informative References
 
    None
 
@@ -272,8 +266,14 @@ Authors' Addresses
    Postfach 11 53
    69243 Bammental
    Germany
+
    Email: daniel-marschall@viathinksoft.de
    URI:   https://www.viathinksoft.com/
+
+
+
+
+
 
 
 
