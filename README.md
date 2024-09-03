@@ -11,7 +11,7 @@
 | 0001 | ViaThinkSoft/Webfan Standard Specification | In Force         | 2024-09-02 | [1.3.6.1.4.1.37476.3.0.0](https://hosted.oidplus.com/viathinksoft/?goto=oid%3A1.3.6.1.4.1.37476.3.0.0)     | [TXT](https://github.com/ViaThinkSoft/standards/blob/main/viathinksoft-std-0001-std.txt) / [NROFF](https://github.com/ViaThinkSoft/standards/blob/main/viathinksoft-std-0001-std.nroff) |
 | 0002 | OID Information Protocol (OID-IP)          | In Force         | 2024-09-02 | [1.3.6.1.4.1.37476.3.5.10](https://hosted.oidplus.com/viathinksoft/?goto=oid%3A1.3.6.1.4.1.37476.3.5.10)   | [TXT](https://github.com/ViaThinkSoft/standards/blob/main/viathinksoft-std-0002-oidip.txt) / [NROFF](https://github.com/ViaThinkSoft/standards/blob/main/viathinksoft-std-0002-oidip.nroff) / [JSON-Schema](https://github.com/ViaThinkSoft/standards/blob/main/viathinksoft-std-0002-oidip.json) / [XML-Schema](https://github.com/ViaThinkSoft/standards/blob/main/viathinksoft-std-0002-oidip.xsd) / [IETF I-D](https://datatracker.ietf.org/doc/draft-viathinksoft-oidip/10/) |
 | 0003 | Wehowski Identifier (WEID)                 | In Force         | 2024-09-03 | [1.3.6.1.4.1.37553.8.1.8.1.6](https://registry.frdl.de/?goto=oid%3A1.3.6.1.4.1.37553.8.1.8.1.6)            | [TXT](https://github.com/ViaThinkSoft/standards/blob/main/viathinksoft-std-0003-weid.txt) / [NROFF](https://github.com/ViaThinkSoft/standards/blob/main/viathinksoft-std-0003-weid.nroff) / [Website](https://co.weid.info/spec.html) |
-| 0004 | ViaThinkSoft Modular Crypt Format 1.0      | In Force         | 2024-09-03 | [1.3.6.1.4.1.37476.3.0.1.1](https://hosted.oidplus.com/viathinksoft/?goto=oid%3A1.3.6.1.4.1.37476.3.0.1.1) | [TXT](https://github.com/ViaThinkSoft/standards/blob/main/viathinksoft-std-0003-weid.txt) / [NROFF](https://github.com/ViaThinkSoft/standards/blob/main/viathinksoft-std-0003-weid.nroff) / [RefImpl](https://github.com/danielmarschall/php_utils/blob/master/vts_crypt.inc.php) |
+| 0004 | ViaThinkSoft Modular Crypt Format 1.0      | In Force         | 2024-09-03 | [1.3.6.1.4.1.37476.3.0.1.1](https://hosted.oidplus.com/viathinksoft/?goto=oid%3A1.3.6.1.4.1.37476.3.0.1.1) | [TXT](https://github.com/ViaThinkSoft/standards/blob/main/viathinksoft-std-0004-mcf1.txt) / [NROFF](https://github.com/ViaThinkSoft/standards/blob/main/viathinksoft-std-0004-mcf1.nroff) / [RefImpl](https://github.com/danielmarschall/php_utils/blob/master/vts_crypt.inc.php) |
 | 0005 | Example OID                              | Reserved / Deprecated |             | tbd                          | [Web](https://misc.daniel-marschall.de/drafts/example-oid/) |
 | 0006 | Checkum String for PHAR archives of VNag | Reserved              |             | [1.3.6.1.4.1.37476.3.0.2](https://hosted.oidplus.com/viathinksoft/?goto=oid%3A1.3.6.1.4.1.37476.3.0.2) |                                                      |
 | 0007 | Illegality Rules Definition File         | Reserved              | (2024)      | [1.3.6.1.4.1.37476.3.1.5](https://hosted.oidplus.com/viathinksoft/?goto=oid%3A1.3.6.1.4.1.37476.3.1.5) |                                                      |
@@ -31,12 +31,12 @@
 
 **WEID**:	`weid:pen:SX0-2-...`
 
-Not an official standard, because itís too product-specific?? Should they get a "ViaThinkSoft Standard ID-Number" anyways...??
--	ìLevel file with optional savegame, for SpaceMission version 1.2î, OID { viathinksoft products(2) spacemission(8) file-format(1) lev-sav-v12(1) }
--	ìFile format of OIDplus 1.0, internal codename "Volcano"î, OID { viathinksoft products(2) oidplus(5) v1(1) volcano(1) }
+Not an official standard, because it‚Äôs too product-specific?? Should they get a "ViaThinkSoft Standard ID-Number" anyways...??
+-	‚ÄúLevel file with optional savegame, for SpaceMission version 1.2‚Äù, OID { viathinksoft products(2) spacemission(8) file-format(1) lev-sav-v12(1) }
+-	‚ÄúFile format of OIDplus 1.0, internal codename "Volcano"‚Äù, OID { viathinksoft products(2) oidplus(5) v1(1) volcano(1) }
 -	OIDplus 2.0 XML/JSON Plugin Schema, OIDs { viathinksoft products(2) oidplus(5) v2(2) xmlSchema(5) }, { viathinksoft products(2) oidplus(5) v2(2) jsonSchema(7) }
--	ìOIDplus Nostalgia OID Definition Fileî, OID { viathinksoft products(2) oidplus(5) nostalgia(3) file-formats(1) oid-file(1) }
--	ìOIDplus Nostalgia RA Definition Fileî, OID { viathinksoft products(2) oidplus(5) nostalgia(3) file-formats(1) ra-file(2) }
--	ìVNag JSON Data that is embedded in an HTML pageî, OID { viathinksoft products(2) vnag(3) jsondata(1) }
--	(De)Coder 3.x File Format, OID { viathinksoft products(2) decoder(2) fileformat(1) dc3(3) Ö }
--	[(De)Coder 4.x/5.x File Format](https://github.com/danielmarschall/decoder/blob/master/Decoder50/Private/DC4-Format-Specification.txt), Latest Revision 2024-05-27, OID { viathinksoft products(2) decoder(2) fileformat(1) dc4(4) Ö }
+-	‚ÄúOIDplus Nostalgia OID Definition File‚Äù, OID { viathinksoft products(2) oidplus(5) nostalgia(3) file-formats(1) oid-file(1) }
+-	‚ÄúOIDplus Nostalgia RA Definition File‚Äù, OID { viathinksoft products(2) oidplus(5) nostalgia(3) file-formats(1) ra-file(2) }
+-	‚ÄúVNag JSON Data that is embedded in an HTML page‚Äù, OID { viathinksoft products(2) vnag(3) jsondata(1) }
+-	(De)Coder 3.x File Format, OID { viathinksoft products(2) decoder(2) fileformat(1) dc3(3) ‚Ä¶ }
+-	[(De)Coder 4.x/5.x File Format](https://github.com/danielmarschall/decoder/blob/master/Decoder50/Private/DC4-Format-Specification.txt), Latest Revision 2024-05-27, OID { viathinksoft products(2) decoder(2) fileformat(1) dc4(4) ‚Ä¶ }
