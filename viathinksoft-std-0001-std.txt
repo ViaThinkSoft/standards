@@ -181,7 +181,7 @@ VTS/WF STD. 1               VTS/WF Standards            2 September 2024
    - Empty
 
    Title Page Header Right Top:
-   - Line 1:  Main Author
+   - Line 1:  Main Author(s)
    - Line 2:  Organization (ViaThinkSoft or Webfan)
    - Line 3:  Current Revision <Date>
 

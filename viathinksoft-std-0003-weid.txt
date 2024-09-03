@@ -1,0 +1,504 @@
+ 
+
+
+
+VIATHINKSOFT/WEBFAN                           D. Marschall | M. Wehowski
+SPECIFICATION No. 3                           ViaThinkSoft |      Webfan
+First Draft: 2011                                       3 September 2024
+
+
+                   === Wehowski Identifier (WEID) ===
+
+Abstract
+
+   This document describes the Wehowski Identifier (WEID) scheme, which
+   is an alternative notation of Object Identifiers (OIDs).
+
+Identification of this Document
+
+   Revision:  2024-09-03 (Spec Change 11 as of 2023-08-07)
+   State:     In Force
+   URL:       https://github.com/ViaThinkSoft/standards/blob/main/\
+              viathinksoft-std-0003-weid.txt
+   URN:       urn:viathinksoft.de:std:0003:2024-09-03
+   OID:       1.3.6.1.4.1.37553.8.1.8.1.6
+              { iso(1) identified-organization(3) dod(6) internet(1)
+                private(4) enterprise(1) frdlweb(37553) weid(8) org(1)
+                webfan(8) technical-specifications(1) weid-spec(6) }
+   WEID:      weid:1-8-1-6-2
+   IETF/RFC:  (None)
+
+Attachments
+
+   (None)
+
+Copyright Notice
+
+   Copyright (c) 2011-2024 ViaThinkSoft, Webfan and the persons
+   identified as the document authors.  All rights reserved.
+
+   Licensed under the terms of the Apache 2.0 License.
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+Marschall / Wehowski                                            [Page 1]
+
+VTS/WF STD. 3          Wehowski Identifier (WEID)       3 September 2024
+
+
+Table of Contents
+
+   1  Introduction  . . . . . . . . . . . . . . . . . . . . . . . . .  3
+     1.1  Terminology . . . . . . . . . . . . . . . . . . . . . . . .  3
+   2  URN Namespace . . . . . . . . . . . . . . . . . . . . . . . . .  3
+     2.1  Namespace "weid:" for "Class C" WEIDs . . . . . . . . . . .  4
+     2.2  Sub-Namespace "weid:pen:" for "Class B" WEIDs . . . . . . .  4
+     2.3  Sub-Namespace "weid:root:" for "Class A" WEIDs  . . . . . .  4
+   3  Construction of a WEID  . . . . . . . . . . . . . . . . . . . .  4
+   4  Specification Changes . . . . . . . . . . . . . . . . . . . . .  5
+     4.1  Spec Change 8: Recommendations for WEID notation  . . . . .  5
+     4.2  Spec Change 9: Recommendations for WEID notation  . . . . .  6
+     4.3  Spec Change 10: Domain-WEID . . . . . . . . . . . . . . . .  6
+     4.4  Spec Change 11: Proprietary Namespaces  . . . . . . . . . .  6
+   5  Additional notes  . . . . . . . . . . . . . . . . . . . . . . .  7
+   6  Security Considerations . . . . . . . . . . . . . . . . . . . .  8
+   7  IANA Considerations . . . . . . . . . . . . . . . . . . . . . .  8
+   8  References  . . . . . . . . . . . . . . . . . . . . . . . . . .  8
+     8.1  Normative References  . . . . . . . . . . . . . . . . . . .  8
+     8.2  Informative References  . . . . . . . . . . . . . . . . . .  8
+   Acknowledgements . . . . . . . . . . . . . . . . . . . . . . . . .  9
+   Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . . .  9
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+Marschall / Wehowski                                            [Page 2]
+
+VTS/WF STD. 3          Wehowski Identifier (WEID)       3 September 2024
+
+
+1  Introduction
+
+   An Object Identifier (OID) is an extensively used identification
+   mechanism jointly developed by ITU-T and ISO/IEC for naming any type
+   of object, concept, or "thing" with a globally unambiguous name.
+   (More information about OIDs can be found at www.oid-info.com).
+
+   To get an OID in accordance with Recommendation ITU-T X.600 assigned,
+   you need to find a Registration Authority that assigns you an OID.
+   You can obtain an OID as WEID and manage your own arc, e.g. by:
+
+   - IANA Private Enterprise Numbers (PEN)
+   - Free OID by ViaThinkSoft
+   - "Public" OID by Frdlweb
+
+   There are three well-known notations for OIDs:
+
+      Dot notation:      2.999
+      ASN.1 notation:    {joint-iso-itu-t(2) example(999)}
+      OID-IRI notation:  /Joint-ISO-ITU-T/Example
+
+   WEID (WEhowski IDentifier) is another notation for OIDs, developed by
+   Till Wehowski and Daniel Marschall:
+
+      WEID notation:     weid:root:2-RR-2
+
+   In the initial version of the WEID specification of 2011, only OIDs
+   below the WEID root arc 1.3.6.1.4.1.37553.8 could be used. In a later
+   definition by Daniel Marschall, any existing OID can be written in
+   WEID notation, by defining sub-namespaces.
+
+1.1  Terminology
+
+   The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
+   "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and
+   "OPTIONAL" in this document are to be interpreted as described in
+   BCP 14 [RFC2119] [RFC8174] when, and only when, they appear in all
+   capitals, as shown here.
+
+2  URN Namespace
+
+   Uniform Resource Name (URN) [RFC2141] Namespace Identifiers (NIDs)
+   for use by WEID are being specified in this document.
+
+   The registry of sub-namespaces (URN prefixes) has currently the
+   following entries:
+
+
+ 
+
+
+Marschall / Wehowski                                            [Page 3]
+
+VTS/WF STD. 3          Wehowski Identifier (WEID)       3 September 2024
+
+
+2.1  Namespace "weid:" for "Class C" WEIDs
+
+   Root OID is 1.3.6.1.4.1.37553.8
+
+   Example: OID 1.3.6.1.4.1.37553.8.32488192274 can be written as
+   weid:EXAMPLE-3 (3 is the check digit)
+
+   The registration of WEID Alphanumeric OIDs beneath this arc is
+   managed by Webfan.de in order of FRDLWEB. You can assign as Private
+   WEID by Frdlweb here:
+   https://registry.frdl.de/?goto=com.frdlweb.freeweid
+
+2.2  Sub-Namespace "weid:pen:" for "Class B" WEIDs
+
+   Root OID is 1.3.6.1.4.1
+
+   Example: OID 1.3.6.1.4.1.37476.9999 can be written as weid:pen:SX0-
+   7PR-6 (6 is the check digit)
+
+   The registration of Private Enterprise Numbers (PEN) is managed by
+   IANA. You can register a PEN here:
+   https://pen.iana.org/pen/PenApplication.page
+
+2.3  Sub-Namespace "weid:root:" for "Class A" WEIDs
+
+   Root OID is the OID tree root
+
+   Example: OID 2.999 can be written as weid:root:2-RR-2 (2 is the check
+   digit)
+
+   More sub-namespaces can be added to this registry in the future. The
+   sub-namespaces must be defined by the WEID consortium (ViaThinkSoft
+   and WebFan) in a Specification Change.
+
+3  Construction of a WEID
+
+   The construction of a WEID is demonstrated with the example OID
+   2.999:
+
+   (1) The numeric arcs (e.g. 2 and 999) are converted from base 10 to
+       base 36, so the arcs become 2 and RR.
+
+   (2) The arcs are separated by a hyphen -, so we have now 2-RR.
+
+   (3) Now, an appropriate namespace (and sub-namespace if applicable)
+       will be added. In our case, a fitting (sub-)namespace is
+       weid:root:, so we now have weid:root:2-RR
+
+ 
+
+
+Marschall / Wehowski                                            [Page 4]
+
+VTS/WF STD. 3          Wehowski Identifier (WEID)       3 September 2024
+
+
+   (4) In the end, a Luhn-based check digit (called WeLuhn) is added. If
+       the WEID contains at least one arc, then the check digit is
+       preceded by a hyphen.
+
+   The WeLuhn algorithm works this way:
+
+   (4.1) First, we take the OID in dot notation (e.g. 2.999)
+
+   (4.2) The arcs will be converted from base 10 to base 36, so we have
+         2-RR. Padding zeros must not be present and need to be
+         stripped.
+
+   (4.3) The hyphens are removed, so we now have 2RR.
+
+   (4.4) "A" will be replaced with 10, "B" will be replaced with 11,
+         etc., so we now have 22727.
+
+   This number is the payload for the normal Luhn algorithm which works
+   as follows:
+
+   (4.5) Start from the rightmost digit. Moving left, double the value
+         of every second digit (including the rightmost digit).
+
+   (4.6) Sum the digits of the resulting value in each position.
+
+   (4.7) Sum the resulting values from all positions, s.
+
+   (4.8) The check digit is calculated by ((10-s mod 10) mod 10). In our
+         case, the Luhn checksum is 2.
+
+   (5) Our final WEID notation for OID 2.999 is weid:root:2-RR-2.
+
+4  Specification Changes
+
+4.1  Spec Change 8: Recommendations for WEID notation
+
+   When choosing a (sub-)namespace, it is recommended to choose a sub-
+   namespace that is closest to the OID you want to describe, producing
+   the shortest WEID therefore. For example, weid:pen:SX0-7PR-6 should
+   be chosen rather than weid:root:1-3-6-1-4-1-SX0-7PR-6
+
+   The arcs in a WEID should be written in upper-case, but lowercase can
+   be interpreted, too.
+
+   The URN namespace (weid:, weid:pen:, weid:root:) is case insensitive,
+   but it is recommended to write it in lowercase.
+
+
+ 
+
+
+Marschall / Wehowski                                            [Page 5]
+
+VTS/WF STD. 3          Wehowski Identifier (WEID)       3 September 2024
+
+
+   Padding with 0 characters is valid (e.g. weid:000EXAMPLE-3), but not
+   recommended. The paddings do not count toward the WeLuhn check digit.
+
+4.2  Spec Change 9: Recommendations for WEID notation
+
+   In Spec Change 9 (08 March 2022), an alternative syntax of WEIDs is
+   defined. This alternative syntax replaces the checksum with a
+   wildcard in the form of a question mark symbol, for example,
+   weid:root:2-RR-? instead of weid:root:2-RR-2. One useful scenario can
+   be the documentation of incomplete/template WEIDs. Another usage is
+   converters (like our online converter) which can help you replace the
+   wildcard with the correct checksum.
+
+4.3  Spec Change 10: Domain-WEID
+
+   Spec Change 10 (07 August 2023) allows domain names to be used as
+   WEID sub-namespace.
+
+   All WEID sub-namespaces containing at least one dot (.) are treated
+   as domain names.
+
+   The notation weid:example.com:ABC-DEF-? is equal to weid:9-DNS-COM-
+   EXAMPLE-ABC-DEF-?.
+
+   The resulting WEID is called Domain-WEID or "Class D" WEID.
+
+   Note that the check digit is equal for both notations since it is
+   based on the resulting OID.
+
+   TLD-Only domains are not allowed for the purpose of forming a Domain-
+   WEID.
+
+   A Domain-WEID can be converted to Class A/B/C WEID, but the reverse
+   conversion is ambiguous ("where does the domain name end and the
+   identifier part start?")
+
+4.4  Spec Change 11: Proprietary Namespaces
+
+   Spec Change 11 (07 August 2023) allows custom / vendor-specific WEID
+   sub-namespaces.
+
+   Such namespaces must begin with x-, for example: weid:x-contoso:ABC-
+   DEF-? could be a WEID defined by Contoso Ltd.
+
+   As usual for WEID, the namespace is case insensitive.
+
+
+
+ 
+
+
+Marschall / Wehowski                                            [Page 6]
+
+VTS/WF STD. 3          Wehowski Identifier (WEID)       3 September 2024
+
+
+   To avoid confusion with Spec Change 10 Domain-WEID, the sub-namespace
+   must not contain a dot (.).
+
+   The vendor has complete control over the namespace and can define the
+   behavior. However, it is recommended to make use of Base36 and the
+   weLuhn check digit.
+
+   Since the vendor specifies the namespace, it is up to the vendor if
+   they allow the mapping of their WEID-Namespace to the OID-Tree. In
+   comparison to class A/B/C/D WEID which are 100% OID compatible,
+   custom WEID might not be OID-compatible at all.
+
+   Currently, the following custom namespaces are known:
+
+   (1) weid:x-frdl:[Base36_NS]-[SubNS]:[Base36_ID]-[CheckDigit] to be
+       defined/implemented by Frdlweb.
+
+   If you know more namespaces, or if you are the author of a custom
+   namespace, please let us know.
+
+5  Additional notes
+
+   Any WEID (except for Custom WEID as defined in Spec Change 11) can be
+   represented by an OID and vice-versa. Therefore, a WEID has all
+   attributes of an OID (e.g. it can be used to generate a Version 5
+   SHA1 name-based UUID with the Namespace UUID 6ba7b812-9dad-11d1-80b4-
+   00c04fd430c8 according to IETF RFC-4122).
+
+   Please note that some clients handling OIDs cannot handle arcs that
+   have a specific size. Implementers of WEID strongly encourage
+   allowing arbitrary length arcs (i.e. implementing BigInteger rather
+   than 32-bit integers).
+
+   At www.weid.info you can find more information and announcements of
+   changes.
+
+   The current version of the specification is 11, which is identified
+   with the OID 1.3.6.1.4.1.37553.8.1.8.1.6.1.11 (weid:1-8-1-6-1-B-7).
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+Marschall / Wehowski                                            [Page 7]
+
+VTS/WF STD. 3          Wehowski Identifier (WEID)       3 September 2024
+
+
+6  Security Considerations
+
+   None.
+
+7  IANA Considerations
+
+   There are no IANA Considerations.
+
+8  References
+
+8.1  Normative References
+
+   [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
+              Requirement Levels", BCP 14, RFC 2119,
+              DOI 10.17487/RFC2119, March 1997,
+              <https://www.rfc-editor.org/info/rfc2119>.
+
+   [RFC2141]  Moats, R., "URN Syntax", RFC 2141, DOI 10.17487/RFC2141,
+              May 1997,
+              <https://www.rfc-editor.org/info/rfc2141>.
+
+8.2  Informative References
+
+   None
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+Marschall / Wehowski                                            [Page 8]
+
+VTS/WF STD. 3          Wehowski Identifier (WEID)       3 September 2024
+
+
+Acknowledgements
+
+   I would like to thank Melanie Wehowski for her long time support in
+   OIDplus and WEID projects.
+
+   Thanks to the authors of these free tools which did a very good job
+   in validating various contents of this document:
+
+   - "Grammarly" spell and grammar checker
+     https://app.grammarly.com/
+
+   This document was written in Nroff Internet Draft Editor by 3xA
+   Security.
+   https://aaa-sec.com/nroffedit/
+   https://misc.daniel-marschall.de/patches/nroffedit/ ("year 2020"
+   patch)
+
+Authors' Addresses
+
+   Daniel Marschall
+   Postfach 11 53
+   69243 Bammental
+   Germany
+
+   Email: daniel-marschall@viathinksoft.de
+   URI:   https://www.viathinksoft.com/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Marschall / Wehowski                                            [Page 9]
