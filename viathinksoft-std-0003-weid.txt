@@ -238,8 +238,8 @@ VTS/WF STD. 3          Wehowski Identifier (WEID)       3 September 2024
 
    As usual for WEID, the namespace is case insensitive.
 
-   To avoid confusion with Spec Change 10 Domain-WEID, the sub-namespace
-   must not contain a dot (.).
+   To avoid confusion with Domain-WEID, the sub-namespace must not
+   contain a dot (.).
 
    The vendor has complete control over the namespace and can define the
    behavior.  However, it is recommended to make use of Base36 and the
@@ -365,11 +365,11 @@ VTS/WF STD. 3          Wehowski Identifier (WEID)       3 September 2024
 
 5  Additional Notes
 
-   Any WEID (except for Custom WEID as defined in Spec Change 11) can be
-   represented by an OID and vice-versa. Therefore, a WEID has all
-   attributes of an OID (e.g. it can be used to generate a Version 5
-   SHA1 name-based UUID with the Namespace UUID "6ba7b812-9dad-11d1-
-   80b4-00c04fd430c8" according to [RFC 4122]).
+   Any WEID - except for Custom WEID - can be represented by an OID and
+   vice-versa. Therefore, a WEID has all attributes of an OID (e.g. it
+   can be used to generate a Version 5 SHA1 name-based UUID with the
+   Namespace UUID "6ba7b812-9dad-11d1-80b4-00c04fd430c8" according to
+   [RFC 4122]).
 
    Please note that some clients handling OIDs cannot handle arcs that
    have a specific size.  Implementers of WEID strongly encourage

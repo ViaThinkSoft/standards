@@ -3,7 +3,7 @@
 .\" https://misc.daniel-marschall.de/patches/nroffedit/
 .\"
 .\" Alternative, you can compile this document on Linux, using the following command:
-.\"        nroff -T ascii -ms viathinksoft-std-0001-std.nroff | ./fix_formfeed.pl > viathinksoft-std-0001-std.txt
+.\"        nroff -T ascii -ms viathinksoft-std-0003-weid.nroff | ./fix_formfeed.pl > viathinksoft-std-0003-weid.txt
 .\" Note that "-ms" only works if the package "groff" is installed.
 .\" fix.pl needs to be executed to replace FORMFEED.
 .\" Note that the Linux command does not auto-generate the Table of Contents, since this is a NroffEdit feature!
@@ -238,7 +238,7 @@ The second URN part of such namespaces must begin with "x-", for example, "weid:
 
 As usual for WEID, the namespace is case insensitive.
 
-To avoid confusion with Spec Change 10 Domain-WEID, the sub-namespace must not contain a dot (.).
+To avoid confusion with Domain-WEID, the sub-namespace must not contain a dot (.).
 
 The vendor has complete control over the namespace and can define the behavior.  However, it is recommended to make use of Base36 and the weLuhn check digit.
 
@@ -354,7 +354,7 @@ An alternative syntax for WEID replaces the checksum with a wildcard in the form
 .ti 0
 5  Additional Notes
 
-Any WEID (except for Custom WEID as defined in Spec Change 11) can be represented by an OID and vice-versa. Therefore, a WEID has all attributes of an OID (e.g. it can be used to generate a Version 5 SHA1 name-based UUID with the Namespace UUID "6ba7b812-9dad-11d1-80b4-00c04fd430c8" according to [RFC 4122]).
+Any WEID - except for Custom WEID - can be represented by an OID and vice-versa. Therefore, a WEID has all attributes of an OID (e.g. it can be used to generate a Version 5 SHA1 name-based UUID with the Namespace UUID "6ba7b812-9dad-11d1-80b4-00c04fd430c8" according to [RFC 4122]).
 
 Please note that some clients handling OIDs cannot handle arcs that have a specific size.  Implementers of WEID strongly encourage allowing arbitrary length arcs (i.e. implementing BigInteger rather than 32-bit integers).
 
