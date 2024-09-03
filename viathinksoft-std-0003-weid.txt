@@ -70,20 +70,20 @@ Table of Contents
           WEID  . . . . . . . . . . . . . . . . . . . . . . . . . . .  4
      2.5  Sub-Namespace "weid:x-<Name>:" for Proprietary Namespaces .  5
    3  Construction of a WEID  . . . . . . . . . . . . . . . . . . . .  5
-   4  Notation  . . . . . . . . . . . . . . . . . . . . . . . . . . .  7
-     4.1  Recommendations . . . . . . . . . . . . . . . . . . . . . .  7
-     4.2  Wildcard Notation (No Checksum) . . . . . . . . . . . . . .  7
-   5  Additional Notes  . . . . . . . . . . . . . . . . . . . . . . .  7
-   6  Security Considerations . . . . . . . . . . . . . . . . . . . .  8
-   7  IANA Considerations . . . . . . . . . . . . . . . . . . . . . .  8
-   8  References  . . . . . . . . . . . . . . . . . . . . . . . . . .  8
-     8.1  Normative References  . . . . . . . . . . . . . . . . . . .  8
-     8.2  Informative References  . . . . . . . . . . . . . . . . . .  8
-   Acknowledgements . . . . . . . . . . . . . . . . . . . . . . . . .  8
-   Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . . .  9
-
-
-
+     3.1  Construction of a Class A/B/C WEID  . . . . . . . . . . . .  5
+     3.2  Construction of a Class D WEID  . . . . . . . . . . . . . .  7
+     3.3  Construction of a Custom WEID (Proprietary Namespaces)  . .  7
+   4  Notation  . . . . . . . . . . . . . . . . . . . . . . . . . . .  8
+     4.1  Recommendations . . . . . . . . . . . . . . . . . . . . . .  8
+     4.2  Wildcard Notation (No Check Digit)  . . . . . . . . . . . .  8
+   5  Additional Notes  . . . . . . . . . . . . . . . . . . . . . . .  8
+   6  Security Considerations . . . . . . . . . . . . . . . . . . . .  9
+   7  IANA Considerations . . . . . . . . . . . . . . . . . . . . . .  9
+   8  References  . . . . . . . . . . . . . . . . . . . . . . . . . .  9
+     8.1  Normative References  . . . . . . . . . . . . . . . . . . .  9
+     8.2  Informative References  . . . . . . . . . . . . . . . . . .  9
+   Acknowledgements . . . . . . . . . . . . . . . . . . . . . . . . .  9
+   Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . . . 10
 
 
 
@@ -172,10 +172,11 @@ VTS/WF STD. 3          Wehowski Identifier (WEID)       3 September 2024
 
 2.1  Namespace "weid:" for "Class C" WEIDs
 
-   Root OID is 1.3.6.1.4.1.37553.8
+   The root OID is "1.3.6.1.4.1.37553.8".
 
-   Example: OID 1.3.6.1.4.1.37553.8.32488192274 can be written as
-   weid:EXAMPLE-3 (3 is the check digit)
+   Example: OID "1.3.6.1.4.1.37553.8.32488192274" can be written as
+   "weid:EXAMPLE-3" (3 is the check digit) or "weid:EXAMPLE-?" (check
+   digit wildcard).
 
    The registration of WEID Alphanumeric OIDs beneath this arc is
    managed by Webfan.de in order of FRDLWEB.  You can assign a Private
@@ -184,10 +185,11 @@ VTS/WF STD. 3          Wehowski Identifier (WEID)       3 September 2024
 
 2.2  Sub-Namespace "weid:pen:" for "Class B" WEIDs
 
-   Root OID is 1.3.6.1.4.1
+   The root OID is "1.3.6.1.4.1".
 
-   Example: OID 1.3.6.1.4.1.37476.9999 can be written as weid:pen:SX0-
-   7PR-6 (6 is the check digit)
+   Example: OID "1.3.6.1.4.1.37476.9999" can be written as
+   "weid:pen:SX0-7PR-6" (6 is the check digit) or "weid:pen:SX0-7PR-?"
+   (check digit wildcard).
 
    The registration of Private Enterprise Numbers (PEN) is managed by
    IANA.  You can register a PEN here:
@@ -195,10 +197,10 @@ VTS/WF STD. 3          Wehowski Identifier (WEID)       3 September 2024
 
 2.3  Sub-Namespace "weid:root:" for "Class A" WEIDs
 
-   Root OID is the OID tree root
+   The root OID is the root of the OID tree.
 
-   Example: OID 2.999 can be written as weid:root:2-RR-2 (2 is the check
-   digit)
+   Example: OID "2.999" can be written as "weid:root:2-RR-2" (2 is the
+   check digit) or "weid:root:2-RR-2" (check digit wildcard).
 
 2.4  Sub-Namespace "weid:<DomainName>:" for "Class D" (Domain) WEID
 
@@ -206,18 +208,16 @@ VTS/WF STD. 3          Wehowski Identifier (WEID)       3 September 2024
    URN part are treated as domain names.
 
    The notation "weid:example.com:ABC-DEF-?" is equal to the Class C
-   WEID "weid:9-DNS-COM-EXAMPLE-ABC-DEF-?".
+   WEID "weid:9-DNS-COM-EXAMPLE-ABC-DEF-?".  The check digit is equal,
+   because it depends on the absolute path rather than the visible arcs.
 
    The resulting WEID is called Domain-WEID or "Class D" WEID.
-
-   Note that the check digit is equal for both notations since it is
-   based on the resulting OID.
 
    TLD-Only domains are not allowed for the purpose of forming a Domain-
    WEID.
 
    Only ASCII notations can be used; therefore the Punycode notation
-   MUST be used.
+   MUST be used for Unicode domain names.
  
 
 
@@ -232,9 +232,9 @@ VTS/WF STD. 3          Wehowski Identifier (WEID)       3 September 2024
 
 2.5  Sub-Namespace "weid:x-<Name>:" for Proprietary Namespaces
 
-   The second URN part of such namespaces must begin with "x-", for
-   example, "weid:x-contoso:ABC-DEF-?" could be a WEID defined by
-   Contoso Ltd.
+   For Proprietary WEID Namespaces, the second URN part must begin with
+   "x-", for example, "weid:x-contoso:ABC-DEF-?" could be a WEID defined
+   by Contoso Ltd.
 
    As usual for WEID, the namespace is case insensitive.
 
@@ -258,22 +258,22 @@ VTS/WF STD. 3          Wehowski Identifier (WEID)       3 September 2024
    If you know more namespaces, or if you are the author of a custom
    namespace, please let us know.
 
+
 3  Construction of a WEID
 
+3.1  Construction of a Class A/B/C WEID
+
    The construction of a WEID is demonstrated with the example OID
-   2.999:
+   "2.999":
 
-   (1) The numeric arcs (e.g. 2 and 999) are converted from base 10 to
-       base 36, so the arcs become 2 and RR.
+   (1) The numeric arcs (e.g. "2" and "999") are converted from base 10
+       to base 36, so the arcs become "2" and "RR".
 
-   (2) The arcs are separated by a hyphen -, so we have now 2-RR.
+   (2) The arcs are separated by a hyphen -, so we have now "2-RR".
 
    (3) A Luhn-based check digit (called WeLuhn) is added, preceded by a
-       hyphen.
-
-
-
-
+       hyphen.  Alternatively, you can replace the check digit with the
+       wildcard symbol "?".
  
 
 
@@ -284,13 +284,13 @@ VTS/WF STD. 3          Wehowski Identifier (WEID)       3 September 2024
 
    The WeLuhn check digit is calculated as follows:
 
-   (3.1) First, we take the OID in dot notation (e.g. 2.999)
+   (3.1) First, we take the OID in dot notation (e.g. "2.999")
 
    (3.2) The arcs will be converted from base 10 to base 36, so we have
-         2-RR.  Padding zeros must not be present and need to be
+         "2-RR".  Padding zeros must not be present and need to be
          stripped.
 
-   (3.3) The hyphens are removed, so we now have 2RR.
+   (3.3) The hyphens are removed, so we now have "2RR".
 
    (3.4) "A" will be replaced with 10, "B" will be replaced with "11",
          etc., so we now have "22727".
@@ -306,15 +306,15 @@ VTS/WF STD. 3          Wehowski Identifier (WEID)       3 September 2024
    (3.7) Sum the resulting values from all positions, "s".
 
    (3.8) The check digit is calculated by "((10-s mod 10) mod 10)".  In
-         our case, the Luhn checksum is "2".
+         our case, the Luhn check digit is "2".
 
    (4) Choose the (sub-)namespace that is closest to the OID your are
        describing:
 
-       - If the OID is 1.3.6.1.4.1.37553.8.xxx, then replace the prefix
-       "1-3-6-1-4-1-SZ5-8-" with "weid:" (Class C WEID).
+       - If the OID is inside "1.3.6.1.4.1.37553.8", then replace the
+       prefix "1-3-6-1-4-1-SZ5-8-" with "weid:" (Class C WEID).
 
-       - Otherwise, if the OID is 1.3.6.1.4.1.xxx, then replace the
+       - Otherwise, if the OID is inside "1.3.6.1.4.1", then replace the
        prefix "1-3-6-1-4-1-" with "weid:pen:" (Class B WEID).
 
        - Otherwise, prepend "weid:root:" (Class A WEID).
@@ -338,6 +338,62 @@ Marschall / Wehowski                                            [Page 6]
 VTS/WF STD. 3          Wehowski Identifier (WEID)       3 September 2024
 
 
+3.2  Construction of a Class D WEID
+
+   The construction of a Domain WEID is demonstrated with the example
+   domain "example.com" and the payload "ABC-DEF":
+
+   (1) Prepend "weid:" in front of the domain name, and append a colon. 
+       This gives "weid:example.com:".
+
+   (2) If you want to add a payload, then append a the payload together
+       with a hyphen.  This gives "weid:example.com:ABC-DEF-".
+
+   (3) Add a question-mark to have a wildcard check digit (e.g.
+       "weid:example.com:ABC-DEF-?"), or calculate the correct check
+       digit and add it.  In the latter case you will receive the
+       result: "weid:example.com:ABC-DEF-8".
+
+   To calculate the check digit:
+
+   (3.1) Reverse the order of the domain parts, i.e. "example.com"
+         becomes "com.example".
+
+   (3.2) Prepend "1-3-6-1-4-1-SZ5-8-9-DNS-".  This gives "1-3-6-1-4-1-
+         SZ5-8-9-DNS-com.example".
+
+   (3.3) If you want to add a payload, then add a hyphen and the
+         payload.  This results in "1-3-6-1-4-1-SZ5-8-9-DNS-com.example-
+         ABC-DEF"
+
+   (3.4) Remove the hyphens and dots, and convert everything to upper-
+         case.  This gives "136141SZ589DNSCOMEXAMPLEABCDEF".
+
+   (3.5) "A" will be replaced with 10, "B" will be replaced with "11",
+         etc.
+
+   (3.6) The standard Luhn algorithm (see section 3.1) will be applied,
+         which gives the check digit, in our example "8".
+
+
+3.3  Construction of a Custom WEID (Proprietary Namespaces)
+
+   The construction of a Custom WEID is vendor specific and hence
+   outside the scope of this specification.
+
+
+
+
+
+
+ 
+
+
+Marschall / Wehowski                                            [Page 7]
+
+VTS/WF STD. 3          Wehowski Identifier (WEID)       3 September 2024
+
+
 4  Notation
 
 4.1  Recommendations
@@ -352,15 +408,15 @@ VTS/WF STD. 3          Wehowski Identifier (WEID)       3 September 2024
    RECOMMENDED.  The paddings do not count toward the WeLuhn check
    digit.
 
-4.2  Wildcard Notation (No Checksum)
+4.2  Wildcard Notation (No Check Digit)
 
-   An alternative syntax for WEID replaces the checksum with a wildcard
-   in the form of a question mark symbol, for example, "weid:root:2-RR-
-   ?" instead of "weid:root:2-RR-2".  One useful scenario can be the
-   documentation of incomplete/template WEIDs, e.g. "weid:pen:SX0-
-   Something-?".  Another usage is converters (like our online
-   converter) which can help you replace the wildcard with the correct
-   checksum.
+   An alternative syntax for WEID replaces the check digit with a
+   wildcard in the form of a question mark symbol, for example,
+   "weid:root:2-RR-?" instead of "weid:root:2-RR-2".  One useful
+   scenario can be the documentation of incomplete/template WEIDs, e.g.
+   "weid:pen:SX0-Something-?".  Another usage is converters (like our
+   online converter) which can help you replace the wildcard with the
+   correct check digit.
 
 
 5  Additional Notes
@@ -389,7 +445,7 @@ VTS/WF STD. 3          Wehowski Identifier (WEID)       3 September 2024
  
 
 
-Marschall / Wehowski                                            [Page 7]
+Marschall / Wehowski                                            [Page 8]
 
 VTS/WF STD. 3          Wehowski Identifier (WEID)       3 September 2024
 
@@ -445,7 +501,7 @@ Acknowledgements
  
 
 
-Marschall / Wehowski                                            [Page 8]
+Marschall / Wehowski                                            [Page 9]
 
 VTS/WF STD. 3          Wehowski Identifier (WEID)       3 September 2024
 
@@ -501,4 +557,4 @@ Authors' Addresses
 
 
 
-Marschall / Wehowski                                            [Page 9]
+Marschall / Wehowski                                           [Page 10]
