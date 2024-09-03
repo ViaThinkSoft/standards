@@ -70,7 +70,7 @@ Table of Contents
    4  Specification Changes . . . . . . . . . . . . . . . . . . . . .  5
      4.1  Spec Change 8: Recommendations for WEID notation  . . . . .  5
      4.2  Spec Change 9: Recommendations for WEID notation  . . . . .  6
-     4.3  Spec Change 10: Domain-WEID . . . . . . . . . . . . . . . .  6
+     4.3  Spec Change 10: Domain-WEID ("Class D" WEID)  . . . . . . .  6
      4.4  Spec Change 11: Proprietary Namespaces  . . . . . . . . . .  6
    5  Additional notes  . . . . . . . . . . . . . . . . . . . . . . .  7
    6  Security Considerations . . . . . . . . . . . . . . . . . . . .  8
@@ -178,7 +178,7 @@ VTS/WF STD. 3          Wehowski Identifier (WEID)       3 September 2024
    weid:EXAMPLE-3 (3 is the check digit)
 
    The registration of WEID Alphanumeric OIDs beneath this arc is
-   managed by Webfan.de in order of FRDLWEB. You can assign as Private
+   managed by Webfan.de in order of FRDLWEB. You can assign a Private
    WEID by Frdlweb here:
    https://registry.frdl.de/?goto=com.frdlweb.freeweid
 
@@ -287,7 +287,7 @@ VTS/WF STD. 3          Wehowski Identifier (WEID)       3 September 2024
 
 4.2  Spec Change 9: Recommendations for WEID notation
 
-   In Spec Change 9 (08 March 2022), an alternative syntax of WEIDs is
+   In Spec Change 9 (8 March 2022), an alternative syntax of WEIDs is
    defined. This alternative syntax replaces the checksum with a
    wildcard in the form of a question mark symbol, for example,
    weid:root:2-RR-? instead of weid:root:2-RR-2. One useful scenario can
@@ -295,10 +295,10 @@ VTS/WF STD. 3          Wehowski Identifier (WEID)       3 September 2024
    converters (like our online converter) which can help you replace the
    wildcard with the correct checksum.
 
-4.3  Spec Change 10: Domain-WEID
+4.3  Spec Change 10: Domain-WEID ("Class D" WEID)
 
-   Spec Change 10 (07 August 2023) allows domain names to be used as
-   WEID sub-namespace.
+   Spec Change 10 (7 August 2023) allows domain names to be used as WEID
+   sub-namespace.
 
    All WEID sub-namespaces containing at least one dot (.) are treated
    as domain names.
@@ -315,12 +315,12 @@ VTS/WF STD. 3          Wehowski Identifier (WEID)       3 September 2024
    WEID.
 
    A Domain-WEID can be converted to Class A/B/C WEID, but the reverse
-   conversion is ambiguous ("where does the domain name end and the
-   identifier part start?")
+   conversion is ambiguous ("where does the domain name end and where
+   does the identifier part start?")
 
 4.4  Spec Change 11: Proprietary Namespaces
 
-   Spec Change 11 (07 August 2023) allows custom / vendor-specific WEID
+   Spec Change 11 (7 August 2023) allows custom / vendor-specific WEID
    sub-namespaces.
 
    Such namespaces must begin with x-, for example: weid:x-contoso:ABC-
