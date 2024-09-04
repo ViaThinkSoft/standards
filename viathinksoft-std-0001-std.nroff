@@ -34,7 +34,7 @@
 .\" Left header text
 .ds LH VTS/WF STD. 1
 .\" Right header text
-.ds RH 2 September 2024
+.ds RH 4 September 2024
 .\" Center header text
 .ds CH VTS/WF Standards
 .\" Center footer text
@@ -51,7 +51,7 @@
 .nf
 .tl 'VIATHINKSOFT/WEBFAN''D. Marschall'
 .tl 'SPECIFICATION No. 1''ViaThinkSoft'
-.tl 'First Draft: 2024''2 September 2024'
+.tl 'First Draft: 2024''4 September 2024'
 .fi
 
 .\" Note. The ".tl" directive is used to generate the leading header 
@@ -79,11 +79,11 @@ Identification of this Document
 
 .in 3
 .nf
-Revision:  2024-09-02
+Revision:  2024-09-04
 State:     In Force
 URL:       https://github.com/ViaThinkSoft/standards/blob/main/\\
            viathinksoft-std-0001-std.txt
-URN:       urn:viathinksoft.de:std:0001:2024-09-02
+URN:       urn:viathinksoft.de:std:0001:2024-09-04
 OID:       1.3.6.1.4.1.37476.3.0.0
            { iso(1) identified-organization(3) dod(6) internet(1)
              private(4) enterprise(1) 37476 specifications(3)
@@ -118,6 +118,7 @@ Table of Contents
 .nf
    1  Introduction  . . . . . . . . . . . . . . . . . . . . . . . . .  3
      1.1  Terminology . . . . . . . . . . . . . . . . . . . . . . . .  3
+     1.2  General Rules . . . . . . . . . . . . . . . . . . . . . . .  3
    2  Tool Chain  . . . . . . . . . . . . . . . . . . . . . . . . . .  3
    3  General Structure . . . . . . . . . . . . . . . . . . . . . . .  3
      3.1  First Page Structure  . . . . . . . . . . . . . . . . . . .  4
@@ -142,12 +143,19 @@ This document describes how the standards for ViaThinkSoft and Webfan are define
 
 The current standards are published here:  https://github.com/ViaThinkSoft/standards
 
-They receive a sequencial number.
-
 .ti 0
 1.1  Terminology
 
 The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in BCP\014 [RFC2119] [RFC8174] when, and only when, they appear in all capitals, as shown here.
+
+.ti 0
+1.2  General Rules
+
+Each document receives a sequential number.
+
+Documents can be changed (unless RFCs).  If the change is minor (like, fixing a typo), the revision date does not need to be changed.
+
+Each document can be identified with the URN "urn:viathinksoft.de:std:<nnnn>:<yyyy-mm-dd>".  This URN can be extended by components (delimited with colon), e.g. to get an URN for a XML schema identifier.
 
 .in 3
 .ti 0
@@ -189,7 +197,7 @@ Title Page Header Right Top:
 "Identification of this Document"
 - Line 1:  "Revision" in format yyyy-mm-dd
 - Line 2:  "State" is either "In Force" or
-                             "Work-In-Progress" or
+                             "Work In Progress" or
                              "Deprecated"
 - Line 3:  "URL" links to the TXT file on GitHub
 - Line 4:  "URN" is urn:viathinksoft.de:std:<nnnn>:<yyyy-mm-dd>
@@ -277,14 +285,6 @@ Acknowledgements
 .in 3
 
 I would like to thank Melanie Wehowski for her long time support in OIDplus and WEID projects.
-
-Thanks to the authors of these free tools which did a very good job in validating various contents of this document:
-
-.in 3
-- "Grammarly" spell and grammar checker
-.in 5
-https://app.grammarly.com/
-.in 3
 
 This document was written in Nroff Internet Draft Editor by 3xA Security.
 .br

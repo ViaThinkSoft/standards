@@ -261,7 +261,7 @@ VTS/WF STD. 7              ViaThinkSoft MHA3            4 September 2024
 
 3.2  Heterogenous Systems Notation
 
-   The "heterogenous systems notation" (HNS) is DEPRECATED in favor of
+   The "heterogenous systems notation" (HSN) is DEPRECATED in favor of
    the modular crypt format notation!
 
    <mha3-oid>$<base-hash>$<length>$<iterations>$<hash-base64>
