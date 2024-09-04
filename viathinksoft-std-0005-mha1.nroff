@@ -1,0 +1,379 @@
+.\" This document was created using "Nroff Internet Draft Editor"
+.\" Note that a hotfix is required to use this program after 1st January 2020:
+.\" https://misc.daniel-marschall.de/patches/nroffedit/
+.\"
+.\" Alternative, you can compile this document on Linux, using the following command:
+.\"        nroff -T ascii -ms viathinksoft-std-0005-mha1.nroff | ./fix_formfeed.pl > viathinksoft-std-0005-mha1.txt
+.\" Note that "-ms" only works if the package "groff" is installed.
+.\" fix.pl needs to be executed to replace FORMFEED.
+.\" Note that the Linux command does not auto-generate the Table of Contents, since this is a NroffEdit feature!
+.\"
+.\" Note about section titles: According to RFC7322, the section capitalization should be Chicago Manual of Style
+.\" Use this tool: https://titlecaseconverter.com/ 
+.\"
+.\" These values are required for my Debian Linux system (nroff) so that it outputs the same lines like NroffEdit
+.pl 95n
+.nr HM 6n
+.nr FM 8n
+.\" Page length
+.\".pl 10.0i
+.\" Page offset
+.po 0
+.\" Length of line
+.ll 7.2i
+.\" Length of title
+.lt 7.2i
+.\" Line Length (ms macro)
+.nr LL 7.2i
+.\" Title line length
+.nr LT 7.2i
+.\" Left footer text
+.ds LF Marschall
+.\" Right footer text. "FORMFEED" will be replaced by a post-processing script.
+.ds RF FORMFEED[Page %]
+.\" Left header text
+.ds LH VTS/WF STD. 5
+.\" Right header text
+.ds RH 4 September 2024
+.\" Center header text
+.ds CH ViaThinkSoft MHA1
+.\" Center footer text
+.ds CF 
+.\" Hyphenation mode set to 0
+.hy 0
+.\" Disable hyphenation
+.nh
+.\" Adjust text left
+.ad l
+.\" Set indent (can be overridden for a single line using .ti = temporary indent)
+.in 0
+
+.nf
+.tl 'VIATHINKSOFT/WEBFAN''D. Marschall'
+.tl 'SPECIFICATION No. 5''ViaThinkSoft'
+.tl 'First Draft: 2011''4 September 2024'
+.fi
+
+.\" Note. The ".tl" directive is used to generate the leading header 
+.\" in Internet drafts. The information specified after ".tl" provides
+.\" left, center and right components of a line separated by the ' character
+.\" in the following manner:
+.\" 
+.\"  .tl '<left component>'<center component>'<right component>'
+.\"
+.\" Only the left and right components are used in Internet-draft headers
+.\" This and other comments in this template can safely be deleted.
+
+.ce 3
+=== Marschall Hash 1 (MHA1) ===
+.fi
+.in 3
+
+.ti 0
+Abstract
+
+This document describes the hash algorithm MHA1.
+
+.ti 0
+Identification of this Document
+
+.in 3
+.nf
+Revision:  2024-09-04
+State:     Deprecated
+URL:       https://github.com/ViaThinkSoft/standards/blob/main/\\
+           viathinksoft-std-0005-mha1.txt
+URN:       urn:viathinksoft.de:std:0005:2024-09-04
+OID:       1.3.6.1.4.1.37476.3.2.1.1
+           { iso(1) identified-organization(3) dod(6) internet(1)
+             private(4) enterprise(1) 37476 specifications(3)
+             algorithm(2) hash(1) mha1(1) }
+WEID:      weid:pen:SX0-3-2-1-1-1
+IETF/RFC:  (None)
+.fi
+
+.ti 0
+Attachments
+
+Reference implementation in PHP:
+https://github.com/danielmarschall/php_utils/blob/master/\\
+vts_crypt.inc.php
+
+.ti 0
+Copyright Notice
+
+Copyright (c) 2011-2024 ViaThinkSoft and the persons identified as the
+document authors.  All rights reserved.
+
+Licensed under the terms of the Apache 2.0 License.
+.br
+.\" These values are required for my Debian Linux system (nroff) so that it outputs the same lines like NroffEdit
+.nr HM 8n
+.nr FM 8n
+.bp
+.pl 96n
+.\" \# TD4  -- Set TOC depth by altering this value (TD5 = depth 5)
+.\" \# TOC  -- Beginning of auto updated Table of Contents
+.in 0
+Table of Contents
+
+.nf
+   1  Introduction  . . . . . . . . . . . . . . . . . . . . . . . . .  3
+     1.1  Terminology . . . . . . . . . . . . . . . . . . . . . . . .  3
+   2  Definition  . . . . . . . . . . . . . . . . . . . . . . . . . .  3
+   3  Notation  . . . . . . . . . . . . . . . . . . . . . . . . . . .  3
+     3.1  Modular Crypt Format Notation . . . . . . . . . . . . . . .  3
+     3.2  Heterogenous Systems Notation . . . . . . . . . . . . . . .  4
+   4  Test Vectors  . . . . . . . . . . . . . . . . . . . . . . . . .  5
+   5  Ref implementation  . . . . . . . . . . . . . . . . . . . . . .  6
+   6  Security Considerations . . . . . . . . . . . . . . . . . . . .  6
+     6.1  Runtime complexity  . . . . . . . . . . . . . . . . . . . .  6
+   7  IANA Considerations . . . . . . . . . . . . . . . . . . . . . .  7
+   8  References  . . . . . . . . . . . . . . . . . . . . . . . . . .  7
+     6.1  Normative References  . . . . . . . . . . . . . . . . . . .  7
+     6.2  Informative References  . . . . . . . . . . . . . . . . . .  7
+   Acknowledgements . . . . . . . . . . . . . . . . . . . . . . . . .  7
+   Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . . .  7
+.fi
+.in 3
+
+.\" \# ETC -- End of auto updated Table of Contents
+
+.bp
+.ti 0
+1  Introduction
+
+
+	MHA is a hash function which performs multiple hash iterations on a base hash function.
+	It should be save even if the base hash function is broken.
+	This function is pretty slow because of the iterations, but therefore secure
+	against offline attacks or rainbowtables. Also, the slowlyness of this hash
+	makes the creation of rainbow tables much harder.
+
+
+
+
+.ti 0
+1.1  Terminology
+
+The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in BCP\014 [RFC2119] [RFC8174] when, and only when, they appear in all capitals, as shown here.
+
+
+.ti 0
+2  Definition
+
+	MHA(x, iteratedSalt, iterations) = optionalBase64(rec(iterations, x, iteratedSalt))
+
+	rec[n, x, iteratedSalt] = binarySHA1(iteratedSalt || rec[n-1, x, iteratedSalt] || iteratedSalt)
+
+	rec[0, x, iteratedSalt] = x
+
+
+.ti 0
+3  Notation
+
+.ti 0
+3.1  Modular Crypt Format Notation
+
+
+
+
+Format of the MCF:
+
+$<id>$<params>$<salt>$<hash>
+
+<id> is 1.3.6.1.4.1.37476.3.2.1.1
+
+<params> is a=<algo>,i=<iterations>
+
+where <algo> is any valid hash algorithm (name scheme of PHP hash_algos() preferred), e.g.
+.nf
+- sha3-512
+- sha3-384
+- sha3-256
+- sha3-224
+- sha512
+- sha512/256
+- sha512/224
+- sha384
+- sha256
+- sha224
+- sha1
+- md5
+.fi
+
+Not possible with MCF1 are these hashes (because they have a special salt-handling and output their own crypt format):
+.br
+- bcrypt [Standardized crypt identifier 2, 2a, 2x, 2y]
+.br
+- argon2i [Crypt identifier argon2i, not standardized]
+.br
+- argon2id [Crypt identifier argon2i, not standardized]
+
+<iterations> are the iterations.
+
+
+
+
+
+
+
+.ti 0
+3.2  Heterogenous Systems Notation
+
+
+
+	The "heterogenous systems notation" (HNS) is DEPRECATED in favor of the modular crypt format notation!
+
+	<mha1-oid>$<base-hash>$<iterations>$<salt-base64>$<hash-base64>
+
+	-  <mha1-oid> is the OID for a MHA1 algorithm in its dot-notation without leading dot,
+	   which is 1.3.6.1.4.1.37476.3.2.1.1
+
+	   This OID has ASN.1 Notation:
+	   { iso(1) identified-organization(3) dod(6) internet(1) private(4) enterprise(1)
+	     37476 specification(3) algorithm(2) hash(1) mha1(1) }
+
+	-  <base-hash> should be an OID which represents the base hash ("H") algorithm used, in dot-notation.
+
+	   The following table shows the OIDs which have been assigned
+	   for exchange between heterogenous systems. If you want to use a different
+	   hash algorithm or a derivate of it, please define your own OID
+	   (you can use an UUID OID, get a free IANA PEN OID, or a free ViaThinkSoft OID),
+	   but please do not use this arc, since only ViaThinkSoft may maintain it.
+
+	   --------------------------------------------------------------------------------------------
+	   Algorithm                                  OID proposal
+	   --------------------------------------------------------------------------------------------
+	   Message Digest 4 (MD4)                     { 1 3 6 1 4 1 37476 3 2 1 99 md4(1) }
+	   Message Digest 5 (MD5)                     { 1 3 6 1 4 1 37476 3 2 1 99 md5(2) }
+	   RIPEMD-160                                 { 1 3 6 1 4 1 37476 3 2 1 99 ripemd160(3) }
+	   Secure Hash Algorithm                      { 1 3 6 1 4 1 37476 3 2 1 99 sha0(4) }
+	   Secure Hash Algorithm 1                    { 1 3 6 1 4 1 37476 3 2 1 99 sha1(5) }
+	   Secure Hash Algorithm 2 (224 bits)         { 1 3 6 1 4 1 37476 3 2 1 99 sha2(6) 224 }
+	   Secure Hash Algorithm 2 (256 bits)         { 1 3 6 1 4 1 37476 3 2 1 99 sha2(6) 256 }
+	   Secure Hash Algorithm 2 (384 bits)         { 1 3 6 1 4 1 37476 3 2 1 99 sha2(6) 384 }
+	   Secure Hash Algorithm 2 (512 bits)         { 1 3 6 1 4 1 37476 3 2 1 99 sha2(6) 512 }
+	   Secure Hash Algorithm 3 (224 bits)         { 1 3 6 1 4 1 37476 3 2 1 99 sha3(7) 224 }
+	   Secure Hash Algorithm 3 (256 bits)         { 1 3 6 1 4 1 37476 3 2 1 99 sha3(7) 256 }
+	   Secure Hash Algorithm 3 (384 bits)         { 1 3 6 1 4 1 37476 3 2 1 99 sha3(7) 384 }
+	   Secure Hash Algorithm 3 (512 bits)         { 1 3 6 1 4 1 37476 3 2 1 99 sha3(7) 512 }
+	   --------------------------------------------------------------------------------------------
+
+	-  <iterations> is the number of iterations, e.g. 1987.
+
+	-  <salt-base64> is the iterated salt used for MHA1, encoded in Base64.
+
+	-  <hash-base64> is the resulting hash, encoded in Base64.
+
+
+.ti 0
+4  Test Vectors
+
+
+MHA1 - Base algo 'sha1', Input '', Salt '', Iterations 1987
+MCF: $1.3.6.1.4.1.37476.3.2.1.1$a=sha1,i=1987$$SMJt5BeI3z2Q5772DcQUXiFBHmO
+HSN: 1.3.6.1.4.1.37476.3.2.1.1$1.3.6.1.4.1.37476.3.2.1.99.5$1987$$UOLv7DgK5/4S7994FeSWZkHDJoQ=
+Hex: 50e2efec380ae7fe12efdf7815e4966641c32684
+
+MHA1 - Base algo 'sha1', Input 'The quick brown fox jumps over the lazy dog', Salt '', Iterations 1987
+MCF: $1.3.6.1.4.1.37476.3.2.1.1$a=sha1,i=1987$$9obb16qgeksp9r4iSz.o77EUQlC
+HSN: 1.3.6.1.4.1.37476.3.2.1.1$1.3.6.1.4.1.37476.3.2.1.99.5$1987$$Bqdd38sigmurBt6kU/0q99GWSnE=
+Hex: 06a75ddfcb22826bab06dea453fd2af7d1964a71
+
+
+.ti 0
+5  Ref implementation
+
+
+
+	function mha1($password, $iteratedSalt='', $iterations=1987, $base_algo='sha1') {
+	    assert($iterations >= 1);
+	    $m = $password;
+	    for ($i=1; $i<=$iterations; $i++) {
+	        $m = hash($base_algo, $iteratedSalt.$m.$iteratedSalt, true/*binary*/);
+	    }
+	    return bin2hex($m);
+	}
+
+	// https://github.com/danielmarschall/php_utils/blob/master/vts_crypt.inc.php
+	include 'vts_crypt.inc.php';
+	$hash = vts_password_hash($data, PASSWORD_VTS_MHA1, ['algo'=>'sha1', 'salt_length'=>16, 'iterations'=>1987]);
+	assert(vts_password_verify($data, $hash));
+
+
+.ti 0
+6  Security Considerations
+
+Hash values play a crucial role in various security contexts, such as password verification.  For detailed guidance on securely managing hashes, please consult the relevant literature or documentation.
+
+MHA1 might be prone to collisions because the probability of collisions increases with the iterations.
+
+.ti 0
+6.1  Runtime complexity
+
+	The number of hash OPs is <iterations>.
+
+
+
+.bp
+.ti 0
+7  IANA Considerations
+
+There are no IANA Considerations.
+
+.ti 0
+8  References
+
+.ti 0
+6.1  Normative References
+.in 14
+
+.\" https://www.rfc-editor.org/refs/ref2119.txt
+.ti 3
+[RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate Requirement Levels", BCP\014, RFC\02119, DOI\010.17487/RFC2119, March\01997,
+.br
+<https://www.rfc-editor.org/info/rfc2119>.
+
+.in 3
+.ti 0
+6.2  Informative References
+.in 14
+
+.ti 3
+None
+
+.in 3
+.ti 0
+Acknowledgements
+.in 3
+
+I would like to thank Melanie Wehowski for her long time support in OIDplus and WEID projects.
+
+Thanks to the authors of these free tools which did a very good job in validating various contents of this document:
+
+.in 3
+- "Grammarly" spell and grammar checker
+.in 5
+https://app.grammarly.com/
+.in 3
+
+This document was written in Nroff Internet Draft Editor by 3xA Security.
+.br
+https://aaa-sec.com/nroffedit/
+.br
+https://misc.daniel-marschall.de/patches/nroffedit/ ("year 2020" patch)
+
+.ti 0
+Authors' Addresses
+.in 3
+
+.nf
+Daniel Marschall
+Postfach 11 53
+69243 Bammental
+Germany
+
+Email: daniel-marschall@viathinksoft.de
+URI:   https://www.viathinksoft.com/
+.fi

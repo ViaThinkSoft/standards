@@ -1,0 +1,478 @@
+.\" This document was created using "Nroff Internet Draft Editor"
+.\" Note that a hotfix is required to use this program after 1st January 2020:
+.\" https://misc.daniel-marschall.de/patches/nroffedit/
+.\"
+.\" Alternative, you can compile this document on Linux, using the following command:
+.\"        nroff -T ascii -ms viathinksoft-std-0007-mha3.nroff | ./fix_formfeed.pl > viathinksoft-std-0007-mha3.txt
+.\" Note that "-ms" only works if the package "groff" is installed.
+.\" fix.pl needs to be executed to replace FORMFEED.
+.\" Note that the Linux command does not auto-generate the Table of Contents, since this is a NroffEdit feature!
+.\"
+.\" Note about section titles: According to RFC7322, the section capitalization should be Chicago Manual of Style
+.\" Use this tool: https://titlecaseconverter.com/ 
+.\"
+.\" These values are required for my Debian Linux system (nroff) so that it outputs the same lines like NroffEdit
+.pl 95n
+.nr HM 6n
+.nr FM 8n
+.\" Page length
+.\".pl 10.0i
+.\" Page offset
+.po 0
+.\" Length of line
+.ll 7.2i
+.\" Length of title
+.lt 7.2i
+.\" Line Length (ms macro)
+.nr LL 7.2i
+.\" Title line length
+.nr LT 7.2i
+.\" Left footer text
+.ds LF Marschall
+.\" Right footer text. "FORMFEED" will be replaced by a post-processing script.
+.ds RF FORMFEED[Page %]
+.\" Left header text
+.ds LH VTS/WF STD. 7
+.\" Right header text
+.ds RH 4 September 2024
+.\" Center header text
+.ds CH ViaThinkSoft MHA3
+.\" Center footer text
+.ds CF 
+.\" Hyphenation mode set to 0
+.hy 0
+.\" Disable hyphenation
+.nh
+.\" Adjust text left
+.ad l
+.\" Set indent (can be overridden for a single line using .ti = temporary indent)
+.in 0
+
+.nf
+.tl 'VIATHINKSOFT/WEBFAN''D. Marschall'
+.tl 'SPECIFICATION No. 7''ViaThinkSoft'
+.tl 'First Draft: 2018''4 September 2024'
+.fi
+
+.\" Note. The ".tl" directive is used to generate the leading header 
+.\" in Internet drafts. The information specified after ".tl" provides
+.\" left, center and right components of a line separated by the ' character
+.\" in the following manner:
+.\" 
+.\"  .tl '<left component>'<center component>'<right component>'
+.\"
+.\" Only the left and right components are used in Internet-draft headers
+.\" This and other comments in this template can safely be deleted.
+
+.ce 3
+=== Marschall Hash 3 (MHA3) ===
+.fi
+.in 3
+
+.ti 0
+Abstract
+
+This document describes the hash algorithm MHA3.
+
+.ti 0
+Identification of this Document
+
+.in 3
+.nf
+Revision:  2024-09-04
+State:     Deprecated
+URL:       https://github.com/ViaThinkSoft/standards/blob/main/\\
+           viathinksoft-std-0007-mha3.txt
+URN:       urn:viathinksoft.de:std:0007:2024-09-04
+OID:       1.3.6.1.4.1.37476.3.2.1.3
+           { iso(1) identified-organization(3) dod(6) internet(1)
+             private(4) enterprise(1) 37476 specifications(3)
+             algorithm(2) hash(1) mha3(3) }
+WEID:      weid:pen:SX0-3-2-1-3-7
+IETF/RFC:  (None)
+.fi
+
+.ti 0
+Attachments
+
+Reference implementation in PHP:
+https://github.com/danielmarschall/php_utils/blob/master/\\
+vts_crypt.inc.php
+
+.ti 0
+Copyright Notice
+
+Copyright (c) 2018-2024 ViaThinkSoft and the persons identified as the
+document authors.  All rights reserved.
+
+Licensed under the terms of the Apache 2.0 License.
+.br
+.\" These values are required for my Debian Linux system (nroff) so that it outputs the same lines like NroffEdit
+.nr HM 8n
+.nr FM 8n
+.bp
+.pl 96n
+.\" \# TD4  -- Set TOC depth by altering this value (TD5 = depth 5)
+.\" \# TOC  -- Beginning of auto updated Table of Contents
+.in 0
+Table of Contents
+
+.nf
+   1  Introduction  . . . . . . . . . . . . . . . . . . . . . . . . .  3
+     1.1  Terminology . . . . . . . . . . . . . . . . . . . . . . . .  3
+   2  Definition  . . . . . . . . . . . . . . . . . . . . . . . . . .  3
+     2.1  Example . . . . . . . . . . . . . . . . . . . . . . . . . .  4
+   3  Notation  . . . . . . . . . . . . . . . . . . . . . . . . . . .  4
+     3.1  Modular Crypt Format Notation . . . . . . . . . . . . . . .  4
+     3.2  Heterogenous Systems Notation . . . . . . . . . . . . . . .  5
+   4  Test Vectors  . . . . . . . . . . . . . . . . . . . . . . . . .  7
+   5  Ref implementation  . . . . . . . . . . . . . . . . . . . . . .  7
+   6  Security Considerations . . . . . . . . . . . . . . . . . . . .  8
+     6.1  Runtime complexity  . . . . . . . . . . . . . . . . . . . .  8
+   7  IANA Considerations . . . . . . . . . . . . . . . . . . . . . .  9
+   8  References  . . . . . . . . . . . . . . . . . . . . . . . . . .  9
+     6.1  Normative References  . . . . . . . . . . . . . . . . . . .  9
+     6.2  Informative References  . . . . . . . . . . . . . . . . . .  9
+   Acknowledgements . . . . . . . . . . . . . . . . . . . . . . . . .  9
+   Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . . .  9
+.fi
+.in 3
+
+.\" \# ETC -- End of auto updated Table of Contents
+
+.bp
+.ti 0
+1  Introduction
+
+
+	MHA3 is a method to strengten a weak hash function, e.g. in case that
+	the development environment or hardware does not allow using a new
+	implementation of a modern hash variant like SHA256 or SHA3.
+
+	MHA3 was designed with following goals:
+	1. It should be simple to implement
+	2. The memory usage should be low
+	3. The calculation time should be high, to avoid brute force;
+	   the complexity can be defined by the number of iterations
+	4. The length of the hash should be variable, i.e. "Extendable-Output Function" (XOF)
+	5. It should hardening each hash, crc32 as well as md5
+	6. If the base hash function is compromised, MHA3 would be still safe.
+
+
+
+
+
+.ti 0
+1.1  Terminology
+
+The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in BCP\014 [RFC2119] [RFC8174] when, and only when, they appear in all capitals, as shown here.
+
+
+
+
+
+
+.ti 0
+2  Definition
+
+
+	MHA3(C,L,I) := A(C,L,0) xor ... xor A(C,L,I-1)
+
+	with:
+
+		A(C,L,n) := B(C,n*L) & ... & B(C,n*L+(L-1))
+
+		B(C,n)   := Q(H(C & (R^n)))
+
+	Symbols:
+
+		C: input data.
+
+		L: Desired length of the hash in bytes  (L >= 1).
+
+		I: Number of iterations (I >= 1).
+
+		& is concatenation.
+
+		H(s) is an existing hash function (unsalted).
+
+		Q(s) is the sum of all bytes mod 256 of the string s.
+
+		R is a constant value. We choose the single byte 0x01.
+
+		R^n are n repetitions (concatenations) of R.
+
+
+
+.ti 0
+2.1  Example
+
+
+	First step:
+
+		MHA3("test",3,2) = A("test",3,0) xor A("test",3,1)
+
+		A("test",3,0) = B("test",0) & B("test",1) & B("test",2)
+		A("test",3,1) = B("test",3) & B("test",4) & B("test",5)
+
+		B("test",0) = Q(H("test"))
+		B("test",1) = Q(H("test" & 0x01))
+		B("test",2) = Q(H("test" & 0x01 & 0x01))
+		B("test",3) = Q(H("test" & 0x01 & 0x01 & 0x01))
+		B("test",4) = Q(H("test" & 0x01 & 0x01 & 0x01 & 0x01))
+		B("test",5) = Q(H("test" & 0x01 & 0x01 & 0x01 & 0x01 & 0x01))
+
+	Second step:
+
+		MHA3("test",3,2) = (B("test",0) & B("test",1) & B("test",2)) xor
+		                   (B("test",3) & B("test",4) & B("test",5))
+
+	Third step:
+
+		MHA3("test",3,2) = (Q(H("test"&(R^0))) & Q(H("test"&(R^1))) & Q(H("test"&(R^2)))) xor
+		                   (Q(H("test"&(R^3))) & Q(H("test"&(R^4))) & Q(H("test"&(R^5))))
+
+
+
+.ti 0
+3  Notation
+
+.ti 0
+3.1  Modular Crypt Format Notation
+
+
+Format of the MCF:
+
+$<id>$<params>$<salt>$<hash>
+
+<id> is 1.3.6.1.4.1.37476.3.2.1.1
+
+<params> is a=<algo>,i=<iterations>,l=<length>
+
+where <algo> is any valid hash algorithm (name scheme of PHP hash_algos() preferred), e.g.
+.nf
+- sha3-512
+- sha3-384
+- sha3-256
+- sha3-224
+- sha512
+- sha512/256
+- sha512/224
+- sha384
+- sha256
+- sha224
+- sha1
+- md5
+.fi
+
+Not possible with MCF1 are these hashes (because they have a special salt-handling and output their own crypt format):
+.br
+- bcrypt [Standardized crypt identifier 2, 2a, 2x, 2y]
+.br
+- argon2i [Crypt identifier argon2i, not standardized]
+.br
+- argon2id [Crypt identifier argon2i, not standardized]
+
+<iterations> are the iterations.
+
+<length> are the length.
+
+<salt> is always empty for MHA3.
+
+
+
+
+
+
+
+.ti 0
+3.2  Heterogenous Systems Notation
+
+
+
+	The "heterogenous systems notation" (HNS) is DEPRECATED in favor of the modular crypt format notation!
+
+	<mha3-oid>$<base-hash>$<length>$<iterations>$<hash-base64>
+
+	-  <mha3-oid> is the OID for a MHA3 algorithm in its dot-notation without leading dot,
+	   which is 1.3.6.1.4.1.37476.3.2.1.3
+
+	   This OID has ASN.1 Notation:
+	   { iso(1) identified-organization(3) dod(6) internet(1) private(4) enterprise(1)
+	     37476 specification(3) algorithm(2) hash(1) mha3(3) }
+
+	-  <base-hash> should be an OID which represents the base hash ("H") algorithm used, in dot-notation.
+
+	   The following table shows the OIDs which have been assigned
+	   for exchange between heterogenous systems. If you want to use a different
+	   hash algorithm or a derivate of it, please define your own OID
+	   (you can use an UUID OID, get a free IANA PEN OID, or a free ViaThinkSoft OID),
+	   but please do not use this arc, since only ViaThinkSoft may maintain it.
+
+	   --------------------------------------------------------------------------------------------
+	   Algorithm                                  OID proposal
+	   --------------------------------------------------------------------------------------------
+	   Message Digest 4 (MD4)                     { 1 3 6 1 4 1 37476 3 2 1 99 md4(1) }
+	   Message Digest 5 (MD5)                     { 1 3 6 1 4 1 37476 3 2 1 99 md5(2) }
+	   RIPEMD-160                                 { 1 3 6 1 4 1 37476 3 2 1 99 ripemd160(3) }
+	   Secure Hash Algorithm                      { 1 3 6 1 4 1 37476 3 2 1 99 sha0(4) }
+	   Secure Hash Algorithm 1                    { 1 3 6 1 4 1 37476 3 2 1 99 sha1(5) }
+	   Secure Hash Algorithm 2 (224 bits)         { 1 3 6 1 4 1 37476 3 2 1 99 sha2(6) 224 }
+	   Secure Hash Algorithm 2 (256 bits)         { 1 3 6 1 4 1 37476 3 2 1 99 sha2(6) 256 }
+	   Secure Hash Algorithm 2 (384 bits)         { 1 3 6 1 4 1 37476 3 2 1 99 sha2(6) 384 }
+	   Secure Hash Algorithm 2 (512 bits)         { 1 3 6 1 4 1 37476 3 2 1 99 sha2(6) 512 }
+	   Secure Hash Algorithm 3 (224 bits)         { 1 3 6 1 4 1 37476 3 2 1 99 sha3(7) 224 }
+	   Secure Hash Algorithm 3 (256 bits)         { 1 3 6 1 4 1 37476 3 2 1 99 sha3(7) 256 }
+	   Secure Hash Algorithm 3 (384 bits)         { 1 3 6 1 4 1 37476 3 2 1 99 sha3(7) 384 }
+	   Secure Hash Algorithm 3 (512 bits)         { 1 3 6 1 4 1 37476 3 2 1 99 sha3(7) 512 }
+	   --------------------------------------------------------------------------------------------
+
+	-  <length> is the length of the resulting hash in bytes, e.g. 500.
+
+	-  <iterations> is the number of iterations, e.g. 16.
+
+	-  <hash-base64> is the resulting hash, encoded in Base64.
+
+
+
+
+
+.ti 0
+4  Test Vectors
+
+
+
+MHA3 - Base algo 'sha1', Input '', Length '16', Iterations 500
+MCF: $1.3.6.1.4.1.37476.3.2.1.3$a=sha1,i=500,l=16$$YWyFPPG1f7DhBv.I9m78zu
+HSN: 1.3.6.1.4.1.37476.3.2.1.2$1.3.6.1.4.1.37476.3.2.1.99.5$16$500$aY+HRRI3h9FjDx0KBo9A/w==
+Hex: 698f8745123787d1630f1d0a068f40ff
+
+MHA3 - Base algo 'sha1', Input '', Length '32', Iterations 500
+MCF: $1.3.6.1.4.1.37476.3.2.1.3$a=sha1,i=500,l=32$$/A89J91ZJhZBOB5ahi.SVily.e466dkslCi8b92eGA6
+HSN: 1.3.6.1.4.1.37476.3.2.1.2$1.3.6.1.4.1.37476.3.2.1.99.5$32$500$1CABLB3bLjbDQD7cjk0UXkn+0g688fmunEkAdB4gIC8=
+Hex: d420012c1ddb2e36c3403edc8e4d145e49fed20ebcf1f9ae9c4900741e20202f
+
+MHA3 - Base algo 'sha1', Input 'The quick brown fox jumps over the lazy dog', Length '16', Iterations 500
+MCF: $1.3.6.1.4.1.37476.3.2.1.3$a=sha1,i=500,l=16$$E183Xe/hsyNCTxYVuPvC1u
+HSN: 1.3.6.1.4.1.37476.3.2.1.2$1.3.6.1.4.1.37476.3.2.1.99.5$16$500$G3A5Zg1ju+PEVzaXwRxE3w==
+Hex: 1b7039660d63bbe3c4573697c11c44df
+
+MHA3 - Base algo 'sha1', Input 'The quick brown fox jumps over the lazy dog', Length '32', Iterations 500
+MCF: $1.3.6.1.4.1.37476.3.2.1.3$a=sha1,i=500,l=32$$x6av.OpWEDfbTdD6sprBQv4RGInHuhuJ0MFrmyYbela
+HSN: 1.3.6.1.4.1.37476.3.2.1.2$1.3.6.1.4.1.37476.3.2.1.99.5$32$500$z8cx0QrYGFhdVfF8urtDSx6TIKpJwjwL2OHto+adgnc=
+Hex: cfc731d10ad818585d55f17cbabb434b1e9320aa49c23c0bd8e1eda3e69d8277
+
+
+
+.ti 0
+5  Ref implementation
+
+
+    function bytesum_mod256($x) {
+        $res = 0;
+        for ($i=0; $i<strlen($x); $i++) $res = ($res + ord($x[$i])) % 256;
+        return $res;
+    }
+    function mha3($content, $length, $iterations, $base_algo='sha1') {
+        assert($iterations>=1);
+        $out = array();
+        for ($l=0; $l<$length; $l++) {
+            $out[$l] = 0;
+        }
+        for ($i=0; $i<$iterations; $i++) {
+            for ($l=0; $l<$length; $l++) {
+                $n = $i*$length + $l;
+                $salt = str_repeat(chr(1), $n);
+                $out[$l] ^= bytesum_mod256(hash($base_algo, $content.$salt, true));
+            }
+        }
+        return array_to_binarystring($out);
+    }
+
+	// https://github.com/danielmarschall/php_utils/blob/master/vts_crypt.inc.php
+	include 'vts_crypt.inc.php';
+	$hash = vts_password_hash($data, PASSWORD_VTS_MHA3, ['algo'=>'sha1', 'length'=>32, 'iterations'=>500]);
+	assert(vts_password_verify($data, $hash));
+
+
+
+
+
+
+
+
+.ti 0
+6  Security Considerations
+
+Hash values play a crucial role in various security contexts, such as password verification.  For detailed guidance on securely managing hashes, please consult the relevant literature or documentation.
+
+MHA3 has not been proved to be secure.  Use it with caution.
+
+.ti 0
+6.1  Runtime complexity
+
+	The number of hash OPs is <iterations> times <length>.
+
+
+
+.bp
+.ti 0
+7  IANA Considerations
+
+There are no IANA Considerations.
+
+.ti 0
+8  References
+
+.ti 0
+6.1  Normative References
+.in 14
+
+.\" https://www.rfc-editor.org/refs/ref2119.txt
+.ti 3
+[RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate Requirement Levels", BCP\014, RFC\02119, DOI\010.17487/RFC2119, March\01997,
+.br
+<https://www.rfc-editor.org/info/rfc2119>.
+
+.in 3
+.ti 0
+6.2  Informative References
+.in 14
+
+.ti 3
+None
+
+.in 3
+.ti 0
+Acknowledgements
+.in 3
+
+I would like to thank Melanie Wehowski for her long time support in OIDplus and WEID projects.
+
+Thanks to the authors of these free tools which did a very good job in validating various contents of this document:
+
+.in 3
+- "Grammarly" spell and grammar checker
+.in 5
+https://app.grammarly.com/
+.in 3
+
+This document was written in Nroff Internet Draft Editor by 3xA Security.
+.br
+https://aaa-sec.com/nroffedit/
+.br
+https://misc.daniel-marschall.de/patches/nroffedit/ ("year 2020" patch)
+
+.ti 0
+Authors' Addresses
+.in 3
+
+.nf
+Daniel Marschall
+Postfach 11 53
+69243 Bammental
+Germany
+
+Email: daniel-marschall@viathinksoft.de
+URI:   https://www.viathinksoft.com/
+.fi
