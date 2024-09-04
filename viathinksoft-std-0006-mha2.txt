@@ -16,7 +16,7 @@ Abstract
 Identification of this Document
 
    Revision:  2024-09-04
-   State:     In Force
+   State:     Deprecated
    URL:       https://github.com/ViaThinkSoft/standards/blob/main/\
               viathinksoft-std-0006-mha2.txt
    URN:       urn:viathinksoft.de:std:0006:2024-09-04
@@ -68,12 +68,12 @@ Table of Contents
      3.1  Modular Crypt Format Notation . . . . . . . . . . . . . . .  4
      3.2  Heterogenous Systems Notation . . . . . . . . . . . . . . .  5
    4  Test Vectors  . . . . . . . . . . . . . . . . . . . . . . . . .  6
-   5  Ref implementation  . . . . . . . . . . . . . . . . . . . . . .  8
+   5  Reference implementation  . . . . . . . . . . . . . . . . . . .  8
    6  Security Considerations . . . . . . . . . . . . . . . . . . . .  8
-     6.1  Runtime complexity  . . . . . . . . . . . . . . . . . . . .  9
-   7  IANA Considerations . . . . . . . . . . . . . . . . . . . . . . 11
-   8  References  . . . . . . . . . . . . . . . . . . . . . . . . . . 11
-     6.1  Normative References  . . . . . . . . . . . . . . . . . . . 11
+     6.1  Runtime complexity  . . . . . . . . . . . . . . . . . . . . 10
+   7  IANA Considerations . . . . . . . . . . . . . . . . . . . . . . 10
+   8  References  . . . . . . . . . . . . . . . . . . . . . . . . . . 10
+     6.1  Normative References  . . . . . . . . . . . . . . . . . . . 10
      6.2  Informative References  . . . . . . . . . . . . . . . . . . 11
    Acknowledgements . . . . . . . . . . . . . . . . . . . . . . . . . 11
    Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . . . 11
@@ -116,13 +116,9 @@ VTS/WF STD. 6              ViaThinkSoft MHA2            4 September 2024
 
 1  Introduction
 
-
-   	MHA2 is a method to strengten a weak hash function, e.g. in case
-   that 	the development environment or hardware does not allow using a
-   new 	implementation of a modern hash variant like SHA256 or SHA3.
-
-
-
+   MHA2 is a method to strengten a weak hash function, e.g. in case that
+   the development environment or hardware does not allow using a new
+   implementation of a modern hash variant like SHA256 or SHA3.
 
 1.1  Terminology
 
@@ -134,34 +130,38 @@ VTS/WF STD. 6              ViaThinkSoft MHA2            4 September 2024
 
 2  Definition
 
-   	MHA2(i,s,x) := A(i,s,x) xor B(i,s,x) xor C(i,s,x)
+   MHA2(i,s,x) := A(i,s,x) xor B(i,s,x) xor C(i,s,x)
 
-   	with: 		A(j,s,x) := j>=0: H(P & A(j-1, s, x) & x & s & Q) 		        
-      j=-1: ''
+   with:
+   	A(j,s,x) := j>=0: H(P & A(j-1, s, x) & x & s & Q)
+   		    j=-1: ''
 
-   		B(j,s,x) := j<=0: H(Q & s & x & B(j-1, s, x) & P) 		            j=-
-   1: ''
+   	B(j,s,x) := j<=0: H(Q & s & x & B(j-1, s, x) & P)
+   		    j=-1: ''
 
-   		C(j,s,x) := H( (K&x&s)*(j+1) )
+   	C(j,s,x) := H( (K&x&s)*(j+1) )
 
-   		K := 0x24 & 0x12 & 0x19 & 0x87 		P := 0x12 & 0x24 & 0x19 & 0x87 		Q
-   := 0x19 & 0x87 & 0x12 & 0x24
+   	K := 0x24 & 0x12 & 0x19 & 0x87
+   	P := 0x12 & 0x24 & 0x19 & 0x87
+   	Q := 0x19 & 0x87 & 0x12 & 0x24
 
-   	where:
+   where:
 
-   		i is the number of iterations, i <= 0. 		j is a number <= -1 .
+   	i is the number of iterations, i <= 0.
+   	j is a number <= -1 .
 
-   		s is the salt.
+   	s is the salt.
 
-   		x is the input data.
+   	x is the input data.
 
-   		0xd is a single byte with the hexadecimal value d.
+   	0xd is a single byte with the hexadecimal value d.
 
-   		H(z) is an existing hash function.
+   	H(z) is an existing hash function.
 
-   		All hash operations have a binary output; no string conversation is
-   done.
+   	All hash operations have a binary output;
+   	no string conversation is done.
 
+   	x*z are z repetitions (concatenations) of x.
  
 
 
@@ -170,27 +170,19 @@ Marschall                                                       [Page 3]
 VTS/WF STD. 6              ViaThinkSoft MHA2            4 September 2024
 
 
-   		x*z are z repetitions (concatenations) of x.
-
-   		& is concatenation.
-
-
+   	& is concatenation.
 
 2.1  Example
 
+   - MHA2(1, '', x) = H(P & H(P&x&Q) & x & Q) xor
+     H(Q & x & H(Q&x&P) & P) xor H(K&x&s & K&x&s)
 
-   	- MHA2(1, '', x) = H(P & H(P&x&Q) & x & Q) xor H(Q & x & H(Q&x&P) &
-   P) xor H(K&x&s & K&x&s)
-
-   	- MHA2(1,  s, x) = H(P & H(P&x&s&Q) & x & s & Q) xor H(Q & s & x &
-   H(Q&s&x&P) & P) xor H(K&x&s & K&x&s)
-
+   - MHA2(1,  s, x) = H(P & H(P&x&s&Q) & x & s & Q)
+     xor H(Q & s & x & H(Q&s&x&P) & P) xor H(K&x&s & K&x&s)
 
 3  Notation
 
 3.1  Modular Crypt Format Notation
-
-
 
    Format of the MCF:
 
@@ -215,9 +207,17 @@ VTS/WF STD. 6              ViaThinkSoft MHA2            4 September 2024
    - sha1
    - md5
 
-   Not possible with MCF1 are these hashes (because they have a special
+   Not possible with MHA2 are these hashes (because they have a special
    salt-handling and output their own crypt format):
    - bcrypt [Standardized crypt identifier 2, 2a, 2x, 2y]
+   - argon2i [Crypt identifier argon2i, not standardized]
+   - argon2id [Crypt identifier argon2i, not standardized]
+
+   <iterations> are the iterations.
+
+   Like most Crypt-hashes, <salt> and <hash> are Radix64 coded without
+   padding and with alphabet
+   './0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'.
  
 
 
@@ -226,54 +226,54 @@ Marschall                                                       [Page 4]
 VTS/WF STD. 6              ViaThinkSoft MHA2            4 September 2024
 
 
-   - argon2i [Crypt identifier argon2i, not standardized]
-   - argon2id [Crypt identifier argon2i, not standardized]
-
-   <iterations> are the iterations.
-
-
-
-
-
-
-
 3.2  Heterogenous Systems Notation
 
-
-   	The "heterogenous systems notation" (HNS) is DEPRECATED in favor of
+   The "heterogenous systems notation" (HNS) is DEPRECATED in favor of
    the modular crypt format notation!
 
-   	<mha2-oid>$<base-hash>$<iterations>$<salt-base64>$<hash-base64>
+   <mha2-oid>$<base-hash>$<iterations>$<salt-base64>$<hash-base64>
 
-   	-  <mha2-oid> is the OID for a MHA2 algorithm in its dot-notation
-   without leading dot, 	   which is 1.3.6.1.4.1.37476.3.2.1.2
+   -  <mha2-oid> is the OID for a MHA2 algorithm in its dot-notation
+   without leading dot,   which is 1.3.6.1.4.1.37476.3.2.1.2
 
-   	   This OID has ASN.1 Notation: 	   { iso(1) identified-
-   organization(3) dod(6) internet(1) private(4) enterprise(1) 	    
-   37476 specification(3) algorithm(2) hash(1) mha2(2) }
+      This OID has ASN.1 Notation:   { iso(1) identified-organization(3)
+   dod(6) internet(1) private(4) enterprise(1)     37476
+   specification(3) algorithm(2) hash(1) mha2(2) }
 
-   	-  <base-hash> should be an OID which represents the base hash ("H")
+   -  <base-hash> should be an OID which represents the base hash ("H")
    algorithm used, in dot-notation.
 
-   	   The following table shows the OIDs which have been assigned 	  
-   for exchange between heterogenous systems. If you want to use a
-   different 	   hash algorithm or a derivate of it, please define your
-   own OID 	   (you can use an UUID OID, get a free IANA PEN OID, or a
-   free ViaThinkSoft OID), 	   but please do not use this arc, since
-   only ViaThinkSoft may maintain it.
+      The following table shows the OIDs which have been assigned   for
+   exchange between heterogenous systems. If you want to use a different
+     hash algorithm or a derivate of it, please define your own OID  
+   (you can use an UUID OID, get a free IANA PEN OID, or a free
+   ViaThinkSoft OID),   but please do not use this arc, since only
+   ViaThinkSoft may maintain it.
 
-   	   -----------------------------------------------------------------
-   --------------------------- 	   Algorithm                            
-        OID proposal 	   -----------------------------------------------
-   --------------------------------------------- 	   Message Digest 4
-   (MD4)                     { 1 3 6 1 4 1 37476 3 2 1 99 md4(1) } 	  
-   Message Digest 5 (MD5)                     { 1 3 6 1 4 1 37476 3 2 1
-   99 md5(2) } 	   RIPEMD-160                                 { 1 3 6 1
-   4 1 37476 3 2 1 99 ripemd160(3) } 	   Secure Hash Algorithm          
-              { 1 3 6 1 4 1 37476 3 2 1 99 sha0(4) } 	   Secure Hash
-   Algorithm 1                    { 1 3 6 1 4 1 37476 3 2 1 99 sha1(5) }
-      Secure Hash Algorithm 2 (224 bits)         { 1 3 6 1 4 1 37476 3 2
-   1 99 sha2(6) 224 } 	   Secure Hash Algorithm 2 (256 bits)         { 1
+      --------------------------------------------------------------
+      Base algorithm                OID proposal
+      --------------------------------------------------------------
+      Message Digest 4 (MD4)        1.3.6.1.4.1.37476.3.2.1.99.1
+      Message Digest 5 (MD5)        1.3.6.1.4.1.37476.3.2.1.99.2
+      RIPEMD-160                    1.3.6.1.4.1.37476.3.2.1.99.3
+      Secure Hash Algorithm         1.3.6.1.4.1.37476.3.2.1.99.4
+      Secure Hash Algorithm 1       1.3.6.1.4.1.37476.3.2.1.99.5
+      Secure Hash Algorithm 2/224   1.3.6.1.4.1.37476.3.2.1.99.6.224
+      Secure Hash Algorithm 2/256   1.3.6.1.4.1.37476.3.2.1.99.6.256
+      Secure Hash Algorithm 2/384   1.3.6.1.4.1.37476.3.2.1.99.6.384
+      Secure Hash Algorithm 2/512   1.3.6.1.4.1.37476.3.2.1.99.6.512
+      Secure Hash Algorithm 3/224   1.3.6.1.4.1.37476.3.2.1.99.7.224
+      Secure Hash Algorithm 3/256   1.3.6.1.4.1.37476.3.2.1.99.7.256
+      Secure Hash Algorithm 3/384   1.3.6.1.4.1.37476.3.2.1.99.7.384
+      Secure Hash Algorithm 3/512   1.3.6.1.4.1.37476.3.2.1.99.7.512
+      --------------------------------------------------------------
+
+   -  <iterations> is the number of iterations, e.g. 1987.
+
+   -  <salt-base64> is the iterated salt used for MHA2, encoded in
+   Base64.
+
+   -  <hash-base64> is the resulting hash, encoded in Base64.
  
 
 
@@ -282,54 +282,54 @@ Marschall                                                       [Page 5]
 VTS/WF STD. 6              ViaThinkSoft MHA2            4 September 2024
 
 
-   3 6 1 4 1 37476 3 2 1 99 sha2(6) 256 } 	   Secure Hash Algorithm 2
-   (384 bits)         { 1 3 6 1 4 1 37476 3 2 1 99 sha2(6) 384 } 	  
-   Secure Hash Algorithm 2 (512 bits)         { 1 3 6 1 4 1 37476 3 2 1
-   99 sha2(6) 512 } 	   Secure Hash Algorithm 3 (224 bits)         { 1 3
-   6 1 4 1 37476 3 2 1 99 sha3(7) 224 } 	   Secure Hash Algorithm 3 (256
-   bits)         { 1 3 6 1 4 1 37476 3 2 1 99 sha3(7) 256 } 	   Secure
-   Hash Algorithm 3 (384 bits)         { 1 3 6 1 4 1 37476 3 2 1 99
-   sha3(7) 384 } 	   Secure Hash Algorithm 3 (512 bits)         { 1 3 6
-   1 4 1 37476 3 2 1 99 sha3(7) 512 } 	   ------------------------------
-   --------------------------------------------------------------
-
-   	-  <iterations> is the number of iterations, e.g. 1987.
-
-   	-  <salt-base64> is the iterated salt used for MHA2, encoded in
-   Base64.
-
-   	-  <hash-base64> is the resulting hash, encoded in Base64.
-
-
 4  Test Vectors
 
-   MHA2 - Base algo 'sha1', Input '', Salt '', Iterations 0 MCF:
-   $1.3.6.1.4.1.37476.3.2.1.2$a=sha1,i=0$$NKCUx/Vbzl1cuIdoIAWNBJapRpG
-   HSN:
-   1.3.6.1.4.1.37476.3.2.1.2$1.3.6.1.4.1.37476.3.2.1.99.5$0$$PMEWz1Xd/n3ewKfqKCYPDLcrTrI=
+   MHA2 - Base algo 'sha1', Input '', Salt '', Iterations 0
+   MCF: $1.3.6.1.4.1.37476.3.2.1.2$a=sha1,i=0$$NKCUx/Vbzl1cuIdoIA
+        WNBJapRpG
+   HSN: 1.3.6.1.4.1.37476.3.2.1.2$1.3.6.1.4.1.37476.3.2.1.99.5$0$
+        $PMEWz1Xd/n3ewKfqKCYPDLcrTrI=
    Hex: 3cc116cf55ddfe7ddec0a7ea28260f0cb72b4eb2
 
-   MHA2 - Base algo 'sha1', Input '', Salt '', Iterations 1 MCF:
-   $1.3.6.1.4.1.37476.3.2.1.2$a=sha1,i=1$$PoioZBIxVWuqt0nym5qyhAszLwC
-   HSN:
-   1.3.6.1.4.1.37476.3.2.1.2$1.3.6.1.4.1.37476.3.2.1.99.5$1$$RqkqbDKzXYwsv2p+o7s+jCu/NyE=
+   MHA2 - Base algo 'sha1', Input '', Salt '', Iterations 1
+   MCF: $1.3.6.1.4.1.37476.3.2.1.2$a=sha1,i=1$$PoioZBIxVWuqt0nym5
+        qyhAszLwC
+   HSN: 1.3.6.1.4.1.37476.3.2.1.2$1.3.6.1.4.1.37476.3.2.1.99.5$1$
+        $RqkqbDKzXYwsv2p+o7s+jCu/NyE=
    Hex: 46a92a6c32b35d8c2cbf6a7ea3bb3e8c2bbf3721
 
-   MHA2 - Base algo 'sha1', Input '', Salt '', Iterations 2 MCF:
-   $1.3.6.1.4.1.37476.3.2.1.2$a=sha1,i=2$$1zU5hmBQ9/ZewYq43qrXd2D8QRK
-   HSN:
-   1.3.6.1.4.1.37476.3.2.1.2$1.3.6.1.4.1.37476.3.2.1.99.5$2$$3/W7joDSB1bgyas65stZf4FASTM=
+   MHA2 - Base algo 'sha1', Input '', Salt '', Iterations 2
+   MCF: $1.3.6.1.4.1.37476.3.2.1.2$a=sha1,i=2$$1zU5hmBQ9/ZewYq43q
+        rXd2D8QRK
+   HSN: 1.3.6.1.4.1.37476.3.2.1.2$1.3.6.1.4.1.37476.3.2.1.99.5$2$
+        $3/W7joDSB1bgyas65stZf4FASTM=
    Hex: dff5bb8e80d20756e0c9ab3ae6cb597f81404933
 
-   MHA2 - Base algo 'sha1', Input '', Salt 'salt', Iterations 0 MCF:
-   $1.3.6.1.4.1.37476.3.2.1.2$a=sha1,i=0$a0Dqb8$zZjdOSIocsFGQp/.hpoYQLOfiN6
-   HSN:
-   1.3.6.1.4.1.37476.3.2.1.2$1.3.6.1.4.1.37476.3.2.1.99.5$0$c2FsdA==$/blfQUKqeuHISr10jrqaSNQhkP8=
+   MHA2 - Base algo 'sha1', Input '', Salt 'salt', Iterations 0
+   MCF: $1.3.6.1.4.1.37476.3.2.1.2$a=sha1,i=0$a0Dqb8$zZjdOSIocsFG
+        Qp/.hpoYQLOfiN6
+   HSN: 1.3.6.1.4.1.37476.3.2.1.2$1.3.6.1.4.1.37476.3.2.1.99.5$0$
+        c2FsdA==$/blfQUKqeuHISr10jrqaSNQhkP8=
    Hex: fdb95f4142aa7ae1c84abd748eba9a48d42190ff
 
-   MHA2 - Base algo 'sha1', Input '', Salt 'salt', Iterations 1 MCF:
-   $1.3.6.1.4.1.37476.3.2.1.2$a=sha1,i=1$a0Dqb8$BkKmNoOvKEss6ek6EyXArDX1Z.8
-   HSN:
+   MHA2 - Base algo 'sha1', Input '', Salt 'salt', Iterations 1
+   MCF: $1.3.6.1.4.1.37476.3.2.1.2$a=sha1,i=1$a0Dqb8$BkKmNoOvKEss
+        6ek6EyXArDX1Z.8
+   HSN: 1.3.6.1.4.1.37476.3.2.1.2$1.3.6.1.4.1.37476.3.2.1.99.5$1$
+        c2FsdA==$DmMoPqQxMGuu8gm8G+ZCtFZ3b0A=
+   Hex: 0e63283ea431306baef209bc1be642b456776f40
+
+   MHA2 - Base algo 'sha1', Input '', Salt 'salt', Iterations 2
+   MCF: $1.3.6.1.4.1.37476.3.2.1.2$a=sha1,i=2$a0Dqb8$8HauBcPn31A4
+        EuUKUf.vcbg1K/O
+   HSN: 1.3.6.1.4.1.37476.3.2.1.2$1.3.6.1.4.1.37476.3.2.1.99.5$2$
+        c2FsdA==$AJcwDeRp53C6GwWMWh0xedi3M1Q=
+   Hex: 0097300de469e770ba1b058c5a1d3179d8b73354
+
+   MHA2 - Base algo 'sha1',
+   Input 'The quick brown fox jumps over the lazy dog',
+   Salt '', Iterations 0
+   MCF: $1.3.6.1.4.1.37476.3.2.1.2$a=sha1,i=0$$/oEBf.u/XEwY8r12lI
  
 
 
@@ -338,54 +338,54 @@ Marschall                                                       [Page 6]
 VTS/WF STD. 6              ViaThinkSoft MHA2            4 September 2024
 
 
-   1.3.6.1.4.1.37476.3.2.1.2$1.3.6.1.4.1.37476.3.2.1.99.5$1$c2FsdA==$DmMoPqQxMGuu8gm8G+ZCtFZ3b0A=
-   Hex: 0e63283ea431306baef209bc1be642b456776f40
-
-   MHA2 - Base algo 'sha1', Input '', Salt 'salt', Iterations 2 MCF:
-   $1.3.6.1.4.1.37476.3.2.1.2$a=sha1,i=2$a0Dqb8$8HauBcPn31A4EuUKUf.vcbg1K/O
-   HSN:
-   1.3.6.1.4.1.37476.3.2.1.2$1.3.6.1.4.1.37476.3.2.1.99.5$2$c2FsdA==$AJcwDeRp53C6GwWMWh0xedi3M1Q=
-   Hex: 0097300de469e770ba1b058c5a1d3179d8b73354
-
-   MHA2 - Base algo 'sha1', Input 'The quick brown fox jumps over the
-   lazy dog', Salt '', Iterations 0 MCF:
-   $1.3.6.1.4.1.37476.3.2.1.2$a=sha1,i=0$$/oEBf.u/XEwY8r12lIlk.4wWH6m
-   HSN:
-   1.3.6.1.4.1.37476.3.2.1.2$1.3.6.1.4.1.37476.3.2.1.99.5$0$$1qGDh0w1ZGyaAt34nKnm06yYJ8o=
+        lk.4wWH6m
+   HSN: 1.3.6.1.4.1.37476.3.2.1.2$1.3.6.1.4.1.37476.3.2.1.99.5$0$
+        $1qGDh0w1ZGyaAt34nKnm06yYJ8o=
    Hex: d6a183874c35646c9a02ddf89ca9e6d3ac9827ca
 
-   MHA2 - Base algo 'sha1', Input 'The quick brown fox jumps over the
-   lazy dog', Salt '', Iterations 1 MCF:
-   $1.3.6.1.4.1.37476.3.2.1.2$a=sha1,i=1$$9zbRpQFxyeyoJj0keAdMpjXdvuK
-   HSN:
-   1.3.6.1.4.1.37476.3.2.1.2$1.3.6.1.4.1.37476.3.2.1.99.5$1$$B/dTrSHz+g+qLl2mgCfOrlZfxwM=
+   MHA2 - Base algo 'sha1',
+   Input 'The quick brown fox jumps over the lazy dog',
+   Salt '', Iterations 1
+   MCF: $1.3.6.1.4.1.37476.3.2.1.2$a=sha1,i=1$$9zbRpQFxyeyoJj0keA
+        dMpjXdvuK
+   HSN: 1.3.6.1.4.1.37476.3.2.1.2$1.3.6.1.4.1.37476.3.2.1.99.5$1$
+        $B/dTrSHz+g+qLl2mgCfOrlZfxwM=
    Hex: 07f753ad21f3fa0faa2e5da68027ceae565fc703
 
-   MHA2 - Base algo 'sha1', Input 'The quick brown fox jumps over the
-   lazy dog', Salt '', Iterations 2 MCF:
-   $1.3.6.1.4.1.37476.3.2.1.2$a=sha1,i=2$$gGCiACHhKqZgNFztpFzsncKMCTS
-   HSN:
-   1.3.6.1.4.1.37476.3.2.1.2$1.3.6.1.4.1.37476.3.2.1.99.5$2$$iIEkCEJjMsbiPH/vrH/upeMOEVU=
+   MHA2 - Base algo 'sha1',
+   Input 'The quick brown fox jumps over the lazy dog',
+   Salt '', Iterations 2
+   MCF: $1.3.6.1.4.1.37476.3.2.1.2$a=sha1,i=2$$gGCiACHhKqZgNFztpF
+        zsncKMCTS
+   HSN: 1.3.6.1.4.1.37476.3.2.1.2$1.3.6.1.4.1.37476.3.2.1.99.5$2$
+        $iIEkCEJjMsbiPH/vrH/upeMOEVU=
    Hex: 88812408426332c6e23c7fefac7feea5e30e1155
 
-   MHA2 - Base algo 'sha1', Input 'The quick brown fox jumps over the
-   lazy dog', Salt 'salt', Iterations 0 MCF:
-   $1.3.6.1.4.1.37476.3.2.1.2$a=sha1,i=0$a0Dqb8$EFuadpjXUzjJBNVfZHS.iQ/.dM2
-   HSN:
-   1.3.6.1.4.1.37476.3.2.1.2$1.3.6.1.4.1.37476.3.2.1.99.5$0$c2FsdA==$GHwcfrlZW/lLDPXhbJU0kS10fO4=
+   MHA2 - Base algo 'sha1',
+   Input 'The quick brown fox jumps over the lazy dog',
+   Salt 'salt', Iterations 0
+   MCF: $1.3.6.1.4.1.37476.3.2.1.2$a=sha1,i=0$a0Dqb8$EFuadpjXUzjJ
+        BNVfZHS.iQ/.dM2
+   HSN: 1.3.6.1.4.1.37476.3.2.1.2$1.3.6.1.4.1.37476.3.2.1.99.5$0$
+        c2FsdA==$GHwcfrlZW/lLDPXhbJU0kS10fO4=
    Hex: 187c1c7eb9595bf94b0cf5e16c9534912d747cee
 
-   MHA2 - Base algo 'sha1', Input 'The quick brown fox jumps over the
-   lazy dog', Salt 'salt', Iterations 1 MCF:
-   $1.3.6.1.4.1.37476.3.2.1.2$a=sha1,i=1$a0Dqb8$fMnarhbJV/XFqzP38t7RJEdHKJ2
-   HSN:
-   1.3.6.1.4.1.37476.3.2.1.2$1.3.6.1.4.1.37476.3.2.1.99.5$1$c2FsdA==$hOpctjdLX1ZHs/R5Av9TLGfJML4=
+   MHA2 - Base algo 'sha1',
+   Input 'The quick brown fox jumps over the lazy dog',
+   Salt 'salt', Iterations 1
+   MCF: $1.3.6.1.4.1.37476.3.2.1.2$a=sha1,i=1$a0Dqb8$fMnarhbJV/XF
+        qzP38t7RJEdHKJ2
+   HSN: 1.3.6.1.4.1.37476.3.2.1.2$1.3.6.1.4.1.37476.3.2.1.99.5$1$
+        c2FsdA==$hOpctjdLX1ZHs/R5Av9TLGfJML4=
    Hex: 84ea5cb6374b5f5647b3f47902ff532c67c930be
 
-   MHA2 - Base algo 'sha1', Input 'The quick brown fox jumps over the
-   lazy dog', Salt 'salt', Iterations 2 MCF:
-   $1.3.6.1.4.1.37476.3.2.1.2$a=sha1,i=2$a0Dqb8$dECLjkOyRDCv5W9QS4Qm3ZgXRh2
-   HSN:
+   MHA2 - Base algo 'sha1',
+   Input 'The quick brown fox jumps over the lazy dog',
+   Salt 'salt', Iterations 2
+   MCF: $1.3.6.1.4.1.37476.3.2.1.2$a=sha1,i=2$a0Dqb8$dECLjkOyRDCv
+        5W9QS4Qm3ZgXRh2
+   HSN: 1.3.6.1.4.1.37476.3.2.1.2$1.3.6.1.4.1.37476.3.2.1.99.5$2$
+        c2FsdA==$fGENlmQ+TFEx7YBSU6So5biZTj4=
  
 
 
@@ -394,33 +394,37 @@ Marschall                                                       [Page 7]
 VTS/WF STD. 6              ViaThinkSoft MHA2            4 September 2024
 
 
-   1.3.6.1.4.1.37476.3.2.1.2$1.3.6.1.4.1.37476.3.2.1.99.5$2$c2FsdA==$fGENlmQ+TFEx7YBSU6So5biZTj4=
    Hex: 7c610d96643e4c5131ed805253a4a8e5b8994e3e
 
+5  Reference implementation
 
+   // Implementation in PHP, with hex output
+   define('MHA2_K',   chr(0x24).chr(0x12).chr(0x19).chr(0x87));
+   define('MHA2_P',   chr(0x12).chr(0x24).chr(0x19).chr(0x87));
+   define('MHA2_Q',   chr(0x19).chr(0x87).chr(0x12).chr(0x24));
+   function mha2($message, $salt, $iterations, $base_algo) {
+       assert($iterations>=0);
+       $a = '';
+       $b = '';
+       $c = '';
+       for ($i=0; $i<=$iterations; $i++) { // run $iterations+1 times
+           $a  = hash($base_algo,
+                 MHA2_P.$a.$message.$salt.MHA2_Q, true/*binary*/);
+           $b  = hash($base_algo,
+                 MHA2_Q.$salt.$message.$b.MHA2_P, true/*binary*/);
+           $c .= MHA2_K.$message.$salt;
+       }
+       $c = hash($base_algo, $c, true/*binary*/);
+       return bin2hex($a ^ $b ^ $c);
+   }
 
-5  Ref implementation
-
-
-       define('MHA2_K',   chr(0x24).chr(0x12).chr(0x19).chr(0x87));   
-   define('MHA2_P',   chr(0x12).chr(0x24).chr(0x19).chr(0x87));   
-   define('MHA2_Q',   chr(0x19).chr(0x87).chr(0x12).chr(0x24));   
-   function mha2($message, $salt, $iterations, $base_algo) {       
-   assert($iterations>=0);        $a = '';        $b = '';        $c =
-   '';        for ($i=0; $i<=$iterations; $i++) { // run $iterations+1
-   times            $a  = hash($base_algo,
-   MHA2_P.$a.$message.$salt.MHA2_Q, true/*binary*/);            $b  =
-   hash($base_algo, MHA2_Q.$salt.$message.$b.MHA2_P, true/*binary*/);   
-           $c .= MHA2_K.$message.$salt;        }        $c =
-   hash($base_algo, $c, true/*binary*/);        return bin2hex($a ^ $b ^
-   $c);    }
-
-   	//
-   https://github.com/danielmarschall/php_utils/blob/master/vts_crypt.inc.php
-   include 'vts_crypt.inc.php'; 	$hash = vts_password_hash($data,
-   PASSWORD_VTS_MHA2, ['algo'=>'sha1', 'salt_length'=>16,
-   'iterations'=>1987]); 	assert(vts_password_verify($data, $hash));
-
+   // Framework for PHP, with MCF output and auto-generated salt:
+   // https://github.com/danielmarschall/php_utils/blob/master/
+   //                                                  vts_crypt.inc.php
+   include 'vts_crypt.inc.php';
+   $hash = vts_password_hash($data, PASSWORD_VTS_MHA2,
+           ['algo'=>'sha1', 'salt_length'=>16, 'iterations'=>1987]);
+   assert(vts_password_verify($data, $hash));
 
 
 6  Security Considerations
@@ -429,19 +433,15 @@ VTS/WF STD. 6              ViaThinkSoft MHA2            4 September 2024
    password verification.  For detailed guidance on securely managing
    hashes, please consult the relevant literature or documentation.
 
+   - The output length of MHA2(i, s, x) is equal to the output length of
+   H(z).
 
+   - MHA2(i, '', s & x) != MHA2(i, s, x) != MHA2(i, '', x & s).
 
-   	- The output length of MHA2(i, s, x) is equal to the output length
-   of H(z)
+   - It is recommended not to use i=0.
 
-   	- MHA2(i, '', s & x) != MHA2(i, s, x) != MHA2(i, '', x & s)
-
-   	- It is recommended not to use i=0.
-
-   	- P, Q and K are chosen to arbitary data . It can be chosen to a
+   - P, Q and K are chosen to arbitrary data . It can be chosen to a
    different value, but should not be empty.
-
-   	- P should never be equal to Q, otherwise, A(i,s,x) could become
  
 
 
@@ -450,54 +450,54 @@ Marschall                                                       [Page 8]
 VTS/WF STD. 6              ViaThinkSoft MHA2            4 September 2024
 
 
-   equal to B(i,s,x). 		Possible "optimizations" (vulnerabilities) can
-   be done if P&Q = Q&P: 			a) If i = 0 and s&x = x&s: 			   => A(0, s,
-   x) = B(0, s, x) 			   => MHA2(0, s, x) = H(K&x&s) 			b) If s&x=''
-   (s='' and x=''): 			   => A(i, '', '') = B(i, '', '') 			   =>
-   MHA2(i, '', '') = H('') 			c) If z := s&x = x&s: 			   => H(s&x) =
-   H(x&s) = H(z) 			   => H(s&x) = A(0,s,x) = H(z) = B(0,s,x) =
-   H(P&x&s&Q) = H(Q&s&x&P) 			   => in A(i,s,x) and B(i,s,x), this
-   embedded value H(z) has to be calculated only once.
+   - P should never be equal to Q, otherwise, A(i,s,x) could become
+   equal to B(i,s,x).
 
-   		Note: s&x = x&s is true if one of the following conditions is true:
-   x = '' or 			s = '' or 			x = s
+   	Possible "optimizations" (vulnerabilities) can be done if P&Q = Q&P:
 
-   	- If H(x) is compromised, MHA2 (even unsalted) would be still safe.
-     Examples: 		i = 0, unsalted (s=''): 		H(P&x&Q) = H(P&y&Q) = c 			=>
-   MHA2(0, '', x) = c xor c xor H(K&x) = c xor c xor H(K&y) = MHA2(0,
-   '', y) 			=> H(K&x) ?= H(K&y)
+   		a) If i = 0 and s&x = x&s:
+   		   => A(0, s, x) = B(0, s, x)
+   		   => MHA2(0, s, x) = H(K&x&s)
+   		b) If s&x='' (s='' and x=''):
+   		   => A(i, '', '') = B(i, '', '')
+   		   => MHA2(i, '', '') = H('')
+   		c) If z := s&x = x&s:
+   		   => H(s&x) = H(x&s) = H(z)
+   		   => H(s&x) = A(0,s,x) = H(z) = B(0,s,x) = H(P&x&s&Q)
+   			= H(Q&s&x&P)
+   		   => in A(i,s,x) and B(i,s,x),
+   		  this embedded value H(z) has to be calculated only once.
 
-   		i = 1, unsalted (s=''): 		H(P&x&Q) = H(P&y&Q) = c 			=> MHA2(1, '',
-   x) = H(P&c&x&Q) xor H(Q&x&c&P) xor H(K&x&K&x) = H(P&c&y&Q) xor
-   H(Q&y&c&P) xor H(K&y&K&y) = MHA2(1, '', y) 			=> H(P&c&x&Q) xor
-   H(Q&x&c&P) xor H(K&x&K&x) ?= H(P&c&y&Q) xor H(Q&y&c&P) xor H(K&y&K&y)
+   	Note: s&x = x&s is true if one of the following conditions is true:
+   		x = '' or
+   		s = '' or
+   		x = s
 
-   		i = 2, unsalted (s=''): 		H(P&x&Q) = H(P&y&Q) = c 			=> MHA2(2, '',
-   x) = H(P&H(P&c&x&Q)&x&Q) xor H(Q&x&H(Q&x&c&P)&P) xor H(K&x&K&x&K&x) =
-   H(P&H(P&c&y&Q)&y&Q) xor H(&Qx&H(&Qy&c&P)&P) xor H(K&y&K&y&K&y) =
-   MHA2(2, '', y) 			=> H(P&H(P&c&x&Q)&x&Q) xor H(Q&x&H(Q&x&c&P)&P) xor
-   H(K&x&K&x&K&x) ?= H(P&H(P&c&y&Q)&y&Q) xor H(Q&x&H(Q&y&c&P)&P) xor
-   H(K&y&K&y&K&y)
+   - If H(x) is compromised, MHA2 (even unsalted) would be still safe.
 
-   	- If a high value for i is chosen, the hash will be slow. 	 
-   Therefore, the creation of a rainbow table or brute force attacks
-   will be slow (see runtime section). 	  On the other hand, a brute
-   force attack could result in a DoS if the CPU of the server is too
-   weak.
+     Examples:
 
-   	- The salt should always be set. 	  The salt should be a merge of an
-   individual (random unique) user-specific salt, a service-specific
-   salt and server-specific salt. 		s = userSalt & serviceSalt &
-   serverSalt
+   i = 0, unsalted (s=''):
+   H(P&x&Q) = H(P&y&Q) = c
+   => MHA2(0, '', x) = c xor c xor H(K&x)
+                     = c xor c xor H(K&y)
+                     = MHA2(0, '', y)
+   => H(K&x) ?= H(K&y)
 
-   	- For the third xor argument "xor C(i,s,x)" is not required, but
-   does probably strengten the algorithm in case that 	  an attack can
-   be found where A(i,s,x) = B(i,s,x) can be enforced.
+   i = 1, unsalted (s=''):
+   H(P&x&Q) = H(P&y&Q) = c
+   => MHA2(1, '', x) = H(P&c&x&Q) xor H(Q&x&c&P) xor H(K&x&K&x)
+                     = H(P&c&y&Q) xor H(Q&y&c&P) xor H(K&y&K&y)
+                     = MHA2(1, '', y)
+   => H(P&c&x&Q) xor H(Q&x&c&P) xor H(K&x&K&x)
+                    ?= H(P&c&y&Q) xor H(Q&y&c&P) xor H(K&y&K&y)
 
-
-6.1  Runtime complexity
-
-
+   i = 2, unsalted (s=''):
+   H(P&x&Q) = H(P&y&Q) = c
+   	=> MHA2(2, '', x) = H(P&H(P&c&x&Q)&x&Q) xor
+               H(Q&x&H(Q&x&c&P)&P) xor H(K&x&K&x&K&x) =
+               H(P&H(P&c&y&Q)&y&Q) xor H(&Qx&H(&Qy&c&P)&P)
+               xor H(K&y&K&y&K&y) = MHA2(2, '', y)
  
 
 
@@ -506,61 +506,38 @@ Marschall                                                       [Page 9]
 VTS/WF STD. 6              ViaThinkSoft MHA2            4 September 2024
 
 
-   	The following table will show the required executions of the 	hash
-   function H(z) on given number of differnt i values:
+   	=> H(P&H(P&c&x&Q)&x&Q) xor H(Q&x&H(Q&x&c&P)&P)
+               xor H(K&x&K&x&K&x) ?= H(P&H(P&c&y&Q)&y&Q)
+               xor H(Q&x&H(Q&y&c&P)&P) xor H(K&y&K&y&K&y)
 
-   	------------------ 	i	H(z)-calls 	------------------ 	0	3 	1	5 	2	7
-   3	9 	n	2n+3 	------------------
+   - If a high value for i is chosen, the hash will be slow.  Therefore,
+   the creation of a rainbow table or brute force attacks will be slow
+   (see runtime section).  On the other hand, a brute force attack could
+   result in a DoS if the CPU of the server is too weak.
 
+   - The salt should always be set.  The salt should be a merge of an
+   individual (random unique) user-specific salt, a service-specific
+   salt and server-specific salt. 	s = userSalt & serviceSalt &
+   serverSalt
 
+   - For the third xor argument "xor C(i,s,x)" is not required, but does
+   probably strengten the algorithm in case that  an attack can be found
+   where A(i,s,x) = B(i,s,x) can be enforced.
 
+6.1  Runtime complexity
 
+   The following table will show the required executions of the hash
+   function H(z) on given number of different values of i:
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
- 
-
-
-Marschall                                                      [Page 10]
-
-VTS/WF STD. 6              ViaThinkSoft MHA2            4 September 2024
-
+   	------------------
+   	i	H(z)-calls
+   	------------------
+   	0	3
+   	1	5
+   	2	7
+   	3	9
+   	n	2n+3
+   	------------------
 
 7  IANA Considerations
 
@@ -575,6 +552,16 @@ VTS/WF STD. 6              ViaThinkSoft MHA2            4 September 2024
               DOI 10.17487/RFC2119, March 1997,
               <https://www.rfc-editor.org/info/rfc2119>.
 
+
+
+ 
+
+
+Marschall                                                      [Page 10]
+
+VTS/WF STD. 6              ViaThinkSoft MHA2            4 September 2024
+
+
 6.2  Informative References
 
    None
@@ -583,12 +570,6 @@ Acknowledgements
 
    I would like to thank Melanie Wehowski for her long time support in
    OIDplus and WEID projects.
-
-   Thanks to the authors of these free tools which did a very good job
-   in validating various contents of this document:
-
-   - "Grammarly" spell and grammar checker
-     https://app.grammarly.com/
 
    This document was written in Nroff Internet Draft Editor by 3xA
    Security.
@@ -605,6 +586,25 @@ Authors' Addresses
 
    Email: daniel-marschall@viathinksoft.de
    URI:   https://www.viathinksoft.com/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

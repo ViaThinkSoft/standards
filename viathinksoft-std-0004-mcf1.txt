@@ -248,12 +248,6 @@ Acknowledgements
    I would like to thank Melanie Wehowski for her long time support in
    OIDplus and WEID projects.
 
-   Thanks to the authors of these free tools which did a very good job
-   in validating various contents of this document:
-
-   - "Grammarly" spell and grammar checker
-     https://app.grammarly.com/
-
    This document was written in Nroff Internet Draft Editor by 3xA
    Security.
    https://aaa-sec.com/nroffedit/
@@ -269,6 +263,12 @@ Authors' Addresses
 
    Email: daniel-marschall@viathinksoft.de
    URI:   https://www.viathinksoft.com/
+
+
+
+
+
+
 
 
 

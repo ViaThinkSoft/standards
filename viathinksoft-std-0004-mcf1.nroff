@@ -159,7 +159,9 @@ The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "S
 
 Format of VTS MCF1:
 
+.nf
 $<id>$<params>$<salt>$<hash>
+.fi
 
 <id> is 1.3.6.1.4.1.37476.3.0.1.1
 
@@ -182,12 +184,11 @@ where <algo> is any valid hash algorithm (name scheme of PHP hash_algos() prefer
 .fi
 
 Not possible with MCF1 are these hashes (because they have a special salt-handling and output their own crypt format):
-.br
+.nf
 - bcrypt [Standardized crypt identifier 2, 2a, 2x, 2y]
-.br
 - argon2i [Crypt identifier argon2i, not standardized]
-.br
 - argon2id [Crypt identifier argon2i, not standardized]
+.fi
 
 Valid <mode> parameters:
 .nf
@@ -269,14 +270,6 @@ Acknowledgements
 .in 3
 
 I would like to thank Melanie Wehowski for her long time support in OIDplus and WEID projects.
-
-Thanks to the authors of these free tools which did a very good job in validating various contents of this document:
-
-.in 3
-- "Grammarly" spell and grammar checker
-.in 5
-https://app.grammarly.com/
-.in 3
 
 This document was written in Nroff Internet Draft Editor by 3xA Security.
 .br

@@ -125,15 +125,15 @@ Table of Contents
    3  Notation  . . . . . . . . . . . . . . . . . . . . . . . . . . .  4
      3.1  Modular Crypt Format Notation . . . . . . . . . . . . . . .  4
      3.2  Heterogenous Systems Notation . . . . . . . . . . . . . . .  5
-   4  Test Vectors  . . . . . . . . . . . . . . . . . . . . . . . . .  7
-   5  Ref implementation  . . . . . . . . . . . . . . . . . . . . . .  7
+   4  Test Vectors  . . . . . . . . . . . . . . . . . . . . . . . . .  6
+   5  Reference implementation  . . . . . . . . . . . . . . . . . . .  7
    6  Security Considerations . . . . . . . . . . . . . . . . . . . .  8
      6.1  Runtime complexity  . . . . . . . . . . . . . . . . . . . .  8
-   7  IANA Considerations . . . . . . . . . . . . . . . . . . . . . .  9
-   8  References  . . . . . . . . . . . . . . . . . . . . . . . . . .  9
-     6.1  Normative References  . . . . . . . . . . . . . . . . . . .  9
-     6.2  Informative References  . . . . . . . . . . . . . . . . . .  9
-   Acknowledgements . . . . . . . . . . . . . . . . . . . . . . . . .  9
+   7  IANA Considerations . . . . . . . . . . . . . . . . . . . . . .  8
+   8  References  . . . . . . . . . . . . . . . . . . . . . . . . . .  8
+     6.1  Normative References  . . . . . . . . . . . . . . . . . . .  8
+     6.2  Informative References  . . . . . . . . . . . . . . . . . .  8
+   Acknowledgements . . . . . . . . . . . . . . . . . . . . . . . . .  8
    Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . . .  9
 .fi
 .in 3
@@ -144,95 +144,88 @@ Table of Contents
 .ti 0
 1  Introduction
 
+MHA3 is a method to strengthen a weak hash function, e.g. in case that the development environment or hardware does not allow using a new implementation of a modern hash variant like SHA256 or SHA3.
 
-	MHA3 is a method to strengten a weak hash function, e.g. in case that
-	the development environment or hardware does not allow using a new
-	implementation of a modern hash variant like SHA256 or SHA3.
+MHA3 was designed with following goals:
 
-	MHA3 was designed with following goals:
-	1. It should be simple to implement
-	2. The memory usage should be low
-	3. The calculation time should be high, to avoid brute force;
-	   the complexity can be defined by the number of iterations
-	4. The length of the hash should be variable, i.e. "Extendable-Output Function" (XOF)
-	5. It should hardening each hash, crc32 as well as md5
-	6. If the base hash function is compromised, MHA3 would be still safe.
+1. It should be simple to implement
 
+2. The memory usage should be low
 
+3. The calculation time should be high, to avoid brute force; the complexity can be defined by the number of iterations
 
+4. The length of the hash should be variable, i.e. "Extendable-Output Function" (XOF)
 
+5. It should hardening each hash, crc32 as well as md5
+
+6. If the base hash function is compromised, MHA3 would be still safe.
 
 .ti 0
 1.1  Terminology
 
 The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in BCP\014 [RFC2119] [RFC8174] when, and only when, they appear in all capitals, as shown here.
 
-
-
-
-
-
 .ti 0
 2  Definition
 
+.nf
+MHA3(C,L,I) := A(C,L,0) xor ... xor A(C,L,I-1)
 
-	MHA3(C,L,I) := A(C,L,0) xor ... xor A(C,L,I-1)
+with:
 
-	with:
+	A(C,L,n) := B(C,n*L) & ... & B(C,n*L+(L-1))
 
-		A(C,L,n) := B(C,n*L) & ... & B(C,n*L+(L-1))
+	B(C,n)   := Q(H(C & (R^n)))
 
-		B(C,n)   := Q(H(C & (R^n)))
+Symbols:
 
-	Symbols:
+	C: input data.
 
-		C: input data.
+	L: Desired length of the hash in bytes  (L >= 1).
 
-		L: Desired length of the hash in bytes  (L >= 1).
+	I: Number of iterations (I >= 1).
 
-		I: Number of iterations (I >= 1).
+	& is concatenation.
 
-		& is concatenation.
+	H(s) is an existing hash function (unsalted).
 
-		H(s) is an existing hash function (unsalted).
+	Q(s) is the sum of all bytes mod 256 of the string s.
 
-		Q(s) is the sum of all bytes mod 256 of the string s.
+	R is a constant value. We choose the single byte 0x01.
 
-		R is a constant value. We choose the single byte 0x01.
-
-		R^n are n repetitions (concatenations) of R.
-
-
+	R^n are n repetitions (concatenations) of R.
+.fi
 
 .ti 0
 2.1  Example
 
+.nf
+First step:
 
-	First step:
+	MHA3("test",3,2) = A("test",3,0) xor A("test",3,1)
 
-		MHA3("test",3,2) = A("test",3,0) xor A("test",3,1)
+	A("test",3,0) = B("test",0) & B("test",1) & B("test",2)
+	A("test",3,1) = B("test",3) & B("test",4) & B("test",5)
 
-		A("test",3,0) = B("test",0) & B("test",1) & B("test",2)
-		A("test",3,1) = B("test",3) & B("test",4) & B("test",5)
+	B("test",0) = Q(H("test"))
+	B("test",1) = Q(H("test" & 0x01))
+	B("test",2) = Q(H("test" & 0x01 & 0x01))
+	B("test",3) = Q(H("test" & 0x01 & 0x01 & 0x01))
+	B("test",4) = Q(H("test" & 0x01 & 0x01 & 0x01 & 0x01))
+	B("test",5) = Q(H("test" & 0x01 & 0x01 & 0x01 & 0x01 & 0x01))
 
-		B("test",0) = Q(H("test"))
-		B("test",1) = Q(H("test" & 0x01))
-		B("test",2) = Q(H("test" & 0x01 & 0x01))
-		B("test",3) = Q(H("test" & 0x01 & 0x01 & 0x01))
-		B("test",4) = Q(H("test" & 0x01 & 0x01 & 0x01 & 0x01))
-		B("test",5) = Q(H("test" & 0x01 & 0x01 & 0x01 & 0x01 & 0x01))
+Second step:
 
-	Second step:
+	MHA3("test",3,2) = (B("test",0) & B("test",1) & B("test",2)) xor
+	                   (B("test",3) & B("test",4) & B("test",5))
 
-		MHA3("test",3,2) = (B("test",0) & B("test",1) & B("test",2)) xor
-		                   (B("test",3) & B("test",4) & B("test",5))
+Third step:
 
-	Third step:
-
-		MHA3("test",3,2) = (Q(H("test"&(R^0))) & Q(H("test"&(R^1))) & Q(H("test"&(R^2)))) xor
-		                   (Q(H("test"&(R^3))) & Q(H("test"&(R^4))) & Q(H("test"&(R^5))))
-
-
+	MHA3("test",3,2) = (Q(H("test"&(R^0))) & Q(H("test"&(R^1))) &
+				Q(H("test"&(R^2)))) xor
+	                   (Q(H("test"&(R^3))) & Q(H("test"&(R^4))) &
+				Q(H("test"&(R^5))))
+.fi
 
 .ti 0
 3  Notation
@@ -240,10 +233,11 @@ The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "S
 .ti 0
 3.1  Modular Crypt Format Notation
 
-
 Format of the MCF:
 
+.nf
 $<id>$<params>$<salt>$<hash>
+.fi
 
 <id> is 1.3.6.1.4.1.37476.3.2.1.1
 
@@ -265,13 +259,12 @@ where <algo> is any valid hash algorithm (name scheme of PHP hash_algos() prefer
 - md5
 .fi
 
-Not possible with MCF1 are these hashes (because they have a special salt-handling and output their own crypt format):
-.br
+Not possible with MHA3 are these hashes (because they have a special salt-handling and output their own crypt format):
+.nf
 - bcrypt [Standardized crypt identifier 2, 2a, 2x, 2y]
-.br
 - argon2i [Crypt identifier argon2i, not standardized]
-.br
 - argon2id [Crypt identifier argon2i, not standardized]
+.fi
 
 <iterations> are the iterations.
 
@@ -279,127 +272,128 @@ Not possible with MCF1 are these hashes (because they have a special salt-handli
 
 <salt> is always empty for MHA3.
 
-
-
-
-
-
+Like most Crypt-hashes, <hash> is Radix64 coded
+without padding and with alphabet
+'./0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'.
 
 .ti 0
 3.2  Heterogenous Systems Notation
 
+The "heterogenous systems notation" (HNS) is DEPRECATED in favor of the modular crypt format notation!
 
+<mha3-oid>$<base-hash>$<length>$<iterations>$<hash-base64>
 
-	The "heterogenous systems notation" (HNS) is DEPRECATED in favor of the modular crypt format notation!
+-  <mha3-oid> is the OID for a MHA3 algorithm in its dot-notation without leading dot, which is 1.3.6.1.4.1.37476.3.2.1.3
 
-	<mha3-oid>$<base-hash>$<length>$<iterations>$<hash-base64>
+This OID has ASN.1 Notation:
 
-	-  <mha3-oid> is the OID for a MHA3 algorithm in its dot-notation without leading dot,
-	   which is 1.3.6.1.4.1.37476.3.2.1.3
+{ iso(1) identified-organization(3) dod(6) internet(1) private(4) enterprise(1) 37476 specification(3) algorithm(2) hash(1) mha3(3) }
 
-	   This OID has ASN.1 Notation:
-	   { iso(1) identified-organization(3) dod(6) internet(1) private(4) enterprise(1)
-	     37476 specification(3) algorithm(2) hash(1) mha3(3) }
+-  <base-hash> should be an OID which represents the base hash ("H") algorithm used, in dot-notation.
 
-	-  <base-hash> should be an OID which represents the base hash ("H") algorithm used, in dot-notation.
+The following table shows the OIDs which have been assigned for exchange between heterogenous systems. If you want to use a different hash algorithm or a derivate of it, please define your own OID (you can use an UUID OID, get a free IANA PEN OID, or a free ViaThinkSoft OID), but please do not use this arc, since only ViaThinkSoft may maintain it.
 
-	   The following table shows the OIDs which have been assigned
-	   for exchange between heterogenous systems. If you want to use a different
-	   hash algorithm or a derivate of it, please define your own OID
-	   (you can use an UUID OID, get a free IANA PEN OID, or a free ViaThinkSoft OID),
-	   but please do not use this arc, since only ViaThinkSoft may maintain it.
+.nf
+   --------------------------------------------------------------
+   Base algorithm                OID proposal
+   --------------------------------------------------------------
+   Message Digest 4 (MD4)        1.3.6.1.4.1.37476.3.2.1.99.1
+   Message Digest 5 (MD5)        1.3.6.1.4.1.37476.3.2.1.99.2
+   RIPEMD-160                    1.3.6.1.4.1.37476.3.2.1.99.3
+   Secure Hash Algorithm         1.3.6.1.4.1.37476.3.2.1.99.4
+   Secure Hash Algorithm 1       1.3.6.1.4.1.37476.3.2.1.99.5
+   Secure Hash Algorithm 2/224   1.3.6.1.4.1.37476.3.2.1.99.6.224
+   Secure Hash Algorithm 2/256   1.3.6.1.4.1.37476.3.2.1.99.6.256
+   Secure Hash Algorithm 2/384   1.3.6.1.4.1.37476.3.2.1.99.6.384
+   Secure Hash Algorithm 2/512   1.3.6.1.4.1.37476.3.2.1.99.6.512
+   Secure Hash Algorithm 3/224   1.3.6.1.4.1.37476.3.2.1.99.7.224
+   Secure Hash Algorithm 3/256   1.3.6.1.4.1.37476.3.2.1.99.7.256
+   Secure Hash Algorithm 3/384   1.3.6.1.4.1.37476.3.2.1.99.7.384
+   Secure Hash Algorithm 3/512   1.3.6.1.4.1.37476.3.2.1.99.7.512
+   --------------------------------------------------------------
+.fi
 
-	   --------------------------------------------------------------------------------------------
-	   Algorithm                                  OID proposal
-	   --------------------------------------------------------------------------------------------
-	   Message Digest 4 (MD4)                     { 1 3 6 1 4 1 37476 3 2 1 99 md4(1) }
-	   Message Digest 5 (MD5)                     { 1 3 6 1 4 1 37476 3 2 1 99 md5(2) }
-	   RIPEMD-160                                 { 1 3 6 1 4 1 37476 3 2 1 99 ripemd160(3) }
-	   Secure Hash Algorithm                      { 1 3 6 1 4 1 37476 3 2 1 99 sha0(4) }
-	   Secure Hash Algorithm 1                    { 1 3 6 1 4 1 37476 3 2 1 99 sha1(5) }
-	   Secure Hash Algorithm 2 (224 bits)         { 1 3 6 1 4 1 37476 3 2 1 99 sha2(6) 224 }
-	   Secure Hash Algorithm 2 (256 bits)         { 1 3 6 1 4 1 37476 3 2 1 99 sha2(6) 256 }
-	   Secure Hash Algorithm 2 (384 bits)         { 1 3 6 1 4 1 37476 3 2 1 99 sha2(6) 384 }
-	   Secure Hash Algorithm 2 (512 bits)         { 1 3 6 1 4 1 37476 3 2 1 99 sha2(6) 512 }
-	   Secure Hash Algorithm 3 (224 bits)         { 1 3 6 1 4 1 37476 3 2 1 99 sha3(7) 224 }
-	   Secure Hash Algorithm 3 (256 bits)         { 1 3 6 1 4 1 37476 3 2 1 99 sha3(7) 256 }
-	   Secure Hash Algorithm 3 (384 bits)         { 1 3 6 1 4 1 37476 3 2 1 99 sha3(7) 384 }
-	   Secure Hash Algorithm 3 (512 bits)         { 1 3 6 1 4 1 37476 3 2 1 99 sha3(7) 512 }
-	   --------------------------------------------------------------------------------------------
+-  <length> is the length of the resulting hash in bytes, e.g. 500.
 
-	-  <length> is the length of the resulting hash in bytes, e.g. 500.
+-  <iterations> is the number of iterations, e.g. 16.
 
-	-  <iterations> is the number of iterations, e.g. 16.
-
-	-  <hash-base64> is the resulting hash, encoded in Base64.
-
-
-
-
+-  <hash-base64> is the resulting hash, encoded in Base64.
 
 .ti 0
 4  Test Vectors
 
-
-
+.nf
 MHA3 - Base algo 'sha1', Input '', Length '16', Iterations 500
-MCF: $1.3.6.1.4.1.37476.3.2.1.3$a=sha1,i=500,l=16$$YWyFPPG1f7DhBv.I9m78zu
-HSN: 1.3.6.1.4.1.37476.3.2.1.2$1.3.6.1.4.1.37476.3.2.1.99.5$16$500$aY+HRRI3h9FjDx0KBo9A/w==
+MCF: $1.3.6.1.4.1.37476.3.2.1.3$a=sha1,i=500,l=16$$YWyFPPG1f7D
+     hBv.I9m78zu
+HSN: 1.3.6.1.4.1.37476.3.2.1.2$1.3.6.1.4.1.37476.3.2.1.99.5$16
+     $500$aY+HRRI3h9FjDx0KBo9A/w==
 Hex: 698f8745123787d1630f1d0a068f40ff
 
 MHA3 - Base algo 'sha1', Input '', Length '32', Iterations 500
-MCF: $1.3.6.1.4.1.37476.3.2.1.3$a=sha1,i=500,l=32$$/A89J91ZJhZBOB5ahi.SVily.e466dkslCi8b92eGA6
-HSN: 1.3.6.1.4.1.37476.3.2.1.2$1.3.6.1.4.1.37476.3.2.1.99.5$32$500$1CABLB3bLjbDQD7cjk0UXkn+0g688fmunEkAdB4gIC8=
-Hex: d420012c1ddb2e36c3403edc8e4d145e49fed20ebcf1f9ae9c4900741e20202f
+MCF: $1.3.6.1.4.1.37476.3.2.1.3$a=sha1,i=500,l=32$$/A89J91ZJhZ
+     BOB5ahi.SVily.e466dkslCi8b92eGA6
+HSN: 1.3.6.1.4.1.37476.3.2.1.2$1.3.6.1.4.1.37476.3.2.1.99.5$32
+     $500$1CABLB3bLjbDQD7cjk0UXkn+0g688fmunEkAdB4gIC8=
+Hex: d420012c1ddb2e36c3403edc8e4d145e49fed20ebcf1f9ae9c4900741
+     e20202f
 
-MHA3 - Base algo 'sha1', Input 'The quick brown fox jumps over the lazy dog', Length '16', Iterations 500
-MCF: $1.3.6.1.4.1.37476.3.2.1.3$a=sha1,i=500,l=16$$E183Xe/hsyNCTxYVuPvC1u
-HSN: 1.3.6.1.4.1.37476.3.2.1.2$1.3.6.1.4.1.37476.3.2.1.99.5$16$500$G3A5Zg1ju+PEVzaXwRxE3w==
+MHA3 - Base algo 'sha1',
+Input 'The quick brown fox jumps over the lazy dog',
+Length '16', Iterations 500
+MCF: $1.3.6.1.4.1.37476.3.2.1.3$a=sha1,i=500,l=16$$E183Xe/hsyN
+     CTxYVuPvC1u
+HSN: 1.3.6.1.4.1.37476.3.2.1.2$1.3.6.1.4.1.37476.3.2.1.99.5$16
+     $500$G3A5Zg1ju+PEVzaXwRxE3w==
 Hex: 1b7039660d63bbe3c4573697c11c44df
 
-MHA3 - Base algo 'sha1', Input 'The quick brown fox jumps over the lazy dog', Length '32', Iterations 500
-MCF: $1.3.6.1.4.1.37476.3.2.1.3$a=sha1,i=500,l=32$$x6av.OpWEDfbTdD6sprBQv4RGInHuhuJ0MFrmyYbela
-HSN: 1.3.6.1.4.1.37476.3.2.1.2$1.3.6.1.4.1.37476.3.2.1.99.5$32$500$z8cx0QrYGFhdVfF8urtDSx6TIKpJwjwL2OHto+adgnc=
-Hex: cfc731d10ad818585d55f17cbabb434b1e9320aa49c23c0bd8e1eda3e69d8277
-
-
+MHA3 - Base algo 'sha1',
+Input 'The quick brown fox jumps over the lazy dog',
+Length '32', Iterations 500
+MCF: $1.3.6.1.4.1.37476.3.2.1.3$a=sha1,i=500,l=32$$x6av.OpWEDf
+     bTdD6sprBQv4RGInHuhuJ0MFrmyYbela
+HSN: 1.3.6.1.4.1.37476.3.2.1.2$1.3.6.1.4.1.37476.3.2.1.99.5$32
+     $500$z8cx0QrYGFhdVfF8urtDSx6TIKpJwjwL2OHto+adgnc=
+Hex: cfc731d10ad818585d55f17cbabb434b1e9320aa49c23c0bd8e1eda3e
+     69d8277
+.fi
 
 .ti 0
-5  Ref implementation
+5  Reference implementation
 
-
-    function bytesum_mod256($x) {
-        $res = 0;
-        for ($i=0; $i<strlen($x); $i++) $res = ($res + ord($x[$i])) % 256;
-        return $res;
+.nf
+// Implementation in PHP, with hex output
+function bytesum_mod256($x) {
+    $res = 0;
+    for ($i=0; $i<strlen($x); $i++)
+        $res = ($res + ord($x[$i])) % 256;
+    return $res;
+}
+function mha3($content, $length, $iterations, $base_algo='sha1') {
+    assert($iterations>=1);
+    $out = array();
+    for ($l=0; $l<$length; $l++) {
+        $out[$l] = 0;
     }
-    function mha3($content, $length, $iterations, $base_algo='sha1') {
-        assert($iterations>=1);
-        $out = array();
+    for ($i=0; $i<$iterations; $i++) {
         for ($l=0; $l<$length; $l++) {
-            $out[$l] = 0;
+            $n = $i*$length + $l;
+            $salt = str_repeat(chr(1), $n);
+            $out[$l] ^= bytesum_mod256(
+                hash($base_algo, $content.$salt, true));
         }
-        for ($i=0; $i<$iterations; $i++) {
-            for ($l=0; $l<$length; $l++) {
-                $n = $i*$length + $l;
-                $salt = str_repeat(chr(1), $n);
-                $out[$l] ^= bytesum_mod256(hash($base_algo, $content.$salt, true));
-            }
-        }
-        return array_to_binarystring($out);
     }
+    return array_to_binarystring($out);
+}
 
-	// https://github.com/danielmarschall/php_utils/blob/master/vts_crypt.inc.php
-	include 'vts_crypt.inc.php';
-	$hash = vts_password_hash($data, PASSWORD_VTS_MHA3, ['algo'=>'sha1', 'length'=>32, 'iterations'=>500]);
-	assert(vts_password_verify($data, $hash));
-
-
-
-
-
-
-
+// Framework for PHP, with MCF output:
+// https://github.com/danielmarschall/php_utils/blob/master/
+//                                                  vts_crypt.inc.php
+include 'vts_crypt.inc.php';
+$hash = vts_password_hash($data, PASSWORD_VTS_MHA3,
+        ['algo'=>'sha1', 'length'=>32, 'iterations'=>500]);
+assert(vts_password_verify($data, $hash));
+.fi
 
 .ti 0
 6  Security Considerations
@@ -411,11 +405,8 @@ MHA3 has not been proved to be secure.  Use it with caution.
 .ti 0
 6.1  Runtime complexity
 
-	The number of hash OPs is <iterations> times <length>.
+The number of hash OPs is <iterations> times <length>.
 
-
-
-.bp
 .ti 0
 7  IANA Considerations
 
@@ -448,14 +439,6 @@ Acknowledgements
 .in 3
 
 I would like to thank Melanie Wehowski for her long time support in OIDplus and WEID projects.
-
-Thanks to the authors of these free tools which did a very good job in validating various contents of this document:
-
-.in 3
-- "Grammarly" spell and grammar checker
-.in 5
-https://app.grammarly.com/
-.in 3
 
 This document was written in Nroff Internet Draft Editor by 3xA Security.
 .br

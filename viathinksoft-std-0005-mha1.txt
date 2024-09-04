@@ -16,7 +16,7 @@ Abstract
 Identification of this Document
 
    Revision:  2024-09-04
-   State:     In Force
+   State:     Deprecated
    URL:       https://github.com/ViaThinkSoft/standards/blob/main/\
               viathinksoft-std-0005-mha1.txt
    URN:       urn:viathinksoft.de:std:0005:2024-09-04
@@ -67,12 +67,12 @@ Table of Contents
      3.1  Modular Crypt Format Notation . . . . . . . . . . . . . . .  3
      3.2  Heterogenous Systems Notation . . . . . . . . . . . . . . .  4
    4  Test Vectors  . . . . . . . . . . . . . . . . . . . . . . . . .  5
-   5  Ref implementation  . . . . . . . . . . . . . . . . . . . . . .  6
+   5  Reference implementation  . . . . . . . . . . . . . . . . . . .  6
    6  Security Considerations . . . . . . . . . . . . . . . . . . . .  6
      6.1  Runtime complexity  . . . . . . . . . . . . . . . . . . . .  6
-   7  IANA Considerations . . . . . . . . . . . . . . . . . . . . . .  7
-   8  References  . . . . . . . . . . . . . . . . . . . . . . . . . .  7
-     6.1  Normative References  . . . . . . . . . . . . . . . . . . .  7
+   7  IANA Considerations . . . . . . . . . . . . . . . . . . . . . .  6
+   8  References  . . . . . . . . . . . . . . . . . . . . . . . . . .  6
+     6.1  Normative References  . . . . . . . . . . . . . . . . . . .  6
      6.2  Informative References  . . . . . . . . . . . . . . . . . .  7
    Acknowledgements . . . . . . . . . . . . . . . . . . . . . . . . .  7
    Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . . .  7
@@ -116,16 +116,12 @@ VTS/WF STD. 5              ViaThinkSoft MHA1            4 September 2024
 
 1  Introduction
 
-
-   	MHA is a hash function which performs multiple hash iterations on a
-   base hash function. 	It should be save even if the base hash function
-   is broken. 	This function is pretty slow because of the iterations,
-   but therefore secure 	against offline attacks or rainbowtables. Also,
-   the slowlyness of this hash 	makes the creation of rainbow tables
-   much harder.
-
-
-
+   MHA is a hash function which performs multiple hash iterations on a
+   base hash function. It should be save even if the base hash function
+   is broken. This function is pretty slow because of the iterations,
+   but therefore secure against offline attacks or rainbowtables. Also,
+   the slowlyness of this hash makes the creation of rainbow tables much
+   harder.
 
 1.1  Terminology
 
@@ -135,24 +131,20 @@ VTS/WF STD. 5              ViaThinkSoft MHA1            4 September 2024
    BCP 14 [RFC2119] [RFC8174] when, and only when, they appear in all
    capitals, as shown here.
 
-
 2  Definition
 
-   	MHA(x, iteratedSalt, iterations) = optionalBase64(rec(iterations, x,
-   iteratedSalt))
+   MHA(x, iteratedSalt, iterations)
+       = rec(iterations, x, iteratedSalt).
 
-   	rec[n, x, iteratedSalt] = binarySHA1(iteratedSalt || rec[n-1, x,
-   iteratedSalt] || iteratedSalt)
+   rec[n, x, iteratedSalt]
+       = iteratedSalt || rec[n-1, x, iteratedSalt] || iteratedSalt.
 
-   	rec[0, x, iteratedSalt] = x
-
+   rec[0, x, iteratedSalt]
+       = x.
 
 3  Notation
 
 3.1  Modular Crypt Format Notation
-
-
-
 
    Format of the MCF:
 
@@ -162,14 +154,6 @@ VTS/WF STD. 5              ViaThinkSoft MHA1            4 September 2024
 
    <params> is a=<algo>,i=<iterations>
 
- 
-
-
-Marschall                                                       [Page 3]
-
-VTS/WF STD. 5              ViaThinkSoft MHA1            4 September 2024
-
-
    where <algo> is any valid hash algorithm (name scheme of PHP
    hash_algos() preferred), e.g.
    - sha3-512
@@ -178,6 +162,14 @@ VTS/WF STD. 5              ViaThinkSoft MHA1            4 September 2024
    - sha3-224
    - sha512
    - sha512/256
+ 
+
+
+Marschall                                                       [Page 3]
+
+VTS/WF STD. 5              ViaThinkSoft MHA1            4 September 2024
+
+
    - sha512/224
    - sha384
    - sha256
@@ -185,7 +177,7 @@ VTS/WF STD. 5              ViaThinkSoft MHA1            4 September 2024
    - sha1
    - md5
 
-   Not possible with MCF1 are these hashes (because they have a special
+   Not possible with MHA1 are these hashes (because they have a special
    salt-handling and output their own crypt format):
    - bcrypt [Standardized crypt identifier 2, 2a, 2x, 2y]
    - argon2i [Crypt identifier argon2i, not standardized]
@@ -193,31 +185,39 @@ VTS/WF STD. 5              ViaThinkSoft MHA1            4 September 2024
 
    <iterations> are the iterations.
 
-
-
-
-
-
+   Like most Crypt-hashes, <salt> and <hash> are Radix64 coded without
+   padding and with alphabet
+   './0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'.
 
 3.2  Heterogenous Systems Notation
 
-
-
-   	The "heterogenous systems notation" (HNS) is DEPRECATED in favor of
+   The "heterogenous systems notation" (HNS) is DEPRECATED in favor of
    the modular crypt format notation!
 
-   	<mha1-oid>$<base-hash>$<iterations>$<salt-base64>$<hash-base64>
+   <mha1-oid>$<base-hash>$<iterations>$<salt-base64>$<hash-base64>
 
-   	-  <mha1-oid> is the OID for a MHA1 algorithm in its dot-notation
-   without leading dot, 	   which is 1.3.6.1.4.1.37476.3.2.1.1
+   -  <mha1-oid> is the OID for a MHA1 algorithm in its dot-notation
+   without leading dot,   which is 1.3.6.1.4.1.37476.3.2.1.1
 
-   	   This OID has ASN.1 Notation: 	   { iso(1) identified-
-   organization(3) dod(6) internet(1) private(4) enterprise(1) 	    
-   37476 specification(3) algorithm(2) hash(1) mha1(1) }
+      This OID has ASN.1 Notation:   { iso(1) identified-organization(3)
+   dod(6) internet(1) private(4) enterprise(1)     37476
+   specification(3) algorithm(2) hash(1) mha1(1) }
 
-   	-  <base-hash> should be an OID which represents the base hash ("H")
+   -  <base-hash> should be an OID which represents the base hash ("H")
    algorithm used, in dot-notation.
 
+      The following table shows the OIDs which have been assigned   for
+   exchange between heterogenous systems. If you want to use a different
+     hash algorithm or a derivate of it, please define your own OID  
+   (you can use an UUID OID, get a free IANA PEN OID, or a free
+   ViaThinkSoft OID),   but please do not use this arc, since only
+   ViaThinkSoft may maintain it.
+
+      --------------------------------------------------------------
+      Base algorithm                OID proposal
+      --------------------------------------------------------------
+      Message Digest 4 (MD4)        1.3.6.1.4.1.37476.3.2.1.99.1
+      Message Digest 5 (MD5)        1.3.6.1.4.1.37476.3.2.1.99.2
  
 
 
@@ -226,54 +226,54 @@ Marschall                                                       [Page 4]
 VTS/WF STD. 5              ViaThinkSoft MHA1            4 September 2024
 
 
-   	   The following table shows the OIDs which have been assigned 	  
-   for exchange between heterogenous systems. If you want to use a
-   different 	   hash algorithm or a derivate of it, please define your
-   own OID 	   (you can use an UUID OID, get a free IANA PEN OID, or a
-   free ViaThinkSoft OID), 	   but please do not use this arc, since
-   only ViaThinkSoft may maintain it.
+      RIPEMD-160                    1.3.6.1.4.1.37476.3.2.1.99.3
+      Secure Hash Algorithm         1.3.6.1.4.1.37476.3.2.1.99.4
+      Secure Hash Algorithm 1       1.3.6.1.4.1.37476.3.2.1.99.5
+      Secure Hash Algorithm 2/224   1.3.6.1.4.1.37476.3.2.1.99.6.224
+      Secure Hash Algorithm 2/256   1.3.6.1.4.1.37476.3.2.1.99.6.256
+      Secure Hash Algorithm 2/384   1.3.6.1.4.1.37476.3.2.1.99.6.384
+      Secure Hash Algorithm 2/512   1.3.6.1.4.1.37476.3.2.1.99.6.512
+      Secure Hash Algorithm 3/224   1.3.6.1.4.1.37476.3.2.1.99.7.224
+      Secure Hash Algorithm 3/256   1.3.6.1.4.1.37476.3.2.1.99.7.256
+      Secure Hash Algorithm 3/384   1.3.6.1.4.1.37476.3.2.1.99.7.384
+      Secure Hash Algorithm 3/512   1.3.6.1.4.1.37476.3.2.1.99.7.512
+      --------------------------------------------------------------
 
-   	   -----------------------------------------------------------------
-   --------------------------- 	   Algorithm                            
-        OID proposal 	   -----------------------------------------------
-   --------------------------------------------- 	   Message Digest 4
-   (MD4)                     { 1 3 6 1 4 1 37476 3 2 1 99 md4(1) } 	  
-   Message Digest 5 (MD5)                     { 1 3 6 1 4 1 37476 3 2 1
-   99 md5(2) } 	   RIPEMD-160                                 { 1 3 6 1
-   4 1 37476 3 2 1 99 ripemd160(3) } 	   Secure Hash Algorithm          
-              { 1 3 6 1 4 1 37476 3 2 1 99 sha0(4) } 	   Secure Hash
-   Algorithm 1                    { 1 3 6 1 4 1 37476 3 2 1 99 sha1(5) }
-      Secure Hash Algorithm 2 (224 bits)         { 1 3 6 1 4 1 37476 3 2
-   1 99 sha2(6) 224 } 	   Secure Hash Algorithm 2 (256 bits)         { 1
-   3 6 1 4 1 37476 3 2 1 99 sha2(6) 256 } 	   Secure Hash Algorithm 2
-   (384 bits)         { 1 3 6 1 4 1 37476 3 2 1 99 sha2(6) 384 } 	  
-   Secure Hash Algorithm 2 (512 bits)         { 1 3 6 1 4 1 37476 3 2 1
-   99 sha2(6) 512 } 	   Secure Hash Algorithm 3 (224 bits)         { 1 3
-   6 1 4 1 37476 3 2 1 99 sha3(7) 224 } 	   Secure Hash Algorithm 3 (256
-   bits)         { 1 3 6 1 4 1 37476 3 2 1 99 sha3(7) 256 } 	   Secure
-   Hash Algorithm 3 (384 bits)         { 1 3 6 1 4 1 37476 3 2 1 99
-   sha3(7) 384 } 	   Secure Hash Algorithm 3 (512 bits)         { 1 3 6
-   1 4 1 37476 3 2 1 99 sha3(7) 512 } 	   ------------------------------
-   --------------------------------------------------------------
+   -  <iterations> is the number of iterations, e.g. 1987.
 
-   	-  <iterations> is the number of iterations, e.g. 1987.
-
-   	-  <salt-base64> is the iterated salt used for MHA1, encoded in
+   -  <salt-base64> is the iterated salt used for MHA1, encoded in
    Base64.
 
-   	-  <hash-base64> is the resulting hash, encoded in Base64.
+   -  <hash-base64> is the resulting hash, encoded in Base64.
 
 
 4  Test Vectors
 
-
-   MHA1 - Base algo 'sha1', Input '', Salt '', Iterations 1987 MCF:
-   $1.3.6.1.4.1.37476.3.2.1.1$a=sha1,i=1987$$SMJt5BeI3z2Q5772DcQUXiFBHmO
-   HSN:
-   1.3.6.1.4.1.37476.3.2.1.1$1.3.6.1.4.1.37476.3.2.1.99.5$1987$$UOLv7DgK5/4S7994FeSWZkHDJoQ=
+   MHA1 - Base algo 'sha1', Input '', Salt '', Iterations 1987
+   MCF: $1.3.6.1.4.1.37476.3.2.1.1$a=sha1,i=1987$$SMJt5BeI3z2Q577
+        2DcQUXiFBHmO
+   HSN: 1.3.6.1.4.1.37476.3.2.1.1$1.3.6.1.4.1.37476.3.2.1.99.5$19
+        87$$UOLv7DgK5/4S7994FeSWZkHDJoQ=
    Hex: 50e2efec380ae7fe12efdf7815e4966641c32684
 
-   MHA1 - Base algo 'sha1', Input 'The quick brown fox jumps over the
+   MHA1 - Base algo 'sha1',
+   Input 'The quick brown fox jumps over the lazy dog',
+   Salt '', Iterations 1987
+   MCF: $1.3.6.1.4.1.37476.3.2.1.1$a=sha1,i=1987$$9obb16qgeksp9r4
+        iSz.o77EUQlC
+   HSN: 1.3.6.1.4.1.37476.3.2.1.1$1.3.6.1.4.1.37476.3.2.1.99.5$19
+        87$$Bqdd38sigmurBt6kU/0q99GWSnE=
+   Hex: 06a75ddfcb22826bab06dea453fd2af7d1964a71
+
+
+
+
+
+
+
+
+
+
  
 
 
@@ -282,29 +282,26 @@ Marschall                                                       [Page 5]
 VTS/WF STD. 5              ViaThinkSoft MHA1            4 September 2024
 
 
-   lazy dog', Salt '', Iterations 1987 MCF:
-   $1.3.6.1.4.1.37476.3.2.1.1$a=sha1,i=1987$$9obb16qgeksp9r4iSz.o77EUQlC
-   HSN:
-   1.3.6.1.4.1.37476.3.2.1.1$1.3.6.1.4.1.37476.3.2.1.99.5$1987$$Bqdd38sigmurBt6kU/0q99GWSnE=
-   Hex: 06a75ddfcb22826bab06dea453fd2af7d1964a71
+5  Reference implementation
 
+   // Implementation in PHP, with hex output
+   function mha1($password, $iteratedSalt, $iterations, $base_algo) {
+       assert($iterations >= 1);
+       $m = $password;
+       for ($i=1; $i<=$iterations; $i++) {
+           $m = hash($base_algo,
+                     $iteratedSalt.$m.$iteratedSalt, true/*binary*/);
+       }
+       return bin2hex($m);
+   }
 
-5  Ref implementation
-
-
-
-   	function mha1($password, $iteratedSalt='', $iterations=1987,
-   $base_algo='sha1') { 	    assert($iterations >= 1); 	    $m =
-   $password; 	    for ($i=1; $i<=$iterations; $i++) { 	        $m =
-   hash($base_algo, $iteratedSalt.$m.$iteratedSalt, true/*binary*/); 	  
-    } 	    return bin2hex($m); 	}
-
-   	//
-   https://github.com/danielmarschall/php_utils/blob/master/vts_crypt.inc.php
-   include 'vts_crypt.inc.php'; 	$hash = vts_password_hash($data,
-   PASSWORD_VTS_MHA1, ['algo'=>'sha1', 'salt_length'=>16,
-   'iterations'=>1987]); 	assert(vts_password_verify($data, $hash));
-
+   // Framework for PHP, with MCF output and auto-generated salt:
+   // https://github.com/danielmarschall/php_utils/blob/master/
+   //                                                  vts_crypt.inc.php
+   include 'vts_crypt.inc.php';
+   $hash = vts_password_hash($data, PASSWORD_VTS_MHA1,
+           ['algo'=>'sha1', 'salt_length'=>16, 'iterations'=>1987]);
+   assert(vts_password_verify($data, $hash));
 
 6  Security Considerations
 
@@ -317,26 +314,7 @@ VTS/WF STD. 5              ViaThinkSoft MHA1            4 September 2024
 
 6.1  Runtime complexity
 
-   	The number of hash OPs is <iterations>.
-
-
-
-
-
-
-
-
-
-
-
-
- 
-
-
-Marschall                                                       [Page 6]
-
-VTS/WF STD. 5              ViaThinkSoft MHA1            4 September 2024
-
+   The number of hash OPs is <iterations>.
 
 7  IANA Considerations
 
@@ -351,6 +329,15 @@ VTS/WF STD. 5              ViaThinkSoft MHA1            4 September 2024
               DOI 10.17487/RFC2119, March 1997,
               <https://www.rfc-editor.org/info/rfc2119>.
 
+
+ 
+
+
+Marschall                                                       [Page 6]
+
+VTS/WF STD. 5              ViaThinkSoft MHA1            4 September 2024
+
+
 6.2  Informative References
 
    None
@@ -359,12 +346,6 @@ Acknowledgements
 
    I would like to thank Melanie Wehowski for her long time support in
    OIDplus and WEID projects.
-
-   Thanks to the authors of these free tools which did a very good job
-   in validating various contents of this document:
-
-   - "Grammarly" spell and grammar checker
-     https://app.grammarly.com/
 
    This document was written in Nroff Internet Draft Editor by 3xA
    Security.
@@ -381,6 +362,25 @@ Authors' Addresses
 
    Email: daniel-marschall@viathinksoft.de
    URI:   https://www.viathinksoft.com/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
