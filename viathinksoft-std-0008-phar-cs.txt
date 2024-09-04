@@ -1,0 +1,224 @@
+ 
+
+
+
+VIATHINKSOFT/WEBFAN                                         D. Marschall
+SPECIFICATION No. 8                                         ViaThinkSoft
+First Draft: 2023                                       4 September 2024
+
+
+                   === PHAR File List / Checksum ===
+
+Abstract
+
+   This document describes the mechanism to attach a file list with
+   checksums to a PHAR file.
+
+Identification of this Document
+
+   Revision:  2024-09-04
+   State:     In Force
+   URL:       https://github.com/ViaThinkSoft/standards/blob/main/\
+              viathinksoft-std-0008-phar-cs.txt
+   URN:       urn:viathinksoft.de:std:0008:2024-09-04
+   OID:       1.3.6.1.4.1.37476.3.0.2
+              { iso(1) identified-organization(3) dod(6) internet(1)
+                private(4) enterprise(1) 37476 specifications(3)
+                misc(0) checksum-string(2) }
+   WEID:      weid:pen:SX0-3-0-2-1
+   IETF/RFC:  (None)
+
+Attachments
+
+   Reference implementation in PHP:
+   https://github.com/danielmarschall/vnag/blob/master/src/build.phps
+
+Copyright Notice
+
+   Copyright (c) 2023-2024 ViaThinkSoft and the persons identified as
+   the document authors.  All rights reserved.
+
+   Licensed under the terms of the Apache 2.0 License.
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+Marschall                                                       [Page 1]
+
+VTS/WF STD. 8          PHAR File List / Checksum        4 September 2024
+
+
+Table of Contents
+
+   1  Introduction  . . . . . . . . . . . . . . . . . . . . . . . . .  3
+     1.1  Terminology . . . . . . . . . . . . . . . . . . . . . . . .  3
+   2  Implementation in PHP . . . . . . . . . . . . . . . . . . . . .  3
+   3  Security Considerations . . . . . . . . . . . . . . . . . . . .  4
+   4  IANA Considerations . . . . . . . . . . . . . . . . . . . . . .  4
+   5  References  . . . . . . . . . . . . . . . . . . . . . . . . . .  4
+     5.1  Normative References  . . . . . . . . . . . . . . . . . . .  4
+     5.2  Informative References  . . . . . . . . . . . . . . . . . .  4
+   Acknowledgements . . . . . . . . . . . . . . . . . . . . . . . . .  4
+   Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . . .  4
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+Marschall                                                       [Page 2]
+
+VTS/WF STD. 8          PHAR File List / Checksum        4 September 2024
+
+
+1  Introduction
+
+   This document describes the mechanism to attach a file list with
+   checksums to a PHAR file.
+
+   It's a common technique to pack multiple PHP files into a PHAR file. 
+   During the build process of such a PHAR file, it is favorable to only
+   re-build (and possibly sign) the PHAR file, if the contents have
+   changed.  To check if files have changed, a file list with checksums
+   is attached into the PHAR metadata.
+
+1.1  Terminology
+
+   The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
+   "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and
+   "OPTIONAL" in this document are to be interpreted as described in
+   BCP 14 [RFC2119] [RFC8174] when, and only when, they appear in all
+   capitals, as shown here.
+
+2  Implementation in PHP
+
+   // Input parameters
+   $phar_filename = ...;
+   $algo = 'sha256';
+   $files_for_phar = [...];
+
+   // Calculate the checksums
+   $checksums = $algo.'||';
+   $checksums .= '<builder>|'.hash_file($algo,__FILE__).'||';
+   ksort($files_for_phar);
+   foreach ($files_for_phar as $input_file_short => $input_file) {
+       $checksums .= $input_file_short.'|'.
+                     hash_file($algo, $input_file).'||';
+   }
+
+   // Compare the checksums with the metadata of the PHAR
+   if (file_exists($phar_filename)) {
+       $phar = new Phar($filename);
+       $metadata = $phar->getMetadata();
+       if (($metadata['1.3.6.1.4.1.37476.3.0.2']??'') == $checksums) {
+           echo "PHAR file is already up-to-daten";
+           $phar = null;
+           return;
+       }
+   }
+
+
+
+ 
+
+
+Marschall                                                       [Page 3]
+
+VTS/WF STD. 8          PHAR File List / Checksum        4 September 2024
+
+
+   // PHAR does not exist or has a changed checksum
+   $phar = new Phar($filename);
+   $phar->setMetadata(['1.3.6.1.4.1.37476.3.0.2' => $checksums]);
+   $phar = null;
+
+3  Security Considerations
+
+   None
+
+4  IANA Considerations
+
+   There are no IANA Considerations.
+
+5  References
+
+5.1  Normative References
+
+   [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
+              Requirement Levels", BCP 14, RFC 2119,
+              DOI 10.17487/RFC2119, March 1997,
+              <https://www.rfc-editor.org/info/rfc2119>.
+
+5.2  Informative References
+
+   None
+
+Acknowledgements
+
+   I would like to thank Melanie Wehowski for her long time support in
+   OIDplus and WEID projects.
+
+   This document was written in Nroff Internet Draft Editor by 3xA
+   Security.
+   https://aaa-sec.com/nroffedit/
+   https://misc.daniel-marschall.de/patches/nroffedit/ ("year 2020"
+   patch)
+
+Authors' Addresses
+
+   Daniel Marschall
+   Postfach 11 53
+   69243 Bammental
+   Germany
+
+   Email: daniel-marschall@viathinksoft.de
+   URI:   https://www.viathinksoft.com/
+
+
+
+
+
+Marschall                                                       [Page 4]
