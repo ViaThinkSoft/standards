@@ -7,7 +7,7 @@ SPECIFICATION No. 8                                         ViaThinkSoft
 First Draft: 2023                                       4 September 2024
 
 
-                   === PHAR File List / Checksum ===
+                   === PHAR File List / Checksums ===
 
 Abstract
 
@@ -20,7 +20,7 @@ Identification of this Document
    State:     In Force
    URL:       https://github.com/ViaThinkSoft/standards/blob/main/\
               viathinksoft-std-0008-phar-cs.txt
-   URN:       urn:viathinksoft.de:std:0008:2024-09-04
+   URN:       urn:x-viathinksoft:std:0008:2024-09-04
    OID:       1.3.6.1.4.1.37476.3.0.2
               { iso(1) identified-organization(3) dod(6) internet(1)
                 private(4) enterprise(1) 37476 specifications(3)
@@ -55,7 +55,7 @@ Copyright Notice
 
 Marschall                                                       [Page 1]
 
-VTS/WF STD. 8          PHAR File List / Checksum        4 September 2024
+VTS/WF STD. 8          PHAR File List / Checksums       4 September 2024
 
 
 Table of Contents
@@ -111,7 +111,7 @@ Table of Contents
 
 Marschall                                                       [Page 2]
 
-VTS/WF STD. 8          PHAR File List / Checksum        4 September 2024
+VTS/WF STD. 8          PHAR File List / Checksums       4 September 2024
 
 
 1  Introduction
@@ -167,11 +167,12 @@ VTS/WF STD. 8          PHAR File List / Checksum        4 September 2024
 
 Marschall                                                       [Page 3]
 
-VTS/WF STD. 8          PHAR File List / Checksum        4 September 2024
+VTS/WF STD. 8          PHAR File List / Checksums       4 September 2024
 
 
    // PHAR does not exist or has a changed checksum
    $phar = new Phar($filename);
+   // ... add files, set stub, sign, etc. ...
    $phar->setMetadata(['1.3.6.1.4.1.37476.3.0.2' => $checksums]);
    $phar = null;
 
@@ -216,7 +217,6 @@ Authors' Addresses
 
    Email: daniel-marschall@viathinksoft.de
    URI:   https://www.viathinksoft.com/
-
 
 
 

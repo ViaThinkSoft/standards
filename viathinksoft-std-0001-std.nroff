@@ -34,7 +34,7 @@
 .\" Left header text
 .ds LH VTS/WF STD. 1
 .\" Right header text
-.ds RH 4 September 2024
+.ds RH 7 September 2024
 .\" Center header text
 .ds CH VTS/WF Standards
 .\" Center footer text
@@ -51,7 +51,7 @@
 .nf
 .tl 'VIATHINKSOFT/WEBFAN''D. Marschall'
 .tl 'SPECIFICATION No. 1''ViaThinkSoft'
-.tl 'First Draft: 2024''4 September 2024'
+.tl 'First Draft: 2024''7 September 2024'
 .fi
 
 .\" Note. The ".tl" directive is used to generate the leading header 
@@ -79,11 +79,11 @@ Identification of this Document
 
 .in 3
 .nf
-Revision:  2024-09-04
+Revision:  2024-09-07
 State:     In Force
 URL:       https://github.com/ViaThinkSoft/standards/blob/main/\\
            viathinksoft-std-0001-std.txt
-URN:       urn:viathinksoft.de:std:0001:2024-09-04
+URN:       urn:x-viathinksoft:std:0001:2024-09-07
 OID:       1.3.6.1.4.1.37476.3.0.0
            { iso(1) identified-organization(3) dod(6) internet(1)
              private(4) enterprise(1) 37476 specifications(3)
@@ -155,7 +155,7 @@ Each document receives a sequential number.
 
 Documents can be changed (unless RFCs).  If the change is minor (like, fixing a typo), the revision date does not need to be changed.
 
-Each document can be identified with the URN "urn:viathinksoft.de:std:<nnnn>:<yyyy-mm-dd>".  This URN can be extended by components (delimited with colon), e.g. to get an URN for a XML schema identifier.
+Each document can be identified with the URN "urn:x-viathinksoft:std:<nnnn>:<yyyy-mm-dd>".  This URN can be extended by components (delimited with colon), e.g. to get an URN for a XML schema identifier.  The prefix "x-" for the second URN component defines an experimental namespace not registered at IANA, as defined in [RFC 3406], section 3.1.
 
 .in 3
 .ti 0
@@ -200,7 +200,7 @@ Title Page Header Right Top:
                              "Work In Progress" or
                              "Deprecated"
 - Line 3:  "URL" links to the TXT file on GitHub
-- Line 4:  "URN" is urn:viathinksoft.de:std:<nnnn>:<yyyy-mm-dd>
+- Line 4:  "URN" is urn:x-viathinksoft:std:<nnnn>:<yyyy-mm-dd>
 - Line 5:  "OID" is the base OID of the standard,
            in dot-notation and ASN.1 notation
 - Line 6:  "WEID" is the WEID notation of the base OID of the
@@ -270,6 +270,12 @@ There are no IANA Considerations.
 [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate Requirement Levels", BCP\014, RFC\02119, DOI\010.17487/RFC2119, March\01997,
 .br
 <https://www.rfc-editor.org/info/rfc2119>.
+
+.\" https://www.rfc-editor.org/refs/ref3406.txt
+.ti 3
+[RFC3406]  Daigle, L., van Gulik, D., Iannella, R., and P. Faltstrom, "Uniform Resource Names (URN) Namespace Definition Mechanisms", RFC\03406, DOI\010.17487/RFC3406, October\02002,
+.br
+<https://www.rfc-editor.org/info/rfc3406>.
 
 .in 3
 .ti 0

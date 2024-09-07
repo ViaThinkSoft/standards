@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
            xmlns:ds="http://www.w3.org/2000/09/xmldsig#"
-           xmlns:ns1="urn:viathinksoft.de:std:0002:2024-09-02:xml-schema"
-           targetNamespace="urn:viathinksoft.de:std:0002:2024-09-02:xml-schema"
+           xmlns:ns1="urn:x-viathinksoft:std:0002:2024-09-02:xml-schema"
+           targetNamespace="urn:x-viathinksoft:std:0002:2024-09-02:xml-schema"
            elementFormDefault="qualified"
            attributeFormDefault="unqualified">
 <xs:import namespace="http://www.w3.org/2000/09/xmldsig#"
