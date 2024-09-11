@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Wehowski Identifier (WEID)</title>
+	<style>
+
+        /** === DESKTOP === */
+
+        @media (min-width: 601px) {
+
+        body {
+            background-color: #f5f5f5;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 0;
+        }
+
+        .page {
+            width: 100%;
+            max-width: 700px; /* 72 Zeichen Breite in Pixel (bei Desktop-Ansicht) */
+            margin-bottom: 20px;
+            padding: 20px;
+            background-color: white;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            font-family: monospace;
+            white-space: pre-wrap;
+            overflow: hidden;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+        }
+
+        }
+
+        /** === MOBILE === */
+
+        @media (max-width: 600px) {
+
+        body {
+            background-color: #f5f5f5;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .container {
+            width: 100%;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+
+        .page {
+            width: 100%;
+            max-width: 100%; /* Ensures the page takes up full width on mobile */
+            margin-bottom: 20px;
+            padding: 10px;
+            background-color: white;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            font-family: monospace;
+            white-space: pre-wrap;
+            overflow: auto; /* Ensures overflow is handled */
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+            font-size: 8.7px; /* Smaller font size for mobile */
+        }
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<span style="font-family:Verdana">&larr; <a href="index.html">Back to Standards index</a></span><br><br>
+
+<div id="content">
+<div class="container"><div class="page"><pre>VIATHINKSOFT/WEBFAN                           D. Marschall | M. Wehowski
+SPECIFICATION No. 3                           ViaThinkSoft |      Webfan
+First Draft: 2011                                       3 September 2024
+
+
+                   === Wehowski Identifier (WEID) ===
+
+Abstract
+
+   This document describes the Wehowski Identifier (WEID) scheme, which
+   is an alternative notation of Object Identifiers (OIDs).
+
+Identification of this Document
+
+   Revision:  2024-09-03 (Spec Change 11 as of 2023-08-07)
+   State:     In Force
+   URL:       <a href="https://github">https://github</a>.com/ViaThinkSoft/standards/blob/main/\
+              viathinksoft-std-0003-weid.txt
+   URN:       urn:x-viathinksoft:std:0003:2024-09-03
+   OID:       1.3.6.1.4.1.37553.8.1.8.1.6
+              { iso(1) identified-organization(3) dod(6) internet(1)
+                private(4) enterprise(1) frdlweb(37553) weid(8) org(1)
+                webfan(8) technical-specifications(1) weid-spec(6) }
+   WEID:      weid:1-8-1-6-2
+   IETF/RFC:  (None)
+
+Attachments
+
+   (None)
+
+Copyright Notice
+
+   Copyright (c) 2011-2024 ViaThinkSoft, Webfan and the persons
+   identified as the document authors.  All rights reserved.
+
+   Licensed under the terms of the Apache 2.0 License.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<span class="grey">Marschall / Wehowski                                            [Page 1]</span></pre>
+</div><div class="page"><span class="noprint" id="page-2"><span class="grey">VTS/WF STD. 3          Wehowski Identifier (WEID)       3 September 2024</span>
+
+
+Table of Contents
+
+   <a href="#section-1">1</a>  Introduction  . . . . . . . . . . . . . . . . . . . . . . . . .  <a href="#page-3">3</a>
+     <a href="#section-1.1">1.1</a>  Terminology . . . . . . . . . . . . . . . . . . . . . . . .  <a href="#page-3">3</a>
+   <a href="#section-2">2</a>  URN Namespace . . . . . . . . . . . . . . . . . . . . . . . . .  <a href="#page-3">3</a>
+     <a href="#section-2.1">2.1</a>  Namespace &quot;weid:&quot; for &quot;Class C&quot; WEIDs . . . . . . . . . . .  <a href="#page-4">4</a>
+     <a href="#section-2.2">2.2</a>  Sub-Namespace &quot;weid:pen:&quot; for &quot;Class B&quot; WEIDs . . . . . . .  <a href="#page-4">4</a>
+     <a href="#section-2.3">2.3</a>  Sub-Namespace &quot;weid:root:&quot; for &quot;Class A&quot; WEIDs  . . . . . .  <a href="#page-4">4</a>
+     2.4  Sub-Namespace &quot;weid:&lt;DomainName&gt;:&quot; for &quot;Class D&quot; (Domain)
+          WEID  . . . . . . . . . . . . . . . . . . . . . . . . . . .  <a href="#page-4">4</a>
+     2.5  Sub-Namespace &quot;weid:x-&lt;Name&gt;:&quot; for Proprietary Namespaces .  5
+   <a href="#section-3">3</a>  Construction of a WEID  . . . . . . . . . . . . . . . . . . . .  <a href="#page-5">5</a>
+     <a href="#section-3.1">3.1</a>  Construction of a Class A/B/C WEID  . . . . . . . . . . . .  <a href="#page-5">5</a>
+     <a href="#section-3.2">3.2</a>  Construction of a Class D WEID  . . . . . . . . . . . . . .  <a href="#page-7">7</a>
+     <a href="#section-3.3">3.3</a>  Construction of a Custom WEID (Proprietary Namespaces)  . .  <a href="#page-7">7</a>
+   <a href="#section-4">4</a>  Notation  . . . . . . . . . . . . . . . . . . . . . . . . . . .  <a href="#page-8">8</a>
+     <a href="#section-4.1">4.1</a>  Recommendations . . . . . . . . . . . . . . . . . . . . . .  <a href="#page-8">8</a>
+     <a href="#section-4.2">4.2</a>  Wildcard Notation (No Check Digit)  . . . . . . . . . . . .  <a href="#page-8">8</a>
+   <a href="#section-5">5</a>  Additional Notes  . . . . . . . . . . . . . . . . . . . . . . .  <a href="#page-8">8</a>
+   <a href="#section-6">6</a>  Security Considerations . . . . . . . . . . . . . . . . . . . .  <a href="#page-9">9</a>
+   <a href="#section-7">7</a>  IANA Considerations . . . . . . . . . . . . . . . . . . . . . .  <a href="#page-9">9</a>
+   <a href="#section-8">8</a>  References  . . . . . . . . . . . . . . . . . . . . . . . . . .  <a href="#page-9">9</a>
+     <a href="#section-8.1">8.1</a>  Normative References  . . . . . . . . . . . . . . . . . . .  <a href="#page-9">9</a>
+     <a href="#section-8.2">8.2</a>  Informative References  . . . . . . . . . . . . . . . . . .  <a href="#page-9">9</a>
+   Acknowledgements . . . . . . . . . . . . . . . . . . . . . . . . .  <a href="#page-9">9</a>
+   Authors&#x27; Addresses . . . . . . . . . . . . . . . . . . . . . . . . <a href="#page-10">10</a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<span class="grey">Marschall / Wehowski                                            [Page 2]</span></pre>
+</div><div class="page"><span class="noprint" id="page-3"><span class="grey">VTS/WF STD. 3          Wehowski Identifier (WEID)       3 September 2024</span>
+
+
+<h2><a class="selflink" id="section-1" href="#section-1">1</a>  Introduction</h2>
+
+   An Object Identifier (OID) is an extensively used identification
+   mechanism jointly developed by ITU-T and ISO/IEC for naming any type
+   of object, concept, or &quot;thing&quot; with a globally unambiguous name.
+   More information about OIDs can be found at www.oid-info.com.
+
+   To get an OID in accordance with Recommendation ITU-T X.600 assigned,
+   you need to find a Registration Authority that assigns you an OID.
+   You can obtain an OID as WEID and manage your own arc, e.g. by:
+
+   - IANA Private Enterprise Numbers (PEN)
+   - Free OID by ViaThinkSoft
+   - &quot;Public&quot; OID by Frdlweb
+
+   There are three well-known notations for OIDs:
+
+      Dot notation:      2.999
+      ASN.1 notation:    {joint-iso-itu-t(2) example(999)}
+      OID-IRI notation:  /Joint-ISO-ITU-T/Example
+
+   WEID (WEhowski IDentifier) is another notation for OIDs, developed by
+   Till Wehowski and Daniel Marschall:
+
+      WEID notation:     weid:root:2-RR-2
+
+   In the initial version of the WEID specification of 2011, only OIDs
+   below the WEID root arc 1.3.6.1.4.1.37553.8 could be used.  In a
+   later definition by Daniel Marschall, any existing OID can be written
+   in WEID notation, by defining sub-namespaces.
+
+<h3><a class="selflink" id="section-1.1" href="#section-1.1">1.1</a>  Terminology</h3>
+
+   The key words &quot;MUST&quot;, &quot;MUST NOT&quot;, &quot;REQUIRED&quot;, &quot;SHALL&quot;, &quot;SHALL NOT&quot;,
+   &quot;SHOULD&quot;, &quot;SHOULD NOT&quot;, &quot;RECOMMENDED&quot;, &quot;NOT RECOMMENDED&quot;, &quot;MAY&quot;, and
+   &quot;OPTIONAL&quot; in this document are to be interpreted as described in
+   <a href="https://datatracker.ietf.org/doc/html/bcp14">BCP 14</a> [<a href="https://datatracker.ietf.org/doc/html/rfc2119" title="&quot;Key words for use in RFCs to Indicate Requirement Levels&quot;">RFC2119</a>] [<a href="https://datatracker.ietf.org/doc/html/rfc8174">RFC8174</a>] when, and only when, they appear in all
+   capitals, as shown here.
+
+<h2><a class="selflink" id="section-2" href="#section-2">2</a>  URN Namespace</h2>
+
+   Uniform Resource Name (URN) [<a href="https://datatracker.ietf.org/doc/html/rfc2141" title="&quot;URN Syntax&quot;">RFC2141</a>] Namespace Identifiers (NIDs)
+   for use by WEID are being specified in this document.
+
+   Sub-namespaces are defined by the WEID consortium (ViaThinkSoft and
+   WebFan) in a Specification Change.  The registry of sub-namespaces
+   (URN prefixes) has currently the following entries:
+
+
+
+
+<span class="grey">Marschall / Wehowski                                            [Page 3]</span></pre>
+</div><div class="page"><span class="noprint" id="page-4"><span class="grey">VTS/WF STD. 3          Wehowski Identifier (WEID)       3 September 2024</span>
+
+
+<h3><a class="selflink" id="section-2.1" href="#section-2.1">2.1</a>  Namespace &quot;weid:&quot; for &quot;Class C&quot; WEIDs</h3>
+
+   The root OID is &quot;1.3.6.1.4.1.37553.8&quot;.
+
+   Example: OID &quot;1.3.6.1.4.1.37553.8.32488192274&quot; can be written as
+   &quot;weid:EXAMPLE-3&quot; (3 is the check digit) or &quot;weid:EXAMPLE-?&quot; (check
+   digit wildcard).
+
+   The registration of WEID Alphanumeric OIDs beneath this arc is
+   managed by Webfan.de in order of FRDLWEB.  You can assign a Private
+   WEID by Frdlweb here:
+   <a href="https://registry.frdl.de/?goto=com.frdlweb.freeweid">https://registry.frdl.de/?goto=com.frdlweb.freeweid</a>
+
+<h3><a class="selflink" id="section-2.2" href="#section-2.2">2.2</a>  Sub-Namespace &quot;weid:pen:&quot; for &quot;Class B&quot; WEIDs</h3>
+
+   The root OID is &quot;1.3.6.1.4.1&quot;.
+
+   Example: OID &quot;1.3.6.1.4.1.37476.9999&quot; can be written as
+   &quot;weid:pen:SX0-7PR-6&quot; (6 is the check digit) or &quot;weid:pen:SX0-7PR-?&quot;
+   (check digit wildcard).
+
+   The registration of Private Enterprise Numbers (PEN) is managed by
+   IANA.  You can register a PEN here:
+   <a href="https://pen.iana.org/pen/PenApplication.page">https://pen.iana.org/pen/PenApplication.page</a>
+
+<h3><a class="selflink" id="section-2.3" href="#section-2.3">2.3</a>  Sub-Namespace &quot;weid:root:&quot; for &quot;Class A&quot; WEIDs</h3>
+
+   The root OID is the root of the OID tree.
+
+   Example: OID &quot;2.999&quot; can be written as &quot;weid:root:2-RR-2&quot; (2 is the
+   check digit) or &quot;weid:root:2-RR-2&quot; (check digit wildcard).
+
+<h3><a class="selflink" id="section-2.4" href="#section-2.4">2.4</a>  Sub-Namespace &quot;weid:&lt;DomainName&gt;:&quot; for &quot;Class D&quot; (Domain) WEID</h3>
+
+   All WEID sub-namespaces containing at least one dot (.) in the second
+   URN part are treated as domain names.
+
+   The notation &quot;weid:example.com:ABC-DEF-?&quot; is equal to the Class C
+   WEID &quot;weid:9-DNS-COM-EXAMPLE-ABC-DEF-?&quot;.  The check digit is equal,
+   because it depends on the absolute path rather than the visible arcs.
+
+   The resulting WEID is called Domain-WEID or &quot;Class D&quot; WEID.
+
+   TLD-Only domains are not allowed for the purpose of forming a Domain-
+   WEID.
+
+   Only ASCII notations can be used; therefore the Punycode notation
+   MUST be used for Unicode domain names.
+
+
+
+<span class="grey">Marschall / Wehowski                                            [Page 4]</span></pre>
+</div><div class="page"><span class="noprint" id="page-5"><span class="grey">VTS/WF STD. 3          Wehowski Identifier (WEID)       3 September 2024</span>
+
+
+   A Domain-WEID can be converted to Class A/B/C WEID, but the reverse
+   conversion is ambiguous (&quot;where does the domain name end and where
+   does the identifier part start?&quot;)
+
+<h3><a class="selflink" id="section-2.5" href="#section-2.5">2.5</a>  Sub-Namespace &quot;weid:x-&lt;Name&gt;:&quot; for Proprietary Namespaces</h3>
+
+   For Proprietary WEID Namespaces, the second URN part must begin with
+   &quot;x-&quot;, for example, &quot;weid:x-contoso:ABC-DEF-?&quot; could be a WEID defined
+   by Contoso Ltd.
+
+   As usual for WEID, the namespace is case insensitive.
+
+   To avoid confusion with Domain-WEID, the sub-namespace must not
+   contain a dot (.).
+
+   The vendor has complete control over the namespace and can define the
+   behavior.  However, it is recommended to make use of Base36 and the
+   weLuhn check digit.
+
+   Since the vendor specifies the namespace, it is up to the vendor if
+   they allow the mapping of their WEID-Namespace to the OID-Tree.  In
+   comparison to class A/B/C/D WEID which are 100% OID compatible,
+   custom / vendor-specific WEIDs might not be OID-compatible at all.
+
+   Currently, the following custom namespaces are known:
+
+   (1) weid:x-frdl:[Base36_NS]-[SubNS]:[Base36_ID]-[CheckDigit] to be
+       defined/implemented by Frdlweb.
+
+   If you know more namespaces, or if you are the author of a custom
+   namespace, please let us know.
+
+
+<h2><a class="selflink" id="section-3" href="#section-3">3</a>  Construction of a WEID</h2>
+
+<h3><a class="selflink" id="section-3.1" href="#section-3.1">3.1</a>  Construction of a Class A/B/C WEID</h3>
+
+   The construction of a WEID is demonstrated with the example OID
+   &quot;2.999&quot;:
+
+   (1) The numeric arcs (e.g. &quot;2&quot; and &quot;999&quot;) are converted from base 10
+       to base 36, so the arcs become &quot;2&quot; and &quot;RR&quot;.
+
+   (2) The arcs are separated by a hyphen -, so we have now &quot;2-RR&quot;.
+
+   (3) A Luhn-based check digit (called WeLuhn) is added, preceded by a
+       hyphen.  Alternatively, you can replace the check digit with the
+       wildcard symbol &quot;?&quot;.
+
+
+
+<span class="grey">Marschall / Wehowski                                            [Page 5]</span></pre>
+</div><div class="page"><span class="noprint" id="page-6"><span class="grey">VTS/WF STD. 3          Wehowski Identifier (WEID)       3 September 2024</span>
+
+
+   The WeLuhn check digit is calculated as follows:
+
+   (3.1) First, we take the OID in dot notation (e.g. &quot;2.999&quot;)
+
+   (3.2) The arcs will be converted from base 10 to base 36, so we have
+         &quot;2-RR&quot;.  Padding zeros must not be present and need to be
+         stripped.
+
+   (3.3) The hyphens are removed, so we now have &quot;2RR&quot;.
+
+   (3.4) &quot;A&quot; will be replaced with 10, &quot;B&quot; will be replaced with &quot;11&quot;,
+         etc., so we now have &quot;22727&quot;.
+
+   This number is the payload for the standard Luhn algorithm which
+   works as follows:
+
+   (3.5) Start from the rightmost digit.  Moving left, double the value
+         of every second digit (including the rightmost digit).
+
+   (3.6) Sum the digits of the resulting value in each position.
+
+   (3.7) Sum the resulting values from all positions, &quot;s&quot;.
+
+   (3.8) The check digit is calculated by &quot;((10-s mod 10) mod 10)&quot;.  In
+         our case, the Luhn check digit is &quot;2&quot;.
+
+   (4) Choose the (sub-)namespace that is closest to the OID your are
+       describing:
+
+       - If the OID is inside &quot;1.3.6.1.4.1.37553.8&quot;, then replace the
+       prefix &quot;1-3-6-1-4-1-SZ5-8-&quot; with &quot;weid:&quot; (Class C WEID).
+
+       - Otherwise, if the OID is inside &quot;1.3.6.1.4.1&quot;, then replace the
+       prefix &quot;1-3-6-1-4-1-&quot; with &quot;weid:pen:&quot; (Class B WEID).
+
+       - Otherwise, prepend &quot;weid:root:&quot; (Class A WEID).
+
+   In our example, we choose &quot;weid:root:&quot; and our final WEID notation
+   for OID &quot;2.999&quot; is &quot;weid:root:2-RR-2&quot;, which is a Class A WEID.
+
+
+
+
+
+
+
+
+
+
+
+
+<span class="grey">Marschall / Wehowski                                            [Page 6]</span></pre>
+</div><div class="page"><span class="noprint" id="page-7"><span class="grey">VTS/WF STD. 3          Wehowski Identifier (WEID)       3 September 2024</span>
+
+
+<h3><a class="selflink" id="section-3.2" href="#section-3.2">3.2</a>  Construction of a Class D WEID</h3>
+
+   The construction of a Domain WEID is demonstrated with the example
+   domain &quot;example.com&quot; and the payload &quot;ABC-DEF&quot;:
+
+   (1) Prepend &quot;weid:&quot; in front of the domain name, and append a colon.
+       This gives &quot;weid:example.com:&quot;.
+
+   (2) If you want to add a payload, then append a the payload together
+       with a hyphen.  This gives &quot;weid:example.com:ABC-DEF-&quot;.
+
+   (3) Add a question-mark to have a wildcard check digit (e.g.
+       &quot;weid:example.com:ABC-DEF-?&quot;), or calculate the correct check
+       digit and add it.  In the latter case you will receive the
+       result: &quot;weid:example.com:ABC-DEF-8&quot;.
+
+   To calculate the check digit:
+
+   (3.1) Reverse the order of the domain parts, i.e. &quot;example.com&quot;
+         becomes &quot;com.example&quot;.
+
+   (3.2) Prepend &quot;1-3-6-1-4-1-SZ5-8-9-DNS-&quot;.  This gives &quot;1-3-6-1-4-1-
+         SZ5-8-9-DNS-com.example&quot;.
+
+   (3.3) If you want to add a payload, then add a hyphen and the
+         payload.  This results in &quot;1-3-6-1-4-1-SZ5-8-9-DNS-com.example-
+         ABC-DEF&quot;
+
+   (3.4) Remove the hyphens and dots, and convert everything to upper-
+         case.  This gives &quot;136141SZ589DNSCOMEXAMPLEABCDEF&quot;.
+
+   (3.5) &quot;A&quot; will be replaced with 10, &quot;B&quot; will be replaced with &quot;11&quot;,
+         etc.
+
+   (3.6) The standard Luhn algorithm (see <a href="#section-3.1">section 3.1</a>) will be applied,
+         which gives the check digit, in our example &quot;8&quot;.
+
+
+<h3><a class="selflink" id="section-3.3" href="#section-3.3">3.3</a>  Construction of a Custom WEID (Proprietary Namespaces)</h3>
+
+   The construction of a Custom WEID is vendor specific and hence
+   outside the scope of this specification.
+
+
+
+
+
+
+
+
+
+<span class="grey">Marschall / Wehowski                                            [Page 7]</span></pre>
+</div><div class="page"><span class="noprint" id="page-8"><span class="grey">VTS/WF STD. 3          Wehowski Identifier (WEID)       3 September 2024</span>
+
+
+<h2><a class="selflink" id="section-4" href="#section-4">4</a>  Notation</h2>
+
+<h3><a class="selflink" id="section-4.1" href="#section-4.1">4.1</a>  Recommendations</h3>
+
+   The arcs in a WEID SHOULD be written in upper-case, but lowercase can
+   be interpreted, too.
+
+   The URN namespace (weid:, weid:pen:, weid:root:) is case insensitive,
+   but it is RECOMMENDED to write it in lowercase.
+
+   Padding with 0 characters is valid (e.g. weid:000EXAMPLE-3), but NOT
+   RECOMMENDED.  The paddings do not count toward the WeLuhn check
+   digit.
+
+<h3><a class="selflink" id="section-4.2" href="#section-4.2">4.2</a>  Wildcard Notation (No Check Digit)</h3>
+
+   An alternative syntax for WEID replaces the check digit with a
+   wildcard in the form of a question mark symbol, for example,
+   &quot;weid:root:2-RR-?&quot; instead of &quot;weid:root:2-RR-2&quot;.  One useful
+   scenario can be the documentation of incomplete/template WEIDs, e.g.
+   &quot;weid:pen:SX0-Something-?&quot;.  Another usage is converters (like our
+   online converter) which can help you replace the wildcard with the
+   correct check digit.
+
+
+<h2><a class="selflink" id="section-5" href="#section-5">5</a>  Additional Notes</h2>
+
+   Any WEID - except for Custom WEID - can be represented by an OID and
+   vice-versa. Therefore, a WEID has all attributes of an OID (e.g. it
+   can be used to generate a Version 5 SHA1 name-based UUID with the
+   Namespace UUID &quot;6ba7b812-9dad-11d1-80b4-00c04fd430c8&quot; according to
+   [<a href="https://datatracker.ietf.org/doc/html/rfc4122">RFC 4122</a>]).
+
+   Please note that some clients handling OIDs cannot handle arcs that
+   have a specific size.  Implementers of WEID strongly encourage
+   allowing arbitrary length arcs (i.e. implementing BigInteger rather
+   than 32-bit integers).
+
+   At www.weid.info you can find more information and announcements of
+   changes.
+
+   The current version of the specification is 11, which is identified
+   with the OID 1.3.6.1.4.1.37553.8.1.8.1.6.1.11 (weid:1-8-1-6-1-B-7).
+
+
+
+
+
+
+
+
+<span class="grey">Marschall / Wehowski                                            [Page 8]</span></pre>
+</div><div class="page"><span class="noprint" id="page-9"><span class="grey">VTS/WF STD. 3          Wehowski Identifier (WEID)       3 September 2024</span>
+
+
+<h2><a class="selflink" id="section-6" href="#section-6">6</a>  Security Considerations</h2>
+
+   None.
+
+<h2><a class="selflink" id="section-7" href="#section-7">7</a>  IANA Considerations</h2>
+
+   There are no IANA Considerations.
+
+<h2><a class="selflink" id="section-8" href="#section-8">8</a>  References</h2>
+
+<h3><a class="selflink" id="section-8.1" href="#section-8.1">8.1</a>  Normative References</h3>
+
+   [<a id="ref-RFC2119">RFC2119</a>]  Bradner, S., &quot;Key words for use in RFCs to Indicate
+              Requirement Levels&quot;, <a href="https://datatracker.ietf.org/doc/html/bcp14">BCP 14</a>, <a href="https://datatracker.ietf.org/doc/html/rfc2119">RFC 2119</a>,
+              DOI 10.17487/RFC2119, March 1997,
+              &lt;<a href="https://www.rfc-editor.org/info/rfc2119">https://www.rfc-editor.org/info/rfc2119</a>&gt;.
+
+   [<a id="ref-RFC2141">RFC2141</a>]  Moats, R., &quot;URN Syntax&quot;, <a href="https://datatracker.ietf.org/doc/html/rfc2141">RFC 2141</a>, DOI 10.17487/RFC2141,
+              May 1997,
+              &lt;<a href="https://www.rfc-editor.org/info/rfc2141">https://www.rfc-editor.org/info/rfc2141</a>&gt;.
+
+<h3><a class="selflink" id="section-8.2" href="#section-8.2">8.2</a>  Informative References</h3>
+
+   [<a id="ref-RFC4122">RFC4122</a>]  Leach, P., Mealling, M., and R. Salz, &quot;A Universally
+              Unique IDentifier (UUID) URN Namespace&quot;, <a href="https://datatracker.ietf.org/doc/html/rfc4122">RFC 4122</a>,
+              DOI 10.17487/RFC4122, July 2005,
+              &lt;<a href="https://www.rfc-editor.org/info/rfc4122">https://www.rfc-editor.org/info/rfc4122</a>&gt;.
+
+Acknowledgements
+
+   I would like to thank Melanie Wehowski for her long time support in
+   OIDplus and WEID projects.
+
+   Thanks to the authors of these free tools which did a very good job
+   in validating various contents of this document:
+
+   - &quot;Grammarly&quot; spell and grammar checker
+     <a href="https://app.grammarly.com/">https://app.grammarly.com/</a>
+
+   This document was written in Nroff Internet Draft Editor by 3xA
+   Security.
+   <a href="https://aaa-sec.com/nroffedit/">https://aaa-sec.com/nroffedit/</a>
+   <a href="https://misc.daniel-marschall.de/patches/nroffedit/">https://misc.daniel-marschall.de/patches/nroffedit/</a> (&quot;year 2020&quot;
+   patch)
+
+
+
+
+
+
+
+<span class="grey">Marschall / Wehowski                                            [Page 9]</span></pre>
+</div><div class="page"><span class="noprint" id="page-10"><span class="grey">VTS/WF STD. 3          Wehowski Identifier (WEID)       3 September 2024</span>
+
+
+Authors&#x27; Addresses
+
+   Daniel Marschall
+   Postfach 11 53
+   69243 Bammental
+   Germany
+
+   Email: daniel-marschall@viathinksoft.de
+   URI:   <a href="https://www.viathinksoft.com/">https://www.viathinksoft.com/</a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Marschall / Wehowski                                           [Page 10]
+</pre></div></div></div>
+
+</body>
+
+</html>

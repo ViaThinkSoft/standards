@@ -1,0 +1,3440 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>OID Information Protocol (OID-IP)</title>
+	<style>
+
+        /** === DESKTOP === */
+
+        @media (min-width: 601px) {
+
+        body {
+            background-color: #f5f5f5;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 0;
+        }
+
+        .page {
+            width: 100%;
+            max-width: 700px; /* 72 Zeichen Breite in Pixel (bei Desktop-Ansicht) */
+            margin-bottom: 20px;
+            padding: 20px;
+            background-color: white;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            font-family: monospace;
+            white-space: pre-wrap;
+            overflow: hidden;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+        }
+
+        }
+
+        /** === MOBILE === */
+
+        @media (max-width: 600px) {
+
+        body {
+            background-color: #f5f5f5;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .container {
+            width: 100%;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+
+        .page {
+            width: 100%;
+            max-width: 100%; /* Ensures the page takes up full width on mobile */
+            margin-bottom: 20px;
+            padding: 10px;
+            background-color: white;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            font-family: monospace;
+            white-space: pre-wrap;
+            overflow: auto; /* Ensures overflow is handled */
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+            font-size: 8.7px; /* Smaller font size for mobile */
+        }
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<span style="font-family:Verdana">&larr; <a href="index.html">Back to Standards index</a></span><br><br>
+
+<div id="content">
+<div class="container"><div class="page"><pre>VIATHINKSOFT/WEBFAN                                         D. Marschall
+SPECIFICATION No. 2                                         ViaThinkSoft
+First Draft: 2010                                       2 September 2024
+
+
+               === OID Information Protocol (OID-IP) ===
+
+Abstract
+
+   This document defines a method for retrieving information about
+   Object Identifiers (OIDs) and their associated Registration
+   Authorities (RAs) through the HTTP or WHOIS protocol, in a way that
+   is both human-readable and machine-readable.  Besides a text output
+   format, OID-IP also supports sending information in JSON and XML.
+
+Identification of this Document
+
+   Revision:  2024-09-02
+   State:     In Force
+   URL:       <a href="https://github">https://github</a>.com/ViaThinkSoft/standards/blob/main/\
+              viathinksoft-std-0002-oidip.txt
+   URN:       urn:x-viathinksoft:std:0002:2024-09-02
+   OID:       1.3.6.1.4.1.37476.3.5.10
+              { iso(1) identified-organization(3) dod(6) internet(1)
+                private(4) enterprise(1) 37476 specifications(3)
+                communication(5) oid-ip(10) }
+   WEID:      weid:pen:SX0-3-5-A-6
+   IETF/RFC:  <a href="https://datatracker.ietf.org/doc/html/draft-viathinksoft-oidip-10">draft-viathinksoft-oidip-10</a>
+
+Attachments
+
+   XML Schema:
+   <a href="https://github.com/ViaThinkSoft/standards/blob/main/viathinksoft-std-0002-oidip.xsd">https://github.com/ViaThinkSoft/standards/blob/main/viathinksoft-std-</a>
+   <a href="https://github.com/ViaThinkSoft/standards/blob/main/viathinksoft-std-0002-oidip.xsd">0002-oidip.xsd</a>
+
+   JSON Schema:
+   <a href="https://github.com/ViaThinkSoft/standards/blob/main/viathinksoft-std-0002-oidip.json">https://github.com/ViaThinkSoft/standards/blob/main/viathinksoft-std-</a>
+   <a href="https://github.com/ViaThinkSoft/standards/blob/main/viathinksoft-std-0002-oidip.json">0002-oidip.json</a>
+
+Copyright Notice
+
+   Copyright (c) 2010-2024 ViaThinkSoft and the persons identified as
+   the document authors.  All rights reserved.
+
+   Licensed under the terms of the Apache 2.0 License.
+
+
+
+
+
+
+<span class="grey">Marschall                                                       [Page 1]</span></pre>
+</div><div class="page"><span class="noprint" id="page-2"><span class="grey">VTS/WF STD. 2           OID Information Protocol        2 September 2024</span>
+
+
+Table of Contents
+
+   <a href="#section-1">1</a>  Introduction  . . . . . . . . . . . . . . . . . . . . . . . . .  <a href="#page-5">5</a>
+     <a href="#section-1.1">1.1</a>  Terminology . . . . . . . . . . . . . . . . . . . . . . . .  <a href="#page-6">6</a>
+   <a href="#section-2">2</a>  Request . . . . . . . . . . . . . . . . . . . . . . . . . . . .  <a href="#page-7">7</a>
+     <a href="#section-2.1">2.1</a>  Request via HTTP(S) Protocol (Recommended)  . . . . . . . .  <a href="#page-7">7</a>
+       <a href="#section-2.1.1">2.1.1</a>  Request Method and Path . . . . . . . . . . . . . . . .  <a href="#page-7">7</a>
+       <a href="#section-2.1.2">2.1.2</a>  Formats and Content-Types . . . . . . . . . . . . . . .  <a href="#page-8">8</a>
+       <a href="#section-2.1.3">2.1.3</a>  Authentication  . . . . . . . . . . . . . . . . . . . .  <a href="#page-9">9</a>
+       <a href="#section-2.1.4">2.1.4</a>  Preferred Language  . . . . . . . . . . . . . . . . . . <a href="#page-10">10</a>
+       <a href="#section-2.1.5">2.1.5</a>  Custom Input Parameters . . . . . . . . . . . . . . . . <a href="#page-10">10</a>
+       <a href="#section-2.1.6">2.1.6</a>  Cookies . . . . . . . . . . . . . . . . . . . . . . . . <a href="#page-11">11</a>
+     <a href="#section-2.2">2.2</a>  Request via WHOIS Protocol (Backwards Compatibility)  . . . <a href="#page-11">11</a>
+       <a href="#section-2.2.1">2.2.1</a>  Request Method  . . . . . . . . . . . . . . . . . . . . <a href="#page-11">11</a>
+         <a href="#section-2.2.1.1">2.2.1.1</a>  Basic Query String  . . . . . . . . . . . . . . . . <a href="#page-11">11</a>
+         <a href="#section-2.2.1.2">2.2.1.2</a>  Input Parameters  . . . . . . . . . . . . . . . . . <a href="#page-12">12</a>
+         <a href="#section-2.2.1.3">2.2.1.3</a>  Request ABNF Notation . . . . . . . . . . . . . . . <a href="#page-12">12</a>
+       <a href="#section-2.2.2">2.2.2</a>  Format (&quot;format&quot; Argument)  . . . . . . . . . . . . . . <a href="#page-14">14</a>
+       <a href="#section-2.2.3">2.2.3</a>  Authentication Tokens (&quot;auth&quot; Argument) . . . . . . . . <a href="#page-14">14</a>
+       <a href="#section-2.2.4">2.2.4</a>  Preferred Language (&quot;lang&quot; Argument)  . . . . . . . . . <a href="#page-15">15</a>
+       <a href="#section-2.2.5">2.2.5</a>  Custom Input Parameters . . . . . . . . . . . . . . . . <a href="#page-16">16</a>
+   <a href="#section-3">3</a>  Response  . . . . . . . . . . . . . . . . . . . . . . . . . . . <a href="#page-16">16</a>
+     <a href="#section-3.1">3.1</a>  Format and Encoding . . . . . . . . . . . . . . . . . . . . <a href="#page-16">16</a>
+       <a href="#section-3.1.1">3.1.1</a>  &quot;text&quot; Format . . . . . . . . . . . . . . . . . . . . . <a href="#page-16">16</a>
+       <a href="#section-3.1.2">3.1.2</a>  &quot;json&quot; Format . . . . . . . . . . . . . . . . . . . . . <a href="#page-17">17</a>
+       <a href="#section-3.1.3">3.1.3</a>  &quot;xml&quot; Format  . . . . . . . . . . . . . . . . . . . . . <a href="#page-17">17</a>
+     <a href="#section-3.2">3.2</a>  Sections  . . . . . . . . . . . . . . . . . . . . . . . . . <a href="#page-17">17</a>
+       <a href="#section-3.2.1">3.2.1</a>  Query-Section (Information about Query and Result)  . . <a href="#page-18">18</a>
+         <a href="#section-3.2.1.1">3.2.1.1</a>  Query-Section &quot;query&quot; Field . . . . . . . . . . . . <a href="#page-18">18</a>
+         <a href="#section-3.2.1.2">3.2.1.2</a>  Query-Section &quot;result&quot; Field  . . . . . . . . . . . <a href="#page-18">18</a>
+         <a href="#section-3.2.1.3">3.2.1.3</a>  Query-Section &quot;distance&quot; Field  . . . . . . . . . . <a href="#page-19">19</a>
+         <a href="#section-3.2.1.4">3.2.1.4</a>  Query-Section &quot;message&quot; Field . . . . . . . . . . . <a href="#page-19">19</a>
+         <a href="#section-3.2.1.5">3.2.1.5</a>  Query-Section &quot;lang&quot; Field  . . . . . . . . . . . . <a href="#page-19">19</a>
+         <a href="#section-3.2.1.6">3.2.1.6</a>  Query-Section Other Fields  . . . . . . . . . . . . <a href="#page-19">19</a>
+       <a href="#section-3.2.2">3.2.2</a>  Object-Section (Information about the OID)  . . . . . . <a href="#page-19">19</a>
+         <a href="#section-3.2.2.1">3.2.2.1</a>  Object-Section &quot;object&quot; Field . . . . . . . . . . . <a href="#page-19">19</a>
+         <a href="#section-3.2.2.2">3.2.2.2</a>  Object-Section &quot;status&quot; Field . . . . . . . . . . . <a href="#page-19">19</a>
+         <a href="#section-3.2.2.3">3.2.2.3</a>  Object-Section &quot;lang&quot; Field . . . . . . . . . . . . <a href="#page-20">20</a>
+         <a href="#section-3.2.2.4">3.2.2.4</a>  Object-Section &quot;name&quot; Field . . . . . . . . . . . . <a href="#page-20">20</a>
+         <a href="#section-3.2.2.5">3.2.2.5</a>  Object-Section &quot;description&quot; Field  . . . . . . . . <a href="#page-20">20</a>
+         <a href="#section-3.2.2.6">3.2.2.6</a>  Object-Section &quot;information&quot; Field  . . . . . . . . <a href="#page-20">20</a>
+         <a href="#section-3.2.2.7">3.2.2.7</a>  Object-Section &quot;url&quot; Field  . . . . . . . . . . . . <a href="#page-20">20</a>
+         <a href="#section-3.2.2.8">3.2.2.8</a>  Object-Section &quot;asn1-notation&quot; Field  . . . . . . . <a href="#page-20">20</a>
+         <a href="#section-3.2.2.9">3.2.2.9</a>  Object-Section &quot;iri-notation&quot; Field . . . . . . . . <a href="#page-21">21</a>
+         <a href="#section-3.2.2.10">3.2.2.10</a>  Object-Section &quot;identifier&quot; Field  . . . . . . . . <a href="#page-21">21</a>
+         <a href="#section-3.2.2.11">3.2.2.11</a>  Object-Section &quot;standardized-id&quot; Field . . . . . . <a href="#page-21">21</a>
+         <a href="#section-3.2.2.12">3.2.2.12</a>  Object-Section &quot;unicode-label&quot; Field . . . . . . . <a href="#page-21">21</a>
+         <a href="#section-3.2.2.13">3.2.2.13</a>  Object-Section &quot;long-arc&quot; Field  . . . . . . . . . <a href="#page-21">21</a>
+
+
+
+<span class="grey">Marschall                                                       [Page 2]</span></pre>
+</div><div class="page"><span class="noprint" id="page-3"><span class="grey">VTS/WF STD. 2           OID Information Protocol        2 September 2024</span>
+
+
+         <a href="#section-3.2.2.14">3.2.2.14</a>  Object-Section &quot;oidip-service&quot; Field . . . . . . . <a href="#page-22">22</a>
+         <a href="#section-3.2.2.15">3.2.2.15</a>  Object-Section &quot;oidip-pubkey&quot; Field  . . . . . . . <a href="#page-22">22</a>
+         <a href="#section-3.2.2.16">3.2.2.16</a>  Object-Section &quot;attribute&quot; Field . . . . . . . . . <a href="#page-22">22</a>
+         <a href="#section-3.2.2.17">3.2.2.17</a>  Object-Section &quot;parent&quot; Field  . . . . . . . . . . <a href="#page-23">23</a>
+         <a href="#section-3.2.2.18">3.2.2.18</a>  Object-Section &quot;subordinate&quot; Field . . . . . . . . <a href="#page-23">23</a>
+         <a href="#section-3.2.2.19">3.2.2.19</a>  Object-Section &quot;created&quot; Field . . . . . . . . . . <a href="#page-23">23</a>
+         <a href="#section-3.2.2.20">3.2.2.20</a>  Object-Section &quot;updated&quot; Field . . . . . . . . . . <a href="#page-23">23</a>
+         <a href="#section-3.2.2.21">3.2.2.21</a>  Object-Section Other Fields  . . . . . . . . . . . <a href="#page-23">23</a>
+       <a href="#section-3.2.3">3.2.3</a>  RA-Section (Information about the Current RA) . . . . . <a href="#page-24">24</a>
+         <a href="#section-3.2.3.1">3.2.3.1</a>  RA-Section &quot;ra&quot; Field . . . . . . . . . . . . . . . <a href="#page-24">24</a>
+         <a href="#section-3.2.3.2">3.2.3.2</a>  RA-Section &quot;ra-status&quot; Field  . . . . . . . . . . . <a href="#page-24">24</a>
+         <a href="#section-3.2.3.3">3.2.3.3</a>  RA-Section &quot;ra-lang&quot; Field  . . . . . . . . . . . . <a href="#page-24">24</a>
+         <a href="#section-3.2.3.4">3.2.3.4</a>  RA-Section &quot;ra-contact-name&quot; Field  . . . . . . . . <a href="#page-24">24</a>
+         <a href="#section-3.2.3.5">3.2.3.5</a>  RA-Section &quot;ra-address&quot; Field . . . . . . . . . . . <a href="#page-24">24</a>
+         <a href="#section-3.2.3.6">3.2.3.6</a>  RA-Section &quot;ra-phone&quot; Field . . . . . . . . . . . . <a href="#page-25">25</a>
+         <a href="#section-3.2.3.7">3.2.3.7</a>  RA-Section &quot;ra-mobile&quot; Field  . . . . . . . . . . . <a href="#page-25">25</a>
+         <a href="#section-3.2.3.8">3.2.3.8</a>  RA-Section &quot;ra-fax&quot; Field . . . . . . . . . . . . . <a href="#page-25">25</a>
+         <a href="#section-3.2.3.9">3.2.3.9</a>  RA-Section &quot;ra-email&quot; Field . . . . . . . . . . . . <a href="#page-25">25</a>
+         <a href="#section-3.2.3.10">3.2.3.10</a>  RA-Section &quot;ra-url&quot; Field  . . . . . . . . . . . . <a href="#page-25">25</a>
+         <a href="#section-3.2.3.11">3.2.3.11</a>  RA-Section &quot;ra-attribute&quot; Field  . . . . . . . . . <a href="#page-25">25</a>
+         <a href="#section-3.2.3.12">3.2.3.12</a>  RA-Section &quot;ra-created&quot; Field  . . . . . . . . . . <a href="#page-26">26</a>
+         <a href="#section-3.2.3.13">3.2.3.13</a>  RA-Section &quot;ra-updated&quot; Field  . . . . . . . . . . <a href="#page-26">26</a>
+         <a href="#section-3.2.3.14">3.2.3.14</a>  RA-Section Other Fields  . . . . . . . . . . . . . <a href="#page-26">26</a>
+       <a href="#section-3.2.4">3.2.4</a>  Sections for Previous Registration Authorities  . . . . <a href="#page-26">26</a>
+     <a href="#section-3.3">3.3</a>  Digital Signature . . . . . . . . . . . . . . . . . . . . . <a href="#page-27">27</a>
+       <a href="#section-3.3.1">3.3.1</a>  &quot;text&quot; Format . . . . . . . . . . . . . . . . . . . . . <a href="#page-27">27</a>
+       <a href="#section-3.3.2">3.3.2</a>  &quot;json&quot; Format . . . . . . . . . . . . . . . . . . . . . <a href="#page-27">27</a>
+       <a href="#section-3.3.3">3.3.3</a>  &quot;xml&quot; Format  . . . . . . . . . . . . . . . . . . . . . <a href="#page-28">28</a>
+     <a href="#section-3.4">3.4</a>  Date/Time Format  . . . . . . . . . . . . . . . . . . . . . <a href="#page-28">28</a>
+       <a href="#section-3.4.1">3.4.1</a>  Date/Time Format ABNF Notation  . . . . . . . . . . . . <a href="#page-28">28</a>
+       <a href="#section-3.4.2">3.4.2</a>  Date/Time Format Examples . . . . . . . . . . . . . . . <a href="#page-29">29</a>
+     <a href="#section-3.5">3.5</a>  HTTP Response Status Codes  . . . . . . . . . . . . . . . . <a href="#page-29">29</a>
+   <a href="#section-4">4</a>  Referral  . . . . . . . . . . . . . . . . . . . . . . . . . . . <a href="#page-31">31</a>
+   <a href="#section-5">5</a>  Full Example (&quot;text&quot; Format)  . . . . . . . . . . . . . . . . . <a href="#page-32">32</a>
+     <a href="#section-5.1">5.1</a>  Request . . . . . . . . . . . . . . . . . . . . . . . . . . <a href="#page-32">32</a>
+     <a href="#section-5.2">5.2</a>  Response  . . . . . . . . . . . . . . . . . . . . . . . . . <a href="#page-32">32</a>
+   <a href="#section-6">6</a>  Alternative Namespaces  . . . . . . . . . . . . . . . . . . . . <a href="#page-33">33</a>
+     <a href="#section-6.1">6.1</a>  Example: UUID Namespace . . . . . . . . . . . . . . . . . . <a href="#page-34">34</a>
+       <a href="#section-6.1.1">6.1.1</a>  Request . . . . . . . . . . . . . . . . . . . . . . . . <a href="#page-34">34</a>
+       <a href="#section-6.1.2">6.1.2</a>  Response  . . . . . . . . . . . . . . . . . . . . . . . <a href="#page-34">34</a>
+   <a href="#section-7">7</a>  Internationalization Considerations . . . . . . . . . . . . . . <a href="#page-34">34</a>
+   <a href="#section-8">8</a>  Security Considerations . . . . . . . . . . . . . . . . . . . . <a href="#page-35">35</a>
+   <a href="#section-9">9</a>  IANA Considerations . . . . . . . . . . . . . . . . . . . . . . <a href="#page-35">35</a>
+   <a href="#section-10">10</a>  References . . . . . . . . . . . . . . . . . . . . . . . . . . <a href="#page-36">36</a>
+     <a href="#section-10.1">10.1</a>  Normative References . . . . . . . . . . . . . . . . . . . <a href="#page-36">36</a>
+     <a href="#section-10.2">10.2</a>  Informative References . . . . . . . . . . . . . . . . . . <a href="#page-38">38</a>
+   <a href="#appendix-A">Appendix A</a>.  JSON Format Schema and Example  . . . . . . . . . . . <a href="#page-39">39</a>
+   <a href="#appendix-A.1">Appendix A.1</a>.  JSON Format Schema  . . . . . . . . . . . . . . . . <a href="#page-39">39</a>
+
+
+
+<span class="grey">Marschall                                                       [Page 3]</span></pre>
+</div><div class="page"><span class="noprint" id="page-4"><span class="grey">VTS/WF STD. 2           OID Information Protocol        2 September 2024</span>
+
+
+   <a href="#appendix-A.2">Appendix A.2</a>.  JSON Format Example of Output . . . . . . . . . . . <a href="#page-48">48</a>
+   <a href="#appendix-B">Appendix B</a>.  XML Format Schema and Example . . . . . . . . . . . . <a href="#page-50">50</a>
+   <a href="#appendix-B.1">Appendix B.1</a>.  XML Format Schema . . . . . . . . . . . . . . . . . <a href="#page-50">50</a>
+   <a href="#appendix-B.2">Appendix B.2</a>.  XML Format Example of Output  . . . . . . . . . . . <a href="#page-59">59</a>
+   Acknowledgements . . . . . . . . . . . . . . . . . . . . . . . . . <a href="#page-61">61</a>
+   Authors&#x27; Addresses . . . . . . . . . . . . . . . . . . . . . . . . <a href="#page-61">61</a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<span class="grey">Marschall                                                       [Page 4]</span></pre>
+</div><div class="page"><span class="noprint" id="page-5"><span class="grey">VTS/WF STD. 2           OID Information Protocol        2 September 2024</span>
+
+
+<h2><a class="selflink" id="section-1" href="#section-1">1</a>  Introduction</h2>
+
+   An Object Identifier (OID) is an extensively used identification
+   mechanism jointly developed by ITU-T and ISO/IEC for naming any type
+   of object with a globally unambiguous name.  OIDs provide a
+   persistent identification of objects based on a hierarchical
+   structure of Registration Authorities (RA), where each parent has an
+   Object Identifier and allocates Object Identifiers to child nodes.
+   More information about Object Identifiers can be found in
+   Recommendation ITU-T X.660 (2011) | ISO/IEC 9834-1:2012 [<a href="#ref-X660" title="&quot;Information technology - Procedures for the operation of object identifier registration authorities: General procedures and top arcs of the international object identifier tree&quot;">X660</a>].
+
+   There are a few methods of retrieving information about an OID, like:
+
+   (A) Searching through web repositories like &lt;<a href="http://www.oid-info.com">http://www.oid-info.com</a>&gt;
+       or &lt;<a href="http://www.alvestrand.no/objectid/">http://www.alvestrand.no/objectid/</a>&gt;.  This has the
+       disadvantage that the information is usually not machine-readable
+       without functionalities like an API.
+
+   (B) Retrieving information using the Object Identifier Resolution
+       System (ORS) as defined in Recommendation ITU-T X.672 (2010) |
+       ISO/IEC 29168-1:2011 [<a href="#ref-X672" title="&quot;Information technology - Open systems interconnection - Object identifier resolution system&quot;">X672</a>].  This has the disadvantage that
+       Registration Authorities need to include specific DNS Resource
+       Records to their domains, and additionally, all RAs of the
+       superior OIDs must implement the ORS.
+
+   This document describes a method for retrieving information about
+   OIDs, which is both human-readable and machine-readable.
+
+   Three of many possible use-case scenarios are:
+
+   (1) Many web browsers and Operating Systems can handle ITU-T X.509
+       certificates [<a href="#ref-X509" title="&quot;Information technology - Open Systems Interconnection - The Directory: Public-key and attribute certificate frameworks&quot;">X509</a>] and usually contain a viewer application that
+       shows the contents of these certificates.  Attributes that are
+       unknown by the application are either only displayed by their
+       OID, or hidden to avoid confusion for the user.  With OID-IP, the
+       application could query the name of these unknown OIDs or even
+       retrieve instructions on how the data described by these OIDs can
+       be parsed and displayed.
+
+   (2) Applications that handle SNMP (Simple Network Management
+       Protocol) [<a href="https://datatracker.ietf.org/doc/html/rfc1157" title="&quot;Simple Network Management Protocol (SNMP)&quot;">RFC1157</a>] might need information about additional MIB
+       files or their OIDs.  OID-IP could aid these applications in
+       gathering the required information.
+
+   (3) In directory services like LDAP (Lightweight Directory Access
+       Protocol) [<a href="https://datatracker.ietf.org/doc/html/rfc4511" title="&quot;Lightweight Directory Access Protocol (LDAP): The Protocol&quot;">RFC4511</a>], applications could query the name of
+       attributes that are described by an OID the application doesn&#x27;t
+       know.
+
+
+
+<span class="grey">Marschall                                                       [Page 5]</span></pre>
+</div><div class="page"><span class="noprint" id="page-6"><span class="grey">VTS/WF STD. 2           OID Information Protocol        2 September 2024</span>
+
+
+<h3><a class="selflink" id="section-1.1" href="#section-1.1">1.1</a>  Terminology</h3>
+
+   The key words &quot;MUST&quot;, &quot;MUST NOT&quot;, &quot;REQUIRED&quot;, &quot;SHALL&quot;, &quot;SHALL NOT&quot;,
+   &quot;SHOULD&quot;, &quot;SHOULD NOT&quot;, &quot;RECOMMENDED&quot;, &quot;NOT RECOMMENDED&quot;, &quot;MAY&quot;, and
+   &quot;OPTIONAL&quot; in this document are to be interpreted as described in
+   <a href="https://datatracker.ietf.org/doc/html/bcp14">BCP 14</a> [<a href="https://datatracker.ietf.org/doc/html/rfc2119" title="&quot;Key words for use in RFCs to Indicate Requirement Levels&quot;">RFC2119</a>] [<a href="https://datatracker.ietf.org/doc/html/rfc8174" title="&quot;Ambiguity of Uppercase vs Lowercase in RFC 2119 Key Words&quot;">RFC8174</a>] when, and only when, they appear in all
+   capitals, as shown here.
+
+   The following list describes terminology and definitions used
+   throughout this document:
+
+      ABNF        Augmented Backus-Naur Form, a format used to represent
+                  permissible strings in a protocol or language, as
+                  defined in [<a href="https://datatracker.ietf.org/doc/html/rfc5234" title="&quot;Augmented BNF for Syntax Specifications: ABNF&quot;">RFC5234</a>].
+
+      arc         Synonymous for &quot;node&quot; in the terminology of Object
+                  Identifiers.
+
+      ASCII       American Standard Code for Information Interchange
+
+      HTTP(S)     Hypertext Transfer Protocol (Secure), as defined in
+                  [<a href="https://datatracker.ietf.org/doc/html/rfc9112">RFC9112</a>].
+
+      JSON        JavaScript Object Notation, an open standard file
+                  format and data interchange format, as defined in
+                  [<a href="https://datatracker.ietf.org/doc/html/rfc8259" title="&quot;The JavaScript Object Notation (JSON) Data Interchange Format&quot;">RFC8259</a>].
+
+      OID         Object Identifier, an identifier mechanism
+                  standardized by the International Telecommunication
+                  Union (ITU) and ISO/IEC.
+
+      OID-IP      Object Identifier Information Protocol, as defined in
+                  this document.
+
+      RA          Registration Authority, an entity responsible for
+                  allocating arcs to sub-nodes and recording that
+                  allocation (together with the organization the
+                  subordinate node has been allocated to).
+
+      TCP         Transmission Control Protocol
+
+      UTF-8       8-bit Unicode Transformation Format, as defined in
+                  [<a href="https://datatracker.ietf.org/doc/html/rfc3629" title="&quot;UTF-8, a transformation format of ISO 10646&quot;">RFC3629</a>].
+
+      XML         Extensible Markup Language, a markup language and file
+                  format for storing, transmitting, and reconstructing
+                  arbitrary data ([<a href="#ref-XML" title="&quot;Extensible Markup Language (XML) 1.1 (Second Edition)&quot;">XML</a>]).
+
+
+
+
+<span class="grey">Marschall                                                       [Page 6]</span></pre>
+</div><div class="page"><span class="noprint" id="page-7"><span class="grey">VTS/WF STD. 2           OID Information Protocol        2 September 2024</span>
+
+
+<h2><a class="selflink" id="section-2" href="#section-2">2</a>  Request</h2>
+
+   OID Information Protocol (OID-IP) is a text-based protocol that is
+   built on top of the Hypertext Transfer Protocol [<a href="https://datatracker.ietf.org/doc/html/rfc9112">RFC9112</a>] as defined
+   in <a href="#section-2.1">section 2.1</a> and/or the WHOIS protocol [<a href="https://datatracker.ietf.org/doc/html/rfc3912" title="&quot;WHOIS Protocol Specification&quot;">RFC3912</a>] as defined in
+   <a href="#section-2.2">section 2.2</a>.  (The concept of OID-IP was established in 2011 and is
+   already implemented by several vendors, hence WHOIS is part of this
+   specification.)
+
+<h3><a class="selflink" id="section-2.1" href="#section-2.1">2.1</a>  Request via HTTP(S) Protocol (Recommended)</h3>
+
+<h4><a class="selflink" id="section-2.1.1" href="#section-2.1.1">2.1.1</a>  Request Method and Path</h4>
+
+   All requests MUST be made using the HTTP(S) request methods &quot;GET&quot; or
+   &quot;POST&quot; in the following structure:
+
+       GET /.../&lt;objectType&gt;/&lt;objectIdentifier&gt;/&lt;format&gt;
+
+       POST /.../&lt;objectType&gt;/&lt;objectIdentifier&gt;/&lt;format&gt;
+
+   whereas
+
+   &lt;objectType&gt; is a namespace identifier which MUST be written in
+   lower-case.  It is usually &quot;oid&quot; (but can also be something else, see
+   an example in <a href="#section-6">section 6</a>).
+
+   &lt;objectIdentifier&gt; is the identifier to be requested.  For OIDs, it
+   MUST be an absolute OID and MUST be written in dot-notation without
+   leading dot as defined in <a href="https://datatracker.ietf.org/doc/html/rfc3061#section-2">RFC 3061, section&nbsp;2</a> [<a href="https://datatracker.ietf.org/doc/html/rfc3061" title="&quot;A URN Namespace of Object Identifiers&quot;">RFC3061</a>], e.g.
+   &quot;2.999&quot;.  Relative OIDs (e.g. relative to the OID of the Registration
+   Authority operating the OID-IP service) are not allowed.
+
+   &lt;format&gt; is the desired output format.  This document defines &quot;text&quot;,
+   &quot;json&quot;, and &quot;xml&quot; which are described in <a href="#section-2.1.2">section 2.1.2</a>.
+
+   Example of an URL that receives a GET request:
+
+       https://example.com/oidip/oid/2.999/text
+
+   To query the root node of any object type, &lt;objectIdentifier&gt; MUST
+   have the value &quot;root&quot;; for example:
+
+       https://example.com/oidip/oid/root/text
+
+   Since the word &quot;root&quot; has thereby a special meaning, identifiers that
+   actually have the name &quot;root&quot; CANNOT be queried using OID-IP.
+
+
+
+
+
+<span class="grey">Marschall                                                       [Page 7]</span></pre>
+</div><div class="page"><span class="noprint" id="page-8"><span class="grey">VTS/WF STD. 2           OID Information Protocol        2 September 2024</span>
+
+
+   This document describes the following additional GET/POST parameters:
+
+   (1) Authentication tokens (&quot;auth&quot; parameter), which is described in
+       <a href="#section-2.1.3">section 2.1.3</a>.
+
+   (2) Preferred language (&quot;lang&quot; parameter), which is described in
+       <a href="#section-2.1.4">section 2.1.4</a>.
+
+   Constraints for custom input parameters are described in
+   <a href="#section-2.1.5">section 2.1.5</a>.
+
+
+<h4><a class="selflink" id="section-2.1.2" href="#section-2.1.2">2.1.2</a>  Formats and Content-Types</h4>
+
+   This document defines 3 formats:
+
+   (1) &quot;text&quot;: A text representation as defined in <a href="#section-3.1.1">section 3.1.1</a>
+       (MANDATORY).  The &quot;Content-Type&quot; response header MUST be
+       &quot;text/vnd.viathinksoft.oidip&quot;.
+
+   (2) &quot;json&quot;: The JavaScript Object Notation (JSON, [<a href="https://datatracker.ietf.org/doc/html/rfc8259" title="&quot;The JavaScript Object Notation (JSON) Data Interchange Format&quot;">RFC8259</a>])
+       representation as defined in <a href="#section-3.1.2">section 3.1.2</a> (MANDATORY for the
+       HTTP(S) request method).  The &quot;Content-Type&quot; response header MUST
+       be &quot;application/vnd.viathinksoft.oidip+json&quot;.
+
+   (3) &quot;xml&quot;: Extensible Markup Language (XML, [<a href="#ref-XML" title="&quot;Extensible Markup Language (XML) 1.1 (Second Edition)&quot;">XML</a>]) representation as
+       defined in <a href="#section-3.1.3">section 3.1.3</a> (MANDATORY for the HTTP(S) request
+       method).  The &quot;Content-Type&quot; response header MUST be
+       &quot;application/vnd.viathinksoft.oidip+xml&quot;.
+
+   The default format is &quot;text&quot;, which is assumed if the &quot;format&quot;
+   argument is omitted.
+
+   Besides these 3 formats, the server can accept other formats not
+   defined in this document.  The name of the formats MUST be
+   alphanumeric, lower-case, and non-empty, and SHOULD be written in the
+   English language (e.g. &quot;text&quot;) or be common abbreviations (e.g.
+   &quot;json&quot;).
+
+   If the client requests a format that is not implemented, then the
+   server MUST respond with the &quot;text&quot; format, and the output MUST
+   consist of the &quot;query&quot; field, &quot;result: Service error&quot;, a fitting
+   &quot;message&quot; field (as described in <a href="#section-3.2.1">section 3.2.1</a>), and MUST be sending
+   the HTTP response code &quot;400 Bad Request&quot;.
+
+
+
+
+
+
+
+<span class="grey">Marschall                                                       [Page 8]</span></pre>
+</div><div class="page"><span class="noprint" id="page-9"><span class="grey">VTS/WF STD. 2           OID Information Protocol        2 September 2024</span>
+
+
+<h4><a class="selflink" id="section-2.1.3" href="#section-2.1.3">2.1.3</a>  Authentication</h4>
+
+   Some organizations might not want to present their OID information
+   (or part of it) to the public, e.g. for reasons like privacy or
+   confidentiality.  Therefore, the following authentication methods are
+   possible to control the display of confidential information returned
+   by the OID-IP service:
+
+   (1) Whitelisting the client&#x27;s IP address
+
+   (2) Supply of authentication tokens by the sender
+
+       Authentication tokens can be sent as &quot;auth&quot; GET parameter (can be
+       entered by a human in a browser), as &quot;auth&quot; POST parameter, or as
+       &quot;Authorization: Bearer ...&quot; request header (for automated
+       requests).  To make authentication as easy as possible, it is
+       RECOMMENDED to allow all three methods if authentication is
+       implemented.
+
+       The origin of the authentication token (whether it is hardcoded
+       or previously generated by an external authentication frameworks
+       such as OAuth 2.0) as well as its verification is not part of
+       this specification and hence implementation specific.
+
+       HTTP Authentication as defined in <a href="https://datatracker.ietf.org/doc/html/rfc9110">RFC 9110</a> MUST NOT be used.
+
+       The GET parameter has priority over the POST parameter, which has
+       priority over the HTTP(S) request header.
+
+       Authentication tokens MUST be case-sensitive and non-empty, and
+       MUST NOT contain a dollar sign (&quot;$&quot;), an equal sign (&quot;=&quot;), or a
+       comma sign (&quot;,&quot;).
+
+       If multiple authentication tokens need to be submitted, then the
+       &quot;auth&quot; argument MUST NOT be repeated.  Instead, the tokens are
+       separated using a comma sign (&quot;,&quot;).  A token MUST NOT be used
+       multiple times in the same query.
+
+       Example of an URL that receives a GET request:
+
+           https://example.com/oidip/oid/2.999/text?auth=rumpelstiltskin
+
+       Please note that authentication tokens should only be used if the
+       connection is secure.  For more information, see <a href="#section-8">section 8</a>
+       &quot;Security Considerations&quot;.
+
+   The usage of authentication is OPTIONAL.
+
+
+
+
+<span class="grey">Marschall                                                       [Page 9]</span></pre>
+</div><div class="page"><span class="noprint" id="page-10"><span class="grey">VTS/WF STD. 2           OID Information Protocol        2 September 2024</span>
+
+
+<h4><a class="selflink" id="section-2.1.4" href="#section-2.1.4">2.1.4</a>  Preferred Language</h4>
+
+   The client can request the preferred language of human-readable
+   descriptions, names, comments, and error messages using the Accept-
+   Language request header, or using a GET or POST parameter.
+
+   The GET parameter has priority over the POST parameter, which has
+   priority over the HTTP(S) request header.
+
+   If the server has data in different languages, it should try to find
+   the best-fitting language according to the client&#x27;s request.
+
+   If the GET or POST parameter is used, then the value MUST be a list
+   of language tags as defined by [<a href="https://datatracker.ietf.org/doc/html/rfc5646" title="&quot;Tags for Identifying Languages&quot;">RFC5646</a>], separated by a comma sign,
+   sorted by preference, and containing at least one element.  So, in
+   contrast to the &quot;Accept-Language&quot; request header, weights and
+   wildcards MUST NOT be used.
+
+   The translation SHALL only affect the &quot;message&quot;, &quot;name&quot;,
+   &quot;description&quot;, and &quot;information&quot; fields, as well as additional fields
+   and comments if their translation makes sense.  Field names MUST NOT
+   be translated.  For example, the field name &quot;description&quot; will always
+   be in the English language, even if the client requests a response in
+   a different language.
+
+   The following request is an example of a valid query where the client
+   asks for information written in the English language, preferring US
+   American English:
+
+       https://example.com/oidip/oid/2.999/text?lang=en-US,en
+
+   The usage of the &quot;Accept-Language&quot; request header or &quot;lang&quot; GET/POST
+   parameter is OPTIONAL.
+
+
+<h4><a class="selflink" id="section-2.1.5" href="#section-2.1.5">2.1.5</a>  Custom Input Parameters</h4>
+
+   The usage of input parameters not described in this document is
+   individual for each implementation.
+
+   Names MUST be alphanumeric, lower-case, and non-empty, and SHOULD be
+   written in the English language (e.g. &quot;database&quot;) or be common
+   abbreviations (e.g. &quot;db&quot; instead of &quot;database&quot;).
+
+   Values MUST be case-sensitive and non-empty, and MUST NOT contain a
+   dollar sign (&quot;$&quot;) or an equal sign (&quot;=&quot;).
+
+   The usage of the custom input parameters is OPTIONAL.
+
+
+
+<span class="grey">Marschall                                                      [Page 10]</span></pre>
+</div><div class="page"><span class="noprint" id="page-11"><span class="grey">VTS/WF STD. 2           OID Information Protocol        2 September 2024</span>
+
+
+<h4><a class="selflink" id="section-2.1.6" href="#section-2.1.6">2.1.6</a>  Cookies</h4>
+
+   The presence (or absence) of cookies MUST NOT make any difference to
+   the OID-IP output.  Cookies MUST NOT be used for authentication.
+
+<h3><a class="selflink" id="section-2.2" href="#section-2.2">2.2</a>  Request via WHOIS Protocol (Backwards Compatibility)</h3>
+
+<h4><a class="selflink" id="section-2.2.1" href="#section-2.2.1">2.2.1</a>  Request Method</h4>
+
+   With the WHOIS protocol request method, an OID-IP server listens by
+   default on TCP port 43 (WHOIS) for requests from OID-IP clients.  Due
+   to the compatibility between OID-IP and WHOIS, existing WHOIS clients
+   can be re-used and existing WHOIS servers can add the functionalities
+   described in this document in addition to their usual operation.
+
+   The OID-IP client makes a text request to the OID-IP server, then the
+   OID-IP server replies with text content.  All requests are terminated
+   with ASCII CR followed by ASCII LF.  The response contains multiple
+   lines of text, separated by ASCII CR followed by ASCII LF.  The OID-
+   IP server closes its connection as soon as the output is finished.
+   The closed TCP connection indicates to the client that the response
+   has been received.
+
+<h5><a class="selflink" id="section-2.2.1.1" href="#section-2.2.1.1">2.2.1.1</a>  Basic Query String</h5>
+
+   During the request, the client sends a query beginning with the
+   namespace identifier (usually &quot;oid&quot;, but it can also be something
+   else, see an example in <a href="#section-6">section 6</a>), followed by a colon &quot;:&quot; and the
+   requested identifier.
+
+   The namespace identifier MUST be written in lower-case.
+
+   If the namespace identifier is &quot;oid&quot;, then the identifier must be an
+   absolute OID in dot-notation, as defined in <a href="https://datatracker.ietf.org/doc/html/rfc3061#section-2">RFC 3061, section&nbsp;2</a>
+   [<a href="https://datatracker.ietf.org/doc/html/rfc3061" title="&quot;A URN Namespace of Object Identifiers&quot;">RFC3061</a>], but with the following differences:
+
+   (1) The OID MAY contain a leading dot.
+
+   (2) To query the root of the OID tree, the OID MUST be either missing
+       or consisting only of a single dot.
+
+   Examples of valid queries are:
+
+       oid:
+       oid:.
+       oid:2.999
+       oid:.2.999
+
+
+
+
+<span class="grey">Marschall                                                      [Page 11]</span></pre>
+</div><div class="page"><span class="noprint" id="page-12"><span class="grey">VTS/WF STD. 2           OID Information Protocol        2 September 2024</span>
+
+
+   All OIDs MUST be interpreted as absolute OIDs.  Relative OIDs (e.g.
+   relative to the OID of the Registration Authority operating the OID-
+   IP service) are not allowed.
+
+<h5><a class="selflink" id="section-2.2.1.2" href="#section-2.2.1.2">2.2.1.2</a>  Input Parameters</h5>
+
+   The client can send additional information to the server using &quot;input
+   parameters&quot;.
+
+   Names MUST be treated as case-sensitive.
+
+   A request can contain multiple input parameters which are each
+   prepended by a dollar sign (&quot;$&quot;).
+
+   An equal sign (&quot;=&quot;) divides the &quot;name&quot; from the &quot;value&quot;.
+
+   Each name MUST only appear a single time in the list of input
+   parameters.
+
+   This document describes the following input parameters:
+
+   (1) Format (&quot;format&quot; argument), which is described in <a href="#section-2.2.2">section 2.2.2</a>.
+
+   (2) Authentication tokens (&quot;auth&quot; argument), which is described in
+       <a href="#section-2.2.3">section 2.2.3</a>.
+
+   (3) Preferred language (&quot;lang&quot; argument), which is described in
+       <a href="#section-2.2.4">section 2.2.4</a>.
+
+   Constraints for custom input parameters are described in
+   <a href="#section-2.2.5">section 2.2.5</a>.
+
+   The following request is an example of a valid query where the client
+   sends a &quot;format&quot; argument with the value &quot;json&quot;:
+
+       oid:2.999$format=json
+
+<h5><a class="selflink" id="section-2.2.1.3" href="#section-2.2.1.3">2.2.1.3</a>  Request ABNF Notation</h5>
+
+   To define the query string, the following Augmented BNF definitions
+   will be used.  They are based on the ABNF styles of <a href="https://datatracker.ietf.org/doc/html/rfc5234">RFC 5234</a>
+   [<a href="https://datatracker.ietf.org/doc/html/rfc5234" title="&quot;Augmented BNF for Syntax Specifications: ABNF&quot;">RFC5234</a>].
+
+   query           = object optional-args
+
+   object          = ( str-oid       &quot;:&quot; optional-oid ) /
+                     ( other-ns-name &quot;:&quot; other-ns-val )
+   str-oid         = %x6F.69.64           ; %s&quot;oid&quot;    in <a href="https://datatracker.ietf.org/doc/html/rfc7405">RFC 7405</a>
+
+
+
+<span class="grey">Marschall                                                      [Page 12]</span></pre>
+</div><div class="page"><span class="noprint" id="page-13"><span class="grey">VTS/WF STD. 2           OID Information Protocol        2 September 2024</span>
+
+
+   ; Additional constraint: Query MUST NOT contain more than one
+   ;                        argument with the same name.
+   optional-args   = *( &quot;$&quot; argument )
+
+   argument        = ( str-format     &quot;=&quot; format ) /
+                     ( str-auth       &quot;=&quot; tokens ) /
+                     ( str-lang       &quot;=&quot; languages ) /
+                     ( other-arg-name &quot;=&quot; other-arg-val )
+   str-format      = %x66.6F.72.6D.61.74  ; %s&quot;format&quot; in <a href="https://datatracker.ietf.org/doc/html/rfc7405">RFC 7405</a>
+   str-auth        = %x61.75.74.68        ; %s&quot;auth&quot;   in <a href="https://datatracker.ietf.org/doc/html/rfc7405">RFC 7405</a>
+   str-lang        = %x6C.61.6E.67        ; %s&quot;lang&quot;   in <a href="https://datatracker.ietf.org/doc/html/rfc7405">RFC 7405</a>
+
+   optional-oid    = [ &quot;.&quot; ] [ oid ]
+
+   oid             = unsigned-number *( &quot;.&quot; unsigned-number )
+
+   format          = str-text /
+                     str-json /
+                     str-xml  /
+                     1*( lowercase-char / digit )
+   str-text        = %x74.65.78.74        ; %s&quot;text&quot;   in <a href="https://datatracker.ietf.org/doc/html/rfc7405">RFC 7405</a>
+   str-json        = %x6A.73.6F.6E        ; %s&quot;json&quot;   in <a href="https://datatracker.ietf.org/doc/html/rfc7405">RFC 7405</a>
+   str-xml         = %x78.6D.6C           ; %s&quot;xml&quot;    in <a href="https://datatracker.ietf.org/doc/html/rfc7405">RFC 7405</a>
+
+   ; Language-Tag is defined in <a href="https://datatracker.ietf.org/doc/html/rfc5646">RFC 5646</a>
+   languages       = Language-Tag *( &quot;,&quot; Language-Tag )
+
+   ; Additional constraint: Tokens MUST NOT be used more than one time
+   ;                        in the same query.
+   tokens          = token *( &quot;,&quot; token )
+
+   ; Printable characters (%x21-7E), excluding dollar sign (%x24 &quot;$&quot;),
+   ; equal sign (%x3D &quot;=&quot;), and comma sign (%x2C &quot;,&quot;).
+   token           = 1*( %x21-23 / %x25-2B / %x2D-3C / %x3E-7E )
+
+   ; Additional constraint: MUST NOT be &lt;str-format&gt; or &lt;str-auth&gt;.
+   other-arg-name  = 1*( lowercase-char / digit )
+
+   ; Printable characters (%x21-7E), excluding dollar sign (%x24 &quot;$&quot;)
+   ; and equal sign (%x3D &quot;=&quot;).
+   other-arg-val   = 1*( %x21-23 / %x25-3C / %x3E-7E )
+
+   ; Additional constraint: MUST NOT be &lt;str-oid&gt;.
+   other-ns-name   = 1*( lowercase-char / digit )
+
+   ; Printable characters (%x21-7E), excluding dollar sign (%x24 &quot;$&quot;).
+   other-ns-val    = *( %x21-23 / %x25-7E )
+
+
+
+
+<span class="grey">Marschall                                                      [Page 13]</span></pre>
+</div><div class="page"><span class="noprint" id="page-14"><span class="grey">VTS/WF STD. 2           OID Information Protocol        2 September 2024</span>
+
+
+   unsigned-number = &quot;0&quot; / ( nonzero-digit *digit )
+
+   digit           = %x30-39  ; 0-9
+   nonzero-digit   = %x31-39  ; 1-9
+   lowercase-char  = %x61-7A  ; a-z
+
+<h4><a class="selflink" id="section-2.2.2" href="#section-2.2.2">2.2.2</a>  Format (&quot;format&quot; Argument)</h4>
+
+   The &quot;format&quot; argument defines the desired output format.
+
+   This document defines 3 formats:
+
+   (1) &quot;text&quot;: A text representation as defined in <a href="#section-3.1.1">section 3.1.1</a>
+       (MANDATORY).
+
+   (2) &quot;json&quot;: The JavaScript Object Notation (JSON, [<a href="https://datatracker.ietf.org/doc/html/rfc8259" title="&quot;The JavaScript Object Notation (JSON) Data Interchange Format&quot;">RFC8259</a>])
+       representation as defined in <a href="#section-3.1.2">section 3.1.2</a> (RECOMMENDED).
+
+   (3) &quot;xml&quot;: Extensible Markup Language (XML, [<a href="#ref-XML" title="&quot;Extensible Markup Language (XML) 1.1 (Second Edition)&quot;">XML</a>]) representation as
+       defined in <a href="#section-3.1.3">section 3.1.3</a> (RECOMMENDED).
+
+   The default format is &quot;text&quot;, which is assumed if the &quot;format&quot;
+   argument is omitted.
+
+   Besides these 3 formats, the server can accept other formats not
+   defined in this document.  The name of the formats MUST be
+   alphanumeric, lower-case, and non-empty, and SHOULD be written in the
+   English language (e.g. &quot;text&quot;) or be common abbreviations (e.g.
+   &quot;json&quot;).
+
+   If the client requests a format that is not implemented, then the
+   server MUST respond with the &quot;text&quot; format, and the output MUST
+   consist of the &quot;query&quot; field, &quot;result: Service error&quot;, and a fitting
+   &quot;message&quot; field (as described in <a href="#section-3.2.1">section 3.2.1</a>).
+
+   The usage of the argument &quot;format&quot; is OPTIONAL.
+
+<h4><a class="selflink" id="section-2.2.3" href="#section-2.2.3">2.2.3</a>  Authentication Tokens (&quot;auth&quot; Argument)</h4>
+
+   Some organizations might not want to present their OID information
+   (or part of it) to the public, e.g. for reasons like privacy or
+   confidentiality.  Therefore, one or more &quot;authentication tokens&quot; can
+   be sent to control the display of confidential information returned
+   by the OID-IP service.
+
+   Authentication tokens MUST be case-sensitive and non-empty, and MUST
+   NOT contain a dollar sign (&quot;$&quot;), an equal sign (&quot;=&quot;), or a comma sign
+   (&quot;,&quot;).
+
+
+
+<span class="grey">Marschall                                                      [Page 14]</span></pre>
+</div><div class="page"><span class="noprint" id="page-15"><span class="grey">VTS/WF STD. 2           OID Information Protocol        2 September 2024</span>
+
+
+   If multiple authentication tokens need to be submitted, then the
+   &quot;auth&quot; argument MUST NOT be repeated.  Instead, the tokens are
+   separated using a comma sign (&quot;,&quot;).  A token MUST NOT be used
+   multiple times in the same query.
+
+   Examples of valid queries are:
+
+       oid:2.999$auth=firstToken
+       oid:2.999$auth=firstToken,secondToken
+
+   Please note that authentication tokens are only weak protection.  For
+   more information, see <a href="#section-8">section 8</a> &quot;Security Considerations&quot;.
+
+   The usage of the argument &quot;auth&quot; is OPTIONAL.
+
+<h4><a class="selflink" id="section-2.2.4" href="#section-2.2.4">2.2.4</a>  Preferred Language (&quot;lang&quot; Argument)</h4>
+
+   The client can request the preferred language of human-readable
+   descriptions, names, comments, and error messages using the &quot;lang&quot;
+   argument.
+
+   If the server has data in different languages, it should try to find
+   the best-fitting language according to the client&#x27;s request.
+
+   The value of the &quot;lang&quot; argument MUST be a list of language tags as
+   defined by [<a href="https://datatracker.ietf.org/doc/html/rfc5646" title="&quot;Tags for Identifying Languages&quot;">RFC5646</a>], separated by a comma sign, sorted by
+   preference, and containing at least one element.
+
+   The translation SHALL only affect the &quot;message&quot;, &quot;name&quot;,
+   &quot;description&quot;, and &quot;information&quot; fields, as well as additional fields
+   and comments if their translation makes sense.  Field names MUST NOT
+   be translated.  For example, the field name &quot;description&quot; will always
+   be in the English language, even if the client requests a response in
+   a different language.
+
+   The following request is an example of a valid query where the client
+   asks for information written in the English language, preferring US
+   American English:
+
+       oid:2.999$lang=en-US,en
+
+   The usage of the argument &quot;lang&quot; is OPTIONAL.
+
+
+
+
+
+
+
+
+
+<span class="grey">Marschall                                                      [Page 15]</span></pre>
+</div><div class="page"><span class="noprint" id="page-16"><span class="grey">VTS/WF STD. 2           OID Information Protocol        2 September 2024</span>
+
+
+<h4><a class="selflink" id="section-2.2.5" href="#section-2.2.5">2.2.5</a>  Custom Input Parameters</h4>
+
+   The usage of input parameters not described in this document is
+   individual for each implementation.
+
+   Names MUST be alphanumeric, lower-case, and non-empty, and SHOULD be
+   written in the English language (e.g. &quot;database&quot;) or be common
+   abbreviations (e.g. &quot;db&quot;).
+
+   Values MUST be case-sensitive and non-empty, and MUST NOT contain a
+   dollar sign (&quot;$&quot;) or an equal sign (&quot;=&quot;).
+
+   The usage of the custom input parameters MUST be OPTIONAL.
+
+<h2><a class="selflink" id="section-3" href="#section-3">3</a>  Response</h2>
+
+<h3><a class="selflink" id="section-3.1" href="#section-3.1">3.1</a>  Format and Encoding</h3>
+
+<h4><a class="selflink" id="section-3.1.1" href="#section-3.1.1">3.1.1</a>  &quot;text&quot; Format</h4>
+
+   (1) The response MUST be UTF-8 encoded (as defined in <a href="https://datatracker.ietf.org/doc/html/rfc3629">RFC 3629</a>
+       [<a href="https://datatracker.ietf.org/doc/html/rfc3629" title="&quot;UTF-8, a transformation format of ISO 10646&quot;">RFC3629</a>]), without Byte-Order-Mark (BOM).
+
+   (2) The response contains multiple lines with field names and values,
+       which MUST be separated by a double colon (&quot;:&quot;).  Whitespace
+       characters after the double colon are allowed.
+
+   (3) If possible, each line SHOULD be limited to 80 characters,
+       including the field name, double colon, value, and whitespaces.
+
+   (4) Field names and values MUST be treated as case-sensitive.
+
+   (5) If a value needs to be split into multiple lines, e.g. if the
+       line would exceed the length limit, the same field name including
+       double colon MUST be repeated at the beginning of the next line.
+
+   (6) If an attribute has multiple values (e.g. multiple Unicode
+       labels, alternative email addresses, etc.), each value MUST be
+       written in a new line with the same field name.
+
+   (7) Lines with the same field name SHALL be kept together.
+
+   (8) Comment lines MUST start with a percent sign (&quot;%&quot;) at the
+       beginning of a line, without prepending whitespaces.  They MUST
+       NOT be evaluated by machines (except for signature validation, as
+       mentioned in <a href="#section-3.3">section 3.3</a> &quot;Digital Signature&quot;).
+
+
+
+
+
+<span class="grey">Marschall                                                      [Page 16]</span></pre>
+</div><div class="page"><span class="noprint" id="page-17"><span class="grey">VTS/WF STD. 2           OID Information Protocol        2 September 2024</span>
+
+
+   (9) A response consists of sections, which MUST be separated by at
+       least one empty line and/or comment line.
+
+  (10) Custom sections CAN be added after any section defined in this
+       document.  The query section MUST be the first section in the
+       response.
+
+<h4><a class="selflink" id="section-3.1.2" href="#section-3.1.2">3.1.2</a>  &quot;json&quot; Format</h4>
+
+   (1) The response MUST be UTF-8 encoded (as defined in <a href="https://datatracker.ietf.org/doc/html/rfc3629">RFC 3629</a>
+       [<a href="https://datatracker.ietf.org/doc/html/rfc3629" title="&quot;UTF-8, a transformation format of ISO 10646&quot;">RFC3629</a>]), without Byte-Order-Mark (BOM).
+
+   (2) A response consists of sections, which MUST be named
+       &quot;querySection&quot;, &quot;objectSection&quot;, &quot;raSection&quot;, &quot;ra1Section&quot;, etc.
+       which SHOULD stay in this order.
+
+   (3) Custom sections CAN be added.  The name of these custom sections
+       MUST be the name of the first field, appended by the string
+       &quot;Section&quot;.
+
+   (4) The JavaScript Object Notation (JSON, [<a href="https://datatracker.ietf.org/doc/html/rfc8259" title="&quot;The JavaScript Object Notation (JSON) Data Interchange Format&quot;">RFC8259</a>]) output MUST
+       match the schema defined in <a href="#appendix-A.1">Appendix A.1</a> of this document.
+
+<h4><a class="selflink" id="section-3.1.3" href="#section-3.1.3">3.1.3</a>  &quot;xml&quot; Format</h4>
+
+   (1) The response MUST be UTF-8 encoded (as defined in <a href="https://datatracker.ietf.org/doc/html/rfc3629">RFC 3629</a>
+       [<a href="https://datatracker.ietf.org/doc/html/rfc3629" title="&quot;UTF-8, a transformation format of ISO 10646&quot;">RFC3629</a>]), without Byte-Order-Mark (BOM).
+
+   (2) A response consists of sections, which MUST be named
+       &quot;querySection&quot;, &quot;objectSection&quot;, &quot;raSection&quot;, &quot;ra1Section&quot;, etc.
+       which MUST stay in this order.
+
+   (3) Custom sections CAN be added.  The name of these custom sections
+       MUST be the name of the first field, appended by the string
+       &quot;Section&quot;.  These custom sections MUST be specified in a
+       different XML namespace at the end of the last RA section.
+
+   (4) The Extensible Markup Language (XML, [<a href="#ref-XML" title="&quot;Extensible Markup Language (XML) 1.1 (Second Edition)&quot;">XML</a>]) output MUST match the
+       schema defined in <a href="#appendix-B.1">Appendix B.1</a> of this document.
+
+<h3><a class="selflink" id="section-3.2" href="#section-3.2">3.2</a>  Sections</h3>
+
+   This document specifies the following sections:
+
+   (1) Query-Section which contains the request and the result, as
+       described in <a href="#section-3.2.1">section 3.2.1</a>.
+
+
+
+
+
+<span class="grey">Marschall                                                      [Page 17]</span></pre>
+</div><div class="page"><span class="noprint" id="page-18"><span class="grey">VTS/WF STD. 2           OID Information Protocol        2 September 2024</span>
+
+
+   (2) Object-Section which contains information about the OID, as
+       described in <a href="#section-3.2.2">section 3.2.2</a>.
+
+   (3) RA-Section which contains information about the current
+       Registration Authority, as described in <a href="#section-3.2.3">section 3.2.3</a>.
+
+   (4) Optional RA-Sections containing information about RAs that were
+       previously in charge of managing the OID, as described in
+       <a href="#section-3.2.4">section 3.2.4</a>.
+
+<h4><a class="selflink" id="section-3.2.1" href="#section-3.2.1">3.2.1</a>  Query-Section (Information about Query and Result)</h4>
+
+   This section MUST always be present and MUST start with the field
+   &quot;query&quot;.  It MUST be the first section in the response.
+
+   Possible fields are:
+
+<h5><a class="selflink" id="section-3.2.1.1" href="#section-3.2.1.1">3.2.1.1</a>  Query-Section &quot;query&quot; Field</h5>
+
+   &quot;query&quot; MUST be present and contains the request string the client
+   has sent.  Canonization or sanitation (like removing a leading dot in
+   front of the OID) SHOULD NOT be applied at this step.  Authentication
+   tokens SHOULD be omitted, though.
+
+<h5><a class="selflink" id="section-3.2.1.2" href="#section-3.2.1.2">3.2.1.2</a>  Query-Section &quot;result&quot; Field</h5>
+
+   &quot;result&quot; MUST be present and SHALL be one of the following values:
+
+   (1) &quot;Found&quot; means that the OID-IP service can verify that the
+       requested OID exists.  The following sections will contain
+       information about this OID.
+
+   (2) &quot;Not found; superior object found&quot; means that the OID-IP service
+       cannot verify that the requested OID exists, or it denies that
+       the OID exists (e.g. because it is confidential).  However, the
+       OID-IP service knows a superior OID which does exist.  The
+       following sections will contain information about that superior
+       OID instead.
+
+   (3) &quot;Not found&quot; means that the OID-IP service cannot verify that the
+       requested OID exists, or it denies that the OID exists (e.g.
+       because it is confidential).  Additionally, the OID-IP service
+       does not have information about any superior OID, or their
+       existence is also denied.
+
+   (4) &quot;Service error&quot; means that an internal error occurred, or that
+       the system is in maintenance mode.  The client should try again
+       later.
+
+
+
+<span class="grey">Marschall                                                      [Page 18]</span></pre>
+</div><div class="page"><span class="noprint" id="page-19"><span class="grey">VTS/WF STD. 2           OID Information Protocol        2 September 2024</span>
+
+
+<h5><a class="selflink" id="section-3.2.1.3" href="#section-3.2.1.3">3.2.1.3</a>  Query-Section &quot;distance&quot; Field</h5>
+
+   &quot;distance&quot; SHOULD be present if it is applicable in the requested
+   namespace (it is always applicable for OIDs) and if the result is
+   &quot;Not found; superior object found&quot;.  A distance of 1 means that the
+   direct parent was found.  A distance of 2 means that the grand-parent
+   was found, etc.
+
+<h5><a class="selflink" id="section-3.2.1.4" href="#section-3.2.1.4">3.2.1.4</a>  Query-Section &quot;message&quot; Field</h5>
+
+   &quot;message&quot; SHOULD be present if the result is &quot;Service error&quot;.  It
+   contains a message explaining why the service is not available (e.g.
+   displaying an error message).  It MUST NOT be present if the result
+   has a different value.
+
+<h5><a class="selflink" id="section-3.2.1.5" href="#section-3.2.1.5">3.2.1.5</a>  Query-Section &quot;lang&quot; Field</h5>
+
+   &quot;lang&quot; (OPTIONAL) contains the language of the field &quot;message&quot;.  The
+   language should be a language tag as defined in [<a href="https://datatracker.ietf.org/doc/html/rfc5646" title="&quot;Tags for Identifying Languages&quot;">RFC5646</a>].
+
+<h5><a class="selflink" id="section-3.2.1.6" href="#section-3.2.1.6">3.2.1.6</a>  Query-Section Other Fields</h5>
+
+   The OID-IP service SHOULD NOT add additional fields to the Query
+   section.
+
+<h4><a class="selflink" id="section-3.2.2" href="#section-3.2.2">3.2.2</a>  Object-Section (Information about the OID)</h4>
+
+   This section MUST be present if the result is &quot;Found&quot; or &quot;Not found;
+   superior object found&quot;.  It MUST start with the field &quot;object&quot;.  It
+   MUST NOT be present if the result is &quot;Not found&quot; or &quot;Service error&quot;.
+
+   Possible fields are:
+
+<h5><a class="selflink" id="section-3.2.2.1" href="#section-3.2.2.1">3.2.2.1</a>  Object-Section &quot;object&quot; Field</h5>
+
+   &quot;object&quot; contains the OID in dot-notation, prepended by the namespace
+   identifier and double colon (&quot;oid:&quot;).  This field MUST be present.
+
+<h5><a class="selflink" id="section-3.2.2.2" href="#section-3.2.2.2">3.2.2.2</a>  Object-Section &quot;status&quot; Field</h5>
+
+   &quot;status&quot; MUST be present and SHALL be one of the following values:
+
+   (1) &quot;Information available&quot; means that information about the OID is
+       fully available.
+
+   (2) &quot;Information partially available&quot; means that part of the
+       information about the OID is not available.  Possible reasons
+       could be that part of the information is redacted due to
+
+
+
+<span class="grey">Marschall                                                      [Page 19]</span></pre>
+</div><div class="page"><span class="noprint" id="page-20"><span class="grey">VTS/WF STD. 2           OID Information Protocol        2 September 2024</span>
+
+
+       confidentiality, or the OID-IP service only knows basic
+       information, while the full information can be found somewhere
+       else (e.g. at a referred OID-IP service).  The field &quot;attribute&quot;
+       MAY be used with the value &quot;confidential&quot;.
+
+   (3) &quot;Information unavailable&quot; means that the information about the
+       OID is missing, redacted due to confidentiality, or otherwise
+       unavailable.  The field &quot;attribute&quot; MAY be used with the value
+       &quot;confidential&quot;.
+
+<h5><a class="selflink" id="section-3.2.2.3" href="#section-3.2.2.3">3.2.2.3</a>  Object-Section &quot;lang&quot; Field</h5>
+
+   &quot;lang&quot; (OPTIONAL) contains the language of the fields &quot;name&quot;,
+   &quot;description&quot;, &quot;information&quot;, and additional fields if their
+   translation makes sense.  The language should be a language tag as
+   defined in [<a href="https://datatracker.ietf.org/doc/html/rfc5646" title="&quot;Tags for Identifying Languages&quot;">RFC5646</a>].
+
+<h5><a class="selflink" id="section-3.2.2.4" href="#section-3.2.2.4">3.2.2.4</a>  Object-Section &quot;name&quot; Field</h5>
+
+   &quot;name&quot; (OPTIONAL) contains the name of the OID.  It SHOULD be as
+   short as possible.
+
+<h5><a class="selflink" id="section-3.2.2.5" href="#section-3.2.2.5">3.2.2.5</a>  Object-Section &quot;description&quot; Field</h5>
+
+   &quot;description&quot; (OPTIONAL) contains a short description of the OID.
+   The description SHOULD only be a single sentence.
+
+<h5><a class="selflink" id="section-3.2.2.6" href="#section-3.2.2.6">3.2.2.6</a>  Object-Section &quot;information&quot; Field</h5>
+
+   &quot;information&quot; (OPTIONAL) contains additional information, e.g.
+   Management Information Base (MIB) definitions.
+
+<h5><a class="selflink" id="section-3.2.2.7" href="#section-3.2.2.7">3.2.2.7</a>  Object-Section &quot;url&quot; Field</h5>
+
+   &quot;url&quot; (OPTIONAL, multiple values allowed) contains a URL (as defined
+   in <a href="https://datatracker.ietf.org/doc/html/rfc3986">RFC 3986</a> [<a href="https://datatracker.ietf.org/doc/html/rfc3986" title="&quot;Uniform Resource Identifier (URI): Generic Syntax&quot;">RFC3986</a>]) leading to more information about the OID.
+
+<h5><a class="selflink" id="section-3.2.2.8" href="#section-3.2.2.8">3.2.2.8</a>  Object-Section &quot;asn1-notation&quot; Field</h5>
+
+   &quot;asn1-notation&quot; (OPTIONAL, multiple values allowed) contains one or
+   more possible notations in the ASN.1 syntax, as defined in
+   Recommendation ITU-T X.680 (2015) | ISO/IEC 8824-1:2015, clause 32.3
+   [<a href="#ref-X680" title="&quot;Information technology - Abstract Syntax Notation One (ASN.1): Specification of basic notation&quot;">X680</a>], e.g. {joint-iso-itu-t(2) example(999)}.
+
+   Note: A line break, to break up lines that are too long, as defined
+   in <a href="#section-3.1">section 3.1</a> (&quot;Format and Encoding&quot;) SHOULD be used.  This is no
+   problem because multiple ASN.1 notations can be distinguished by
+   their opening curly bracket and their closing curly bracket.
+
+
+
+<span class="grey">Marschall                                                      [Page 20]</span></pre>
+</div><div class="page"><span class="noprint" id="page-21"><span class="grey">VTS/WF STD. 2           OID Information Protocol        2 September 2024</span>
+
+
+<h5><a class="selflink" id="section-3.2.2.9" href="#section-3.2.2.9">3.2.2.9</a>  Object-Section &quot;iri-notation&quot; Field</h5>
+
+   &quot;iri-notation&quot; (OPTIONAL, multiple values allowed) contains one or
+   more possible notations in the OID-IRI syntax, as defined in
+   Recommendation ITU-T X.680 (2015) | ISO/IEC 8824-1:2015, clause 34.3
+   [<a href="#ref-X680" title="&quot;Information technology - Abstract Syntax Notation One (ASN.1): Specification of basic notation&quot;">X680</a>] (but without quotation marks), e.g. /Joint-ISO-ITU-T/Example.
+
+   Note: A line break, to break up lines that are too long, as defined
+   in <a href="#section-3.1">section 3.1</a> (&quot;Format and Encoding&quot;) SHALL NOT be used, otherwise,
+   it would be ambiguous if the line break was used to shorten the line,
+   or if the line break indicates a new value in case multiple OID-IRI
+   notations are supplied.
+
+<h5><a class="selflink" id="section-3.2.2.10" href="#section-3.2.2.10">3.2.2.10</a>  Object-Section &quot;identifier&quot; Field</h5>
+
+   &quot;identifier&quot; (OPTIONAL, multiple values allowed) contains an
+   alphanumeric identifier (&quot;NameForm&quot;) as defined in Recommendation
+   ITU-T X.680 (2015) | ISO/IEC 8824-1:2015, clause 12.3 [<a href="#ref-X680" title="&quot;Information technology - Abstract Syntax Notation One (ASN.1): Specification of basic notation&quot;">X680</a>].
+
+<h5><a class="selflink" id="section-3.2.2.11" href="#section-3.2.2.11">3.2.2.11</a>  Object-Section &quot;standardized-id&quot; Field</h5>
+
+   &quot;standardized-id&quot; (OPTIONAL, multiple values allowed) contains an
+   alphanumeric identifier that has a standardized &quot;NameForm&quot;, i.e. in
+   ASN.1 notation, it can be written without its associated number.  See
+   more information in Recommendation ITU-T X.680 (2015) | ISO/IEC 8824-
+   1:2015, clause 32.7 [<a href="#ref-X680" title="&quot;Information technology - Abstract Syntax Notation One (ASN.1): Specification of basic notation&quot;">X680</a>].
+
+<h5><a class="selflink" id="section-3.2.2.12" href="#section-3.2.2.12">3.2.2.12</a>  Object-Section &quot;unicode-label&quot; Field</h5>
+
+   &quot;unicode-label&quot; (OPTIONAL, multiple values allowed) contains a Non-
+   integer Unicode label, as defined in Recommendation ITU-T X.680
+   (2015) | ISO/IEC 8824-1:2015, clause 12.27 [<a href="#ref-X680" title="&quot;Information technology - Abstract Syntax Notation One (ASN.1): Specification of basic notation&quot;">X680</a>].
+
+<h5><a class="selflink" id="section-3.2.2.13" href="#section-3.2.2.13">3.2.2.13</a>  Object-Section &quot;long-arc&quot; Field</h5>
+
+   &quot;long-arc&quot; (OPTIONAL, multiple values allowed) contains a Non-integer
+   Unicode label that can be used as the first identifier in an OID
+   Internationalized Resource Identifier (OID-IRI), shortening it.  More
+   information can be found in Recommendation ITU-T X.660 (2011) |
+   ISO/IEC 9834-1:2012, clause 3.5.8 [<a href="#ref-X660" title="&quot;Information technology - Procedures for the operation of object identifier registration authorities: General procedures and top arcs of the international object identifier tree&quot;">X660</a>].
+
+
+
+
+
+
+
+
+
+
+
+<span class="grey">Marschall                                                      [Page 21]</span></pre>
+</div><div class="page"><span class="noprint" id="page-22"><span class="grey">VTS/WF STD. 2           OID Information Protocol        2 September 2024</span>
+
+
+<h5><a class="selflink" id="section-3.2.2.14" href="#section-3.2.2.14">3.2.2.14</a>  Object-Section &quot;oidip-service&quot; Field</h5>
+
+   &quot;oidip-service&quot; (OPTIONAL, multiple values allowed) contains the
+   address of a system that offers an OID-IP service that can supply
+   information about the OID and/or its subordinate OIDs.
+
+   For a HTTP(S) service, the value MUST be a URI with trailing path
+   delimiter (e.g. https://example.com/oidip/).  For a WHOIS service,
+   the value MUST be an IP address or hostname, followed by a double-
+   colon (:) and a port number (e.g. oidip.example.com:43). Multiple
+   values are allowed.  If the server accepts both the HTTP(S) protocol
+   and the WHOIS protocol, then it is RECOMMENDED to present both
+   services (two &quot;oidip-service&quot; lines).
+
+   If the result is &quot;Found&quot; (i.e. the OID is existing in the local
+   database), then the information &quot;oidip-service&quot; is only
+   informational; its existence is most likely a hint that subordinate
+   OIDs will be found at that OID-IP server.  If the result is &quot;Not
+   found; superior object found&quot;, then the client SHOULD query the
+   referred OID-IP server to receive more information about the OID.
+   See more information in <a href="#section-4">section 4</a> &quot;Referral&quot;.
+
+<h5><a class="selflink" id="section-3.2.2.15" href="#section-3.2.2.15">3.2.2.15</a>  Object-Section &quot;oidip-pubkey&quot; Field</h5>
+
+   &quot;oidip-pubkey&quot; (OPTIONAL, multiple values allowed) contains one or
+   more valid public keys of the services that are identified in &quot;oidip-
+   service&quot; if they use signatures (see <a href="#section-3.3">section 3.3</a> &quot;Digital
+   Signature&quot;).
+
+<h5><a class="selflink" id="section-3.2.2.16" href="#section-3.2.2.16">3.2.2.16</a>  Object-Section &quot;attribute&quot; Field</h5>
+
+   &quot;attribute&quot; (OPTIONAL, multiple values allowed) contains attributes
+   of the OID.  An attribute MUST be one of the following values:
+
+   (1) &quot;confidential&quot; means that information about the OID or part of it
+       is confidential.
+
+   (2) &quot;draft&quot; means that the allocation of the OID is not yet official
+       and the information is subject to change without notice.  This
+       includes deletion and relocation.
+
+   (3) &quot;frozen&quot; means that no more child OIDs can be created under this
+       OID, e.g. because the RA has stopped operating, but the existing
+       child OIDs stay valid.
+
+   (4) &quot;leaf&quot; means that no child OIDs can be allocated under this OID.
+       The field &quot;subordinate&quot; SHALL therefore not be present.
+
+
+
+
+<span class="grey">Marschall                                                      [Page 22]</span></pre>
+</div><div class="page"><span class="noprint" id="page-23"><span class="grey">VTS/WF STD. 2           OID Information Protocol        2 September 2024</span>
+
+
+   (5) &quot;no-identifiers&quot; means that the RA is not allocating alphanumeric
+       identifiers.
+
+   (6) &quot;no-unicode-labels&quot; means that the RA is not allocating Non-
+       integer Unicode labels.
+
+   (7) &quot;retired&quot; means that the OID is withdrawn, revoked, retired,
+       expired, etc.  Please consult Recommendation ITU-T X.660 (2011) |
+       ISO/IEC 9834-1:2012 [<a href="#ref-X660" title="&quot;Information technology - Procedures for the operation of object identifier registration authorities: General procedures and top arcs of the international object identifier tree&quot;">X660</a>] for more information about such cases.
+
+<h5><a class="selflink" id="section-3.2.2.17" href="#section-3.2.2.17">3.2.2.17</a>  Object-Section &quot;parent&quot; Field</h5>
+
+   &quot;parent&quot; (OPTIONAL) contains the OID of the nearest known parent OID,
+   prepended by namespace identifier and double colon, i.e. &quot;oid:&quot;.  It
+   MAY be followed by additional human-readable information, e.g. a
+   description or a list of ASN.1 identifiers.  There SHALL be at least
+   1 whitespace in between.
+
+<h5><a class="selflink" id="section-3.2.2.18" href="#section-3.2.2.18">3.2.2.18</a>  Object-Section &quot;subordinate&quot; Field</h5>
+
+   &quot;subordinate&quot; (OPTIONAL, multiple values allowed) contains a list of
+   subordinate OIDs, prepended by namespace identifier and double colon,
+   i.e. &quot;oid:&quot;.  It MAY be followed by additional human-readable
+   information, e.g. a description or a list of ASN.1 identifiers.
+   There SHALL be at least 1 whitespace in between.
+
+<h5><a class="selflink" id="section-3.2.2.19" href="#section-3.2.2.19">3.2.2.19</a>  Object-Section &quot;created&quot; Field</h5>
+
+   &quot;created&quot; (OPTIONAL) contains the date and time (as specified in
+   <a href="#section-3.4">section 3.4</a> &quot;Date/Time Format&quot;) when the OID was first allocated by
+   the RA of the superior OID.
+
+<h5><a class="selflink" id="section-3.2.2.20" href="#section-3.2.2.20">3.2.2.20</a>  Object-Section &quot;updated&quot; Field</h5>
+
+   &quot;updated&quot; (OPTIONAL) contains the date and time (as specified in
+   <a href="#section-3.4">section 3.4</a> &quot;Date/Time Format&quot;) when the OID information was last
+   updated.
+
+<h5><a class="selflink" id="section-3.2.2.21" href="#section-3.2.2.21">3.2.2.21</a>  Object-Section Other Fields</h5>
+
+   Additional fields for the Object section can be defined by the OID-IP
+   service.  The field names SHALL only consist of the lower-case
+   letters &quot;a..z&quot;, hyphens (&quot;-&quot;), and numbers, and SHOULD be written in
+   the English language.  The field name MUST NOT begin or end with a
+   hyphen and a hyphen MUST NOT be followed by another hyphen.
+
+
+
+
+
+
+<span class="grey">Marschall                                                      [Page 23]</span></pre>
+</div><div class="page"><span class="noprint" id="page-24"><span class="grey">VTS/WF STD. 2           OID Information Protocol        2 September 2024</span>
+
+
+<h4><a class="selflink" id="section-3.2.3" href="#section-3.2.3">3.2.3</a>  RA-Section (Information about the Current RA)</h4>
+
+   This section MUST NOT be present if the result is &quot;Not found&quot; or
+   &quot;Service error&quot;, otherwise it MAY be present.  If it is present, it
+   MUST start with the field &quot;ra&quot;.
+
+   Possible fields are:
+
+<h5><a class="selflink" id="section-3.2.3.1" href="#section-3.2.3.1">3.2.3.1</a>  RA-Section &quot;ra&quot; Field</h5>
+
+   &quot;ra&quot; contains a general name of the RA, like the name of a person,
+   the name of a group, or the name of an organization.  This field MUST
+   be present.
+
+<h5><a class="selflink" id="section-3.2.3.2" href="#section-3.2.3.2">3.2.3.2</a>  RA-Section &quot;ra-status&quot; Field</h5>
+
+   &quot;ra-status&quot; MUST be present and SHALL be one of the following values:
+
+   (1) &quot;Information available&quot; means that information about this RA is
+       fully available.
+
+   (2) &quot;Information partially available&quot; means that part of the
+       information is not available.  A possible reason could be that
+       part of the information is redacted due to confidentiality.  The
+       field &quot;attribute&quot; MAY be used with the value &quot;confidential&quot;.
+
+   (3) &quot;Information unavailable&quot; means that the data is missing (if the
+       OID-IP service only knows the name of the RA and nothing else),
+       redacted due to confidentiality, or otherwise unavailable.  The
+       field &quot;attribute&quot; MAY be used with the value &quot;confidential&quot;.
+
+<h5><a class="selflink" id="section-3.2.3.3" href="#section-3.2.3.3">3.2.3.3</a>  RA-Section &quot;ra-lang&quot; Field</h5>
+
+   &quot;ra-lang&quot; (OPTIONAL) contains the language of the fields in this
+   section, if their translation makes sense.  The language should be a
+   language tag as defined in [<a href="https://datatracker.ietf.org/doc/html/rfc5646" title="&quot;Tags for Identifying Languages&quot;">RFC5646</a>].
+
+<h5><a class="selflink" id="section-3.2.3.4" href="#section-3.2.3.4">3.2.3.4</a>  RA-Section &quot;ra-contact-name&quot; Field</h5>
+
+   &quot;ra-contact-name&quot; (OPTIONAL, multiple values allowed) contains the
+   name of a person responsible for the allocation of subordinate OIDs,
+   in case &quot;ra&quot; is a group or organization.
+
+<h5><a class="selflink" id="section-3.2.3.5" href="#section-3.2.3.5">3.2.3.5</a>  RA-Section &quot;ra-address&quot; Field</h5>
+
+   &quot;ra-address&quot; (OPTIONAL) contains the physical location of the RA.
+   While a fully qualified postal address is recommended, the field can
+   also just contain a rough location like city and country name, state
+
+
+
+<span class="grey">Marschall                                                      [Page 24]</span></pre>
+</div><div class="page"><span class="noprint" id="page-25"><span class="grey">VTS/WF STD. 2           OID Information Protocol        2 September 2024</span>
+
+
+   and country name, or just the country name, etc.  The name of the
+   country SHOULD always be present.
+
+<h5><a class="selflink" id="section-3.2.3.6" href="#section-3.2.3.6">3.2.3.6</a>  RA-Section &quot;ra-phone&quot; Field</h5>
+
+   &quot;ra-phone&quot; (OPTIONAL, multiple values allowed) contains a landline
+   phone number of the Registration Authority.  It SHOULD be written in
+   the international number format specified in Recommendation ITU-T
+   E.164 (2010) [<a href="#ref-E164" title="&quot;The international public telecommunication numbering plan&quot;">E164</a>], e.g. +1 206 555 0100.
+
+<h5><a class="selflink" id="section-3.2.3.7" href="#section-3.2.3.7">3.2.3.7</a>  RA-Section &quot;ra-mobile&quot; Field</h5>
+
+   &quot;ra-mobile&quot; (OPTIONAL, multiple values allowed) contains a mobile
+   phone number of the Registration Authority.  It SHOULD be written in
+   the international number format specified in Recommendation ITU-T
+   E.164 (2010) [<a href="#ref-E164" title="&quot;The international public telecommunication numbering plan&quot;">E164</a>], e.g. +1 206 555 0100.
+
+<h5><a class="selflink" id="section-3.2.3.8" href="#section-3.2.3.8">3.2.3.8</a>  RA-Section &quot;ra-fax&quot; Field</h5>
+
+   &quot;ra-fax&quot; (OPTIONAL, multiple values allowed) contains a fax number of
+   the Registration Authority.  It SHOULD be written in the
+   international number format specified in Recommendation ITU-T E.164
+   (2010) [<a href="#ref-E164" title="&quot;The international public telecommunication numbering plan&quot;">E164</a>], e.g. +1 206 555 0100.
+
+<h5><a class="selflink" id="section-3.2.3.9" href="#section-3.2.3.9">3.2.3.9</a>  RA-Section &quot;ra-email&quot; Field</h5>
+
+   &quot;ra-email&quot; (OPTIONAL, multiple values allowed) contains an email
+   address of the Registration Authority.
+
+<h5><a class="selflink" id="section-3.2.3.10" href="#section-3.2.3.10">3.2.3.10</a>  RA-Section &quot;ra-url&quot; Field</h5>
+
+   &quot;ra-url&quot; (OPTIONAL, multiple values allowed) contains a URL (as
+   defined in <a href="https://datatracker.ietf.org/doc/html/rfc3986">RFC 3986</a> [<a href="https://datatracker.ietf.org/doc/html/rfc3986" title="&quot;Uniform Resource Identifier (URI): Generic Syntax&quot;">RFC3986</a>]) leading to more information about the
+   RA (usually the website of the RA).
+
+<h5><a class="selflink" id="section-3.2.3.11" href="#section-3.2.3.11">3.2.3.11</a>  RA-Section &quot;ra-attribute&quot; Field</h5>
+
+   &quot;ra-attribute&quot; (OPTIONAL, multiple values allowed) contains
+   attributes of the RA.  An attribute MUST be one of the following
+   values:
+
+   (1) &quot;confidential&quot; means that the information about the RA or part of
+       it is confidential.
+
+   (2) &quot;retired&quot; means that the RA is defunct.  If this attribute is set
+       to the current RA, then the OID MUST have the attribute &quot;frozen&quot;
+       (until the responsibility is transferred to a non-defunct RA, or
+       until the current RA becomes active again).
+
+
+
+<span class="grey">Marschall                                                      [Page 25]</span></pre>
+</div><div class="page"><span class="noprint" id="page-26"><span class="grey">VTS/WF STD. 2           OID Information Protocol        2 September 2024</span>
+
+
+<h5><a class="selflink" id="section-3.2.3.12" href="#section-3.2.3.12">3.2.3.12</a>  RA-Section &quot;ra-created&quot; Field</h5>
+
+   &quot;ra-created&quot; (OPTIONAL) contains the date and time (as specified in
+   <a href="#section-3.4">section 3.4</a> &quot;Date/Time Format&quot;) when the RA was created/registered in
+   the database.
+
+<h5><a class="selflink" id="section-3.2.3.13" href="#section-3.2.3.13">3.2.3.13</a>  RA-Section &quot;ra-updated&quot; Field</h5>
+
+   &quot;ra-updated&quot; (OPTIONAL) contains the date and time (as specified in
+   <a href="#section-3.4">section 3.4</a> &quot;Date/Time Format&quot;) when the RA information was last
+   modified.
+
+<h5><a class="selflink" id="section-3.2.3.14" href="#section-3.2.3.14">3.2.3.14</a>  RA-Section Other Fields</h5>
+
+   Additional fields for the RA section can be defined by the OID-IP
+   service, but they MUST begin with &quot;ra-&quot;.  The field names SHALL only
+   consist of the lower-case letters &quot;a..z&quot;, hyphens (&quot;-&quot;), and numbers,
+   and SHOULD be written in the English language.  The field name MUST
+   NOT begin or end with a hyphen and a hyphen MUST NOT be followed by
+   another hyphen.
+
+<h4><a class="selflink" id="section-3.2.4" href="#section-3.2.4">3.2.4</a>  Sections for Previous Registration Authorities</h4>
+
+   To optionally display information about RAs that were previously in
+   charge of managing the OID, a new section per RA can be added with
+   the following field name prefixes:
+
+   &quot;ra-&quot; is the prefix of the current Registration Authority,
+   &quot;ra1-&quot; is the prefix of the first RA.  It is the very first person or
+   company to whom the OID was allocated by the RA of the superior OID,
+   &quot;ra2-&quot; is the prefix of the second RA, after the responsibility has
+   been transferred, etc.
+
+   Each section MUST start with the field &quot;ra1&quot;, &quot;ra2&quot;, etc.
+
+   The definition of these sections is identical to the definition of
+   the RA-Section (described in <a href="#section-3.2.3">section 3.2.3</a> &quot;RA-Section&quot;), just with a
+   different prefix.
+
+   The history does not need to be complete, e.g. it is no problem to
+   only serve information about the first (&quot;ra1&quot;) and the current RA
+   (&quot;ra&quot;), or only serve information about the current RA (&quot;ra&quot;).
+
+
+
+
+
+
+
+
+
+<span class="grey">Marschall                                                      [Page 26]</span></pre>
+</div><div class="page"><span class="noprint" id="page-27"><span class="grey">VTS/WF STD. 2           OID Information Protocol        2 September 2024</span>
+
+
+<h3><a class="selflink" id="section-3.3" href="#section-3.3">3.3</a>  Digital Signature</h3>
+
+<h4><a class="selflink" id="section-3.3.1" href="#section-3.3.1">3.3.1</a>  &quot;text&quot; Format</h4>
+
+   If integrity/authenticity is required, the whole response can be
+   signed, e.g. by using PGP, RSA, ECDSA, etc.  Depending on the
+   signature method being used, various things need to be appended
+   and/or prepended to the response (e.g. &quot;-----BEGIN PGP MESSAGE-----&quot;
+   and &quot;-----END PGP MESSAGE-----&quot;).  These additional lines MUST be
+   prepended by a percent sign (&quot;%&quot;) to avoid an application confusing
+   these additional lines (e.g. lines belonging to a PGP header, as
+   defined in <a href="https://datatracker.ietf.org/doc/html/rfc4880">RFC 4880</a> [<a href="https://datatracker.ietf.org/doc/html/rfc4880" title="&quot;OpenPGP Message Format&quot;">RFC4880</a>]) with parts of the actual OID-IP
+   response.
+
+<h4><a class="selflink" id="section-3.3.2" href="#section-3.3.2">3.3.2</a>  &quot;json&quot; Format</h4>
+
+   Steps for signing a message:
+
+   (1) Make sure that the JSON file has no signature (remove the
+       &quot;signature&quot; key if one exists).
+
+   (2) Create a working-copy of the JSON file and canonize the contents
+       using the procedures described in <a href="https://datatracker.ietf.org/doc/html/rfc8785">RFC 8785</a> [<a href="https://datatracker.ietf.org/doc/html/rfc8785" title="&quot;JSON Canonicalization Scheme (JCS)&quot;">RFC8785</a>].
+
+   (3) Create a JSON Web Signature (JWS, <a href="https://datatracker.ietf.org/doc/html/rfc7515">RFC 7515</a> [<a href="https://datatracker.ietf.org/doc/html/rfc7515" title="&quot;JSON Web Signature (JWS)&quot;">RFC7515</a>]) using your
+       public key and the canonized form of the JSON contents.
+
+   (4) Add the signature in the &quot;signature&quot; field to the original JSON
+       file.  Note that the original JSON does not need to be canonized,
+       since the canonization will be repeated in the verification
+       procedure.
+
+   Steps for verifying a message:
+
+   (1) Extract the contents of the &quot;signature&quot; key from the JSON file.
+       This is the JSON Web Signature containing a header, a payload,
+       and a signature.
+
+   (2) Create a working-copy of the JSON file and remove the &quot;signature&quot;
+       key there.
+
+   (3) Canonize the remaining contents using the procedures described in
+       <a href="https://datatracker.ietf.org/doc/html/rfc8785">RFC 8785</a> [<a href="https://datatracker.ietf.org/doc/html/rfc8785" title="&quot;JSON Canonicalization Scheme (JCS)&quot;">RFC8785</a>].
+
+   (4) Compare the canonized contents to the base64-encoded payload of
+       the JSON Web Signature which was extracted before.  The contents
+       MUST be equal.
+
+
+
+
+<span class="grey">Marschall                                                      [Page 27]</span></pre>
+</div><div class="page"><span class="noprint" id="page-28"><span class="grey">VTS/WF STD. 2           OID Information Protocol        2 September 2024</span>
+
+
+   (5) Verify the JSON Web Signature of the original JSON file according
+       to the procedures described in <a href="https://datatracker.ietf.org/doc/html/rfc7515">RFC 7515</a> [<a href="https://datatracker.ietf.org/doc/html/rfc7515" title="&quot;JSON Web Signature (JWS)&quot;">RFC7515</a>].
+
+<h4><a class="selflink" id="section-3.3.3" href="#section-3.3.3">3.3.3</a>  &quot;xml&quot; Format</h4>
+
+   Signing and verifying signatures will be performed as described in
+   the W3C Recommendation &quot;XML Signature Syntax and Processing&quot;
+   ([<a href="#ref-XMLDSig" title="&quot;XML Signature Syntax and Processing Version 1.1&quot;">XMLDSig</a>]).
+
+<h3><a class="selflink" id="section-3.4" href="#section-3.4">3.4</a>  Date/Time Format</h3>
+
+   Date/Time references SHALL be formatted as described in
+   <a href="#section-3.4.1">section 3.4.1</a>.
+
+   If parts of the date/time reference are uncertain, then they SHOULD
+   be omitted until the date/time reference has the highest correctness.
+
+   Examples of valid date/time references can be found in <a href="#section-3.4.2">section 3.4.2</a>.
+
+<h4><a class="selflink" id="section-3.4.1" href="#section-3.4.1">3.4.1</a>  Date/Time Format ABNF Notation</h4>
+
+   To define the format of a Date/Time reference, the following
+   Augmented BNF definitions will be used.  They are based on the ABNF
+   styles of <a href="https://datatracker.ietf.org/doc/html/rfc5234">RFC 5234</a> [<a href="https://datatracker.ietf.org/doc/html/rfc5234" title="&quot;Augmented BNF for Syntax Specifications: ABNF&quot;">RFC5234</a>].
+
+   date-time = year [ &quot;-&quot; month [ &quot;-&quot; day [ &quot; &quot; time ] ] ]
+
+   year      = 4DIGIT
+
+   month     = ( &quot;0&quot; %x31-39 ) /
+               ( &quot;1&quot; %x30-32 )      ; 01-12
+
+   day       = ( &quot;0&quot; %x31-39 ) /
+               ( &quot;1&quot; %x30-39 ) /
+               ( &quot;2&quot; %x30-39 ) /
+               ( &quot;3&quot; %x30-31 )      ; 01-31
+
+   time      = hour &quot;:&quot; minute [ &quot;:&quot; second ] [ &quot; &quot; timezone ]
+
+   hour      = ( &quot;0&quot; %x30-39 ) /
+               ( &quot;1&quot; %x30-39 ) /
+               ( &quot;2&quot; %x30-33 )      ; 00-23
+
+   minute    = %x30-35 DIGIT        ; 00-59
+
+   second    = %x30-35 DIGIT        ; 00-59
+
+   timezone  = ( &quot;+&quot; / &quot;-&quot; ) hour minute
+
+
+
+<span class="grey">Marschall                                                      [Page 28]</span></pre>
+</div><div class="page"><span class="noprint" id="page-29"><span class="grey">VTS/WF STD. 2           OID Information Protocol        2 September 2024</span>
+
+
+<h4><a class="selflink" id="section-3.4.2" href="#section-3.4.2">3.4.2</a>  Date/Time Format Examples</h4>
+
+   Examples of valid date/time references are:
+
+       2025-01-23 18:32:00 +0200
+       2025-01-23 18:32:00
+       2025-01-23 18:32 +0200
+       2025-01-23 18:32
+       2025-01-23
+       2025-01
+       2025
+
+<h3><a class="selflink" id="section-3.5" href="#section-3.5">3.5</a>  HTTP Response Status Codes</h3>
+
+   For the HTTP transmission, there are the following requirements based
+   on the result of the query defined in <a href="#section-3.2.1">section 3.2.1</a>:
+
+   (1) If the result is &quot;Found&quot;, then the HTTP(S) Response Code MUST be
+       &quot;200 OK&quot;.
+
+   (2) If the result is &quot;Not found; superior object found&quot;, then the
+       HTTP(S) Response Code MUST be &quot;470 Not Found - Superior Object
+       Found&quot;.
+
+   (3) If the result is &quot;Not found&quot;, then the HTTP(S) Response Code MUST
+       be &quot;404 Not Found&quot;.
+
+   (4) If the result is &quot;Service Error&quot;, then the HTTP(S) Response Code
+       MUST be in the range 400, 402, 405-469, 471-499, and 500-599.
+       Examples for fitting response codes are &quot;400 Bad Request&quot;, &quot;429
+       Too Many Requests&quot;, or &quot;500 Internal Server Error&quot;.
+
+   (5) If the response contains a referral server (field &quot;oidip-
+       service&quot;), then the HTTP(S) Response Code MUST NOT be a 3xx
+       redirection status code.
+
+   (6) While the 3xx redirection status code MUST NOT indicate an OID-IP
+       referral as specified by <a href="#section-4">section 4</a>, the 3xx redirection status
+       codes may be used if the OID-IP service itself moves, e.g. to a
+       different hostname.  In this case, the client MUST follow the
+       location.
+
+   (7) Response codes 401 and 403 MUST NOT be used to indicate that
+       information is partially redacted or fully unavailable due to
+       missing authorization.
+
+
+
+
+
+
+<span class="grey">Marschall                                                      [Page 29]</span></pre>
+</div><div class="page"><span class="noprint" id="page-30"><span class="grey">VTS/WF STD. 2           OID Information Protocol        2 September 2024</span>
+
+
+   3.6  HTTP Response Headers
+
+   Besides the usual response headers, the response SHOULD contain the
+   &quot;Content-Language&quot; response header to indicate the language of the
+   content.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<span class="grey">Marschall                                                      [Page 30]</span></pre>
+</div><div class="page"><span class="noprint" id="page-31"><span class="grey">VTS/WF STD. 2           OID Information Protocol        2 September 2024</span>
+
+
+<h2><a class="selflink" id="section-4" href="#section-4">4</a>  Referral</h2>
+
+   By using the fields &quot;oidip-service&quot; and &quot;oidip-pubkey&quot;, the OID-IP
+   service can instruct the client to query another OID-IP service that
+   might have more information about the requested OID.
+
+   If Registration Authorities maintain up-to-date OID-IP service
+   references of their OID delegations, it is possible to automatically
+   retrieve information about any OID.
+
+   Example: OID &quot;2.999&quot; is owned by Registration Authority &quot;A&quot;,
+   operating an OID-IP service at &quot;a.example.com&quot;.
+
+   Registration Authority &quot;A&quot; allocated OID &quot;2.999.1000&quot; to Registration
+   Authority &quot;B&quot; who is operating an OID-IP service at &quot;b.example.com&quot;.
+
+   The client asks a.example.com for information about OID
+   &quot;2.999.1000.1&quot; and should receive the following reply:
+
+       query:          oid:2.999.1000.1
+       result:         Not found; superior object found
+       distance:       1
+
+       object:         oid:2.999.1000
+       status:         Information available
+       name:           Company &quot;B&quot;
+       oidip-service:  b.example.com:43
+
+       ra:             &quot;B&quot;
+       ra-status:      Information unavailable
+
+   The client is now aware that &quot;a.example.com&quot; only knows OID
+   &quot;2.999.1000&quot;, and that there is a reference to another OID-IP service
+   located at &quot;b.example.com&quot;.  So, the client should then accordingly
+   query &quot;b.example.com&quot;, asking for information about OID
+   &quot;2.999.1000.1&quot;:
+
+       query:          oid:2.999.1000.1
+       result:         Found
+
+       object:         oid:2.999.1000.1
+       status:         Information available
+       name:           Example OID 1
+
+       ra:             &quot;B&quot;
+       ra-status:      Information unavailable
+
+
+
+
+
+<span class="grey">Marschall                                                      [Page 31]</span></pre>
+</div><div class="page"><span class="noprint" id="page-32"><span class="grey">VTS/WF STD. 2           OID Information Protocol        2 September 2024</span>
+
+
+<h2><a class="selflink" id="section-5" href="#section-5">5</a>  Full Example (&quot;text&quot; Format)</h2>
+<h3><a class="selflink" id="section-5.1" href="#section-5.1">5.1</a>  Request</h3>
+
+   HTTP(S):   https://oidip.example.com/oid/2.999/text
+   WHOIS:     oid:2.999
+
+<h3><a class="selflink" id="section-5.2" href="#section-5.2">5.2</a>  Response</h3>
+
+   query:          oid:2.999
+   result:         Found
+
+   object:         oid:2.999
+   status:         Information available
+   lang:           en-US
+   name:           Example
+   description:    This OID can be used by anyone, for the purposes of
+   description:    documenting examples of Object Identifiers.
+   asn1-notation:  {joint-iso-itu-t(2) example(999)}
+   iri-notation:   /Example
+   identifier:     example
+   unicode-label:  Beispiel
+   unicode-label:  Ejemplo
+   unicode-label:  Example
+   unicode-label:  Exemple
+   unicode-label:  (Korean characters are omitted in this example)
+   unicode-label:  (Arabian characters are omitted in this example)
+   unicode-label:  (Japanese characters are omitted in this example)
+   unicode-label:  (Chinese characters are omitted in this example)
+   unicode-label:  (Russian characters are omitted in this example)
+   long-arc:       Beispiel
+   long-arc:       Ejemplo
+   long-arc:       Example
+   long-arc:       Exemple
+   long-arc:       (Korean characters are omitted in this example)
+   long-arc:       (Arabian characters are omitted in this example)
+   long-arc:       (Japanese characters are omitted in this example)
+   long-arc:       (Chinese characters are omitted in this example)
+   long-arc:       (Russian characters are omitted in this example)
+   parent:         oid:2 (joint-iso-itu-t)
+   created:        2011-06
+   updated:        2011-09
+
+   ra:             ITU-T SG 17 &amp; ISO/IEC JTC 1/SC 6
+   ra-status:      Information unavailable
+   % -----BEGIN RSA SIGNATURE-----
+   % DwnqRtx/ONtPh4onXnrZPl9jF+G50RMLZkSwuClaoH2t/yK8CnYJrmzkzA5+gkfWkoQ
+   % cq+J8J9cvnwXvBfpVHg==
+   % -----END RSA SIGNATURE-----
+
+
+
+<span class="grey">Marschall                                                      [Page 32]</span></pre>
+</div><div class="page"><span class="noprint" id="page-33"><span class="grey">VTS/WF STD. 2           OID Information Protocol        2 September 2024</span>
+
+
+<h2><a class="selflink" id="section-6" href="#section-6">6</a>  Alternative Namespaces</h2>
+
+   This document describes the retrieval of information about OIDs using
+   the OID-IP protocol.  In addition to the OID namespace, the methods
+   described in this document can also be applied to other namespaces
+   like &quot;uuid&quot;, &quot;isbn&quot;, &quot;gtin&quot;, etc.
+
+   The following things need to be considered if alternative namespaces
+   are implemented:
+
+   (1) The request MUST be UTF-8 encoded (as defined in <a href="https://datatracker.ietf.org/doc/html/rfc3629">RFC 3629</a>
+       [<a href="https://datatracker.ietf.org/doc/html/rfc3629" title="&quot;UTF-8, a transformation format of ISO 10646&quot;">RFC3629</a>]), without Byte-Order-Mark (BOM).
+
+   (2) The namespace SHALL be a namespace identifier (NID) as defined in
+       <a href="https://datatracker.ietf.org/doc/html/rfc8141">RFC 8141</a> [<a href="https://datatracker.ietf.org/doc/html/rfc8141" title="&quot;Uniform Resource Names (URNs)&quot;">RFC8141</a>].
+
+   (3) The namespace identifier SHALL be written in lower-case (this is
+       already defined in <a href="#section-2">section 2</a> &quot;Request&quot;).
+
+   (4) If available, a formal URN namespace identifier (as defined in
+       <a href="https://datatracker.ietf.org/doc/html/rfc8141#section-5.1">RFC 8141, section&nbsp;5.1</a> [<a href="https://datatracker.ietf.org/doc/html/rfc8141" title="&quot;Uniform Resource Names (URNs)&quot;">RFC8141</a>]) SHOULD be used, e.g. &quot;uuid&quot;
+       should be used instead of &quot;guid&quot;.
+
+   (5) If things like &quot;Owner&quot;, &quot;Creator&quot;, &quot;Manager&quot;, &quot;Administrator&quot;,
+       etc., are applicable to the identifiers in the namespace, then
+       the RA-section as described in <a href="#section-3.2.3">section 3.2.3</a> SHALL be used, even
+       though the word &quot;Registration Authority&quot; might not be appropriate
+       in the terminology of the namespace.
+
+   (6) For WHOIS requests, the namespace-specific identifier MUST NOT
+       contain dollar signs (&quot;$&quot;), because <a href="#section-2.2.1.1">section 2.2.1.1</a> &quot;Input
+       Parameters&quot; defines them as a separator for input parameters.
+       For HTTP(S) requests, the namespace-specific identifier MUST NOT
+       contain a slash (&quot;/&quot;) and MUST NOT be called &quot;root&quot;.
+
+   (7) The namespace-specific identifier MUST be treated as case-
+       sensitive if the namespace distinguishes between lower-case and
+       upper-case.
+
+   (8) Fields that can only be used in the OID namespace (e.g. &quot;unicode-
+       label&quot;) MUST NOT be used for other namespaces.
+
+
+
+
+
+
+
+
+
+
+<span class="grey">Marschall                                                      [Page 33]</span></pre>
+</div><div class="page"><span class="noprint" id="page-34"><span class="grey">VTS/WF STD. 2           OID Information Protocol        2 September 2024</span>
+
+
+<h3><a class="selflink" id="section-6.1" href="#section-6.1">6.1</a>  Example: UUID Namespace</h3>
+
+   The following example shows the retrieval of information about
+   Universally Unique Identifiers (e.g. UUIDs used by the Microsoft
+   Common Object Model, also known as GUIDs).  The UUID namespace has no
+   hierarchical structure, which means that the OID-IP service can only
+   respond with the result &quot;Found&quot;, &quot;Not found&quot; or &quot;Service error&quot; and
+   the fields &quot;parent&quot; and &quot;subordinate&quot; cannot be used.
+
+   More information about UUIDs can be found in Recommendation ITU-T
+   X.667 (2012) | ISO/IEC 9834-8:2014 [<a href="#ref-X667" title="&quot;Information technology - Procedures for the operation of object identifier registration authorities: Generation of universally unique identifiers and their use in object identifiers&quot;">X667</a>].
+
+   More information about the Microsoft Common Object Model (COM) can be
+   found at Microsoft Docs &lt;<a href="https://learn.microsoft.com/en-us/windows/win32/com/component-object-model--com--portal">https://learn.microsoft.com/en-</a>
+   <a href="https://learn.microsoft.com/en-us/windows/win32/com/component-object-model--com--portal">us/windows/win32/com/component-object-model--com--portal</a>&gt;.
+
+<h4><a class="selflink" id="section-6.1.1" href="#section-6.1.1">6.1.1</a>  Request</h4>
+
+   HTTP(S):   https://oidip.example.com/uuid/\
+   b4bfcc3a-db2c-424c-b029-7fe99a87c641/text
+   WHOIS:     uuid:b4bfcc3a-db2c-424c-b029-7fe99a87c641
+
+<h4><a class="selflink" id="section-6.1.2" href="#section-6.1.2">6.1.2</a>  Response</h4>
+
+   query:        uuid:b4bfcc3a-db2c-424c-b029-7fe99a87c641
+   result:       Found
+
+   object:       uuid:b4bfcc3a-db2c-424c-b029-7fe99a87c641
+   status:       Information available
+   lang:         en-US
+   name:         Desktop
+   information:  GUID can be used in file dialogs as &quot;Custom Place&quot;.
+
+   ra:           Microsoft Corp.
+   ra-status:    Information unavailable
+
+<h2><a class="selflink" id="section-7" href="#section-7">7</a>  Internationalization Considerations</h2>
+
+   This document specifies that the request and response MUST be UTF-8
+   encoded (as defined in <a href="https://datatracker.ietf.org/doc/html/rfc3629">RFC 3629</a> [<a href="https://datatracker.ietf.org/doc/html/rfc3629" title="&quot;UTF-8, a transformation format of ISO 10646&quot;">RFC3629</a>]), without Byte-Order-Mark
+   (BOM).
+
+   The OID-IP service can define additional field names, but they SHOULD
+   be written in the English language so that there is consistency with
+   the field names defined in this document.
+
+
+
+
+
+
+<span class="grey">Marschall                                                      [Page 34]</span></pre>
+</div><div class="page"><span class="noprint" id="page-35"><span class="grey">VTS/WF STD. 2           OID Information Protocol        2 September 2024</span>
+
+
+<h2><a class="selflink" id="section-8" href="#section-8">8</a>  Security Considerations</h2>
+
+   (1) The knowledge of the existence of an OID, or information about
+       some OIDs could be considered confidential.  In this case, the
+       OID-IP service can either deny the existence of the requested OID
+       (by setting the result to &quot;Not found&quot;) or redact information in
+       the Object-Section, as defined in <a href="#section-3.2.2">section 3.2.2</a> &quot;Object-Section&quot;.
+
+   (2) Registration Authorities might demand that their data be kept
+       confidential, or at least be partially redacted to increase
+       privacy or as a measurement against spam.  In this case, the OID-
+       IP service can redact information in the RA-Section, as defined
+       in <a href="#section-3.2.3">section 3.2.3</a> &quot;RA-Section&quot;.
+
+   (3) The OID-IP service can decide if confidential material is omitted
+       or shown, based on authentication mechanisms like white-listing
+       client IP addresses or by using authentication tokens supplied by
+       the client during the request, as defined in <a href="#section-2.1.3">section 2.1.3</a>
+       &quot;Authentication&quot; and <a href="#section-2.2.3">section 2.2.3</a> &quot;Authentication Tokens&quot;.
+
+   (4) Unless HTTPS is used, the usage of authentication tokens or
+       transmitting confidential information is not recommended if the
+       traffic between client and server is transmitted through an
+       untrusted network.
+
+   (5) Authentication tokens must have a sufficient length and
+       complexity to avoid successful brute force attacks, or the OID-IP
+       service must limit the number of requests per time.
+
+   (6) Like for passwords, the authentication token should be unique and
+       not be used for any other purpose, e.g. as online account
+       password.
+
+   (7) Based on the client software, authentication tokens might be
+       saved in the history, which might be a security risk.  For
+       example, the browser history (if authentication tokens are sent
+       as HTTP(S) GET parameter, or in the command-line history if the
+       authentication token has been sent via command-line).
+
+   (8) If integrity/authenticity is required, the OID-IP response can be
+       signed, as described in <a href="#section-3.3">section 3.3</a> &quot;Digital Signature&quot;.
+
+<h2><a class="selflink" id="section-9" href="#section-9">9</a>  IANA Considerations</h2>
+
+   There are no IANA Considerations.
+
+
+
+
+
+
+<span class="grey">Marschall                                                      [Page 35]</span></pre>
+</div><div class="page"><span class="noprint" id="page-36"><span class="grey">VTS/WF STD. 2           OID Information Protocol        2 September 2024</span>
+
+
+<h2><a class="selflink" id="section-10" href="#section-10">10</a>  References</h2>
+
+<h3><a class="selflink" id="section-10.1" href="#section-10.1">10.1</a>  Normative References</h3>
+
+   [<a id="ref-E164">E164</a>]     &quot;The international public telecommunication numbering
+              plan&quot;, Recommendation ITU-T E.164 (2010), November 2010,
+              &lt;<a href="http://handle.itu.int/11.1002/1000/10688">http://handle.itu.int/11.1002/1000/10688</a>&gt;.
+
+   [<a id="ref-RFC2119">RFC2119</a>]  Bradner, S., &quot;Key words for use in RFCs to Indicate
+              Requirement Levels&quot;, <a href="https://datatracker.ietf.org/doc/html/bcp14">BCP 14</a>, <a href="https://datatracker.ietf.org/doc/html/rfc2119">RFC 2119</a>,
+              DOI 10.17487/RFC2119, March 1997,
+              &lt;<a href="https://www.rfc-editor.org/info/rfc2119">https://www.rfc-editor.org/info/rfc2119</a>&gt;.
+
+   [<a id="ref-RFC3061">RFC3061</a>]  Mealling, M., &quot;A URN Namespace of Object Identifiers&quot;,
+              <a href="https://datatracker.ietf.org/doc/html/rfc3061">RFC 3061</a>, DOI 10.17487/RFC3061, February 2001,
+              &lt;<a href="https://www.rfc-editor.org/info/rfc3061">https://www.rfc-editor.org/info/rfc3061</a>&gt;.
+
+   [<a id="ref-RFC3629">RFC3629</a>]  Yergeau, F., &quot;UTF-8, a transformation format of ISO
+              10646&quot;, STD 63, <a href="https://datatracker.ietf.org/doc/html/rfc3629">RFC 3629</a>, DOI 10.17487/RFC3629,
+              November 2003,
+              &lt;<a href="https://www.rfc-editor.org/info/rfc3629">https://www.rfc-editor.org/info/rfc3629</a>&gt;.
+
+   [<a id="ref-RFC3912">RFC3912</a>]  Daigle, L., &quot;WHOIS Protocol Specification&quot;, <a href="https://datatracker.ietf.org/doc/html/rfc3912">RFC 3912</a>, DOI
+              10.17487/RFC3912, September 2004,
+              &lt;<a href="https://www.rfc-editor.org/info/rfc3912">https://www.rfc-editor.org/info/rfc3912</a>&gt;.
+
+   [<a id="ref-RFC3986">RFC3986</a>]  Berners-Lee, T., Fielding, R., and L. Masinter, &quot;Uniform
+              Resource Identifier (URI): Generic Syntax&quot;, STD 66,
+              <a href="https://datatracker.ietf.org/doc/html/rfc3986">RFC 3986</a>, DOI 10.17487/RFC3986, January 2005,
+              &lt;<a href="https://www.rfc-editor.org/info/rfc3986">https://www.rfc-editor.org/info/rfc3986</a>&gt;.
+
+   [<a id="ref-RFC5234">RFC5234</a>]  Crocker, D., Ed., and P. Overell, &quot;Augmented BNF for
+              Syntax Specifications: ABNF&quot;, STD 68, <a href="https://datatracker.ietf.org/doc/html/rfc5234">RFC 5234</a>,
+              DOI 10.17487/RFC5234, January 2008,
+              &lt;<a href="https://www.rfc-editor.org/info/rfc5234">https://www.rfc-editor.org/info/rfc5234</a>&gt;.
+
+   [<a id="ref-RFC5646">RFC5646</a>]  Phillips, A., Ed., and M. Davis, Ed., &quot;Tags for
+              Identifying Languages&quot;, <a href="https://datatracker.ietf.org/doc/html/bcp47">BCP 47</a>, <a href="https://datatracker.ietf.org/doc/html/rfc5646">RFC 5646</a>,
+              DOI 10.17487/RFC5646, September 2009,
+              &lt;<a href="https://www.rfc-editor.org/info/rfc5646">https://www.rfc-editor.org/info/rfc5646</a>&gt;.
+
+   [<a id="ref-RFC7515">RFC7515</a>]  Jones, M., Bradley, J., and N. Sakimura, &quot;JSON Web
+              Signature (JWS)&quot;, <a href="https://datatracker.ietf.org/doc/html/rfc7515">RFC 7515</a>, DOI 10.17487/RFC7515,
+              May 2015,
+              &lt;<a href="https://www.rfc-editor.org/info/rfc7515">https://www.rfc-editor.org/info/rfc7515</a>&gt;.
+
+   [<a id="ref-RFC8141">RFC8141</a>]  Saint-Andre, P. and J. Klensin, &quot;Uniform Resource Names
+              (URNs)&quot;, <a href="https://datatracker.ietf.org/doc/html/rfc8141">RFC 8141</a>, DOI 10.17487/RFC8141, April 2017,
+
+
+
+<span class="grey">Marschall                                                      [Page 36]</span></pre>
+</div><div class="page"><span class="noprint" id="page-37"><span class="grey">VTS/WF STD. 2           OID Information Protocol        2 September 2024</span>
+
+
+              &lt;<a href="https://www.rfc-editor.org/info/rfc8141">https://www.rfc-editor.org/info/rfc8141</a>&gt;.
+
+   [<a id="ref-RFC8174">RFC8174</a>]  Leiba, B., &quot;Ambiguity of Uppercase vs Lowercase in <a href="https://datatracker.ietf.org/doc/html/rfc2119">RFC</a>
+              <a href="https://datatracker.ietf.org/doc/html/rfc2119">2119</a> Key Words&quot;, <a href="https://datatracker.ietf.org/doc/html/bcp14">BCP 14</a>, <a href="https://datatracker.ietf.org/doc/html/rfc8174">RFC 8174</a>, DOI 10.17487/RFC8174,
+              May 2017,
+              &lt;<a href="https://www.rfc-editor.org/info/rfc8174">https://www.rfc-editor.org/info/rfc8174</a>&gt;.
+
+   [<a id="ref-RFC8785">RFC8785</a>]  Rundgren, A., Jordan, B., and S. Erdtman, &quot;JSON
+              Canonicalization Scheme (JCS)&quot;, <a href="https://datatracker.ietf.org/doc/html/rfc8785">RFC 8785</a>,
+              DOI 10.17487/RFC8785, June 2020,
+              &lt;<a href="https://www.rfc-editor.org/info/rfc8785">https://www.rfc-editor.org/info/rfc8785</a>&gt;.
+
+   [<a id="ref-RFC8792">RFC8792</a>]  Watsen, K., Auerswald, E., Farrel, A., and Q. Wu,
+              &quot;Handling Long Lines in Content of Internet-Drafts and
+              RFCs&quot;, <a href="https://datatracker.ietf.org/doc/html/rfc8792">RFC 8792</a>, DOI 10.17487/RFC8792, June 2020,
+              &lt;<a href="https://www.rfc-editor.org/info/rfc8792">https://www.rfc-editor.org/info/rfc8792</a>&gt;.
+
+   [<a id="ref-RFC8259">RFC8259</a>]  Bray, T., Ed., &quot;The JavaScript Object Notation (JSON) Data
+              Interchange Format&quot;, STD 90, <a href="https://datatracker.ietf.org/doc/html/rfc8259">RFC 8259</a>,
+              DOI 10.17487/RFC8259, December 2017,
+              &lt;<a href="https://www.rfc-editor.org/info/rfc8259">https://www.rfc-editor.org/info/rfc8259</a>&gt;.
+
+   [<a id="ref-RFC7230">RFC7230</a>]  Fielding, R., Ed., Nottingham, M., Ed., and J. Reschke,
+              Ed., &quot;HTTP/1.1&quot;, STD 99, <a href="https://datatracker.ietf.org/doc/html/rfc9112">RFC 9112</a>, DOI 10.17487/RFC9112,
+              June 2022,
+              &lt;<a href="https://www.rfc-editor.org/info/rfc9112">https://www.rfc-editor.org/info/rfc9112</a>&gt;.
+
+   [<a id="ref-X660">X660</a>]     &quot;Information technology - Procedures for the operation of
+              object identifier registration authorities: General
+              procedures and top arcs of the international object
+              identifier tree&quot;, Recommendation ITU-T X.660 (2011) |
+              ISO/IEC 9834-1:2012, July 2011,
+              &lt;<a href="http://handle.itu.int/11.1002/1000/11336">http://handle.itu.int/11.1002/1000/11336</a>&gt;.
+
+   [<a id="ref-X680">X680</a>]     &quot;Information technology - Abstract Syntax Notation One
+              (ASN.1): Specification of basic notation&quot;, Recommendation
+              ITU-T X.680 (2015) | ISO/IEC 8824-1:2015, August 2015,
+              &lt;<a href="http://handle.itu.int/11.1002/1000/12479">http://handle.itu.int/11.1002/1000/12479</a>&gt;.
+
+   [<a id="ref-XML">XML</a>]      &quot;Extensible Markup Language (XML) 1.1 (Second Edition)&quot;
+              W3C Recommendation 16 August 2006, edited in place
+              29 September 2006,
+              &lt;<a href="https://www.w3.org/TR/2006/REC-xml11-20060816/">https://www.w3.org/TR/2006/REC-xml11-20060816/</a>&gt;.
+
+   [<a id="ref-XMLDSig">XMLDSig</a>]  &quot;XML Signature Syntax and Processing Version 1.1&quot;
+              W3C Recommendation 11 April 2013,
+              &lt;<a href="https://www.w3.org/TR/xmldsig-core1/">https://www.w3.org/TR/xmldsig-core1/</a>&gt;.
+
+
+
+
+<span class="grey">Marschall                                                      [Page 37]</span></pre>
+</div><div class="page"><span class="noprint" id="page-38"><span class="grey">VTS/WF STD. 2           OID Information Protocol        2 September 2024</span>
+
+
+   [<a id="ref-XSD">XSD</a>]      W3C XML Schema Definition Language (XSD)
+              W3C Recommendation 5 April 2012,
+              &lt;<a href="https://www.w3.org/TR/xmlschema11-1/">https://www.w3.org/TR/xmlschema11-1/</a>&gt;.
+
+   [<a id="ref-JSONSch">JSONSch</a>]  JSON Schema Specification
+              &lt;<a href="https://json-schema.org/specification.html">https://json-schema.org/specification.html</a>&gt;.
+
+<h3><a class="selflink" id="section-10.2" href="#section-10.2">10.2</a>  Informative References</h3>
+
+   [<a id="ref-RFC1157">RFC1157</a>]  Case, J., Fedor, M., Schoffstall, M., and J. Davin,
+              &quot;Simple Network Management Protocol (SNMP)&quot;, <a href="https://datatracker.ietf.org/doc/html/rfc1157">RFC 1157</a>,
+              DOI 10.17487/RFC1157, May 1990,
+              &lt;<a href="https://www.rfc-editor.org/info/rfc1157">https://www.rfc-editor.org/info/rfc1157</a>&gt;.
+
+   [<a id="ref-RFC4511">RFC4511</a>]  Sermersheim, J., Ed., &quot;Lightweight Directory Access
+              Protocol (LDAP): The Protocol&quot;, <a href="https://datatracker.ietf.org/doc/html/rfc4511">RFC 4511</a>,
+              DOI 10.17487/RFC4511, June 2006,
+              &lt;<a href="https://www.rfc-editor.org/info/rfc4511">https://www.rfc-editor.org/info/rfc4511</a>&gt;.
+
+   [<a id="ref-RFC4880">RFC4880</a>]  Callas, J., Donnerhacke, L., Finney, H., Shaw, D., and R.
+              Thayer, &quot;OpenPGP Message Format&quot;, <a href="https://datatracker.ietf.org/doc/html/rfc4880">RFC 4880</a>,
+              DOI 10.17487/RFC4880, November 2007,
+              &lt;<a href="https://www.rfc-editor.org/info/rfc4880">https://www.rfc-editor.org/info/rfc4880</a>&gt;.
+
+   [<a id="ref-X509">X509</a>]     &quot;Information technology - Open Systems Interconnection -
+              The Directory: Public-key and attribute certificate
+              frameworks&quot;, Recommendation ITU-T X.509 (2016) |
+              ISO/IEC 9594-8:2017, October 2016,
+              &lt;<a href="http://handle.itu.int/11.1002/1000/13031">http://handle.itu.int/11.1002/1000/13031</a>&gt;.
+
+   [<a id="ref-X667">X667</a>]     &quot;Information technology - Procedures for the operation of
+              object identifier registration authorities: Generation of
+              universally unique identifiers and their use in object
+              identifiers&quot;, Recommendation ITU-T X.667 (2012) |
+              ISO/IEC 9834-8:2014, October 2012,
+              &lt;<a href="http://handle.itu.int/11.1002/1000/11746">http://handle.itu.int/11.1002/1000/11746</a>&gt;.
+
+   [<a id="ref-X672">X672</a>]     &quot;Information technology - Open systems interconnection -
+              Object identifier resolution system&quot;,
+              Recommendation ITU-T X.672 (2010) | ISO/IEC 29168-1:2011,
+              August 2010,
+              &lt;<a href="http://handle.itu.int/11.1002/1000/10831">http://handle.itu.int/11.1002/1000/10831</a>&gt;.
+
+
+
+
+
+
+
+
+
+<span class="grey">Marschall                                                      [Page 38]</span></pre>
+</div><div class="page"><span class="noprint" id="page-39"><span class="grey">VTS/WF STD. 2           OID Information Protocol        2 September 2024</span>
+
+
+<h2><a class="selflink" id="appendix-A" href="#appendix-A">Appendix A</a>.  JSON Format Schema and Example</h2>
+
+<h3><a class="selflink" id="appendix-A.1" href="#appendix-A.1">Appendix A.1</a>.  JSON Format Schema</h3>
+
+The following JSON Schema ([<a href="#ref-JSONSch">JSONSch</a>]) defines the expected output the
+server sends if the argument &quot;format&quot; is set to &quot;json&quot;.
+
+NOTE: &#x27;\&#x27; line wrapping per <a href="https://datatracker.ietf.org/doc/html/rfc8792">RFC 8792</a>  [<a href="https://datatracker.ietf.org/doc/html/rfc8792" title="&quot;Handling Long Lines in Content of Internet-Drafts and RFCs&quot;">RFC8792</a>]
+
+&lt;CODE BEGINS&gt; file &quot;viathinksoft-std-0002-oidip.json&quot;
+{
+  &quot;$id&quot;:&quot;urn:x-viathinksoft:std:0002:2024-09-02:json-schema&quot;,
+  &quot;$schema&quot;:&quot;https://json-schema.org/draft/2020-12/schema&quot;,
+  &quot;type&quot;:&quot;object&quot;,
+  &quot;properties&quot;:{
+    &quot;oidip&quot;:{
+      &quot;type&quot;:&quot;object&quot;,
+      &quot;properties&quot;:{
+        &quot;querySection&quot;:{
+          &quot;type&quot;:&quot;object&quot;,
+          &quot;properties&quot;:{
+            &quot;query&quot;:{
+              &quot;$ref&quot;: &quot;#/$defs/inputQueryType&quot;
+            },
+            &quot;result&quot;:{
+              &quot;type&quot;:&quot;string&quot;,
+              &quot;enum&quot;:[&quot;Found&quot;,
+                      &quot;Not found; superior object found&quot;,
+                      &quot;Not found&quot;,
+                      &quot;Service error&quot;]
+            },
+            &quot;distance&quot;:{
+              &quot;type&quot;:&quot;integer&quot;
+            },
+            &quot;message&quot;:{
+              &quot;type&quot;:&quot;string&quot;
+            },
+            &quot;lang&quot;:{
+              &quot;type&quot;:&quot;string&quot;
+            }
+          },
+          &quot;required&quot;:[
+            &quot;query&quot;,
+            &quot;result&quot;
+          ]
+        },
+        &quot;objectSection&quot;:{
+          &quot;type&quot;:&quot;object&quot;,
+
+
+
+<span class="grey">Marschall                                                      [Page 39]</span></pre>
+</div><div class="page"><span class="noprint" id="page-40"><span class="grey">VTS/WF STD. 2           OID Information Protocol        2 September 2024</span>
+
+
+          &quot;properties&quot;:{
+            &quot;object&quot;:{
+              &quot;$ref&quot;: &quot;#/$defs/inputQueryType&quot;
+            },
+            &quot;status&quot;:{
+              &quot;type&quot;:&quot;string&quot;,
+              &quot;enum&quot;:[&quot;Information available&quot;,
+                      &quot;Information partially available&quot;,
+                      &quot;Information unavailable&quot;]
+            },
+            &quot;lang&quot;:{
+              &quot;type&quot;:&quot;string&quot;
+            },
+            &quot;name&quot;:{
+              &quot;type&quot;:&quot;string&quot;
+            },
+            &quot;description&quot;:{
+              &quot;type&quot;:&quot;string&quot;
+            },
+            &quot;information&quot;:{
+              &quot;type&quot;:&quot;string&quot;
+            },
+            &quot;url&quot;:{
+              &quot;type&quot;:&quot;string&quot;
+            },
+            &quot;asn1-notation&quot;:{
+              &quot;oneOf&quot;:[
+                {
+                  &quot;type&quot;:&quot;string&quot;
+                },
+                {
+                  &quot;type&quot;:&quot;array&quot;,
+                  &quot;items&quot;:{
+                    &quot;type&quot;:&quot;string&quot;
+                  }
+                }
+              ]
+            },
+            &quot;iri-notation&quot;:{
+              &quot;oneOf&quot;:[
+                {
+                  &quot;type&quot;:&quot;string&quot;
+                },
+                {
+                  &quot;type&quot;:&quot;array&quot;,
+                  &quot;items&quot;:{
+                    &quot;type&quot;:&quot;string&quot;
+                  }
+
+
+
+<span class="grey">Marschall                                                      [Page 40]</span></pre>
+</div><div class="page"><span class="noprint" id="page-41"><span class="grey">VTS/WF STD. 2           OID Information Protocol        2 September 2024</span>
+
+
+                }
+              ]
+            },
+            &quot;identifier&quot;:{
+              &quot;oneOf&quot;:[
+                {
+                  &quot;type&quot;:&quot;string&quot;
+                },
+                {
+                  &quot;type&quot;:&quot;array&quot;,
+                  &quot;items&quot;:{
+                    &quot;type&quot;:&quot;string&quot;
+                  }
+                }
+              ]
+            },
+            &quot;standardized-id&quot;:{
+              &quot;oneOf&quot;:[
+                {
+                  &quot;type&quot;:&quot;string&quot;
+                },
+                {
+                  &quot;type&quot;:&quot;array&quot;,
+                  &quot;items&quot;:{
+                    &quot;type&quot;:&quot;string&quot;
+                  }
+                }
+              ]
+            },
+            &quot;unicode-label&quot;:{
+              &quot;oneOf&quot;:[
+                {
+                  &quot;type&quot;:&quot;string&quot;
+                },
+                {
+                  &quot;type&quot;:&quot;array&quot;,
+                  &quot;items&quot;:{
+                    &quot;type&quot;:&quot;string&quot;
+                  }
+                }
+              ]
+            },
+            &quot;long-arc&quot;:{
+              &quot;oneOf&quot;:[
+                {
+                  &quot;type&quot;:&quot;string&quot;
+                },
+                {
+
+
+
+<span class="grey">Marschall                                                      [Page 41]</span></pre>
+</div><div class="page"><span class="noprint" id="page-42"><span class="grey">VTS/WF STD. 2           OID Information Protocol        2 September 2024</span>
+
+
+                  &quot;type&quot;:&quot;array&quot;,
+                  &quot;items&quot;:{
+                    &quot;type&quot;:&quot;string&quot;
+                  }
+                }
+              ]
+            },
+            &quot;oidip-service&quot;:{
+              &quot;oneOf&quot;:[
+                {
+                  &quot;type&quot;:&quot;string&quot;
+                },
+                {
+                  &quot;type&quot;:&quot;array&quot;,
+                  &quot;items&quot;:{
+                    &quot;type&quot;:&quot;string&quot;
+                  }
+                }
+              ]
+            },
+            &quot;oidip-pubkey&quot;:{
+              &quot;oneOf&quot;:[
+                {
+                  &quot;type&quot;:&quot;string&quot;
+                },
+                {
+                  &quot;type&quot;:&quot;array&quot;,
+                  &quot;items&quot;:{
+                    &quot;type&quot;:&quot;string&quot;
+                  }
+                }
+              ]
+            },
+            &quot;attribute&quot;:{
+              &quot;oneOf&quot;:[
+                {
+                  &quot;type&quot;:&quot;string&quot;,
+                  &quot;enum&quot;:[&quot;confidential&quot;,
+                          &quot;draft&quot;,
+                          &quot;frozen&quot;,
+                          &quot;leaf&quot;,
+                          &quot;no-identifiers&quot;,
+                          &quot;no-unicode-labels&quot;,
+                          &quot;retired&quot;]
+                },
+                {
+                  &quot;type&quot;:&quot;array&quot;,
+                  &quot;items&quot;:{
+
+
+
+<span class="grey">Marschall                                                      [Page 42]</span></pre>
+</div><div class="page"><span class="noprint" id="page-43"><span class="grey">VTS/WF STD. 2           OID Information Protocol        2 September 2024</span>
+
+
+                    &quot;type&quot;:&quot;string&quot;,
+                    &quot;enum&quot;:[&quot;confidential&quot;,
+                            &quot;draft&quot;,
+                            &quot;frozen&quot;,
+                            &quot;leaf&quot;,
+                            &quot;no-identifiers&quot;,
+                            &quot;no-unicode-labels&quot;,
+                            &quot;retired&quot;]
+                  }
+                }
+              ]
+            },
+            &quot;parent&quot;:{
+              &quot;type&quot;:&quot;string&quot;
+            },
+            &quot;subordinate&quot;:{
+              &quot;oneOf&quot;:[
+                {
+                  &quot;type&quot;:&quot;string&quot;
+                },
+                {
+                  &quot;type&quot;:&quot;array&quot;,
+                  &quot;items&quot;:{
+                    &quot;type&quot;:&quot;string&quot;
+                  }
+                }
+              ]
+            },
+            &quot;created&quot;:{
+              &quot;$ref&quot;: &quot;#/$defs/dateTimeRef&quot;
+            },
+            &quot;updated&quot;:{
+              &quot;$ref&quot;: &quot;#/$defs/dateTimeRef&quot;
+            }
+          },
+          &quot;required&quot;:[
+            &quot;object&quot;,
+            &quot;status&quot;
+          ]
+        },
+        &quot;raSection&quot;:{
+          &quot;type&quot;:&quot;object&quot;,
+          &quot;properties&quot;:{
+            &quot;ra&quot;:{
+              &quot;$comment&quot;:&quot;Note: \&quot;ra\&quot; keeps its name, even in \
+Ra1SectionType et al.&quot;,
+              &quot;type&quot;:&quot;string&quot;
+            },
+
+
+
+<span class="grey">Marschall                                                      [Page 43]</span></pre>
+</div><div class="page"><span class="noprint" id="page-44"><span class="grey">VTS/WF STD. 2           OID Information Protocol        2 September 2024</span>
+
+
+            &quot;status&quot;:{
+              &quot;type&quot;:&quot;string&quot;,
+              &quot;enum&quot;:[&quot;Information available&quot;,
+                      &quot;Information partially available&quot;,
+                      &quot;Information unavailable&quot;]
+            },
+            &quot;lang&quot;:{
+              &quot;type&quot;:&quot;string&quot;
+            },
+            &quot;contact-name&quot;:{
+              &quot;type&quot;:&quot;string&quot;
+            },
+            &quot;address&quot;:{
+              &quot;type&quot;:&quot;string&quot;
+            },
+            &quot;phone&quot;:{
+              &quot;type&quot;:&quot;string&quot;
+            },
+            &quot;mobile&quot;:{
+              &quot;type&quot;:&quot;string&quot;
+            },
+            &quot;fax&quot;:{
+              &quot;type&quot;:&quot;string&quot;
+            },
+            &quot;email&quot;:{
+              &quot;type&quot;:&quot;string&quot;
+            },
+            &quot;url&quot;:{
+              &quot;type&quot;:&quot;string&quot;
+            },
+            &quot;attribute&quot;:{
+              &quot;oneOf&quot;:[
+                {
+                  &quot;type&quot;:&quot;string&quot;,
+                  &quot;enum&quot;:[&quot;confidential&quot;,
+                          &quot;retired&quot;]
+                },
+                {
+                  &quot;type&quot;:&quot;array&quot;,
+                  &quot;items&quot;:{
+                    &quot;type&quot;:&quot;string&quot;,
+                    &quot;enum&quot;:[&quot;confidential&quot;,
+                            &quot;retired&quot;]
+                  }
+                }
+              ]
+            },
+            &quot;created&quot;:{
+
+
+
+<span class="grey">Marschall                                                      [Page 44]</span></pre>
+</div><div class="page"><span class="noprint" id="page-45"><span class="grey">VTS/WF STD. 2           OID Information Protocol        2 September 2024</span>
+
+
+              &quot;$ref&quot;: &quot;#/$defs/dateTimeRef&quot;
+            },
+            &quot;updated&quot;:{
+              &quot;$ref&quot;: &quot;#/$defs/dateTimeRef&quot;
+            }
+          },
+          &quot;required&quot;:[
+            &quot;ra&quot;,
+            &quot;status&quot;
+          ]
+        },
+        &quot;ra1Section&quot;:{&quot;$ref&quot;:&quot;#/properties/oidip/properties/raSection&quot;},
+        &quot;ra2Section&quot;:{&quot;$ref&quot;:&quot;#/properties/oidip/properties/raSection&quot;},
+        &quot;ra3Section&quot;:{&quot;$ref&quot;:&quot;#/properties/oidip/properties/raSection&quot;},
+        &quot;ra4Section&quot;:{&quot;$ref&quot;:&quot;#/properties/oidip/properties/raSection&quot;},
+        &quot;ra5Section&quot;:{&quot;$ref&quot;:&quot;#/properties/oidip/properties/raSection&quot;},
+        &quot;ra6Section&quot;:{&quot;$ref&quot;:&quot;#/properties/oidip/properties/raSection&quot;},
+        &quot;ra7Section&quot;:{&quot;$ref&quot;:&quot;#/properties/oidip/properties/raSection&quot;},
+        &quot;ra8Section&quot;:{&quot;$ref&quot;:&quot;#/properties/oidip/properties/raSection&quot;},
+        &quot;ra9Section&quot;:{&quot;$ref&quot;:&quot;#/properties/oidip/properties/raSection&quot;},
+       &quot;ra10Section&quot;:{&quot;$ref&quot;:&quot;#/properties/oidip/properties/raSection&quot;},
+       &quot;ra11Section&quot;:{&quot;$ref&quot;:&quot;#/properties/oidip/properties/raSection&quot;},
+       &quot;ra12Section&quot;:{&quot;$ref&quot;:&quot;#/properties/oidip/properties/raSection&quot;},
+       &quot;ra13Section&quot;:{&quot;$ref&quot;:&quot;#/properties/oidip/properties/raSection&quot;},
+       &quot;ra14Section&quot;:{&quot;$ref&quot;:&quot;#/properties/oidip/properties/raSection&quot;},
+       &quot;ra15Section&quot;:{&quot;$ref&quot;:&quot;#/properties/oidip/properties/raSection&quot;},
+       &quot;ra16Section&quot;:{&quot;$ref&quot;:&quot;#/properties/oidip/properties/raSection&quot;},
+       &quot;ra17Section&quot;:{&quot;$ref&quot;:&quot;#/properties/oidip/properties/raSection&quot;},
+       &quot;ra18Section&quot;:{&quot;$ref&quot;:&quot;#/properties/oidip/properties/raSection&quot;},
+       &quot;ra19Section&quot;:{&quot;$ref&quot;:&quot;#/properties/oidip/properties/raSection&quot;},
+       &quot;ra20Section&quot;:{&quot;$ref&quot;:&quot;#/properties/oidip/properties/raSection&quot;},
+       &quot;ra21Section&quot;:{&quot;$ref&quot;:&quot;#/properties/oidip/properties/raSection&quot;},
+       &quot;ra22Section&quot;:{&quot;$ref&quot;:&quot;#/properties/oidip/properties/raSection&quot;},
+       &quot;ra23Section&quot;:{&quot;$ref&quot;:&quot;#/properties/oidip/properties/raSection&quot;},
+       &quot;ra24Section&quot;:{&quot;$ref&quot;:&quot;#/properties/oidip/properties/raSection&quot;},
+       &quot;ra25Section&quot;:{&quot;$ref&quot;:&quot;#/properties/oidip/properties/raSection&quot;},
+       &quot;ra26Section&quot;:{&quot;$ref&quot;:&quot;#/properties/oidip/properties/raSection&quot;},
+       &quot;ra27Section&quot;:{&quot;$ref&quot;:&quot;#/properties/oidip/properties/raSection&quot;},
+       &quot;ra28Section&quot;:{&quot;$ref&quot;:&quot;#/properties/oidip/properties/raSection&quot;},
+       &quot;ra29Section&quot;:{&quot;$ref&quot;:&quot;#/properties/oidip/properties/raSection&quot;},
+       &quot;ra30Section&quot;:{&quot;$ref&quot;:&quot;#/properties/oidip/properties/raSection&quot;},
+       &quot;ra31Section&quot;:{&quot;$ref&quot;:&quot;#/properties/oidip/properties/raSection&quot;},
+       &quot;ra32Section&quot;:{&quot;$ref&quot;:&quot;#/properties/oidip/properties/raSection&quot;},
+       &quot;ra33Section&quot;:{&quot;$ref&quot;:&quot;#/properties/oidip/properties/raSection&quot;},
+       &quot;ra34Section&quot;:{&quot;$ref&quot;:&quot;#/properties/oidip/properties/raSection&quot;},
+       &quot;ra35Section&quot;:{&quot;$ref&quot;:&quot;#/properties/oidip/properties/raSection&quot;},
+       &quot;ra36Section&quot;:{&quot;$ref&quot;:&quot;#/properties/oidip/properties/raSection&quot;},
+       &quot;ra37Section&quot;:{&quot;$ref&quot;:&quot;#/properties/oidip/properties/raSection&quot;},
+
+
+
+<span class="grey">Marschall                                                      [Page 45]</span></pre>
+</div><div class="page"><span class="noprint" id="page-46"><span class="grey">VTS/WF STD. 2           OID Information Protocol        2 September 2024</span>
+
+
+       &quot;ra38Section&quot;:{&quot;$ref&quot;:&quot;#/properties/oidip/properties/raSection&quot;},
+       &quot;ra39Section&quot;:{&quot;$ref&quot;:&quot;#/properties/oidip/properties/raSection&quot;},
+       &quot;ra40Section&quot;:{&quot;$ref&quot;:&quot;#/properties/oidip/properties/raSection&quot;},
+       &quot;ra41Section&quot;:{&quot;$ref&quot;:&quot;#/properties/oidip/properties/raSection&quot;},
+       &quot;ra42Section&quot;:{&quot;$ref&quot;:&quot;#/properties/oidip/properties/raSection&quot;},
+       &quot;ra43Section&quot;:{&quot;$ref&quot;:&quot;#/properties/oidip/properties/raSection&quot;},
+       &quot;ra44Section&quot;:{&quot;$ref&quot;:&quot;#/properties/oidip/properties/raSection&quot;},
+       &quot;ra45Section&quot;:{&quot;$ref&quot;:&quot;#/properties/oidip/properties/raSection&quot;},
+       &quot;ra46Section&quot;:{&quot;$ref&quot;:&quot;#/properties/oidip/properties/raSection&quot;},
+       &quot;ra47Section&quot;:{&quot;$ref&quot;:&quot;#/properties/oidip/properties/raSection&quot;},
+       &quot;ra48Section&quot;:{&quot;$ref&quot;:&quot;#/properties/oidip/properties/raSection&quot;},
+       &quot;ra49Section&quot;:{&quot;$ref&quot;:&quot;#/properties/oidip/properties/raSection&quot;},
+       &quot;ra50Section&quot;:{&quot;$ref&quot;:&quot;#/properties/oidip/properties/raSection&quot;},
+       &quot;ra51Section&quot;:{&quot;$ref&quot;:&quot;#/properties/oidip/properties/raSection&quot;},
+       &quot;ra52Section&quot;:{&quot;$ref&quot;:&quot;#/properties/oidip/properties/raSection&quot;},
+       &quot;ra53Section&quot;:{&quot;$ref&quot;:&quot;#/properties/oidip/properties/raSection&quot;},
+       &quot;ra54Section&quot;:{&quot;$ref&quot;:&quot;#/properties/oidip/properties/raSection&quot;},
+       &quot;ra55Section&quot;:{&quot;$ref&quot;:&quot;#/properties/oidip/properties/raSection&quot;},
+       &quot;ra56Section&quot;:{&quot;$ref&quot;:&quot;#/properties/oidip/properties/raSection&quot;},
+       &quot;ra57Section&quot;:{&quot;$ref&quot;:&quot;#/properties/oidip/properties/raSection&quot;},
+       &quot;ra58Section&quot;:{&quot;$ref&quot;:&quot;#/properties/oidip/properties/raSection&quot;},
+       &quot;ra59Section&quot;:{&quot;$ref&quot;:&quot;#/properties/oidip/properties/raSection&quot;},
+       &quot;ra60Section&quot;:{&quot;$ref&quot;:&quot;#/properties/oidip/properties/raSection&quot;},
+       &quot;ra61Section&quot;:{&quot;$ref&quot;:&quot;#/properties/oidip/properties/raSection&quot;},
+       &quot;ra62Section&quot;:{&quot;$ref&quot;:&quot;#/properties/oidip/properties/raSection&quot;},
+       &quot;ra63Section&quot;:{&quot;$ref&quot;:&quot;#/properties/oidip/properties/raSection&quot;},
+       &quot;ra64Section&quot;:{&quot;$ref&quot;:&quot;#/properties/oidip/properties/raSection&quot;},
+       &quot;ra65Section&quot;:{&quot;$ref&quot;:&quot;#/properties/oidip/properties/raSection&quot;},
+       &quot;ra66Section&quot;:{&quot;$ref&quot;:&quot;#/properties/oidip/properties/raSection&quot;},
+       &quot;ra67Section&quot;:{&quot;$ref&quot;:&quot;#/properties/oidip/properties/raSection&quot;},
+       &quot;ra68Section&quot;:{&quot;$ref&quot;:&quot;#/properties/oidip/properties/raSection&quot;},
+       &quot;ra69Section&quot;:{&quot;$ref&quot;:&quot;#/properties/oidip/properties/raSection&quot;},
+       &quot;ra70Section&quot;:{&quot;$ref&quot;:&quot;#/properties/oidip/properties/raSection&quot;},
+       &quot;ra71Section&quot;:{&quot;$ref&quot;:&quot;#/properties/oidip/properties/raSection&quot;},
+       &quot;ra72Section&quot;:{&quot;$ref&quot;:&quot;#/properties/oidip/properties/raSection&quot;},
+       &quot;ra73Section&quot;:{&quot;$ref&quot;:&quot;#/properties/oidip/properties/raSection&quot;},
+       &quot;ra74Section&quot;:{&quot;$ref&quot;:&quot;#/properties/oidip/properties/raSection&quot;},
+       &quot;ra75Section&quot;:{&quot;$ref&quot;:&quot;#/properties/oidip/properties/raSection&quot;},
+       &quot;ra76Section&quot;:{&quot;$ref&quot;:&quot;#/properties/oidip/properties/raSection&quot;},
+       &quot;ra77Section&quot;:{&quot;$ref&quot;:&quot;#/properties/oidip/properties/raSection&quot;},
+       &quot;ra78Section&quot;:{&quot;$ref&quot;:&quot;#/properties/oidip/properties/raSection&quot;},
+       &quot;ra79Section&quot;:{&quot;$ref&quot;:&quot;#/properties/oidip/properties/raSection&quot;},
+       &quot;ra80Section&quot;:{&quot;$ref&quot;:&quot;#/properties/oidip/properties/raSection&quot;},
+       &quot;ra81Section&quot;:{&quot;$ref&quot;:&quot;#/properties/oidip/properties/raSection&quot;},
+       &quot;ra82Section&quot;:{&quot;$ref&quot;:&quot;#/properties/oidip/properties/raSection&quot;},
+       &quot;ra83Section&quot;:{&quot;$ref&quot;:&quot;#/properties/oidip/properties/raSection&quot;},
+       &quot;ra84Section&quot;:{&quot;$ref&quot;:&quot;#/properties/oidip/properties/raSection&quot;},
+       &quot;ra85Section&quot;:{&quot;$ref&quot;:&quot;#/properties/oidip/properties/raSection&quot;},
+
+
+
+<span class="grey">Marschall                                                      [Page 46]</span></pre>
+</div><div class="page"><span class="noprint" id="page-47"><span class="grey">VTS/WF STD. 2           OID Information Protocol        2 September 2024</span>
+
+
+       &quot;ra86Section&quot;:{&quot;$ref&quot;:&quot;#/properties/oidip/properties/raSection&quot;},
+       &quot;ra87Section&quot;:{&quot;$ref&quot;:&quot;#/properties/oidip/properties/raSection&quot;},
+       &quot;ra88Section&quot;:{&quot;$ref&quot;:&quot;#/properties/oidip/properties/raSection&quot;},
+       &quot;ra89Section&quot;:{&quot;$ref&quot;:&quot;#/properties/oidip/properties/raSection&quot;},
+       &quot;ra90Section&quot;:{&quot;$ref&quot;:&quot;#/properties/oidip/properties/raSection&quot;},
+       &quot;ra91Section&quot;:{&quot;$ref&quot;:&quot;#/properties/oidip/properties/raSection&quot;},
+       &quot;ra92Section&quot;:{&quot;$ref&quot;:&quot;#/properties/oidip/properties/raSection&quot;},
+       &quot;ra93Section&quot;:{&quot;$ref&quot;:&quot;#/properties/oidip/properties/raSection&quot;},
+       &quot;ra94Section&quot;:{&quot;$ref&quot;:&quot;#/properties/oidip/properties/raSection&quot;},
+       &quot;ra95Section&quot;:{&quot;$ref&quot;:&quot;#/properties/oidip/properties/raSection&quot;},
+       &quot;ra96Section&quot;:{&quot;$ref&quot;:&quot;#/properties/oidip/properties/raSection&quot;},
+       &quot;ra97Section&quot;:{&quot;$ref&quot;:&quot;#/properties/oidip/properties/raSection&quot;},
+       &quot;ra98Section&quot;:{&quot;$ref&quot;:&quot;#/properties/oidip/properties/raSection&quot;},
+       &quot;ra99Section&quot;:{&quot;$ref&quot;:&quot;#/properties/oidip/properties/raSection&quot;}
+      },
+      &quot;required&quot;:[
+        &quot;querySection&quot;
+      ]
+    },
+    &quot;signature&quot;:{
+      &quot;type&quot;:&quot;string&quot;,
+      &quot;pattern&quot;:&quot;^[A-Za-z0-9+/=]+\\.[A-Za-z0-9+/=]+\\.[A-Za-z0-9+/=]+$&quot;
+    }
+  },
+  &quot;required&quot;:[
+    &quot;oidip&quot;
+  ],
+  &quot;$defs&quot;:{
+    &quot;dateTimeRef&quot;:{
+      &quot;type&quot;:&quot;string&quot;,
+      &quot;pattern&quot;:&quot;^\\d{4}(-(0[1-9]|1[0-2])(-(0[1-9]|1\\d|2\\d|3[0-1])\
+( [0-5]\\d:[0-5]\\d(:[0-5]\\d)?( [+-][0-5]\\d[0-5]\\d)?)?)?)?$&quot;
+    },
+    &quot;inputQueryType&quot;:{
+      &quot;$comment&quot;:&quot;Note: The ABNF definition is more accurate&quot;,
+      &quot;type&quot;:&quot;string&quot;,
+      &quot;pattern&quot;:&quot;^[a-z0-9]+:(.*)$&quot;
+    }
+  }
+}
+&lt;CODE ENDS&gt;
+
+
+
+
+
+
+
+
+
+
+<span class="grey">Marschall                                                      [Page 47]</span></pre>
+</div><div class="page"><span class="noprint" id="page-48"><span class="grey">VTS/WF STD. 2           OID Information Protocol        2 September 2024</span>
+
+
+<h3><a class="selflink" id="appendix-A.2" href="#appendix-A.2">Appendix A.2</a>.  JSON Format Example of Output</h3>
+
+NOTE: &#x27;\&#x27; line wrapping per <a href="https://datatracker.ietf.org/doc/html/rfc8792">RFC 8792</a>  [<a href="https://datatracker.ietf.org/doc/html/rfc8792" title="&quot;Handling Long Lines in Content of Internet-Drafts and RFCs&quot;">RFC8792</a>]
+
+&lt;CODE BEGINS&gt; file &quot;oidip_example.json&quot;
+{
+  &quot;$schema&quot;:&quot;urn:x-viathinksoft:std:0002:2024-09-02:json-schema&quot;,
+  &quot;oidip&quot;: {
+    &quot;querySection&quot;: {
+      &quot;query&quot;: &quot;oid:2.999&quot;,
+      &quot;result&quot;: &quot;Found&quot;
+    },
+    &quot;objectSection&quot;: {
+      &quot;object&quot;: &quot;oid:2.999&quot;,
+      &quot;status&quot;: &quot;Information available&quot;,
+      &quot;lang&quot;: &quot;en-US&quot;,
+      &quot;name&quot;: &quot;Example&quot;,
+      &quot;description&quot;: &quot;This OID can be used by anyone, for the \
+purposes of documenting examples of Object Identifiers.&quot;,
+      &quot;asn1-notation&quot;: &quot;{joint-iso-itu-t(2) example(999)}&quot;,
+      &quot;iri-notation&quot;: &quot;/Example&quot;,
+      &quot;identifier&quot;: &quot;example&quot;,
+      &quot;unicode-label&quot;: [
+            &quot;Beispiel&quot;,
+            &quot;Ejemplo&quot;,
+            &quot;Example&quot;,
+            &quot;Exemple&quot;,
+            &quot;(Korean characters are omitted in this example)&quot;,
+            &quot;(Arabian characters are omitted in this example)&quot;,
+            &quot;(Japanese characters are omitted in this example)&quot;,
+            &quot;(Chinese characters are omitted in this example)&quot;,
+            &quot;(Russian characters are omitted in this example)&quot;
+      ],
+      &quot;long-arc&quot;: [
+            &quot;Beispiel&quot;,
+            &quot;Ejemplo&quot;,
+            &quot;Example&quot;,
+            &quot;Exemple&quot;,
+            &quot;(Korean characters are omitted in this example)&quot;,
+            &quot;(Arabian characters are omitted in this example)&quot;,
+            &quot;(Japanese characters are omitted in this example)&quot;,
+            &quot;(Chinese characters are omitted in this example)&quot;,
+            &quot;(Russian characters are omitted in this example)&quot;
+      ],
+      &quot;parent&quot;: &quot;oid:2 (joint-iso-ccitt, joint-iso-itu-t)&quot;,
+      &quot;subordinate&quot;: [],
+      &quot;created&quot;: &quot;2011-06&quot;,
+      &quot;updated&quot;: &quot;2020-09&quot;
+
+
+
+<span class="grey">Marschall                                                      [Page 48]</span></pre>
+</div><div class="page"><span class="noprint" id="page-49"><span class="grey">VTS/WF STD. 2           OID Information Protocol        2 September 2024</span>
+
+
+    },
+    &quot;raSection&quot;: {
+      &quot;ra&quot;: &quot;ITU-T SG 17 &amp; ISO/IEC JTC 1/SC 6&quot;,
+      &quot;status&quot;: &quot;Information unavailable&quot;
+    }
+  },
+  &quot;signature&quot;: &quot;(JSON Web Signature here)&quot;
+}
+&lt;CODE ENDS&gt;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<span class="grey">Marschall                                                      [Page 49]</span></pre>
+</div><div class="page"><span class="noprint" id="page-50"><span class="grey">VTS/WF STD. 2           OID Information Protocol        2 September 2024</span>
+
+
+<h2><a class="selflink" id="appendix-B" href="#appendix-B">Appendix B</a>.  XML Format Schema and Example</h2>
+
+<h3><a class="selflink" id="appendix-B.1" href="#appendix-B.1">Appendix B.1</a>.  XML Format Schema</h3>
+
+The following XML Schema Definition ([<a href="#ref-XSD">XSD</a>]) defines the expected output
+the server sends if the argument &quot;format&quot; is set to &quot;xml&quot;.
+
+NOTE: &#x27;\&#x27; line wrapping per <a href="https://datatracker.ietf.org/doc/html/rfc8792">RFC 8792</a>  [<a href="https://datatracker.ietf.org/doc/html/rfc8792" title="&quot;Handling Long Lines in Content of Internet-Drafts and RFCs&quot;">RFC8792</a>]
+
+&lt;CODE BEGINS&gt; file &quot;viathinksoft-std-0002-oidip.xsd&quot;
+&lt;?xml version=&quot;1.0&quot;?&gt;
+&lt;xs:schema xmlns:xs=&quot;http://www.w3.org/2001/XMLSchema&quot;
+           xmlns:ds=&quot;http://www.w3.org/2000/09/xmldsig#&quot;
+           xmlns:ns1=&quot;urn:x-viathinksoft:std:0002:2024-09-02:\
+xml-schema&quot;
+           targetNamespace=&quot;urn:x-viathinksoft:std:0002:2024-09-02:\
+xml-schema&quot;
+           elementFormDefault=&quot;qualified&quot;
+           attributeFormDefault=&quot;unqualified&quot;&gt;
+&lt;xs:import namespace=&quot;http://www.w3.org/2000/09/xmldsig#&quot;
+           schemaLocation=&quot;http://www.w3.org/TR/2002/REC-xmldsig\
+-core-20020212/xmldsig-core-schema.xsd&quot;/&gt;
+
+  &lt;xs:element name=&quot;root&quot;&gt;
+    &lt;xs:complexType&gt;
+      &lt;xs:sequence&gt;
+        &lt;xs:element name=&quot;oidip&quot; minOccurs=&quot;1&quot; maxOccurs=&quot;1&quot;
+                    type=&quot;ns1:OidIpType&quot;/&gt;
+        &lt;xs:element minOccurs=&quot;0&quot; maxOccurs=&quot;1&quot;
+                    ref=&quot;ds:Signature&quot;/&gt;
+      &lt;/xs:sequence&gt;
+    &lt;/xs:complexType&gt;
+  &lt;/xs:element&gt;
+
+  &lt;xs:complexType name=&quot;OidIpType&quot;&gt;
+    &lt;xs:sequence&gt;
+      &lt;xs:element name=&quot;querySection&quot; minOccurs=&quot;1&quot; maxOccurs=&quot;1&quot;
+                  type=&quot;ns1:QuerySectionType&quot;/&gt;
+      &lt;xs:element name=&quot;objectSection&quot; minOccurs=&quot;0&quot; maxOccurs=&quot;1&quot;
+                  type=&quot;ns1:ObjectSectionType&quot;/&gt;
+      &lt;xs:element name=&quot;raSection&quot; minOccurs=&quot;0&quot; maxOccurs=&quot;1&quot;
+                  type=&quot;ns1:RaSectionType&quot;/&gt;
+      &lt;xs:element name=&quot;ra1Section&quot; minOccurs=&quot;0&quot; maxOccurs=&quot;1&quot;
+                  type=&quot;ns1:RaSectionType&quot;/&gt;
+      &lt;xs:element name=&quot;ra2Section&quot; minOccurs=&quot;0&quot; maxOccurs=&quot;1&quot;
+                  type=&quot;ns1:RaSectionType&quot;/&gt;
+      &lt;xs:element name=&quot;ra3Section&quot; minOccurs=&quot;0&quot; maxOccurs=&quot;1&quot;
+                  type=&quot;ns1:RaSectionType&quot;/&gt;
+
+
+
+<span class="grey">Marschall                                                      [Page 50]</span></pre>
+</div><div class="page"><span class="noprint" id="page-51"><span class="grey">VTS/WF STD. 2           OID Information Protocol        2 September 2024</span>
+
+
+      &lt;xs:element name=&quot;ra4Section&quot; minOccurs=&quot;0&quot; maxOccurs=&quot;1&quot;
+                  type=&quot;ns1:RaSectionType&quot;/&gt;
+      &lt;xs:element name=&quot;ra5Section&quot; minOccurs=&quot;0&quot; maxOccurs=&quot;1&quot;
+                  type=&quot;ns1:RaSectionType&quot;/&gt;
+      &lt;xs:element name=&quot;ra6Section&quot; minOccurs=&quot;0&quot; maxOccurs=&quot;1&quot;
+                  type=&quot;ns1:RaSectionType&quot;/&gt;
+      &lt;xs:element name=&quot;ra7Section&quot; minOccurs=&quot;0&quot; maxOccurs=&quot;1&quot;
+                  type=&quot;ns1:RaSectionType&quot;/&gt;
+      &lt;xs:element name=&quot;ra8Section&quot; minOccurs=&quot;0&quot; maxOccurs=&quot;1&quot;
+                  type=&quot;ns1:RaSectionType&quot;/&gt;
+      &lt;xs:element name=&quot;ra9Section&quot; minOccurs=&quot;0&quot; maxOccurs=&quot;1&quot;
+                  type=&quot;ns1:RaSectionType&quot;/&gt;
+      &lt;xs:element name=&quot;ra10Section&quot; minOccurs=&quot;0&quot; maxOccurs=&quot;1&quot;
+                  type=&quot;ns1:RaSectionType&quot;/&gt;
+      &lt;xs:element name=&quot;ra11Section&quot; minOccurs=&quot;0&quot; maxOccurs=&quot;1&quot;
+                  type=&quot;ns1:RaSectionType&quot;/&gt;
+      &lt;xs:element name=&quot;ra12Section&quot; minOccurs=&quot;0&quot; maxOccurs=&quot;1&quot;
+                  type=&quot;ns1:RaSectionType&quot;/&gt;
+      &lt;xs:element name=&quot;ra13Section&quot; minOccurs=&quot;0&quot; maxOccurs=&quot;1&quot;
+                  type=&quot;ns1:RaSectionType&quot;/&gt;
+      &lt;xs:element name=&quot;ra14Section&quot; minOccurs=&quot;0&quot; maxOccurs=&quot;1&quot;
+                  type=&quot;ns1:RaSectionType&quot;/&gt;
+      &lt;xs:element name=&quot;ra15Section&quot; minOccurs=&quot;0&quot; maxOccurs=&quot;1&quot;
+                  type=&quot;ns1:RaSectionType&quot;/&gt;
+      &lt;xs:element name=&quot;ra16Section&quot; minOccurs=&quot;0&quot; maxOccurs=&quot;1&quot;
+                  type=&quot;ns1:RaSectionType&quot;/&gt;
+      &lt;xs:element name=&quot;ra17Section&quot; minOccurs=&quot;0&quot; maxOccurs=&quot;1&quot;
+                  type=&quot;ns1:RaSectionType&quot;/&gt;
+      &lt;xs:element name=&quot;ra18Section&quot; minOccurs=&quot;0&quot; maxOccurs=&quot;1&quot;
+                  type=&quot;ns1:RaSectionType&quot;/&gt;
+      &lt;xs:element name=&quot;ra19Section&quot; minOccurs=&quot;0&quot; maxOccurs=&quot;1&quot;
+                  type=&quot;ns1:RaSectionType&quot;/&gt;
+      &lt;xs:element name=&quot;ra20Section&quot; minOccurs=&quot;0&quot; maxOccurs=&quot;1&quot;
+                  type=&quot;ns1:RaSectionType&quot;/&gt;
+      &lt;xs:element name=&quot;ra21Section&quot; minOccurs=&quot;0&quot; maxOccurs=&quot;1&quot;
+                  type=&quot;ns1:RaSectionType&quot;/&gt;
+      &lt;xs:element name=&quot;ra22Section&quot; minOccurs=&quot;0&quot; maxOccurs=&quot;1&quot;
+                  type=&quot;ns1:RaSectionType&quot;/&gt;
+      &lt;xs:element name=&quot;ra23Section&quot; minOccurs=&quot;0&quot; maxOccurs=&quot;1&quot;
+                  type=&quot;ns1:RaSectionType&quot;/&gt;
+      &lt;xs:element name=&quot;ra24Section&quot; minOccurs=&quot;0&quot; maxOccurs=&quot;1&quot;
+                  type=&quot;ns1:RaSectionType&quot;/&gt;
+      &lt;xs:element name=&quot;ra25Section&quot; minOccurs=&quot;0&quot; maxOccurs=&quot;1&quot;
+                  type=&quot;ns1:RaSectionType&quot;/&gt;
+      &lt;xs:element name=&quot;ra26Section&quot; minOccurs=&quot;0&quot; maxOccurs=&quot;1&quot;
+                  type=&quot;ns1:RaSectionType&quot;/&gt;
+      &lt;xs:element name=&quot;ra27Section&quot; minOccurs=&quot;0&quot; maxOccurs=&quot;1&quot;
+                  type=&quot;ns1:RaSectionType&quot;/&gt;
+
+
+
+<span class="grey">Marschall                                                      [Page 51]</span></pre>
+</div><div class="page"><span class="noprint" id="page-52"><span class="grey">VTS/WF STD. 2           OID Information Protocol        2 September 2024</span>
+
+
+      &lt;xs:element name=&quot;ra28Section&quot; minOccurs=&quot;0&quot; maxOccurs=&quot;1&quot;
+                  type=&quot;ns1:RaSectionType&quot;/&gt;
+      &lt;xs:element name=&quot;ra29Section&quot; minOccurs=&quot;0&quot; maxOccurs=&quot;1&quot;
+                  type=&quot;ns1:RaSectionType&quot;/&gt;
+      &lt;xs:element name=&quot;ra30Section&quot; minOccurs=&quot;0&quot; maxOccurs=&quot;1&quot;
+                  type=&quot;ns1:RaSectionType&quot;/&gt;
+      &lt;xs:element name=&quot;ra31Section&quot; minOccurs=&quot;0&quot; maxOccurs=&quot;1&quot;
+                  type=&quot;ns1:RaSectionType&quot;/&gt;
+      &lt;xs:element name=&quot;ra32Section&quot; minOccurs=&quot;0&quot; maxOccurs=&quot;1&quot;
+                  type=&quot;ns1:RaSectionType&quot;/&gt;
+      &lt;xs:element name=&quot;ra33Section&quot; minOccurs=&quot;0&quot; maxOccurs=&quot;1&quot;
+                  type=&quot;ns1:RaSectionType&quot;/&gt;
+      &lt;xs:element name=&quot;ra34Section&quot; minOccurs=&quot;0&quot; maxOccurs=&quot;1&quot;
+                  type=&quot;ns1:RaSectionType&quot;/&gt;
+      &lt;xs:element name=&quot;ra35Section&quot; minOccurs=&quot;0&quot; maxOccurs=&quot;1&quot;
+                  type=&quot;ns1:RaSectionType&quot;/&gt;
+      &lt;xs:element name=&quot;ra36Section&quot; minOccurs=&quot;0&quot; maxOccurs=&quot;1&quot;
+                  type=&quot;ns1:RaSectionType&quot;/&gt;
+      &lt;xs:element name=&quot;ra37Section&quot; minOccurs=&quot;0&quot; maxOccurs=&quot;1&quot;
+                  type=&quot;ns1:RaSectionType&quot;/&gt;
+      &lt;xs:element name=&quot;ra38Section&quot; minOccurs=&quot;0&quot; maxOccurs=&quot;1&quot;
+                  type=&quot;ns1:RaSectionType&quot;/&gt;
+      &lt;xs:element name=&quot;ra39Section&quot; minOccurs=&quot;0&quot; maxOccurs=&quot;1&quot;
+                  type=&quot;ns1:RaSectionType&quot;/&gt;
+      &lt;xs:element name=&quot;ra40Section&quot; minOccurs=&quot;0&quot; maxOccurs=&quot;1&quot;
+                  type=&quot;ns1:RaSectionType&quot;/&gt;
+      &lt;xs:element name=&quot;ra41Section&quot; minOccurs=&quot;0&quot; maxOccurs=&quot;1&quot;
+                  type=&quot;ns1:RaSectionType&quot;/&gt;
+      &lt;xs:element name=&quot;ra42Section&quot; minOccurs=&quot;0&quot; maxOccurs=&quot;1&quot;
+                  type=&quot;ns1:RaSectionType&quot;/&gt;
+      &lt;xs:element name=&quot;ra43Section&quot; minOccurs=&quot;0&quot; maxOccurs=&quot;1&quot;
+                  type=&quot;ns1:RaSectionType&quot;/&gt;
+      &lt;xs:element name=&quot;ra44Section&quot; minOccurs=&quot;0&quot; maxOccurs=&quot;1&quot;
+                  type=&quot;ns1:RaSectionType&quot;/&gt;
+      &lt;xs:element name=&quot;ra45Section&quot; minOccurs=&quot;0&quot; maxOccurs=&quot;1&quot;
+                  type=&quot;ns1:RaSectionType&quot;/&gt;
+      &lt;xs:element name=&quot;ra46Section&quot; minOccurs=&quot;0&quot; maxOccurs=&quot;1&quot;
+                  type=&quot;ns1:RaSectionType&quot;/&gt;
+      &lt;xs:element name=&quot;ra47Section&quot; minOccurs=&quot;0&quot; maxOccurs=&quot;1&quot;
+                  type=&quot;ns1:RaSectionType&quot;/&gt;
+      &lt;xs:element name=&quot;ra48Section&quot; minOccurs=&quot;0&quot; maxOccurs=&quot;1&quot;
+                  type=&quot;ns1:RaSectionType&quot;/&gt;
+      &lt;xs:element name=&quot;ra49Section&quot; minOccurs=&quot;0&quot; maxOccurs=&quot;1&quot;
+                  type=&quot;ns1:RaSectionType&quot;/&gt;
+      &lt;xs:element name=&quot;ra50Section&quot; minOccurs=&quot;0&quot; maxOccurs=&quot;1&quot;
+                  type=&quot;ns1:RaSectionType&quot;/&gt;
+      &lt;xs:element name=&quot;ra51Section&quot; minOccurs=&quot;0&quot; maxOccurs=&quot;1&quot;
+                  type=&quot;ns1:RaSectionType&quot;/&gt;
+
+
+
+<span class="grey">Marschall                                                      [Page 52]</span></pre>
+</div><div class="page"><span class="noprint" id="page-53"><span class="grey">VTS/WF STD. 2           OID Information Protocol        2 September 2024</span>
+
+
+      &lt;xs:element name=&quot;ra52Section&quot; minOccurs=&quot;0&quot; maxOccurs=&quot;1&quot;
+                  type=&quot;ns1:RaSectionType&quot;/&gt;
+      &lt;xs:element name=&quot;ra53Section&quot; minOccurs=&quot;0&quot; maxOccurs=&quot;1&quot;
+                  type=&quot;ns1:RaSectionType&quot;/&gt;
+      &lt;xs:element name=&quot;ra54Section&quot; minOccurs=&quot;0&quot; maxOccurs=&quot;1&quot;
+                  type=&quot;ns1:RaSectionType&quot;/&gt;
+      &lt;xs:element name=&quot;ra55Section&quot; minOccurs=&quot;0&quot; maxOccurs=&quot;1&quot;
+                  type=&quot;ns1:RaSectionType&quot;/&gt;
+      &lt;xs:element name=&quot;ra56Section&quot; minOccurs=&quot;0&quot; maxOccurs=&quot;1&quot;
+                  type=&quot;ns1:RaSectionType&quot;/&gt;
+      &lt;xs:element name=&quot;ra57Section&quot; minOccurs=&quot;0&quot; maxOccurs=&quot;1&quot;
+                  type=&quot;ns1:RaSectionType&quot;/&gt;
+      &lt;xs:element name=&quot;ra58Section&quot; minOccurs=&quot;0&quot; maxOccurs=&quot;1&quot;
+                  type=&quot;ns1:RaSectionType&quot;/&gt;
+      &lt;xs:element name=&quot;ra59Section&quot; minOccurs=&quot;0&quot; maxOccurs=&quot;1&quot;
+                  type=&quot;ns1:RaSectionType&quot;/&gt;
+      &lt;xs:element name=&quot;ra60Section&quot; minOccurs=&quot;0&quot; maxOccurs=&quot;1&quot;
+                  type=&quot;ns1:RaSectionType&quot;/&gt;
+      &lt;xs:element name=&quot;ra61Section&quot; minOccurs=&quot;0&quot; maxOccurs=&quot;1&quot;
+                  type=&quot;ns1:RaSectionType&quot;/&gt;
+      &lt;xs:element name=&quot;ra62Section&quot; minOccurs=&quot;0&quot; maxOccurs=&quot;1&quot;
+                  type=&quot;ns1:RaSectionType&quot;/&gt;
+      &lt;xs:element name=&quot;ra63Section&quot; minOccurs=&quot;0&quot; maxOccurs=&quot;1&quot;
+                  type=&quot;ns1:RaSectionType&quot;/&gt;
+      &lt;xs:element name=&quot;ra64Section&quot; minOccurs=&quot;0&quot; maxOccurs=&quot;1&quot;
+                  type=&quot;ns1:RaSectionType&quot;/&gt;
+      &lt;xs:element name=&quot;ra65Section&quot; minOccurs=&quot;0&quot; maxOccurs=&quot;1&quot;
+                  type=&quot;ns1:RaSectionType&quot;/&gt;
+      &lt;xs:element name=&quot;ra66Section&quot; minOccurs=&quot;0&quot; maxOccurs=&quot;1&quot;
+                  type=&quot;ns1:RaSectionType&quot;/&gt;
+      &lt;xs:element name=&quot;ra67Section&quot; minOccurs=&quot;0&quot; maxOccurs=&quot;1&quot;
+                  type=&quot;ns1:RaSectionType&quot;/&gt;
+      &lt;xs:element name=&quot;ra68Section&quot; minOccurs=&quot;0&quot; maxOccurs=&quot;1&quot;
+                  type=&quot;ns1:RaSectionType&quot;/&gt;
+      &lt;xs:element name=&quot;ra69Section&quot; minOccurs=&quot;0&quot; maxOccurs=&quot;1&quot;
+                  type=&quot;ns1:RaSectionType&quot;/&gt;
+      &lt;xs:element name=&quot;ra70Section&quot; minOccurs=&quot;0&quot; maxOccurs=&quot;1&quot;
+                  type=&quot;ns1:RaSectionType&quot;/&gt;
+      &lt;xs:element name=&quot;ra71Section&quot; minOccurs=&quot;0&quot; maxOccurs=&quot;1&quot;
+                  type=&quot;ns1:RaSectionType&quot;/&gt;
+      &lt;xs:element name=&quot;ra72Section&quot; minOccurs=&quot;0&quot; maxOccurs=&quot;1&quot;
+                  type=&quot;ns1:RaSectionType&quot;/&gt;
+      &lt;xs:element name=&quot;ra73Section&quot; minOccurs=&quot;0&quot; maxOccurs=&quot;1&quot;
+                  type=&quot;ns1:RaSectionType&quot;/&gt;
+      &lt;xs:element name=&quot;ra74Section&quot; minOccurs=&quot;0&quot; maxOccurs=&quot;1&quot;
+                  type=&quot;ns1:RaSectionType&quot;/&gt;
+      &lt;xs:element name=&quot;ra75Section&quot; minOccurs=&quot;0&quot; maxOccurs=&quot;1&quot;
+                  type=&quot;ns1:RaSectionType&quot;/&gt;
+
+
+
+<span class="grey">Marschall                                                      [Page 53]</span></pre>
+</div><div class="page"><span class="noprint" id="page-54"><span class="grey">VTS/WF STD. 2           OID Information Protocol        2 September 2024</span>
+
+
+      &lt;xs:element name=&quot;ra76Section&quot; minOccurs=&quot;0&quot; maxOccurs=&quot;1&quot;
+                  type=&quot;ns1:RaSectionType&quot;/&gt;
+      &lt;xs:element name=&quot;ra77Section&quot; minOccurs=&quot;0&quot; maxOccurs=&quot;1&quot;
+                  type=&quot;ns1:RaSectionType&quot;/&gt;
+      &lt;xs:element name=&quot;ra78Section&quot; minOccurs=&quot;0&quot; maxOccurs=&quot;1&quot;
+                  type=&quot;ns1:RaSectionType&quot;/&gt;
+      &lt;xs:element name=&quot;ra79Section&quot; minOccurs=&quot;0&quot; maxOccurs=&quot;1&quot;
+                  type=&quot;ns1:RaSectionType&quot;/&gt;
+      &lt;xs:element name=&quot;ra80Section&quot; minOccurs=&quot;0&quot; maxOccurs=&quot;1&quot;
+                  type=&quot;ns1:RaSectionType&quot;/&gt;
+      &lt;xs:element name=&quot;ra81Section&quot; minOccurs=&quot;0&quot; maxOccurs=&quot;1&quot;
+                  type=&quot;ns1:RaSectionType&quot;/&gt;
+      &lt;xs:element name=&quot;ra82Section&quot; minOccurs=&quot;0&quot; maxOccurs=&quot;1&quot;
+                  type=&quot;ns1:RaSectionType&quot;/&gt;
+      &lt;xs:element name=&quot;ra83Section&quot; minOccurs=&quot;0&quot; maxOccurs=&quot;1&quot;
+                  type=&quot;ns1:RaSectionType&quot;/&gt;
+      &lt;xs:element name=&quot;ra84Section&quot; minOccurs=&quot;0&quot; maxOccurs=&quot;1&quot;
+                  type=&quot;ns1:RaSectionType&quot;/&gt;
+      &lt;xs:element name=&quot;ra85Section&quot; minOccurs=&quot;0&quot; maxOccurs=&quot;1&quot;
+                  type=&quot;ns1:RaSectionType&quot;/&gt;
+      &lt;xs:element name=&quot;ra86Section&quot; minOccurs=&quot;0&quot; maxOccurs=&quot;1&quot;
+                  type=&quot;ns1:RaSectionType&quot;/&gt;
+      &lt;xs:element name=&quot;ra87Section&quot; minOccurs=&quot;0&quot; maxOccurs=&quot;1&quot;
+                  type=&quot;ns1:RaSectionType&quot;/&gt;
+      &lt;xs:element name=&quot;ra88Section&quot; minOccurs=&quot;0&quot; maxOccurs=&quot;1&quot;
+                  type=&quot;ns1:RaSectionType&quot;/&gt;
+      &lt;xs:element name=&quot;ra89Section&quot; minOccurs=&quot;0&quot; maxOccurs=&quot;1&quot;
+                  type=&quot;ns1:RaSectionType&quot;/&gt;
+      &lt;xs:element name=&quot;ra90Section&quot; minOccurs=&quot;0&quot; maxOccurs=&quot;1&quot;
+                  type=&quot;ns1:RaSectionType&quot;/&gt;
+      &lt;xs:element name=&quot;ra91Section&quot; minOccurs=&quot;0&quot; maxOccurs=&quot;1&quot;
+                  type=&quot;ns1:RaSectionType&quot;/&gt;
+      &lt;xs:element name=&quot;ra92Section&quot; minOccurs=&quot;0&quot; maxOccurs=&quot;1&quot;
+                  type=&quot;ns1:RaSectionType&quot;/&gt;
+      &lt;xs:element name=&quot;ra93Section&quot; minOccurs=&quot;0&quot; maxOccurs=&quot;1&quot;
+                  type=&quot;ns1:RaSectionType&quot;/&gt;
+      &lt;xs:element name=&quot;ra94Section&quot; minOccurs=&quot;0&quot; maxOccurs=&quot;1&quot;
+                  type=&quot;ns1:RaSectionType&quot;/&gt;
+      &lt;xs:element name=&quot;ra95Section&quot; minOccurs=&quot;0&quot; maxOccurs=&quot;1&quot;
+                  type=&quot;ns1:RaSectionType&quot;/&gt;
+      &lt;xs:element name=&quot;ra96Section&quot; minOccurs=&quot;0&quot; maxOccurs=&quot;1&quot;
+                  type=&quot;ns1:RaSectionType&quot;/&gt;
+      &lt;xs:element name=&quot;ra97Section&quot; minOccurs=&quot;0&quot; maxOccurs=&quot;1&quot;
+                  type=&quot;ns1:RaSectionType&quot;/&gt;
+      &lt;xs:element name=&quot;ra98Section&quot; minOccurs=&quot;0&quot; maxOccurs=&quot;1&quot;
+                  type=&quot;ns1:RaSectionType&quot;/&gt;
+      &lt;xs:element name=&quot;ra99Section&quot; minOccurs=&quot;0&quot; maxOccurs=&quot;1&quot;
+                  type=&quot;ns1:RaSectionType&quot;/&gt;
+
+
+
+<span class="grey">Marschall                                                      [Page 54]</span></pre>
+</div><div class="page"><span class="noprint" id="page-55"><span class="grey">VTS/WF STD. 2           OID Information Protocol        2 September 2024</span>
+
+
+      &lt;xs:any     namespace=&quot;##other&quot; minOccurs=&quot;0&quot;
+                  maxOccurs=&quot;unbounded&quot; processContents=&quot;lax&quot;/&gt;
+    &lt;/xs:sequence&gt;
+  &lt;/xs:complexType&gt;
+
+  &lt;xs:simpleType name=&quot;DateTimeRef&quot;&gt;
+    &lt;xs:restriction base=&quot;xs:string&quot;&gt;
+      &lt;xs:pattern value=&quot;\d{4}(-(0[1-9]|1[0-2])(-(0[1-9]|1\d|2\d|3[0-\
+1])( [0-5]\d:[0-5]\d(:[0-5]\d)?( [+-][0-5]\d[0-5]\d)?)?)?)?&quot;/&gt;
+    &lt;/xs:restriction&gt;
+  &lt;/xs:simpleType&gt;
+
+  &lt;xs:complexType name=&quot;QuerySectionType&quot;&gt;
+    &lt;xs:sequence&gt;
+      &lt;xs:element name=&quot;query&quot; minOccurs=&quot;1&quot; maxOccurs=&quot;1&quot;
+                  type=&quot;ns1:InputQueryType&quot;/&gt;
+      &lt;xs:element name=&quot;result&quot; minOccurs=&quot;1&quot; maxOccurs=&quot;1&quot;
+                  type=&quot;ns1:QueryResultEnumType&quot;/&gt;
+      &lt;xs:element name=&quot;distance&quot; minOccurs=&quot;0&quot; maxOccurs=&quot;1&quot;
+                  type=&quot;xs:integer&quot;/&gt;
+      &lt;xs:element name=&quot;message&quot; minOccurs=&quot;0&quot; maxOccurs=&quot;1&quot;
+                  type=&quot;xs:string&quot;/&gt;
+      &lt;xs:element name=&quot;lang&quot; minOccurs=&quot;0&quot; maxOccurs=&quot;1&quot;
+                  type=&quot;xs:string&quot;/&gt;
+      &lt;xs:any     namespace=&quot;##other&quot; minOccurs=&quot;0&quot;
+                  maxOccurs=&quot;unbounded&quot; processContents=&quot;lax&quot;/&gt;
+    &lt;/xs:sequence&gt;
+  &lt;/xs:complexType&gt;
+
+  &lt;xs:simpleType name=&quot;InputQueryType&quot;&gt;
+    &lt;xs:restriction base=&quot;xs:string&quot;&gt;
+      &lt;!-- Note: The ABNF definition is more accurate --&gt;
+      &lt;xs:pattern value=&quot;[a-z0-9]+:(.*)&quot;/&gt;
+    &lt;/xs:restriction&gt;
+  &lt;/xs:simpleType&gt;
+
+  &lt;xs:simpleType name=&quot;QueryResultEnumType&quot;&gt;
+    &lt;xs:restriction base=&quot;xs:string&quot;&gt;
+      &lt;xs:enumeration value=&quot;Found&quot;/&gt;
+      &lt;xs:enumeration value=&quot;Not found; superior object found&quot;/&gt;
+      &lt;xs:enumeration value=&quot;Not found&quot;/&gt;
+      &lt;xs:enumeration value=&quot;Service error&quot;/&gt;
+    &lt;/xs:restriction&gt;
+  &lt;/xs:simpleType&gt;
+
+  &lt;xs:complexType name=&quot;ObjectSectionType&quot;&gt;
+    &lt;xs:sequence&gt;
+      &lt;xs:element name=&quot;object&quot; minOccurs=&quot;1&quot; maxOccurs=&quot;1&quot;
+
+
+
+<span class="grey">Marschall                                                      [Page 55]</span></pre>
+</div><div class="page"><span class="noprint" id="page-56"><span class="grey">VTS/WF STD. 2           OID Information Protocol        2 September 2024</span>
+
+
+                  type=&quot;ns1:ObjectIdType&quot;/&gt;
+      &lt;xs:element name=&quot;status&quot; minOccurs=&quot;1&quot; maxOccurs=&quot;1&quot;
+                  type=&quot;ns1:ObjectStatusEnumType&quot;/&gt;
+      &lt;xs:element name=&quot;lang&quot; minOccurs=&quot;0&quot; maxOccurs=&quot;1&quot;
+                  type=&quot;xs:string&quot;/&gt;
+      &lt;xs:element name=&quot;name&quot; minOccurs=&quot;0&quot; maxOccurs=&quot;1&quot;
+                  type=&quot;xs:string&quot;/&gt;
+      &lt;xs:element name=&quot;description&quot; minOccurs=&quot;0&quot; maxOccurs=&quot;1&quot;
+                  type=&quot;xs:string&quot;/&gt;
+      &lt;xs:element name=&quot;information&quot; minOccurs=&quot;0&quot; maxOccurs=&quot;1&quot;
+                  type=&quot;xs:string&quot;/&gt;
+      &lt;xs:element name=&quot;url&quot; minOccurs=&quot;0&quot; maxOccurs=&quot;unbounded&quot;
+                  type=&quot;xs:string&quot;/&gt;
+      &lt;xs:element name=&quot;asn1-notation&quot; minOccurs=&quot;0&quot;
+                  maxOccurs=&quot;unbounded&quot; type=&quot;xs:string&quot;/&gt;
+      &lt;xs:element name=&quot;iri-notation&quot; minOccurs=&quot;0&quot;
+                  maxOccurs=&quot;unbounded&quot; type=&quot;xs:string&quot;/&gt;
+      &lt;xs:element name=&quot;identifier&quot; minOccurs=&quot;0&quot; maxOccurs=&quot;unbounded&quot;
+                  type=&quot;xs:string&quot;/&gt;
+      &lt;xs:element name=&quot;standardized-id&quot; minOccurs=&quot;0&quot;
+                  maxOccurs=&quot;unbounded&quot; type=&quot;xs:string&quot;/&gt;
+      &lt;xs:element name=&quot;unicode-label&quot; minOccurs=&quot;0&quot;
+                  maxOccurs=&quot;unbounded&quot; type=&quot;xs:string&quot;/&gt;
+      &lt;xs:element name=&quot;long-arc&quot; minOccurs=&quot;0&quot; maxOccurs=&quot;unbounded&quot;
+                  type=&quot;xs:string&quot;/&gt;
+      &lt;xs:element name=&quot;oidip-service&quot; minOccurs=&quot;0&quot;
+                  maxOccurs=&quot;unbounded&quot; type=&quot;xs:string&quot;/&gt;
+      &lt;xs:element name=&quot;oidip-pubkey&quot; minOccurs=&quot;0&quot;
+                  maxOccurs=&quot;unbounded&quot; type=&quot;xs:string&quot;/&gt;
+      &lt;xs:any     namespace=&quot;##other&quot; minOccurs=&quot;0&quot;
+                  maxOccurs=&quot;unbounded&quot; processContents=&quot;lax&quot;/&gt;
+      &lt;xs:element name=&quot;attribute&quot; minOccurs=&quot;0&quot; maxOccurs=&quot;unbounded&quot;
+                  type=&quot;ns1:ObjectAttributeEnumType&quot;/&gt;
+      &lt;xs:element name=&quot;parent&quot; minOccurs=&quot;0&quot; maxOccurs=&quot;1&quot;
+                  type=&quot;xs:string&quot;/&gt;
+      &lt;xs:element name=&quot;subordinate&quot; minOccurs=&quot;0&quot; maxOccurs=&quot;unbounded&quot;
+                  type=&quot;xs:string&quot;/&gt;
+      &lt;xs:element name=&quot;created&quot; minOccurs=&quot;0&quot; maxOccurs=&quot;1&quot;
+                  type=&quot;ns1:DateTimeRef&quot;/&gt;
+      &lt;xs:element name=&quot;updated&quot; minOccurs=&quot;0&quot; maxOccurs=&quot;1&quot;
+                  type=&quot;ns1:DateTimeRef&quot;/&gt;
+    &lt;/xs:sequence&gt;
+  &lt;/xs:complexType&gt;
+
+  &lt;xs:simpleType name=&quot;ObjectIdType&quot;&gt;
+    &lt;xs:restriction base=&quot;xs:string&quot;&gt;
+      &lt;!-- Note: The ABNF definition is more accurate --&gt;
+      &lt;xs:pattern value=&quot;[a-z0-9]+:(.*)&quot;/&gt;
+
+
+
+<span class="grey">Marschall                                                      [Page 56]</span></pre>
+</div><div class="page"><span class="noprint" id="page-57"><span class="grey">VTS/WF STD. 2           OID Information Protocol        2 September 2024</span>
+
+
+    &lt;/xs:restriction&gt;
+  &lt;/xs:simpleType&gt;
+
+  &lt;xs:simpleType name=&quot;ObjectStatusEnumType&quot;&gt;
+    &lt;xs:restriction base=&quot;xs:string&quot;&gt;
+      &lt;xs:enumeration value=&quot;Information available&quot;/&gt;
+      &lt;xs:enumeration value=&quot;Information partially available&quot;/&gt;
+      &lt;xs:enumeration value=&quot;Information unavailable&quot;/&gt;
+    &lt;/xs:restriction&gt;
+  &lt;/xs:simpleType&gt;
+
+  &lt;xs:simpleType name=&quot;ObjectAttributeEnumType&quot;&gt;
+    &lt;xs:restriction base=&quot;xs:string&quot;&gt;
+      &lt;xs:enumeration value=&quot;confidential&quot;/&gt;
+      &lt;xs:enumeration value=&quot;draft&quot;/&gt;
+      &lt;xs:enumeration value=&quot;frozen&quot;/&gt;
+      &lt;xs:enumeration value=&quot;leaf&quot;/&gt;
+      &lt;xs:enumeration value=&quot;no-identifiers&quot;/&gt;
+      &lt;xs:enumeration value=&quot;no-unicode-labels&quot;/&gt;
+      &lt;xs:enumeration value=&quot;retired&quot;/&gt;
+    &lt;/xs:restriction&gt;
+  &lt;/xs:simpleType&gt;
+
+  &lt;xs:complexType name=&quot;RaSectionType&quot;&gt;
+    &lt;xs:sequence&gt;
+      &lt;!-- Note: &quot;ra&quot; keeps its name, even in Ra1SectionType et al. --&gt;
+      &lt;xs:element name=&quot;ra&quot; minOccurs=&quot;1&quot; maxOccurs=&quot;1&quot;
+                  type=&quot;xs:string&quot;/&gt;
+      &lt;xs:element name=&quot;status&quot; minOccurs=&quot;1&quot; maxOccurs=&quot;1&quot;
+                  type=&quot;ns1:RaStatusEnumType&quot;/&gt;
+      &lt;xs:element name=&quot;lang&quot; minOccurs=&quot;0&quot; maxOccurs=&quot;1&quot;
+                  type=&quot;xs:string&quot;/&gt;
+      &lt;xs:element name=&quot;contact-name&quot; minOccurs=&quot;0&quot; maxOccurs=&quot;1&quot;
+                  type=&quot;xs:string&quot;/&gt;
+      &lt;xs:element name=&quot;address&quot; minOccurs=&quot;0&quot; maxOccurs=&quot;unbounded&quot;
+                  type=&quot;xs:string&quot;/&gt;
+      &lt;xs:element name=&quot;phone&quot; minOccurs=&quot;0&quot; maxOccurs=&quot;unbounded&quot;
+                  type=&quot;xs:string&quot;/&gt;
+      &lt;xs:element name=&quot;mobile&quot; minOccurs=&quot;0&quot; maxOccurs=&quot;unbounded&quot;
+                  type=&quot;xs:string&quot;/&gt;
+      &lt;xs:element name=&quot;fax&quot; minOccurs=&quot;0&quot; maxOccurs=&quot;unbounded&quot;
+                  type=&quot;xs:string&quot;/&gt;
+      &lt;xs:element name=&quot;email&quot; minOccurs=&quot;0&quot; maxOccurs=&quot;unbounded&quot;
+                  type=&quot;xs:string&quot;/&gt;
+      &lt;xs:element name=&quot;url&quot; minOccurs=&quot;0&quot; maxOccurs=&quot;unbounded&quot;
+                  type=&quot;xs:string&quot;/&gt;
+      &lt;xs:any     namespace=&quot;##other&quot; minOccurs=&quot;0&quot;
+                  maxOccurs=&quot;unbounded&quot; processContents=&quot;lax&quot;/&gt;
+
+
+
+<span class="grey">Marschall                                                      [Page 57]</span></pre>
+</div><div class="page"><span class="noprint" id="page-58"><span class="grey">VTS/WF STD. 2           OID Information Protocol        2 September 2024</span>
+
+
+      &lt;xs:element name=&quot;attribute&quot; minOccurs=&quot;0&quot;
+                  maxOccurs=&quot;unbounded&quot; type=&quot;ns1:RaAttributeEnumType&quot;/&gt;
+      &lt;xs:element name=&quot;created&quot; minOccurs=&quot;0&quot; maxOccurs=&quot;1&quot;
+                  type=&quot;ns1:DateTimeRef&quot;/&gt;
+      &lt;xs:element name=&quot;updated&quot; minOccurs=&quot;0&quot; maxOccurs=&quot;1&quot;
+                  type=&quot;ns1:DateTimeRef&quot;/&gt;
+    &lt;/xs:sequence&gt;
+  &lt;/xs:complexType&gt;
+
+  &lt;xs:simpleType name=&quot;RaStatusEnumType&quot;&gt;
+    &lt;xs:restriction base=&quot;xs:string&quot;&gt;
+      &lt;xs:enumeration value=&quot;Information available&quot;/&gt;
+      &lt;xs:enumeration value=&quot;Information partially available&quot;/&gt;
+      &lt;xs:enumeration value=&quot;Information unavailable&quot;/&gt;
+    &lt;/xs:restriction&gt;
+  &lt;/xs:simpleType&gt;
+
+  &lt;xs:simpleType name=&quot;RaAttributeEnumType&quot;&gt;
+    &lt;xs:restriction base=&quot;xs:string&quot;&gt;
+      &lt;xs:enumeration value=&quot;confidential&quot;/&gt;
+      &lt;xs:enumeration value=&quot;retired&quot;/&gt;
+    &lt;/xs:restriction&gt;
+  &lt;/xs:simpleType&gt;
+
+&lt;/xs:schema&gt;
+&lt;CODE ENDS&gt;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<span class="grey">Marschall                                                      [Page 58]</span></pre>
+</div><div class="page"><span class="noprint" id="page-59"><span class="grey">VTS/WF STD. 2           OID Information Protocol        2 September 2024</span>
+
+
+<h3><a class="selflink" id="appendix-B.2" href="#appendix-B.2">Appendix B.2</a>.  XML Format Example of Output</h3>
+
+NOTE: &#x27;\&#x27; line wrapping per <a href="https://datatracker.ietf.org/doc/html/rfc8792">RFC 8792</a>  [<a href="https://datatracker.ietf.org/doc/html/rfc8792" title="&quot;Handling Long Lines in Content of Internet-Drafts and RFCs&quot;">RFC8792</a>]
+
+&lt;CODE BEGINS&gt; file &quot;oidip_example.xml&quot;
+&lt;?xml version=&quot;1.0&quot;?&gt;
+&lt;root xmlns=&quot;urn:x-viathinksoft:std:0002:2024-09-02:xml-schema&quot;
+      xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
+      xsi:schemaLocation=&quot;urn:x-viathinksoft:std:0002:2024-09-02:\
+xml-schema <a href="https://raw.githubusercontent">https://raw.githubusercontent</a>.com/ViaThinkSoft/standards/\
+main/viathinksoft-std-0002-oidip.xsd&quot;&gt;
+&lt;oidip&gt;
+  &lt;querySection&gt;
+     &lt;query&gt;oid:2.999&lt;/query&gt;
+     &lt;result&gt;Found&lt;/result&gt;
+  &lt;/querySection&gt;
+  &lt;objectSection&gt;
+     &lt;object&gt;oid:2.999&lt;/object&gt;
+     &lt;status&gt;Information available&lt;/status&gt;
+     &lt;lang&gt;en-US&lt;/lang&gt;
+     &lt;name&gt;Example&lt;/name&gt;
+     &lt;description&gt;This OID can be used by anyone, for the \
+purposes of documenting examples of Object Identifiers.&quot;&lt;/description&gt;
+     &lt;asn1-notation&gt;{ joint-iso-itu-t(2) example(999) }&lt;/asn1-notation&gt;
+     &lt;iri-notation&gt;/Example&lt;/iri-notation&gt;
+     &lt;identifier&gt;example&lt;/identifier&gt;
+     &lt;unicode-label&gt;Beispiel&lt;/unicode-label&gt;
+     &lt;unicode-label&gt;Ejemplo&lt;/unicode-label&gt;
+     &lt;unicode-label&gt;Example&lt;/unicode-label&gt;
+     &lt;unicode-label&gt;Exemple&lt;/unicode-label&gt;
+     &lt;unicode-label&gt;(Korean characters are omitted)&lt;/unicode-label&gt;
+     &lt;unicode-label&gt;(Arabian characters are omitted)&lt;/unicode-label&gt;
+     &lt;unicode-label&gt;(Japanese characters are omitted)&lt;/unicode-label&gt;
+     &lt;unicode-label&gt;(Chinese characters are omitted)&lt;/unicode-label&gt;
+     &lt;unicode-label&gt;(Russian characters are omitted)&lt;/unicode-label&gt;
+     &lt;long-arc&gt;Beispiel&lt;/long-arc&gt;
+     &lt;long-arc&gt;Ejemplo&lt;/long-arc&gt;
+     &lt;long-arc&gt;Example&lt;/long-arc&gt;
+     &lt;long-arc&gt;Exemple&lt;/long-arc&gt;
+     &lt;long-arc&gt;(Korean characters are omitted)&lt;/long-arc&gt;
+     &lt;long-arc&gt;(Arabian characters are omitted)&lt;/long-arc&gt;
+     &lt;long-arc&gt;(Japanese characters are omitted)&lt;/long-arc&gt;
+     &lt;long-arc&gt;(Chinese characters are omitted)&lt;/long-arc&gt;
+     &lt;long-arc&gt;(Russian characters are omitted)&lt;/long-arc&gt;
+     &lt;parent&gt;oid:2 (joint-iso-ccitt, joint-iso-itu-t)&lt;/parent&gt;
+     &lt;created&gt;2011-06&lt;/created&gt;
+     &lt;updated&gt;2020-09&quot;&lt;/updated&gt;
+  &lt;/objectSection&gt;
+
+
+
+<span class="grey">Marschall                                                      [Page 59]</span></pre>
+</div><div class="page"><span class="noprint" id="page-60"><span class="grey">VTS/WF STD. 2           OID Information Protocol        2 September 2024</span>
+
+
+  &lt;raSection&gt;
+     &lt;ra&gt;ITU-T SG 17 &amp;amp; ISO/IEC JTC 1/SC 6&lt;/ra&gt;
+     &lt;status&gt;Information unavailable&lt;/status&gt;
+  &lt;/raSection&gt;
+&lt;/oidip&gt;
+&lt;ds:Signature xmlns:ds=&quot;http://www.w3.org/2000/09/xmldsig#&quot;&gt;
+  &lt;ds:SignedInfo&gt;
+  &lt;ds:CanonicalizationMethod
+     Algorithm=&quot;http://www.w3.org/2001/10/xml-exc-c14n#&quot;/&gt;
+  &lt;ds:SignatureMethod
+     Algorithm=&quot;http://www.w3.org/2001/04/xmldsig-more#rsa-sha512&quot;/&gt;
+  &lt;ds:Reference&gt;
+  &lt;ds:Transforms&gt;
+  &lt;ds:Transform
+    Algorithm=&quot;http://www.w3.org/2000/09/xmldsig#enveloped-signature&quot;/&gt;
+  &lt;/ds:Transforms&gt;
+  &lt;ds:DigestMethod
+    Algorithm=&quot;http://www.w3.org/2001/04/xmlenc#sha512&quot;/&gt;
+  &lt;ds:DigestValue&gt;.....&lt;/ds:DigestValue&gt;
+  &lt;/ds:Reference&gt;
+  &lt;/ds:SignedInfo&gt;
+  &lt;ds:SignatureValue&gt;.....&lt;/ds:SignatureValue&gt;
+&lt;/ds:Signature&gt;
+&lt;/root&gt;
+&lt;CODE ENDS&gt;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<span class="grey">Marschall                                                      [Page 60]</span></pre>
+</div><div class="page"><span class="noprint" id="page-61"><span class="grey">VTS/WF STD. 2           OID Information Protocol        2 September 2024</span>
+
+
+Acknowledgements
+
+   I would like to thank Olivier Dubuisson for his expertise and help
+   regarding all topics of Object Identifiers, and Melanie Wehowski for
+   her feedback and input on the OID Information Protocol.
+
+   Thanks to the authors of these free tools which did a very good job
+   in validating various contents of this document:
+
+   - &quot;JSON Schema Validator&quot; by Newtonsoft
+     <a href="https://www.jsonschemavalidator.net/">https://www.jsonschemavalidator.net/</a>
+
+   - &quot;Free Online XML Validator&quot; by Liquid Technologies
+     <a href="https://www.liquid-technologies.com/online-xsd-validator">https://www.liquid-technologies.com/online-xsd-validator</a>
+
+   - Bill&#x27;s ABNF Parser
+     <a href="https://tools.ietf.org/tools/bap/abnf.cgi">https://tools.ietf.org/tools/bap/abnf.cgi</a>
+
+   - &quot;Grammarly&quot; spell and grammar checker
+     <a href="https://app.grammarly.com/">https://app.grammarly.com/</a>
+
+   - &quot;regex101&quot; regular expression debugger
+     <a href="https://regex101.com/">https://regex101.com/</a>
+
+   - IDNITS
+     <a href="https://author-tools.ietf.org/idnits">https://author-tools.ietf.org/idnits</a>
+
+   - Title Case Converter
+     <a href="https://titlecaseconverter.com/">https://titlecaseconverter.com/</a>
+
+   This document was written in Nroff Internet Draft Editor by 3xA
+   Security.
+   <a href="https://aaa-sec.com/nroffedit/">https://aaa-sec.com/nroffedit/</a>
+   <a href="https://misc.daniel-marschall.de/patches/nroffedit/">https://misc.daniel-marschall.de/patches/nroffedit/</a> (&quot;year 2020&quot;
+   patch)
+
+Authors&#x27; Addresses
+
+   Daniel Marschall
+   Postfach 11 53
+   69243 Bammental
+   Germany
+
+   Email: daniel-marschall@viathinksoft.de
+   URI:   <a href="https://www.viathinksoft.com/">https://www.viathinksoft.com/</a>
+
+
+
+
+
+
+Marschall                                                      [Page 61]
+</pre></div></div></div>
+
+</body>
+
+</html>

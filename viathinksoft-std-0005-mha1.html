@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Marschall Hash 1 (MHA1)</title>
+	<style>
+
+        /** === DESKTOP === */
+
+        @media (min-width: 601px) {
+
+        body {
+            background-color: #f5f5f5;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 0;
+        }
+
+        .page {
+            width: 100%;
+            max-width: 700px; /* 72 Zeichen Breite in Pixel (bei Desktop-Ansicht) */
+            margin-bottom: 20px;
+            padding: 20px;
+            background-color: white;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            font-family: monospace;
+            white-space: pre-wrap;
+            overflow: hidden;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+        }
+
+        }
+
+        /** === MOBILE === */
+
+        @media (max-width: 600px) {
+
+        body {
+            background-color: #f5f5f5;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .container {
+            width: 100%;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+
+        .page {
+            width: 100%;
+            max-width: 100%; /* Ensures the page takes up full width on mobile */
+            margin-bottom: 20px;
+            padding: 10px;
+            background-color: white;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            font-family: monospace;
+            white-space: pre-wrap;
+            overflow: auto; /* Ensures overflow is handled */
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+            font-size: 8.7px; /* Smaller font size for mobile */
+        }
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<span style="font-family:Verdana">&larr; <a href="index.html">Back to Standards index</a></span><br><br>
+
+<div id="content">
+<div class="container"><div class="page"><pre>VIATHINKSOFT/WEBFAN                                         D. Marschall
+SPECIFICATION No. 5                                         ViaThinkSoft
+First Draft: 2011                                       4 September 2024
+
+
+                    === Marschall Hash 1 (MHA1) ===
+
+Abstract
+
+   This document describes the hash algorithm MHA1.
+
+Identification of this Document
+
+   Revision:  2024-09-04
+   State:     Deprecated
+   URL:       <a href="https://github">https://github</a>.com/ViaThinkSoft/standards/blob/main/\
+              viathinksoft-std-0005-mha1.txt
+   URN:       urn:x-viathinksoft:std:0005:2024-09-04
+   OID:       1.3.6.1.4.1.37476.3.2.1.1
+              { iso(1) identified-organization(3) dod(6) internet(1)
+                private(4) enterprise(1) 37476 specifications(3)
+                algorithm(2) hash(1) mha1(1) }
+   WEID:      weid:pen:SX0-3-2-1-1-1
+   IETF/RFC:  (None)
+
+Attachments
+
+   Reference implementation in PHP:
+   <a href="https://github.com/danielmarschall/php_utils/blob/master/vts_crypt.inc.php">https://github.com/danielmarschall/php_utils/blob/master/</a>
+   <a href="https://github.com/danielmarschall/php_utils/blob/master/vts_crypt.inc.php">vts_crypt.inc.php</a>
+
+Copyright Notice
+
+   Copyright (c) 2011-2024 ViaThinkSoft and the persons identified as
+   the document authors.  All rights reserved.
+
+   Licensed under the terms of the Apache 2.0 License.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<span class="grey">Marschall                                                       [Page 1]</span></pre>
+</div><div class="page"><span class="noprint" id="page-2"><span class="grey">VTS/WF STD. 5              ViaThinkSoft MHA1            4 September 2024</span>
+
+
+Table of Contents
+
+   <a href="#section-1">1</a>  Introduction  . . . . . . . . . . . . . . . . . . . . . . . . .  <a href="#page-3">3</a>
+     <a href="#section-1.1">1.1</a>  Terminology . . . . . . . . . . . . . . . . . . . . . . . .  <a href="#page-3">3</a>
+   <a href="#section-2">2</a>  Definition  . . . . . . . . . . . . . . . . . . . . . . . . . .  <a href="#page-3">3</a>
+   <a href="#section-3">3</a>  Notation  . . . . . . . . . . . . . . . . . . . . . . . . . . .  <a href="#page-3">3</a>
+     <a href="#section-3.1">3.1</a>  Modular Crypt Format Notation . . . . . . . . . . . . . . .  <a href="#page-3">3</a>
+     <a href="#section-3.2">3.2</a>  Heterogenous Systems Notation . . . . . . . . . . . . . . .  <a href="#page-4">4</a>
+   <a href="#section-4">4</a>  Test Vectors  . . . . . . . . . . . . . . . . . . . . . . . . .  <a href="#page-5">5</a>
+   <a href="#section-5">5</a>  Reference implementation  . . . . . . . . . . . . . . . . . . .  <a href="#page-6">6</a>
+   <a href="#section-6">6</a>  Security Considerations . . . . . . . . . . . . . . . . . . . .  <a href="#page-6">6</a>
+     <a href="#section-6.1">6.1</a>  Runtime complexity  . . . . . . . . . . . . . . . . . . . .  <a href="#page-6">6</a>
+   <a href="#section-7">7</a>  IANA Considerations . . . . . . . . . . . . . . . . . . . . . .  <a href="#page-6">6</a>
+   <a href="#section-8">8</a>  References  . . . . . . . . . . . . . . . . . . . . . . . . . .  <a href="#page-6">6</a>
+     <a href="#section-6.1">6.1</a>  Normative References  . . . . . . . . . . . . . . . . . . .  <a href="#page-6">6</a>
+     <a href="#section-6.2">6.2</a>  Informative References  . . . . . . . . . . . . . . . . . .  <a href="#page-7">7</a>
+   Acknowledgements . . . . . . . . . . . . . . . . . . . . . . . . .  <a href="#page-7">7</a>
+   Authors&#x27; Addresses . . . . . . . . . . . . . . . . . . . . . . . .  <a href="#page-7">7</a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<span class="grey">Marschall                                                       [Page 2]</span></pre>
+</div><div class="page"><span class="noprint" id="page-3"><span class="grey">VTS/WF STD. 5              ViaThinkSoft MHA1            4 September 2024</span>
+
+
+<h2><a class="selflink" id="section-1" href="#section-1">1</a>  Introduction</h2>
+
+   MHA is a hash function which performs multiple hash iterations on a
+   base hash function. It should be save even if the base hash function
+   is broken. This function is pretty slow because of the iterations,
+   but therefore secure against offline attacks or rainbowtables. Also,
+   the slowlyness of this hash makes the creation of rainbow tables much
+   harder.
+
+<h3><a class="selflink" id="section-1.1" href="#section-1.1">1.1</a>  Terminology</h3>
+
+   The key words &quot;MUST&quot;, &quot;MUST NOT&quot;, &quot;REQUIRED&quot;, &quot;SHALL&quot;, &quot;SHALL NOT&quot;,
+   &quot;SHOULD&quot;, &quot;SHOULD NOT&quot;, &quot;RECOMMENDED&quot;, &quot;NOT RECOMMENDED&quot;, &quot;MAY&quot;, and
+   &quot;OPTIONAL&quot; in this document are to be interpreted as described in
+   <a href="https://datatracker.ietf.org/doc/html/bcp14">BCP 14</a> [<a href="https://datatracker.ietf.org/doc/html/rfc2119">RFC2119</a>] [<a href="https://datatracker.ietf.org/doc/html/rfc8174">RFC8174</a>] when, and only when, they appear in all
+   capitals, as shown here.
+
+<h2><a class="selflink" id="section-2" href="#section-2">2</a>  Definition</h2>
+
+   MHA(x, iteratedSalt, iterations)
+       = rec(iterations, x, iteratedSalt).
+
+   rec[n, x, iteratedSalt]
+       = iteratedSalt || rec[n-1, x, iteratedSalt] || iteratedSalt.
+
+   rec[0, x, iteratedSalt]
+       = x.
+
+<h2><a class="selflink" id="section-3" href="#section-3">3</a>  Notation</h2>
+
+<h3><a class="selflink" id="section-3.1" href="#section-3.1">3.1</a>  Modular Crypt Format Notation</h3>
+
+   Format of the MCF:
+
+   $&lt;id&gt;$&lt;params&gt;$&lt;salt&gt;$&lt;hash&gt;
+
+   &lt;id&gt; is 1.3.6.1.4.1.37476.3.2.1.1
+
+   &lt;params&gt; is a=&lt;algo&gt;,i=&lt;iterations&gt;
+
+   where &lt;algo&gt; is any valid hash algorithm (name scheme of PHP
+   hash_algos() preferred), e.g.
+   - sha3-512
+   - sha3-384
+   - sha3-256
+   - sha3-224
+   - sha512
+   - sha512/256
+
+
+
+<span class="grey">Marschall                                                       [Page 3]</span></pre>
+</div><div class="page"><span class="noprint" id="page-4"><span class="grey">VTS/WF STD. 5              ViaThinkSoft MHA1            4 September 2024</span>
+
+
+   - sha512/224
+   - sha384
+   - sha256
+   - sha224
+   - sha1
+   - md5
+
+   Not possible with MHA1 are these hashes (because they have a special
+   salt-handling and output their own crypt format):
+   - bcrypt [Standardized crypt identifier 2, 2a, 2x, 2y]
+   - argon2i [Crypt identifier argon2i, not standardized]
+   - argon2id [Crypt identifier argon2i, not standardized]
+
+   &lt;iterations&gt; are the iterations.
+
+   Like most Crypt-hashes, &lt;salt&gt; and &lt;hash&gt; are Radix64 coded without
+   padding and with alphabet
+   &#x27;./0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz&#x27;.
+
+<h3><a class="selflink" id="section-3.2" href="#section-3.2">3.2</a>  Heterogenous Systems Notation</h3>
+
+   The &quot;heterogenous systems notation&quot; (HSN) is DEPRECATED in favor of
+   the modular crypt format notation!
+
+   &lt;mha1-oid&gt;$&lt;base-hash&gt;$&lt;iterations&gt;$&lt;salt-base64&gt;$&lt;hash-base64&gt;
+
+   -  &lt;mha1-oid&gt; is the OID for a MHA1 algorithm in its dot-notation
+   without leading dot,   which is 1.3.6.1.4.1.37476.3.2.1.1
+
+      This OID has ASN.1 Notation:   { iso(1) identified-organization(3)
+   dod(6) internet(1) private(4) enterprise(1)     37476
+   specification(3) algorithm(2) hash(1) mha1(1) }
+
+   -  &lt;base-hash&gt; should be an OID which represents the base hash (&quot;H&quot;)
+   algorithm used, in dot-notation.
+
+      The following table shows the OIDs which have been assigned   for
+   exchange between heterogenous systems. If you want to use a different
+     hash algorithm or a derivate of it, please define your own OID
+   (you can use an UUID OID, get a free IANA PEN OID, or a free
+   ViaThinkSoft OID),   but please do not use this arc, since only
+   ViaThinkSoft may maintain it.
+
+      --------------------------------------------------------------
+      Base algorithm                OID proposal
+      --------------------------------------------------------------
+      Message Digest 4 (MD4)        1.3.6.1.4.1.37476.3.2.1.99.1
+      Message Digest 5 (MD5)        1.3.6.1.4.1.37476.3.2.1.99.2
+
+
+
+<span class="grey">Marschall                                                       [Page 4]</span></pre>
+</div><div class="page"><span class="noprint" id="page-5"><span class="grey">VTS/WF STD. 5              ViaThinkSoft MHA1            4 September 2024</span>
+
+
+      RIPEMD-160                    1.3.6.1.4.1.37476.3.2.1.99.3
+      Secure Hash Algorithm         1.3.6.1.4.1.37476.3.2.1.99.4
+      Secure Hash Algorithm 1       1.3.6.1.4.1.37476.3.2.1.99.5
+      Secure Hash Algorithm 2/224   1.3.6.1.4.1.37476.3.2.1.99.6.224
+      Secure Hash Algorithm 2/256   1.3.6.1.4.1.37476.3.2.1.99.6.256
+      Secure Hash Algorithm 2/384   1.3.6.1.4.1.37476.3.2.1.99.6.384
+      Secure Hash Algorithm 2/512   1.3.6.1.4.1.37476.3.2.1.99.6.512
+      Secure Hash Algorithm 3/224   1.3.6.1.4.1.37476.3.2.1.99.7.224
+      Secure Hash Algorithm 3/256   1.3.6.1.4.1.37476.3.2.1.99.7.256
+      Secure Hash Algorithm 3/384   1.3.6.1.4.1.37476.3.2.1.99.7.384
+      Secure Hash Algorithm 3/512   1.3.6.1.4.1.37476.3.2.1.99.7.512
+      --------------------------------------------------------------
+
+   -  &lt;iterations&gt; is the number of iterations, e.g. 1987.
+
+   -  &lt;salt-base64&gt; is the iterated salt used for MHA1, encoded in
+   Base64.
+
+   -  &lt;hash-base64&gt; is the resulting hash, encoded in Base64.
+
+
+<h2><a class="selflink" id="section-4" href="#section-4">4</a>  Test Vectors</h2>
+
+   MHA1 - Base algo &#x27;sha1&#x27;, Input &#x27;&#x27;, Salt &#x27;&#x27;, Iterations 1987
+   MCF: $1.3.6.1.4.1.37476.3.2.1.1$a=sha1,i=1987$$SMJt5BeI3z2Q577
+        2DcQUXiFBHmO
+   HSN: 1.3.6.1.4.1.37476.3.2.1.1$1.3.6.1.4.1.37476.3.2.1.99.5$19
+        87$$UOLv7DgK5/4S7994FeSWZkHDJoQ=
+   Hex: 50e2efec380ae7fe12efdf7815e4966641c32684
+
+   MHA1 - Base algo &#x27;sha1&#x27;,
+   Input &#x27;The quick brown fox jumps over the lazy dog&#x27;,
+   Salt &#x27;&#x27;, Iterations 1987
+   MCF: $1.3.6.1.4.1.37476.3.2.1.1$a=sha1,i=1987$$9obb16qgeksp9r4
+        iSz.o77EUQlC
+   HSN: 1.3.6.1.4.1.37476.3.2.1.1$1.3.6.1.4.1.37476.3.2.1.99.5$19
+        87$$Bqdd38sigmurBt6kU/0q99GWSnE=
+   Hex: 06a75ddfcb22826bab06dea453fd2af7d1964a71
+
+
+
+
+
+
+
+
+
+
+
+
+
+<span class="grey">Marschall                                                       [Page 5]</span></pre>
+</div><div class="page"><span class="noprint" id="page-6"><span class="grey">VTS/WF STD. 5              ViaThinkSoft MHA1            4 September 2024</span>
+
+
+<h2><a class="selflink" id="section-5" href="#section-5">5</a>  Reference implementation</h2>
+
+   // Implementation in PHP, with hex output
+   function mha1($password, $iteratedSalt, $iterations, $base_algo) {
+       assert($iterations &gt;= 1);
+       $m = $password;
+       for ($i=1; $i&lt;=$iterations; $i++) {
+           $m = hash($base_algo,
+                     $iteratedSalt.$m.$iteratedSalt, true/*binary*/);
+       }
+       return bin2hex($m);
+   }
+
+   // Framework for PHP, with MCF output and auto-generated salt:
+   // <a href="https://github.com/danielmarschall/php_utils/blob/master///">https://github.com/danielmarschall/php_utils/blob/master/</a>
+   <a href="https://github.com/danielmarschall/php_utils/blob/master///">//</a>                                                  vts_crypt.inc.php
+   include &#x27;vts_crypt.inc.php&#x27;;
+   $hash = vts_password_hash($data, PASSWORD_VTS_MHA1,
+           [&#x27;algo&#x27;=&gt;&#x27;sha1&#x27;, &#x27;salt_length&#x27;=&gt;16, &#x27;iterations&#x27;=&gt;1987]);
+   assert(vts_password_verify($data, $hash));
+
+<h2><a class="selflink" id="section-6" href="#section-6">6</a>  Security Considerations</h2>
+
+   Hash values play a crucial role in various security contexts, such as
+   password verification.  For detailed guidance on securely managing
+   hashes, please consult the relevant literature or documentation.
+
+   MHA1 might be prone to collisions because the probability of
+   collisions increases with the iterations.
+
+<h3><a class="selflink" id="section-6.1" href="#section-6.1">6.1</a>  Runtime complexity</h3>
+
+   The number of hash OPs is &lt;iterations&gt;.
+
+<h2><a class="selflink" id="section-7" href="#section-7">7</a>  IANA Considerations</h2>
+
+   There are no IANA Considerations.
+
+<h2><a class="selflink" id="section-8" href="#section-8">8</a>  References</h2>
+
+<h3><a class="selflink" id="section-6.1" href="#section-6.1">6.1</a>  Normative References</h3>
+
+   [<a id="ref-RFC2119">RFC2119</a>]  Bradner, S., &quot;Key words for use in RFCs to Indicate
+              Requirement Levels&quot;, <a href="https://datatracker.ietf.org/doc/html/bcp14">BCP 14</a>, <a href="https://datatracker.ietf.org/doc/html/rfc2119">RFC 2119</a>,
+              DOI 10.17487/RFC2119, March 1997,
+              &lt;<a href="https://www.rfc-editor.org/info/rfc2119">https://www.rfc-editor.org/info/rfc2119</a>&gt;.
+
+
+
+
+
+<span class="grey">Marschall                                                       [Page 6]</span></pre>
+</div><div class="page"><span class="noprint" id="page-7"><span class="grey">VTS/WF STD. 5              ViaThinkSoft MHA1            4 September 2024</span>
+
+
+<h3><a class="selflink" id="section-6.2" href="#section-6.2">6.2</a>  Informative References</h3>
+
+   None
+
+Acknowledgements
+
+   I would like to thank Melanie Wehowski for her long time support in
+   OIDplus and WEID projects.
+
+   This document was written in Nroff Internet Draft Editor by 3xA
+   Security.
+   <a href="https://aaa-sec.com/nroffedit/">https://aaa-sec.com/nroffedit/</a>
+   <a href="https://misc.daniel-marschall.de/patches/nroffedit/">https://misc.daniel-marschall.de/patches/nroffedit/</a> (&quot;year 2020&quot;
+   patch)
+
+Authors&#x27; Addresses
+
+   Daniel Marschall
+   Postfach 11 53
+   69243 Bammental
+   Germany
+
+   Email: daniel-marschall@viathinksoft.de
+   URI:   <a href="https://www.viathinksoft.com/">https://www.viathinksoft.com/</a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Marschall                                                       [Page 7]
+</pre></div></div></div>
+
+</body>
+
+</html>
