@@ -4,7 +4,7 @@
 
 VIATHINKSOFT/WEBFAN                           D. Marschall | M. Wehowski
 SPECIFICATION No. 3                           ViaThinkSoft |      Webfan
-First Draft: 2011                                       3 September 2024
+First Draft: 2011                                       9 September 2024
 
 
                    === Wehowski Identifier (WEID) ===
@@ -16,10 +16,10 @@ Abstract
 
 Identification of this Document
 
-   Revision:  2024-09-03 (Spec Change 11 as of 2023-08-07)
+   Revision:  2024-09-09 (Spec Change 12 as of 2024-09-09)
    State:     In Force
    Filename:  viathinksoft-std-0003-weid.txt
-   URN:       urn:x-viathinksoft:std:0003:2024-09-03
+   URN:       urn:x-viathinksoft:std:0003:2024-09-09
    OID:       1.3.6.1.4.1.37553.8.1.8.1.6
               { iso(1) identified-organization(3) dod(6) internet(1)
                 private(4) enterprise(1) frdlweb(37553) weid(8) org(1)
@@ -55,14 +55,14 @@ Copyright Notice
 
 Marschall / Wehowski                                            [Page 1]
 
-VTS/WF STD. 3          Wehowski Identifier (WEID)       3 September 2024
+VTS/WF STD. 3          Wehowski Identifier (WEID)       9 September 2024
 
 
 Table of Contents
 
    1  Introduction  . . . . . . . . . . . . . . . . . . . . . . . . .  3
      1.1  Terminology . . . . . . . . . . . . . . . . . . . . . . . .  3
-   2  URN Namespace . . . . . . . . . . . . . . . . . . . . . . . . .  3
+   2  Namespaces  . . . . . . . . . . . . . . . . . . . . . . . . . .  3
      2.1  Namespace "weid:" for "Class C" WEIDs . . . . . . . . . . .  4
      2.2  Sub-Namespace "weid:pen:" for "Class B" WEIDs . . . . . . .  4
      2.3  Sub-Namespace "weid:root:" for "Class A" WEIDs  . . . . . .  4
@@ -76,6 +76,7 @@ Table of Contents
    4  Notation  . . . . . . . . . . . . . . . . . . . . . . . . . . .  8
      4.1  Recommendations . . . . . . . . . . . . . . . . . . . . . .  8
      4.2  Wildcard Notation (No Check Digit)  . . . . . . . . . . . .  8
+     4.3  Uniform Resource Names (URN) Namespace Notation . . . . . .  8
    5  Additional Notes  . . . . . . . . . . . . . . . . . . . . . . .  8
    6  Security Considerations . . . . . . . . . . . . . . . . . . . .  9
    7  IANA Considerations . . . . . . . . . . . . . . . . . . . . . .  9
@@ -105,13 +106,12 @@ Table of Contents
 
 
 
-
  
 
 
 Marschall / Wehowski                                            [Page 2]
 
-VTS/WF STD. 3          Wehowski Identifier (WEID)       3 September 2024
+VTS/WF STD. 3          Wehowski Identifier (WEID)       9 September 2024
 
 
 1  Introduction
@@ -153,21 +153,21 @@ VTS/WF STD. 3          Wehowski Identifier (WEID)       3 September 2024
    BCP 14 [RFC2119] [RFC8174] when, and only when, they appear in all
    capitals, as shown here.
 
-2  URN Namespace
-
-   Uniform Resource Name (URN) [RFC2141] Namespace Identifiers (NIDs)
-   for use by WEID are being specified in this document.
+2  Namespaces
 
    Sub-namespaces are defined by the WEID consortium (ViaThinkSoft and
    WebFan) in a Specification Change.  The registry of sub-namespaces
    (URN prefixes) has currently the following entries:
+
+
+
 
  
 
 
 Marschall / Wehowski                                            [Page 3]
 
-VTS/WF STD. 3          Wehowski Identifier (WEID)       3 September 2024
+VTS/WF STD. 3          Wehowski Identifier (WEID)       9 September 2024
 
 
 2.1  Namespace "weid:" for "Class C" WEIDs
@@ -223,7 +223,7 @@ VTS/WF STD. 3          Wehowski Identifier (WEID)       3 September 2024
 
 Marschall / Wehowski                                            [Page 4]
 
-VTS/WF STD. 3          Wehowski Identifier (WEID)       3 September 2024
+VTS/WF STD. 3          Wehowski Identifier (WEID)       9 September 2024
 
 
    A Domain-WEID can be converted to Class A/B/C WEID, but the reverse
@@ -279,7 +279,7 @@ VTS/WF STD. 3          Wehowski Identifier (WEID)       3 September 2024
 
 Marschall / Wehowski                                            [Page 5]
 
-VTS/WF STD. 3          Wehowski Identifier (WEID)       3 September 2024
+VTS/WF STD. 3          Wehowski Identifier (WEID)       9 September 2024
 
 
    The WeLuhn check digit is calculated as follows:
@@ -335,7 +335,7 @@ VTS/WF STD. 3          Wehowski Identifier (WEID)       3 September 2024
 
 Marschall / Wehowski                                            [Page 6]
 
-VTS/WF STD. 3          Wehowski Identifier (WEID)       3 September 2024
+VTS/WF STD. 3          Wehowski Identifier (WEID)       9 September 2024
 
 
 3.2  Construction of a Class D WEID
@@ -391,7 +391,7 @@ VTS/WF STD. 3          Wehowski Identifier (WEID)       3 September 2024
 
 Marschall / Wehowski                                            [Page 7]
 
-VTS/WF STD. 3          Wehowski Identifier (WEID)       3 September 2024
+VTS/WF STD. 3          Wehowski Identifier (WEID)       9 September 2024
 
 
 4  Notation
@@ -418,6 +418,11 @@ VTS/WF STD. 3          Wehowski Identifier (WEID)       3 September 2024
    online converter) which can help you replace the wildcard with the
    correct check digit.
 
+4.3  Uniform Resource Names (URN) Namespace Notation
+
+   In accordiance with [RFC 3406], the URN namespace of WEID is "urn:x-
+   weid:" (whereas "x-" stands for an unregistered experimental URN).
+   Hence, "weid:2-RR-2" can be written as "urn:x-weid:2-RR-2".
 
 5  Additional Notes
 
@@ -436,18 +441,13 @@ VTS/WF STD. 3          Wehowski Identifier (WEID)       3 September 2024
    changes.
 
    The current version of the specification is 11, which is identified
-   with the OID 1.3.6.1.4.1.37553.8.1.8.1.6.1.11 (weid:1-8-1-6-1-B-7).
-
-
-
-
-
+   with the OID 1.3.6.1.4.1.37553.8.1.8.1.6.1.12 (weid:1-8-1-6-1-B-8).
  
 
 
 Marschall / Wehowski                                            [Page 8]
 
-VTS/WF STD. 3          Wehowski Identifier (WEID)       3 September 2024
+VTS/WF STD. 3          Wehowski Identifier (WEID)       9 September 2024
 
 
 6  Security Considerations
@@ -467,9 +467,10 @@ VTS/WF STD. 3          Wehowski Identifier (WEID)       3 September 2024
               DOI 10.17487/RFC2119, March 1997,
               <https://www.rfc-editor.org/info/rfc2119>.
 
-   [RFC2141]  Moats, R., "URN Syntax", RFC 2141, DOI 10.17487/RFC2141,
-              May 1997,
-              <https://www.rfc-editor.org/info/rfc2141>.
+   [RFC2141]  Daigle, L., van Gulik, D., Iannella, R., and P. Faltstrom,
+              "Uniform Resource Names (URN) Namespace Definition
+              Mechanisms", RFC 3406, DOI 10.17487/RFC3406, October 2002,
+              <https://www.rfc-editor.org/info/rfc3406>.
 
 8.2  Informative References
 
@@ -497,13 +498,12 @@ Acknowledgements
 
 
 
-
  
 
 
 Marschall / Wehowski                                            [Page 9]
 
-VTS/WF STD. 3          Wehowski Identifier (WEID)       3 September 2024
+VTS/WF STD. 3          Wehowski Identifier (WEID)       9 September 2024
 
 
 Authors' Addresses
