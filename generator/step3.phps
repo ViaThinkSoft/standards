@@ -44,7 +44,8 @@ ob_start();
         @media (min-width: 601px) {
 
         body {
-            background-color: #f5f5f5;
+            color: black !important;
+            background-color: #f5f5f5 !important;
             padding: 20px;
             display: flex;
             flex-direction: column;
@@ -73,7 +74,8 @@ ob_start();
         @media (max-width: 600px) {
 
         body {
-            background-color: #f5f5f5;
+            color: black !important;
+            background-color: #f5f5f5 !important;
             padding: 0;
             margin: 0;
             display: flex;
@@ -154,7 +156,8 @@ ob_start()
         <title>ViaThinkSoft/Webfan Standards Collection</title>
 	<style>
 	body {
-		background-color: #f5f5f5;
+		color: black !important;
+		background-color: #f5f5f5 !important;
 		font-family: Verdana;
 	}
 	</style>
