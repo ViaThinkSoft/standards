@@ -180,7 +180,9 @@ foreach ($std_list as &$std) {
 		$g = substr($f, strlen('../'.$std['basename']));
 		$shorts = ltrim(strtoupper($g),'.-');
 		$item = '<a href="'.htmlentities(basename($f)).'">'.htmlentities($shorts).'</a>';
-		if (($shorts == 'HTML') || ($shorts == 'TXT')) {
+		if ($shorts == 'HTML') {
+			$std['view'][] = '<b>'.$item.'</b>';
+		} else if ($shorts == 'TXT') {
 			$std['view'][] = $item;
 		} else {
 			$std['resources'][] = $item;
@@ -190,9 +192,10 @@ foreach ($std_list as &$std) {
 	if ($std['state'] == 'In Force') $color = 'green';
 	if ($std['state'] == 'Deprecated') $color = 'red';
 	echo '<li>State: <font color="'.$color.'">'.$std['state'].'</font></li>'."\n";
-	echo '<li>Current Revision: '.$std['revision'].'</li>'."\n";
-	echo '<li>OID: '.$std['oid'].'</li>'."\n";
-	echo '<li>WEID: '.$std['weid'].'</li>'."\n";
+	echo '<li>Current Revision: '.$std['revision']."\n";
+	echo '<br><font color="gray" size="-2">URN: <a href="https://hosted.oidplus.com/viathinksoft/?goto=urn%3Ax-viathinksoft%3Astd%3A'.$std['no'].'"><font color="gray">urn:x-viathinksoft:std:'.$std['no'].'</font></a>:'.explode(' ',$std['revision'])[0]."</font>\n";
+	echo '<br><font color="gray" size="-2">OID: <a href="https://hosted.oidplus.com/viathinksoft/?goto=oid%3A'.$std['oid'].'"><font color="gray">'.$std['oid'].'</font></a>'."</font>\n";
+	echo '<br><font color="gray" size="-2">WEID: '.$std['weid']."</font></li>\n";
 	echo '<li>View: '.implode(', ',$std['view']).'</li>'."\n";
 	echo '<li>Resources: '.implode(', ',$std['resources']).'</li>'."\n";
 	echo '</ul><br></li>'."\n";
