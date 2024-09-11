@@ -93,7 +93,7 @@
 <div id="content">
 <div class="container"><div class="page"><pre>VIATHINKSOFT/WEBFAN                           D. Marschall | M. Wehowski
 SPECIFICATION No. 3                           ViaThinkSoft |      Webfan
-First Draft: 2011                                       3 September 2024
+First Draft: 2011                                       9 September 2024
 
 
                    === Wehowski Identifier (WEID) ===
@@ -105,10 +105,10 @@ Abstract
 
 Identification of this Document
 
-   Revision:  2024-09-03 (Spec Change 11 as of 2023-08-07)
+   Revision:  2024-09-09 (Spec Change 12 as of 2024-09-09)
    State:     In Force
    Filename:  viathinksoft-std-0003-weid.txt
-   URN:       urn:x-viathinksoft:std:0003:2024-09-03
+   URN:       urn:x-viathinksoft:std:0003:2024-09-09
    OID:       1.3.6.1.4.1.37553.8.1.8.1.6
               { iso(1) identified-organization(3) dod(6) internet(1)
                 private(4) enterprise(1) frdlweb(37553) weid(8) org(1)
@@ -143,14 +143,14 @@ Copyright Notice
 
 
 <span class="grey">Marschall / Wehowski                                            [Page 1]</span></pre>
-</div><div class="page"><span class="noprint" id="page-2"><span class="grey">VTS/WF STD. 3          Wehowski Identifier (WEID)       3 September 2024</span>
+</div><div class="page"><span class="noprint" id="page-2"><span class="grey">VTS/WF STD. 3          Wehowski Identifier (WEID)       9 September 2024</span>
 
 
 Table of Contents
 
    <a href="#section-1">1</a>  Introduction  . . . . . . . . . . . . . . . . . . . . . . . . .  <a href="#page-3">3</a>
      <a href="#section-1.1">1.1</a>  Terminology . . . . . . . . . . . . . . . . . . . . . . . .  <a href="#page-3">3</a>
-   <a href="#section-2">2</a>  URN Namespace . . . . . . . . . . . . . . . . . . . . . . . . .  <a href="#page-3">3</a>
+   <a href="#section-2">2</a>  Namespaces  . . . . . . . . . . . . . . . . . . . . . . . . . .  <a href="#page-3">3</a>
      <a href="#section-2.1">2.1</a>  Namespace &quot;weid:&quot; for &quot;Class C&quot; WEIDs . . . . . . . . . . .  <a href="#page-4">4</a>
      <a href="#section-2.2">2.2</a>  Sub-Namespace &quot;weid:pen:&quot; for &quot;Class B&quot; WEIDs . . . . . . .  <a href="#page-4">4</a>
      <a href="#section-2.3">2.3</a>  Sub-Namespace &quot;weid:root:&quot; for &quot;Class A&quot; WEIDs  . . . . . .  <a href="#page-4">4</a>
@@ -164,6 +164,7 @@ Table of Contents
    <a href="#section-4">4</a>  Notation  . . . . . . . . . . . . . . . . . . . . . . . . . . .  <a href="#page-8">8</a>
      <a href="#section-4.1">4.1</a>  Recommendations . . . . . . . . . . . . . . . . . . . . . .  <a href="#page-8">8</a>
      <a href="#section-4.2">4.2</a>  Wildcard Notation (No Check Digit)  . . . . . . . . . . . .  <a href="#page-8">8</a>
+     <a href="#section-4.3">4.3</a>  Uniform Resource Names (URN) Namespace Notation . . . . . .  <a href="#page-8">8</a>
    <a href="#section-5">5</a>  Additional Notes  . . . . . . . . . . . . . . . . . . . . . . .  <a href="#page-8">8</a>
    <a href="#section-6">6</a>  Security Considerations . . . . . . . . . . . . . . . . . . . .  <a href="#page-9">9</a>
    <a href="#section-7">7</a>  IANA Considerations . . . . . . . . . . . . . . . . . . . . . .  <a href="#page-9">9</a>
@@ -196,9 +197,8 @@ Table of Contents
 
 
 
-
 <span class="grey">Marschall / Wehowski                                            [Page 2]</span></pre>
-</div><div class="page"><span class="noprint" id="page-3"><span class="grey">VTS/WF STD. 3          Wehowski Identifier (WEID)       3 September 2024</span>
+</div><div class="page"><span class="noprint" id="page-3"><span class="grey">VTS/WF STD. 3          Wehowski Identifier (WEID)       9 September 2024</span>
 
 
 <h2><a class="selflink" id="section-1" href="#section-1">1</a>  Introduction</h2>
@@ -240,10 +240,7 @@ Table of Contents
    <a href="https://datatracker.ietf.org/doc/html/bcp14">BCP 14</a> [<a href="https://datatracker.ietf.org/doc/html/rfc2119" title="&quot;Key words for use in RFCs to Indicate Requirement Levels&quot;">RFC2119</a>] [<a href="https://datatracker.ietf.org/doc/html/rfc8174">RFC8174</a>] when, and only when, they appear in all
    capitals, as shown here.
 
-<h2><a class="selflink" id="section-2" href="#section-2">2</a>  URN Namespace</h2>
-
-   Uniform Resource Name (URN) [<a href="https://datatracker.ietf.org/doc/html/rfc2141" title="&quot;URN Syntax&quot;">RFC2141</a>] Namespace Identifiers (NIDs)
-   for use by WEID are being specified in this document.
+<h2><a class="selflink" id="section-2" href="#section-2">2</a>  Namespaces</h2>
 
    Sub-namespaces are defined by the WEID consortium (ViaThinkSoft and
    WebFan) in a Specification Change.  The registry of sub-namespaces
@@ -252,8 +249,11 @@ Table of Contents
 
 
 
+
+
+
 <span class="grey">Marschall / Wehowski                                            [Page 3]</span></pre>
-</div><div class="page"><span class="noprint" id="page-4"><span class="grey">VTS/WF STD. 3          Wehowski Identifier (WEID)       3 September 2024</span>
+</div><div class="page"><span class="noprint" id="page-4"><span class="grey">VTS/WF STD. 3          Wehowski Identifier (WEID)       9 September 2024</span>
 
 
 <h3><a class="selflink" id="section-2.1" href="#section-2.1">2.1</a>  Namespace &quot;weid:&quot; for &quot;Class C&quot; WEIDs</h3>
@@ -308,7 +308,7 @@ Table of Contents
 
 
 <span class="grey">Marschall / Wehowski                                            [Page 4]</span></pre>
-</div><div class="page"><span class="noprint" id="page-5"><span class="grey">VTS/WF STD. 3          Wehowski Identifier (WEID)       3 September 2024</span>
+</div><div class="page"><span class="noprint" id="page-5"><span class="grey">VTS/WF STD. 3          Wehowski Identifier (WEID)       9 September 2024</span>
 
 
    A Domain-WEID can be converted to Class A/B/C WEID, but the reverse
@@ -363,7 +363,7 @@ Table of Contents
 
 
 <span class="grey">Marschall / Wehowski                                            [Page 5]</span></pre>
-</div><div class="page"><span class="noprint" id="page-6"><span class="grey">VTS/WF STD. 3          Wehowski Identifier (WEID)       3 September 2024</span>
+</div><div class="page"><span class="noprint" id="page-6"><span class="grey">VTS/WF STD. 3          Wehowski Identifier (WEID)       9 September 2024</span>
 
 
    The WeLuhn check digit is calculated as follows:
@@ -418,7 +418,7 @@ Table of Contents
 
 
 <span class="grey">Marschall / Wehowski                                            [Page 6]</span></pre>
-</div><div class="page"><span class="noprint" id="page-7"><span class="grey">VTS/WF STD. 3          Wehowski Identifier (WEID)       3 September 2024</span>
+</div><div class="page"><span class="noprint" id="page-7"><span class="grey">VTS/WF STD. 3          Wehowski Identifier (WEID)       9 September 2024</span>
 
 
 <h3><a class="selflink" id="section-3.2" href="#section-3.2">3.2</a>  Construction of a Class D WEID</h3>
@@ -473,7 +473,7 @@ Table of Contents
 
 
 <span class="grey">Marschall / Wehowski                                            [Page 7]</span></pre>
-</div><div class="page"><span class="noprint" id="page-8"><span class="grey">VTS/WF STD. 3          Wehowski Identifier (WEID)       3 September 2024</span>
+</div><div class="page"><span class="noprint" id="page-8"><span class="grey">VTS/WF STD. 3          Wehowski Identifier (WEID)       9 September 2024</span>
 
 
 <h2><a class="selflink" id="section-4" href="#section-4">4</a>  Notation</h2>
@@ -500,6 +500,11 @@ Table of Contents
    online converter) which can help you replace the wildcard with the
    correct check digit.
 
+<h3><a class="selflink" id="section-4.3" href="#section-4.3">4.3</a>  Uniform Resource Names (URN) Namespace Notation</h3>
+
+   In accordiance with [<a href="https://datatracker.ietf.org/doc/html/rfc3406">RFC 3406</a>], the URN namespace of WEID is &quot;urn:x-
+   weid:&quot; (whereas &quot;x-&quot; stands for an unregistered experimental URN).
+   Hence, &quot;weid:2-RR-2&quot; can be written as &quot;urn:x-weid:2-RR-2&quot;.
 
 <h2><a class="selflink" id="section-5" href="#section-5">5</a>  Additional Notes</h2>
 
@@ -518,17 +523,12 @@ Table of Contents
    changes.
 
    The current version of the specification is 11, which is identified
-   with the OID 1.3.6.1.4.1.37553.8.1.8.1.6.1.11 (weid:1-8-1-6-1-B-7).
-
-
-
-
-
+   with the OID 1.3.6.1.4.1.37553.8.1.8.1.6.1.12 (weid:1-8-1-6-1-B-8).
 
 
 
 <span class="grey">Marschall / Wehowski                                            [Page 8]</span></pre>
-</div><div class="page"><span class="noprint" id="page-9"><span class="grey">VTS/WF STD. 3          Wehowski Identifier (WEID)       3 September 2024</span>
+</div><div class="page"><span class="noprint" id="page-9"><span class="grey">VTS/WF STD. 3          Wehowski Identifier (WEID)       9 September 2024</span>
 
 
 <h2><a class="selflink" id="section-6" href="#section-6">6</a>  Security Considerations</h2>
@@ -548,9 +548,10 @@ Table of Contents
               DOI 10.17487/RFC2119, March 1997,
               &lt;<a href="https://www.rfc-editor.org/info/rfc2119">https://www.rfc-editor.org/info/rfc2119</a>&gt;.
 
-   [<a id="ref-RFC2141">RFC2141</a>]  Moats, R., &quot;URN Syntax&quot;, <a href="https://datatracker.ietf.org/doc/html/rfc2141">RFC 2141</a>, DOI 10.17487/RFC2141,
-              May 1997,
-              &lt;<a href="https://www.rfc-editor.org/info/rfc2141">https://www.rfc-editor.org/info/rfc2141</a>&gt;.
+   [<a id="ref-RFC2141">RFC2141</a>]  Daigle, L., van Gulik, D., Iannella, R., and P. Faltstrom,
+              &quot;Uniform Resource Names (URN) Namespace Definition
+              Mechanisms&quot;, <a href="https://datatracker.ietf.org/doc/html/rfc3406">RFC 3406</a>, DOI 10.17487/RFC3406, October 2002,
+              &lt;<a href="https://www.rfc-editor.org/info/rfc3406">https://www.rfc-editor.org/info/rfc3406</a>&gt;.
 
 <h3><a class="selflink" id="section-8.2" href="#section-8.2">8.2</a>  Informative References</h3>
 
@@ -581,9 +582,8 @@ Acknowledgements
 
 
 
-
 <span class="grey">Marschall / Wehowski                                            [Page 9]</span></pre>
-</div><div class="page"><span class="noprint" id="page-10"><span class="grey">VTS/WF STD. 3          Wehowski Identifier (WEID)       3 September 2024</span>
+</div><div class="page"><span class="noprint" id="page-10"><span class="grey">VTS/WF STD. 3          Wehowski Identifier (WEID)       9 September 2024</span>
 
 
 Authors&#x27; Addresses
