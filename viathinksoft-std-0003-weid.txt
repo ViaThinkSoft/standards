@@ -467,7 +467,7 @@ VTS/WF STD. 3          Wehowski Identifier (WEID)       9 September 2024
               DOI 10.17487/RFC2119, March 1997,
               <https://www.rfc-editor.org/info/rfc2119>.
 
-   [RFC2141]  Daigle, L., van Gulik, D., Iannella, R., and P. Faltstrom,
+   [RFC3406]  Daigle, L., van Gulik, D., Iannella, R., and P. Faltstrom,
               "Uniform Resource Names (URN) Namespace Definition
               Mechanisms", RFC 3406, DOI 10.17487/RFC3406, October 2002,
               <https://www.rfc-editor.org/info/rfc3406>.
