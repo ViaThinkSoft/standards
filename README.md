@@ -1,5 +1,11 @@
 # ViaThinkSoft/Webfan Standards Collection
 
+## View Online
+
+HTML at GitHub: https://htmlpreview.github.io/?https://raw.githubusercontent.com/ViaThinkSoft/standards/master/index.html
+
+Mirror at ViaThinkSoft: https://www.viathinksoft.de/std/index.html
+
 ## Product independent standards
 
 **VTS Standards:**
