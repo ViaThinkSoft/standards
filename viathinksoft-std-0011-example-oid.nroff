@@ -3,7 +3,7 @@
 .\" https://misc.daniel-marschall.de/patches/nroffedit/
 .\"
 .\" Alternative, you can compile this document on Linux, using the following command:
-.\"        nroff -T ascii -ms viathinksoft-std-0010-illegal-oid.nroff | ./fix_formfeed.pl > viathinksoft-std-0010-illegal-oid.txt
+.\"        nroff -T ascii -ms viathinksoft-std-0011-example-oid.nroff | ./fix_formfeed.pl > viathinksoft-std-0011-example-oid.txt
 .\" Note that "-ms" only works if the package "groff" is installed.
 .\" fix.pl needs to be executed to replace FORMFEED.
 .\" Note that the Linux command does not auto-generate the Table of Contents, since this is a NroffEdit feature!
@@ -32,11 +32,11 @@
 .\" Right footer text. "FORMFEED" will be replaced by a post-processing script.
 .ds RF FORMFEED[Page %]
 .\" Left header text
-.ds LH VTS/WF STD. 10
+.ds LH VTS/WF STD. 11
 .\" Right header text
 .ds RH 11 September 2024
 .\" Center header text
-.ds CH Illegal OID Definition File
+.ds CH Example OID
 .\" Center footer text
 .ds CF 
 .\" Hyphenation mode set to 0
@@ -50,8 +50,8 @@
 
 .nf
 .tl 'VIATHINKSOFT/WEBFAN''D. Marschall'
-.tl 'SPECIFICATION No. 10''ViaThinkSoft'
-.tl 'First Draft: 2021''11 September 2024'
+.tl 'SPECIFICATION No. 11''ViaThinkSoft'
+.tl 'First Draft: 2011''11 September 2024'
 .fi
 
 .\" Note. The ".tl" directive is used to generate the leading header 
@@ -65,14 +65,14 @@
 .\" This and other comments in this template can safely be deleted.
 
 .ce 3
-=== Illegal OID Definition File ===
+=== Example OID ===
 .fi
 .in 3
 
 .ti 0
 Abstract
 
-This document describes a file format that describes illegal Object Identifiers (OID) which should not be processed.
+This document describes an OID that can be used as an example for OIDs.
 
 .ti 0
 Identification of this Document
@@ -80,27 +80,25 @@ Identification of this Document
 .in 3
 .nf
 Revision:  2024-09-11
-State:     In Force
-Filename:  viathinksoft-std-0010-illegal-oid.txt
-URN:       urn:x-viathinksoft:std:0010:2024-09-11
-OID:       1.3.6.1.4.1.37476.3.1.5
+State:     Deprecated
+Filename:  viathinksoft-std-0011-example-oid.txt
+URN:       urn:x-viathinksoft:std:0011:2024-09-11
+OID:       1.3.6.1.4.1.37476.9999
            { iso(1) identified-organization(3) dod(6) internet(1)
-             private(4) enterprise(1) 37476 specifications(3)
-             fileformat(1) oid-illegality-rules(5) }
-WEID:      weid:pen:SX0-3-1-5-3
+             private(4) enterprise(1) 37476 example(9999) }
+WEID:      weid:pen:SX0-7PR-6
 IETF/RFC:  (None)
 .fi
 
 .ti 0
 Attachments
 
-Reference implementation in PHP:
-https://misc.daniel-marschall.de/oid-repository/api/
+(None)
 
 .ti 0
 Copyright Notice
 
-Copyright (c) 2021-2024 ViaThinkSoft and the persons identified as the
+Copyright (c) 2011-2024 ViaThinkSoft and the persons identified as the
 document authors.  All rights reserved.
 
 Licensed under the terms of the Apache 2.0 License.
@@ -118,15 +116,15 @@ Table of Contents
 .nf
    1  Introduction  . . . . . . . . . . . . . . . . . . . . . . . . .  3
      1.1  Terminology . . . . . . . . . . . . . . . . . . . . . . . .  3
-   2  File Structure / Example  . . . . . . . . . . . . . . . . . . .  3
-   3  Ideas for Future Developments ("Format 3.0")  . . . . . . . . .  3
+   2  Current Status  . . . . . . . . . . . . . . . . . . . . . . . .  3
+   3  Description Of 18 April 2011  . . . . . . . . . . . . . . . . .  3
    4  Security Considerations . . . . . . . . . . . . . . . . . . . .  4
    5  IANA Considerations . . . . . . . . . . . . . . . . . . . . . .  4
    6  References  . . . . . . . . . . . . . . . . . . . . . . . . . .  4
      6.1  Normative References  . . . . . . . . . . . . . . . . . . .  4
      6.2  Informative References  . . . . . . . . . . . . . . . . . .  4
-   Acknowledgements . . . . . . . . . . . . . . . . . . . . . . . . .  4
-   Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . . .  4
+   Acknowledgements . . . . . . . . . . . . . . . . . . . . . . . . .  5
+   Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . . .  5
 .fi
 .in 3
 
@@ -136,7 +134,7 @@ Table of Contents
 .ti 0
 1  Introduction
 
-This document describes a file format that describes detection of file formats, e.g. by filename extension.
+This document describes an OID that can be used as an example for OIDs.
 
 .ti 0
 1.1  Terminology
@@ -144,45 +142,38 @@ This document describes a file format that describes detection of file formats, 
 The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in BCP\014 [RFC2119] [RFC8174] when, and only when, they appear in all capitals, as shown here.
 
 .ti 0
-2  File Structure / Example
+2  Current Status
 
-.nf
-[1.3.6.1.4.1.37476.3.1.5.2]
-
--- Standard OID Illegality Rule Definition File
--- by Daniel Marschall and Olivier Dubuisson
--- Revision: 7 July 2024
-
--- SYNTAX:
--- -- comment    : comments are also allowed after a rule definition
--- 2.999.(11-).0 : the arc values 11 and below are illegal
--- 2.999.(11+).0 : the arc values 11 and above are illegal
--- 2.999.(1-5).0 : the arc values 1 to 5 are illegal
--- 2.999.(!3).0  : only arc 3 is valid, all others are invalid
---                 (added in version 2)
--- 2.999.*       : * is equal to (0+). Usually used for leaf OIDs
-
-0.(10+)                -- itu, currently max 9
-0.4.(1+)               -- 0.4.0 is the only identified organization
-1.1.3.*                -- Reserved for ISO/IEC 9834-3
-1.2.6                  -- was 1.3.6 meant?
-1.2.826.1004           -- The correct OID is 1.2.826.0.1004
-.fi
+The OID 1.3.6.1.4.1.37476.9999 is deprecated in favor of OID 2.999 which was officially allocated by ISO/IEC JTC 1/SC 6 at its June 2011 meeting and by ITU-T SG 17 at its September 2011 meeting. Please use this OID instead!
 
 .ti 0
-3  Ideas for Future Developments ("Format 3.0")
+3  Description Of 18 April 2011
 
-- JSON Format
+ViaThinkSoft releases following arc for public-domain usage:
 
-- Better notation for ranges, with multiple components.
+Dot notation
+1.3.6.1.4.1.37476.9999
 
-- Differentiate between "illegal" (must not exist) and "must-not-create" (may exist, but must not create).
+ASN.1 notation
+{iso(1) identified-organizatin(3) dod(6) internet(1) private(4) enterprise(1) 37476 example(9999)}
 
-- Machine-readable description instead of a comment.
+OID-IRI notation
+/ISO/Identified-Organization/6/1/4/1/37476/Example
 
-- Include/Exclude lines. You start from top to bottom and include/exclude stuff, and at the end you have an answer if the OID is illegal.
+This is a free useable arc for EVERYONE with the purpose of documenting resp. implementing examples of object identifiers. You can use this OID as well as every subsequent OID without any registration or permission.
 
-- For frozen OIDs, we must allow that a single arc is frozen (non-existing OIDs are illegal), but the existing OIDs may create children.
+Please note that due to the nature of this OID, the OID itself as well as all of its children DON'T describe any real object. OIDs inside this arc are NOT assigned to anybody and therefore the numbers are not uniquely identifying an object and there is no ownership accepted for anybody.
+
+This arc can be used e.g. if you want to document an ASN.1 module parser and want to include an example module with "any" OID in the documentation. You can also use this arc if you are publishing an Open Source project with OID constants and a demo project which contains unspecified OIDs. This example OID and all its children give you the chance to write and publish such demo projects resp. documentations with examples without using an OID illegally.
+
+Note: You can also consider using a random generated UUID OID under the arc {joint-iso-itu-t(2) uuid(25)}, but in this case you must be sure that your implementation is capable with parsing 128-bit number-identifiers!
+
+This is a LEAF OID - this means that no child OIDs may be added to the repository.
+
+Formal, the registration authority of this arc is Daniel Marschall, ViaThinkSoft, but de facto this arc is not controlled by anyone and can be considered as public domain.
+
+This example OID has the same purpose as example.com has for examples of web pages.
+
 
 .ti 0
 4  Security Considerations
@@ -214,13 +205,13 @@ There are no IANA Considerations.
 
 .ti 3
 None
-
+.bp
 .in 3
 .ti 0
 Acknowledgements
 .in 3
 
-I would like to thank Melanie Wehowski for her long time support in OIDplus and WEID projects.
+I would like to thank Olivier Dubuisson for his great work with the OID Repository and his help in many OID related topics.
 
 This document was written in Nroff Internet Draft Editor by 3xA Security.
 .br

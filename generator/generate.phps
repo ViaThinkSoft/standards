@@ -3,7 +3,7 @@
 
 $std_list = [];
 
-foreach (glob('../'.'*.txt') as $f) {
+foreach (glob('../viathinksoft-std-*.txt') as $f) {
 
 	$cont = file_get_contents($f);
 

@@ -4,7 +4,7 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Illegal OID Definition File</title>
+	<title>Example OID</title>
 	<style>
 
 	/** === DESKTOP === */
@@ -92,38 +92,36 @@
 
 <div id="content">
 <div class="container"><div class="page"><pre>VIATHINKSOFT/WEBFAN                                         D. Marschall
-SPECIFICATION No. 10                                        ViaThinkSoft
-First Draft: 2021                                      11 September 2024
+SPECIFICATION No. 11                                        ViaThinkSoft
+First Draft: 2011                                      11 September 2024
 
 
-                  === Illegal OID Definition File ===
+                          === Example OID ===
 
 Abstract
 
-   This document describes a file format that describes illegal Object
-   Identifiers (OID) which should not be processed.
+   This document describes an OID that can be used as an example for
+   OIDs.
 
 Identification of this Document
 
    Revision:  2024-09-11
-   State:     In Force
-   Filename:  viathinksoft-std-0010-illegal-oid.txt
-   URN:       urn:x-viathinksoft:std:0010:2024-09-11
-   OID:       1.3.6.1.4.1.37476.3.1.5
+   State:     Deprecated
+   Filename:  viathinksoft-std-0011-example-oid.txt
+   URN:       urn:x-viathinksoft:std:0011:2024-09-11
+   OID:       1.3.6.1.4.1.37476.9999
               { iso(1) identified-organization(3) dod(6) internet(1)
-                private(4) enterprise(1) 37476 specifications(3)
-                fileformat(1) oid-illegality-rules(5) }
-   WEID:      weid:pen:SX0-3-1-5-3
+                private(4) enterprise(1) 37476 example(9999) }
+   WEID:      weid:pen:SX0-7PR-6
    IETF/RFC:  (None)
 
 Attachments
 
-   Reference implementation in PHP: <a href="https://misc.daniel-marschall.de/oid-repository/api/">https://misc.daniel-</a>
-   <a href="https://misc.daniel-marschall.de/oid-repository/api/">marschall.de/oid-repository/api/</a>
+   (None)
 
 Copyright Notice
 
-   Copyright (c) 2021-2024 ViaThinkSoft and the persons identified as
+   Copyright (c) 2011-2024 ViaThinkSoft and the persons identified as
    the document authors.  All rights reserved.
 
    Licensed under the terms of the Apache 2.0 License.
@@ -142,23 +140,25 @@ Copyright Notice
 
 
 
+
+
 <span class="grey">Marschall                                                       [Page 1]</span></pre>
-</div><div class="page"><span class="noprint" id="page-2"><span class="grey">VTS/WF STD. 10        Illegal OID Definition File      11 September 2024</span>
+</div><div class="page"><span class="noprint" id="page-2"><span class="grey">VTS/WF STD. 11                Example OID              11 September 2024</span>
 
 
 Table of Contents
 
    <a href="#section-1">1</a>  Introduction  . . . . . . . . . . . . . . . . . . . . . . . . .  <a href="#page-3">3</a>
      <a href="#section-1.1">1.1</a>  Terminology . . . . . . . . . . . . . . . . . . . . . . . .  <a href="#page-3">3</a>
-   <a href="#section-2">2</a>  File Structure / Example  . . . . . . . . . . . . . . . . . . .  <a href="#page-3">3</a>
-   <a href="#section-3">3</a>  Ideas for Future Developments (&quot;Format 3.0&quot;)  . . . . . . . . .  <a href="#page-3">3</a>
+   <a href="#section-2">2</a>  Current Status  . . . . . . . . . . . . . . . . . . . . . . . .  <a href="#page-3">3</a>
+   <a href="#section-3">3</a>  Description Of 18 April 2011  . . . . . . . . . . . . . . . . .  <a href="#page-3">3</a>
    <a href="#section-4">4</a>  Security Considerations . . . . . . . . . . . . . . . . . . . .  <a href="#page-4">4</a>
    <a href="#section-5">5</a>  IANA Considerations . . . . . . . . . . . . . . . . . . . . . .  <a href="#page-4">4</a>
    <a href="#section-6">6</a>  References  . . . . . . . . . . . . . . . . . . . . . . . . . .  <a href="#page-4">4</a>
      <a href="#section-6.1">6.1</a>  Normative References  . . . . . . . . . . . . . . . . . . .  <a href="#page-4">4</a>
      <a href="#section-6.2">6.2</a>  Informative References  . . . . . . . . . . . . . . . . . .  <a href="#page-4">4</a>
-   Acknowledgements . . . . . . . . . . . . . . . . . . . . . . . . .  <a href="#page-4">4</a>
-   Authors&#x27; Addresses . . . . . . . . . . . . . . . . . . . . . . . .  <a href="#page-4">4</a>
+   Acknowledgements . . . . . . . . . . . . . . . . . . . . . . . . .  <a href="#page-5">5</a>
+   Authors&#x27; Addresses . . . . . . . . . . . . . . . . . . . . . . . .  <a href="#page-5">5</a>
 
 
 
@@ -198,13 +198,13 @@ Table of Contents
 
 
 <span class="grey">Marschall                                                       [Page 2]</span></pre>
-</div><div class="page"><span class="noprint" id="page-3"><span class="grey">VTS/WF STD. 10        Illegal OID Definition File      11 September 2024</span>
+</div><div class="page"><span class="noprint" id="page-3"><span class="grey">VTS/WF STD. 11                Example OID              11 September 2024</span>
 
 
 <h2><a class="selflink" id="section-1" href="#section-1">1</a>  Introduction</h2>
 
-   This document describes a file format that describes detection of
-   file formats, e.g. by filename extension.
+   This document describes an OID that can be used as an example for
+   OIDs.
 
 <h3><a class="selflink" id="section-1.1" href="#section-1.1">1.1</a>  Terminology</h3>
 
@@ -214,54 +214,65 @@ Table of Contents
    <a href="https://datatracker.ietf.org/doc/html/bcp14">BCP 14</a> [<a href="https://datatracker.ietf.org/doc/html/rfc2119" title="&quot;Key words for use in RFCs to Indicate Requirement Levels&quot;">RFC2119</a>] [<a href="https://datatracker.ietf.org/doc/html/rfc8174">RFC8174</a>] when, and only when, they appear in all
    capitals, as shown here.
 
-<h2><a class="selflink" id="section-2" href="#section-2">2</a>  File Structure / Example</h2>
+<h2><a class="selflink" id="section-2" href="#section-2">2</a>  Current Status</h2>
 
-   [<a id="ref-1.3.6.1.4.1.37476.3.1.5.2">1.3.6.1.4.1.37476.3.1.5.2</a>]
+   The OID 1.3.6.1.4.1.37476.9999 is deprecated in favor of OID 2.999
+   which was officially allocated by ISO/IEC JTC 1/SC 6 at its June 2011
+   meeting and by ITU-T SG 17 at its September 2011 meeting. Please use
+   this OID instead!
 
-   -- Standard OID Illegality Rule Definition File
-   -- by Daniel Marschall and Olivier Dubuisson
-   -- Revision: 7 July 2024
+<h2><a class="selflink" id="section-3" href="#section-3">3</a>  Description Of 18 April 2011</h2>
 
-   -- SYNTAX:
-   -- -- comment    : comments are also allowed after a rule definition
-   -- 2.999.(11-).0 : the arc values 11 and below are illegal
-   -- 2.999.(11+).0 : the arc values 11 and above are illegal
-   -- 2.999.(1-5).0 : the arc values 1 to 5 are illegal
-   -- 2.999.(!3).0  : only arc 3 is valid, all others are invalid
-   --                 (added in version 2)
-   -- 2.999.*       : * is equal to (0+). Usually used for leaf OIDs
+   ViaThinkSoft releases following arc for public-domain usage:
 
-   0.(10+)                -- itu, currently max 9
-   0.4.(1+)               -- 0.4.0 is the only identified organization
-   1.1.3.*                -- Reserved for ISO/IEC 9834-3
-   1.2.6                  -- was 1.3.6 meant?
-   1.2.826.1004           -- The correct OID is 1.2.826.0.1004
+   Dot notation 1.3.6.1.4.1.37476.9999
 
-<h2><a class="selflink" id="section-3" href="#section-3">3</a>  Ideas for Future Developments (&quot;Format 3.0&quot;)</h2>
+   ASN.1 notation {iso(1) identified-organizatin(3) dod(6) internet(1)
+   private(4) enterprise(1) 37476 example(9999)}
 
-   - JSON Format
+   OID-IRI notation /ISO/Identified-Organization/6/1/4/1/37476/Example
 
-   - Better notation for ranges, with multiple components.
+   This is a free useable arc for EVERYONE with the purpose of
+   documenting resp. implementing examples of object identifiers. You
+   can use this OID as well as every subsequent OID without any
+   registration or permission.
 
-   - Differentiate between &quot;illegal&quot; (must not exist) and &quot;must-not-
-   create&quot; (may exist, but must not create).
+   Please note that due to the nature of this OID, the OID itself as
+   well as all of its children DON&#x27;T describe any real object. OIDs
+   inside this arc are NOT assigned to anybody and therefore the numbers
+   are not uniquely identifying an object and there is no ownership
+   accepted for anybody.
 
-   - Machine-readable description instead of a comment.
-
-   - Include/Exclude lines. You start from top to bottom and
+   This arc can be used e.g. if you want to document an ASN.1 module
+   parser and want to include an example module with &quot;any&quot; OID in the
+   documentation. You can also use this arc if you are publishing an
+   Open Source project with OID constants and a demo project which
+   contains unspecified OIDs. This example OID and all its children give
+   you the chance to write and publish such demo projects resp.
 
 
 
 <span class="grey">Marschall                                                       [Page 3]</span></pre>
-</div><div class="page"><span class="noprint" id="page-4"><span class="grey">VTS/WF STD. 10        Illegal OID Definition File      11 September 2024</span>
+</div><div class="page"><span class="noprint" id="page-4"><span class="grey">VTS/WF STD. 11                Example OID              11 September 2024</span>
 
 
-   include/exclude stuff, and at the end you have an answer if the OID
-   is illegal.
+   documentations with examples without using an OID illegally.
 
-   - For frozen OIDs, we must allow that a single arc is frozen (non-
-   existing OIDs are illegal), but the existing OIDs may create
-   children.
+   Note: You can also consider using a random generated UUID OID under
+   the arc {joint-iso-itu-t(2) uuid(25)}, but in this case you must be
+   sure that your implementation is capable with parsing 128-bit number-
+   identifiers!
+
+   This is a LEAF OID - this means that no child OIDs may be added to
+   the repository.
+
+   Formal, the registration authority of this arc is Daniel Marschall,
+   ViaThinkSoft, but de facto this arc is not controlled by anyone and
+   can be considered as public domain.
+
+   This example OID has the same purpose as example.com has for examples
+   of web pages.
+
 
 <h2><a class="selflink" id="section-4" href="#section-4">4</a>  Security Considerations</h2>
 
@@ -284,10 +295,26 @@ Table of Contents
 
    None
 
+
+
+
+
+
+
+
+
+
+
+
+
+<span class="grey">Marschall                                                       [Page 4]</span></pre>
+</div><div class="page"><span class="noprint" id="page-5"><span class="grey">VTS/WF STD. 11                Example OID              11 September 2024</span>
+
+
 Acknowledgements
 
-   I would like to thank Melanie Wehowski for her long time support in
-   OIDplus and WEID projects.
+   I would like to thank Olivier Dubuisson for his great work with the
+   OID Repository and his help in many OID related topics.
 
    This document was written in Nroff Internet Draft Editor by 3xA
    Security.
@@ -307,7 +334,35 @@ Authors&#x27; Addresses
 
 
 
-Marschall                                                       [Page 4]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Marschall                                                       [Page 5]
 </pre></div></div></div>
 
 </body>

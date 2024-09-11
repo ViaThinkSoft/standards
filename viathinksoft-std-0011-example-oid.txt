@@ -1,0 +1,280 @@
+ 
+
+
+
+VIATHINKSOFT/WEBFAN                                         D. Marschall
+SPECIFICATION No. 11                                        ViaThinkSoft
+First Draft: 2011                                      11 September 2024
+
+
+                          === Example OID ===
+
+Abstract
+
+   This document describes an OID that can be used as an example for
+   OIDs.
+
+Identification of this Document
+
+   Revision:  2024-09-11
+   State:     Deprecated
+   Filename:  viathinksoft-std-0011-example-oid.txt
+   URN:       urn:x-viathinksoft:std:0011:2024-09-11
+   OID:       1.3.6.1.4.1.37476.9999
+              { iso(1) identified-organization(3) dod(6) internet(1)
+                private(4) enterprise(1) 37476 example(9999) }
+   WEID:      weid:pen:SX0-7PR-6
+   IETF/RFC:  (None)
+
+Attachments
+
+   (None)
+
+Copyright Notice
+
+   Copyright (c) 2011-2024 ViaThinkSoft and the persons identified as
+   the document authors.  All rights reserved.
+
+   Licensed under the terms of the Apache 2.0 License.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+Marschall                                                       [Page 1]
+
+VTS/WF STD. 11                Example OID              11 September 2024
+
+
+Table of Contents
+
+   1  Introduction  . . . . . . . . . . . . . . . . . . . . . . . . .  3
+     1.1  Terminology . . . . . . . . . . . . . . . . . . . . . . . .  3
+   2  Current Status  . . . . . . . . . . . . . . . . . . . . . . . .  3
+   3  Description Of 18 April 2011  . . . . . . . . . . . . . . . . .  3
+   4  Security Considerations . . . . . . . . . . . . . . . . . . . .  4
+   5  IANA Considerations . . . . . . . . . . . . . . . . . . . . . .  4
+   6  References  . . . . . . . . . . . . . . . . . . . . . . . . . .  4
+     6.1  Normative References  . . . . . . . . . . . . . . . . . . .  4
+     6.2  Informative References  . . . . . . . . . . . . . . . . . .  4
+   Acknowledgements . . . . . . . . . . . . . . . . . . . . . . . . .  5
+   Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . . .  5
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+Marschall                                                       [Page 2]
+
+VTS/WF STD. 11                Example OID              11 September 2024
+
+
+1  Introduction
+
+   This document describes an OID that can be used as an example for
+   OIDs.
+
+1.1  Terminology
+
+   The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
+   "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and
+   "OPTIONAL" in this document are to be interpreted as described in
+   BCP 14 [RFC2119] [RFC8174] when, and only when, they appear in all
+   capitals, as shown here.
+
+2  Current Status
+
+   The OID 1.3.6.1.4.1.37476.9999 is deprecated in favor of OID 2.999
+   which was officially allocated by ISO/IEC JTC 1/SC 6 at its June 2011
+   meeting and by ITU-T SG 17 at its September 2011 meeting. Please use
+   this OID instead!
+
+3  Description Of 18 April 2011
+
+   ViaThinkSoft releases following arc for public-domain usage:
+
+   Dot notation 1.3.6.1.4.1.37476.9999
+
+   ASN.1 notation {iso(1) identified-organizatin(3) dod(6) internet(1)
+   private(4) enterprise(1) 37476 example(9999)}
+
+   OID-IRI notation /ISO/Identified-Organization/6/1/4/1/37476/Example
+
+   This is a free useable arc for EVERYONE with the purpose of
+   documenting resp. implementing examples of object identifiers. You
+   can use this OID as well as every subsequent OID without any
+   registration or permission.
+
+   Please note that due to the nature of this OID, the OID itself as
+   well as all of its children DON'T describe any real object. OIDs
+   inside this arc are NOT assigned to anybody and therefore the numbers
+   are not uniquely identifying an object and there is no ownership
+   accepted for anybody.
+
+   This arc can be used e.g. if you want to document an ASN.1 module
+   parser and want to include an example module with "any" OID in the
+   documentation. You can also use this arc if you are publishing an
+   Open Source project with OID constants and a demo project which
+   contains unspecified OIDs. This example OID and all its children give
+   you the chance to write and publish such demo projects resp.
+ 
+
+
+Marschall                                                       [Page 3]
+
+VTS/WF STD. 11                Example OID              11 September 2024
+
+
+   documentations with examples without using an OID illegally.
+
+   Note: You can also consider using a random generated UUID OID under
+   the arc {joint-iso-itu-t(2) uuid(25)}, but in this case you must be
+   sure that your implementation is capable with parsing 128-bit number-
+   identifiers!
+
+   This is a LEAF OID - this means that no child OIDs may be added to
+   the repository.
+
+   Formal, the registration authority of this arc is Daniel Marschall,
+   ViaThinkSoft, but de facto this arc is not controlled by anyone and
+   can be considered as public domain.
+
+   This example OID has the same purpose as example.com has for examples
+   of web pages.
+
+
+4  Security Considerations
+
+   None
+
+5  IANA Considerations
+
+   There are no IANA Considerations.
+
+6  References
+
+6.1  Normative References
+
+   [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
+              Requirement Levels", BCP 14, RFC 2119,
+              DOI 10.17487/RFC2119, March 1997,
+              <https://www.rfc-editor.org/info/rfc2119>.
+
+6.2  Informative References
+
+   None
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+Marschall                                                       [Page 4]
+
+VTS/WF STD. 11                Example OID              11 September 2024
+
+
+Acknowledgements
+
+   I would like to thank Olivier Dubuisson for his great work with the
+   OID Repository and his help in many OID related topics.
+
+   This document was written in Nroff Internet Draft Editor by 3xA
+   Security.
+   https://aaa-sec.com/nroffedit/
+   https://misc.daniel-marschall.de/patches/nroffedit/ ("year 2020"
+   patch)
+
+Authors' Addresses
+
+   Daniel Marschall
+   Postfach 11 53
+   69243 Bammental
+   Germany
+
+   Email: daniel-marschall@viathinksoft.de
+   URI:   https://www.viathinksoft.com/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Marschall                                                       [Page 5]

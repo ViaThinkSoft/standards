@@ -11,7 +11,7 @@ First Draft: 2021                                      11 September 2024
 
 Abstract
 
-   This document describes a file format that describes illega Object
+   This document describes a file format that describes illegal Object
    Identifiers (OID) which should not be processed.
 
 Identification of this Document
