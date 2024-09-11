@@ -1,0 +1,5 @@
+
+Publish all previously defined standards
+
+Each standard could have a section "OID RA Considerations"
+where allocated OIDs (or other allocations) are defined.

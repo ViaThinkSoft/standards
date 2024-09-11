@@ -4,7 +4,7 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>File Format Definition File</title>
+	<title>Illegal OID Definition File</title>
 	<style>
 
 	/** === DESKTOP === */
@@ -92,38 +92,38 @@
 
 <div id="content">
 <div class="container"><div class="page"><pre>VIATHINKSOFT/WEBFAN                                         D. Marschall
-SPECIFICATION No. 9                                         ViaThinkSoft
-First Draft: 2020                                      11 September 2024
+SPECIFICATION No. 10                                        ViaThinkSoft
+First Draft: 2021                                      11 September 2024
 
 
-                  === File Format Definition File ===
+                  === Illegal OID Definition File ===
 
 Abstract
 
-   This document describes a file format that describes detection of
-   file formats, e.g. by filename extension.
+   This document describes a file format that describes illega Object
+   Identifiers (OID) which should not be processed.
 
 Identification of this Document
 
    Revision:  2024-09-11
    State:     In Force
-   Filename:  viathinksoft-std-0009-fileformat-def.txt
-   URN:       urn:x-viathinksoft:std:0009:2024-09-11
-   OID:       1.3.6.1.4.1.37476.3.1.7
+   Filename:  viathinksoft-std-0010-illegal-oid.txt
+   URN:       urn:x-viathinksoft:std:0010:2024-09-11
+   OID:       1.3.6.1.4.1.37476.3.1.5
               { iso(1) identified-organization(3) dod(6) internet(1)
                 private(4) enterprise(1) 37476 specifications(3)
-                fileformat(1) fileformats(7) }
-   WEID:      weid:pen:SX0-3-1-7-9
+                fileformat(1) oid-illegality-rules(5) }
+   WEID:      weid:pen:SX0-3-1-5-3
    IETF/RFC:  (None)
 
 Attachments
 
-   Reference implementation in PHP: <a href="https://misc.daniel-marschall.de/code/php/fileformats/">https://misc.daniel-</a>
-   <a href="https://misc.daniel-marschall.de/code/php/fileformats/">marschall.de/code/php/fileformats/</a>
+   Reference implementation in PHP: <a href="https://misc.daniel-marschall.de/oid-repository/api/">https://misc.daniel-</a>
+   <a href="https://misc.daniel-marschall.de/oid-repository/api/">marschall.de/oid-repository/api/</a>
 
 Copyright Notice
 
-   Copyright (c) 2020-2024 ViaThinkSoft and the persons identified as
+   Copyright (c) 2021-2024 ViaThinkSoft and the persons identified as
    the document authors.  All rights reserved.
 
    Licensed under the terms of the Apache 2.0 License.
@@ -143,7 +143,7 @@ Copyright Notice
 
 
 <span class="grey">Marschall                                                       [Page 1]</span></pre>
-</div><div class="page"><span class="noprint" id="page-2"><span class="grey">VTS/WF STD. 9         File Format Definition File      11 September 2024</span>
+</div><div class="page"><span class="noprint" id="page-2"><span class="grey">VTS/WF STD. 10        Illegal OID Definition File      11 September 2024</span>
 
 
 Table of Contents
@@ -151,11 +151,12 @@ Table of Contents
    <a href="#section-1">1</a>  Introduction  . . . . . . . . . . . . . . . . . . . . . . . . .  <a href="#page-3">3</a>
      <a href="#section-1.1">1.1</a>  Terminology . . . . . . . . . . . . . . . . . . . . . . . .  <a href="#page-3">3</a>
    <a href="#section-2">2</a>  File Structure / Example  . . . . . . . . . . . . . . . . . . .  <a href="#page-3">3</a>
-   <a href="#section-3">3</a>  Security Considerations . . . . . . . . . . . . . . . . . . . .  <a href="#page-4">4</a>
-   <a href="#section-4">4</a>  IANA Considerations . . . . . . . . . . . . . . . . . . . . . .  <a href="#page-4">4</a>
-   <a href="#section-5">5</a>  References  . . . . . . . . . . . . . . . . . . . . . . . . . .  <a href="#page-4">4</a>
-     <a href="#section-5.1">5.1</a>  Normative References  . . . . . . . . . . . . . . . . . . .  <a href="#page-4">4</a>
-     <a href="#section-5.2">5.2</a>  Informative References  . . . . . . . . . . . . . . . . . .  <a href="#page-4">4</a>
+   <a href="#section-3">3</a>  Ideas for Future Developments (&quot;Format 3.0&quot;)  . . . . . . . . .  <a href="#page-3">3</a>
+   <a href="#section-4">4</a>  Security Considerations . . . . . . . . . . . . . . . . . . . .  <a href="#page-4">4</a>
+   <a href="#section-5">5</a>  IANA Considerations . . . . . . . . . . . . . . . . . . . . . .  <a href="#page-4">4</a>
+   <a href="#section-6">6</a>  References  . . . . . . . . . . . . . . . . . . . . . . . . . .  <a href="#page-4">4</a>
+     <a href="#section-6.1">6.1</a>  Normative References  . . . . . . . . . . . . . . . . . . .  <a href="#page-4">4</a>
+     <a href="#section-6.2">6.2</a>  Informative References  . . . . . . . . . . . . . . . . . .  <a href="#page-4">4</a>
    Acknowledgements . . . . . . . . . . . . . . . . . . . . . . . . .  <a href="#page-4">4</a>
    Authors&#x27; Addresses . . . . . . . . . . . . . . . . . . . . . . . .  <a href="#page-4">4</a>
 
@@ -196,9 +197,8 @@ Table of Contents
 
 
 
-
 <span class="grey">Marschall                                                       [Page 2]</span></pre>
-</div><div class="page"><span class="noprint" id="page-3"><span class="grey">VTS/WF STD. 9         File Format Definition File      11 September 2024</span>
+</div><div class="page"><span class="noprint" id="page-3"><span class="grey">VTS/WF STD. 10        Illegal OID Definition File      11 September 2024</span>
 
 
 <h2><a class="selflink" id="section-1" href="#section-1">1</a>  Introduction</h2>
@@ -216,70 +216,71 @@ Table of Contents
 
 <h2><a class="selflink" id="section-2" href="#section-2">2</a>  File Structure / Example</h2>
 
-   [<a id="ref-1.3.6.1.4.1.37476.3.1.7.1">1.3.6.1.4.1.37476.3.1.7.1</a>]
-   Title = File Format Descriptions
-   Author = Daniel Marschall, ViaThinkSoft
-   Version = 2023-08-31
-   Language = en-US
-   License = Apache License, Version 2.0
+   [<a id="ref-1.3.6.1.4.1.37476.3.1.5.2">1.3.6.1.4.1.37476.3.1.5.2</a>]
 
-   ; This is a comment line
+   -- Standard OID Illegality Rule Definition File
+   -- by Daniel Marschall and Olivier Dubuisson
+   -- Revision: 7 July 2024
 
-   [<a id="ref-Static">Static</a>]
-   ; This is the string that will be displayed when no file type has
-   ; been detected.
-   LngUnknown = Unknown
+   -- SYNTAX:
+   -- -- comment    : comments are also allowed after a rule definition
+   -- 2.999.(11-).0 : the arc values 11 and below are illegal
+   -- 2.999.(11+).0 : the arc values 11 and above are illegal
+   -- 2.999.(1-5).0 : the arc values 1 to 5 are illegal
+   -- 2.999.(!3).0  : only arc 3 is valid, all others are invalid
+   --                 (added in version 2)
+   -- 2.999.*       : * is equal to (0+). Usually used for leaf OIDs
 
-   [<a id="ref-OidHeader">OidHeader</a>]
-   ; Files identified via OID (OID written inside square brackets of the
-   ; first line of a file), e.g. [2.999]
-   1.3.6.1.4.1.37476.3.1.5.1 = ViaThinkSoft OID Illegality Rules File V1
-   1.3.6.1.4.1.37476.3.1.5.2 = ViaThinkSoft OID Illegality Rules File V2
+   0.(10+)                -- itu, currently max 9
+   0.4.(1+)               -- 0.4.0 is the only identified organization
+   1.1.3.*                -- Reserved for ISO/IEC 9834-3
+   1.2.6                  -- was 1.3.6 meant?
+   1.2.826.1004           -- The correct OID is 1.2.826.0.1004
 
-   [<a id="ref-GuidHeader">GuidHeader</a>]
-   ; e.g. [00000000-0000-0000-0000-000000000000]
-   ; Files identified via GUID (GUID written inside square brackets of
-   ; the first line of a file, without curly brackets and lowercase)
-   00000000-0000-0000-0000-000000000000 = Null File
+<h2><a class="selflink" id="section-3" href="#section-3">3</a>  Ideas for Future Developments (&quot;Format 3.0&quot;)</h2>
 
-   [<a id="ref-MimeType">MimeType</a>]
-   ; Files identified via MIME type
-   application/css = CSS Stylesheet
-   application/epub+zip = Electronic publication (EPUB)
-   application/gzip = GZip Compressed Archive
-   application/java-archive = Java Archive (JAR)
+   - JSON Format
 
+   - Better notation for ranges, with multiple components.
+
+   - Differentiate between &quot;illegal&quot; (must not exist) and &quot;must-not-
+   create&quot; (may exist, but must not create).
+
+   - Machine-readable description instead of a comment.
+
+   - Include/Exclude lines. You start from top to bottom and
 
 
 
 <span class="grey">Marschall                                                       [Page 3]</span></pre>
-</div><div class="page"><span class="noprint" id="page-4"><span class="grey">VTS/WF STD. 9         File Format Definition File      11 September 2024</span>
+</div><div class="page"><span class="noprint" id="page-4"><span class="grey">VTS/WF STD. 10        Illegal OID Definition File      11 September 2024</span>
 
 
-   [<a id="ref-FileExtension">FileExtension</a>]
-   ; Files identified via an case-insensitive filename extension
-   3G2 = 3GPP2 multimedia file
-   3GP = 3GPP multimedia file
-   7Z = 7-Zip Compressed File
+   include/exclude stuff, and at the end you have an answer if the OID
+   is illegal.
 
-<h2><a class="selflink" id="section-3" href="#section-3">3</a>  Security Considerations</h2>
+   - For frozen OIDs, we must allow that a single arc is frozen (non-
+   existing OIDs are illegal), but the existing OIDs may create
+   children.
+
+<h2><a class="selflink" id="section-4" href="#section-4">4</a>  Security Considerations</h2>
 
    None
 
-<h2><a class="selflink" id="section-4" href="#section-4">4</a>  IANA Considerations</h2>
+<h2><a class="selflink" id="section-5" href="#section-5">5</a>  IANA Considerations</h2>
 
    There are no IANA Considerations.
 
-<h2><a class="selflink" id="section-5" href="#section-5">5</a>  References</h2>
+<h2><a class="selflink" id="section-6" href="#section-6">6</a>  References</h2>
 
-<h3><a class="selflink" id="section-5.1" href="#section-5.1">5.1</a>  Normative References</h3>
+<h3><a class="selflink" id="section-6.1" href="#section-6.1">6.1</a>  Normative References</h3>
 
    [<a id="ref-RFC2119">RFC2119</a>]  Bradner, S., &quot;Key words for use in RFCs to Indicate
               Requirement Levels&quot;, <a href="https://datatracker.ietf.org/doc/html/bcp14">BCP 14</a>, <a href="https://datatracker.ietf.org/doc/html/rfc2119">RFC 2119</a>,
               DOI 10.17487/RFC2119, March 1997,
               &lt;<a href="https://www.rfc-editor.org/info/rfc2119">https://www.rfc-editor.org/info/rfc2119</a>&gt;.
 
-<h3><a class="selflink" id="section-5.2" href="#section-5.2">5.2</a>  Informative References</h3>
+<h3><a class="selflink" id="section-6.2" href="#section-6.2">6.2</a>  Informative References</h3>
 
    None
 
@@ -303,7 +304,6 @@ Authors&#x27; Addresses
 
    Email: daniel-marschall@viathinksoft.de
    URI:   <a href="https://www.viathinksoft.com/">https://www.viathinksoft.com/</a>
-
 
 
 

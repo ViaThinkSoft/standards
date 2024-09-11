@@ -189,7 +189,7 @@ foreach ($std_list as &$std) {
 
 	$files = glob('../'.$std['basename'].'*');
 
-	echo '<li><b>Std. '.trim($std['no'],'0').': '.htmlentities($std['title']).'</b><ul>'."\n";
+	echo '<li><b>Std. '.ltrim($std['no'],'0').': '.htmlentities($std['title']).'</b><ul>'."\n";
 
 	$std['view'] = [];
 	$std['resources'] = [];

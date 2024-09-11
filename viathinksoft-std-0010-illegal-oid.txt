@@ -1,0 +1,224 @@
+ 
+
+
+
+VIATHINKSOFT/WEBFAN                                         D. Marschall
+SPECIFICATION No. 10                                        ViaThinkSoft
+First Draft: 2021                                      11 September 2024
+
+
+                  === Illegal OID Definition File ===
+
+Abstract
+
+   This document describes a file format that describes illega Object
+   Identifiers (OID) which should not be processed.
+
+Identification of this Document
+
+   Revision:  2024-09-11
+   State:     In Force
+   Filename:  viathinksoft-std-0010-illegal-oid.txt
+   URN:       urn:x-viathinksoft:std:0010:2024-09-11
+   OID:       1.3.6.1.4.1.37476.3.1.5
+              { iso(1) identified-organization(3) dod(6) internet(1)
+                private(4) enterprise(1) 37476 specifications(3)
+                fileformat(1) oid-illegality-rules(5) }
+   WEID:      weid:pen:SX0-3-1-5-3
+   IETF/RFC:  (None)
+
+Attachments
+
+   Reference implementation in PHP: https://misc.daniel-
+   marschall.de/oid-repository/api/
+
+Copyright Notice
+
+   Copyright (c) 2021-2024 ViaThinkSoft and the persons identified as
+   the document authors.  All rights reserved.
+
+   Licensed under the terms of the Apache 2.0 License.
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+Marschall                                                       [Page 1]
+
+VTS/WF STD. 10        Illegal OID Definition File      11 September 2024
+
+
+Table of Contents
+
+   1  Introduction  . . . . . . . . . . . . . . . . . . . . . . . . .  3
+     1.1  Terminology . . . . . . . . . . . . . . . . . . . . . . . .  3
+   2  File Structure / Example  . . . . . . . . . . . . . . . . . . .  3
+   3  Ideas for Future Developments ("Format 3.0")  . . . . . . . . .  3
+   4  Security Considerations . . . . . . . . . . . . . . . . . . . .  4
+   5  IANA Considerations . . . . . . . . . . . . . . . . . . . . . .  4
+   6  References  . . . . . . . . . . . . . . . . . . . . . . . . . .  4
+     6.1  Normative References  . . . . . . . . . . . . . . . . . . .  4
+     6.2  Informative References  . . . . . . . . . . . . . . . . . .  4
+   Acknowledgements . . . . . . . . . . . . . . . . . . . . . . . . .  4
+   Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . . .  4
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+Marschall                                                       [Page 2]
+
+VTS/WF STD. 10        Illegal OID Definition File      11 September 2024
+
+
+1  Introduction
+
+   This document describes a file format that describes detection of
+   file formats, e.g. by filename extension.
+
+1.1  Terminology
+
+   The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
+   "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and
+   "OPTIONAL" in this document are to be interpreted as described in
+   BCP 14 [RFC2119] [RFC8174] when, and only when, they appear in all
+   capitals, as shown here.
+
+2  File Structure / Example
+
+   [1.3.6.1.4.1.37476.3.1.5.2]
+
+   -- Standard OID Illegality Rule Definition File
+   -- by Daniel Marschall and Olivier Dubuisson
+   -- Revision: 7 July 2024
+
+   -- SYNTAX:
+   -- -- comment    : comments are also allowed after a rule definition
+   -- 2.999.(11-).0 : the arc values 11 and below are illegal
+   -- 2.999.(11+).0 : the arc values 11 and above are illegal
+   -- 2.999.(1-5).0 : the arc values 1 to 5 are illegal
+   -- 2.999.(!3).0  : only arc 3 is valid, all others are invalid
+   --                 (added in version 2)
+   -- 2.999.*       : * is equal to (0+). Usually used for leaf OIDs
+
+   0.(10+)                -- itu, currently max 9
+   0.4.(1+)               -- 0.4.0 is the only identified organization
+   1.1.3.*                -- Reserved for ISO/IEC 9834-3
+   1.2.6                  -- was 1.3.6 meant?
+   1.2.826.1004           -- The correct OID is 1.2.826.0.1004
+
+3  Ideas for Future Developments ("Format 3.0")
+
+   - JSON Format
+
+   - Better notation for ranges, with multiple components.
+
+   - Differentiate between "illegal" (must not exist) and "must-not-
+   create" (may exist, but must not create).
+
+   - Machine-readable description instead of a comment.
+
+   - Include/Exclude lines. You start from top to bottom and
+ 
+
+
+Marschall                                                       [Page 3]
+
+VTS/WF STD. 10        Illegal OID Definition File      11 September 2024
+
+
+   include/exclude stuff, and at the end you have an answer if the OID
+   is illegal.
+
+   - For frozen OIDs, we must allow that a single arc is frozen (non-
+   existing OIDs are illegal), but the existing OIDs may create
+   children.
+
+4  Security Considerations
+
+   None
+
+5  IANA Considerations
+
+   There are no IANA Considerations.
+
+6  References
+
+6.1  Normative References
+
+   [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
+              Requirement Levels", BCP 14, RFC 2119,
+              DOI 10.17487/RFC2119, March 1997,
+              <https://www.rfc-editor.org/info/rfc2119>.
+
+6.2  Informative References
+
+   None
+
+Acknowledgements
+
+   I would like to thank Melanie Wehowski for her long time support in
+   OIDplus and WEID projects.
+
+   This document was written in Nroff Internet Draft Editor by 3xA
+   Security.
+   https://aaa-sec.com/nroffedit/
+   https://misc.daniel-marschall.de/patches/nroffedit/ ("year 2020"
+   patch)
+
+Authors' Addresses
+
+   Daniel Marschall
+   Postfach 11 53
+   69243 Bammental
+   Germany
+
+   Email: daniel-marschall@viathinksoft.de
+   URI:   https://www.viathinksoft.com/
+
+
+
+Marschall                                                       [Page 4]
