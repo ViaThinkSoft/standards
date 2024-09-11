@@ -179,7 +179,7 @@ ob_start()
 
 <h1>ViaThinkSoft/Webfan Standards Collection</h1>
 
-<p><b><a href="https://github.com/viathinksoft/standards">Sourcecode at GitHub</a></b></p>
+<p><b><a href="https://github.com/viathinksoft/standards">Source code at GitHub</a></b></p>
 
 <?php
 
