@@ -43,6 +43,10 @@ ob_start();
 
         @media (min-width: 601px) {
 
+        a, a:visited, a:link, a:active, a:hover {
+            color: #046D95 !important;
+        }
+
         body {
             color: black !important;
             background-color: #f5f5f5 !important;
@@ -72,6 +76,10 @@ ob_start();
         /** === MOBILE === */
 
         @media (max-width: 600px) {
+
+        a, a:visited, a:link, a:active, a:hover {
+            color: #046D95 !important;
+        }
 
         body {
             color: black !important;
@@ -155,6 +163,10 @@ ob_start()
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>ViaThinkSoft/Webfan Standards Collection</title>
 	<style>
+        a, a:visited, a:link, a:active, a:hover {
+            color: #046D95 !important;
+        }
+
 	body {
 		color: black !important;
 		background-color: #f5f5f5 !important;
