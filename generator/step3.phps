@@ -172,7 +172,7 @@ foreach ($std_list as &$std) {
 
 	$files = glob('../'.$std['basename'].'*');
 
-	echo '<li><b>Std. '.trim($std['no'],'0').': '.htmlentities($std['title']).'</b><ul>';
+	echo '<li><b>Std. '.trim($std['no'],'0').': '.htmlentities($std['title']).'</b><ul>'."\n";
 
 	$std['view'] = [];
 	$std['resources'] = [];
@@ -189,13 +189,13 @@ foreach ($std_list as &$std) {
 
 	if ($std['state'] == 'In Force') $color = 'green';
 	if ($std['state'] == 'Deprecated') $color = 'red';
-	echo '<li>State: <font color="'.$color.'">'.$std['state'].'</font></li>';
-	echo '<li>Current Revision: '.$std['revision'].'</li>';
-	echo '<li>OID: '.$std['oid'].'</li>';
-	echo '<li>WEID: '.$std['weid'].'</li>';
-	echo '<li>View: ['.implode(', ',$std['view']).']</li>';
-	echo '<li>Resources: ['.implode(', ',$std['resources']).']</li>';
-	echo '</ul><br></li>';
+	echo '<li>State: <font color="'.$color.'">'.$std['state'].'</font></li>'."\n";
+	echo '<li>Current Revision: '.$std['revision'].'</li>'."\n";
+	echo '<li>OID: '.$std['oid'].'</li>'."\n";
+	echo '<li>WEID: '.$std['weid'].'</li>'."\n";
+	echo '<li>View: '.implode(', ',$std['view']).'</li>'."\n";
+	echo '<li>Resources: '.implode(', ',$std['resources']).'</li>'."\n";
+	echo '</ul><br></li>'."\n";
 
 }
 
