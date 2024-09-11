@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Marschall Hash 2 (MHA2)</title>
+	<style>
+
+        /** === DESKTOP === */
+
+        @media (min-width: 601px) {
+
+        body {
+            background-color: #f5f5f5;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 0;
+        }
+
+        .page {
+            width: 100%;
+            max-width: 700px; /* 72 Zeichen Breite in Pixel (bei Desktop-Ansicht) */
+            margin-bottom: 20px;
+            padding: 20px;
+            background-color: white;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            font-family: monospace;
+            white-space: pre-wrap;
+            overflow: hidden;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+        }
+
+        }
+
+        /** === MOBILE === */
+
+        @media (max-width: 600px) {
+
+        body {
+            background-color: #f5f5f5;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .container {
+            width: 100%;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+
+        .page {
+            width: 100%;
+            max-width: 100%; /* Ensures the page takes up full width on mobile */
+            margin-bottom: 20px;
+            padding: 10px;
+            background-color: white;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            font-family: monospace;
+            white-space: pre-wrap;
+            overflow: auto; /* Ensures overflow is handled */
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+            font-size: 8.7px; /* Smaller font size for mobile */
+        }
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<span style="font-family:Verdana">&larr; <a href="index.html">Back to Standards index</a></span><br><br>
+
+<div id="content">
+<div class="container"><div class="page"><pre>VIATHINKSOFT/WEBFAN                                         D. Marschall
+SPECIFICATION No. 6                                         ViaThinkSoft
+First Draft: 2014                                       4 September 2024
+
+
+                    === Marschall Hash 2 (MHA2) ===
+
+Abstract
+
+   This document describes the hash algorithm MHA2.
+
+Identification of this Document
+
+   Revision:  2024-09-04
+   State:     Deprecated
+   URL:       <a href="https://github">https://github</a>.com/ViaThinkSoft/standards/blob/main/\
+              viathinksoft-std-0006-mha2.txt
+   URN:       urn:x-viathinksoft:std:0006:2024-09-04
+   OID:       1.3.6.1.4.1.37476.3.2.1.2
+              { iso(1) identified-organization(3) dod(6) internet(1)
+                private(4) enterprise(1) 37476 specifications(3)
+                algorithm(2) hash(1) mha2(2) }
+   WEID:      weid:pen:SX0-3-2-1-2-9
+   IETF/RFC:  (None)
+
+Attachments
+
+   Reference implementation in PHP:
+   <a href="https://github.com/danielmarschall/php_utils/blob/master/vts_crypt.inc.php">https://github.com/danielmarschall/php_utils/blob/master/</a>
+   <a href="https://github.com/danielmarschall/php_utils/blob/master/vts_crypt.inc.php">vts_crypt.inc.php</a>
+
+Copyright Notice
+
+   Copyright (c) 2014-2024 ViaThinkSoft and the persons identified as
+   the document authors.  All rights reserved.
+
+   Licensed under the terms of the Apache 2.0 License.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<span class="grey">Marschall                                                       [Page 1]</span></pre>
+</div><div class="page"><span class="noprint" id="page-2"><span class="grey">VTS/WF STD. 6              ViaThinkSoft MHA2            4 September 2024</span>
+
+
+Table of Contents
+
+   <a href="#section-1">1</a>  Introduction  . . . . . . . . . . . . . . . . . . . . . . . . .  <a href="#page-3">3</a>
+     <a href="#section-1.1">1.1</a>  Terminology . . . . . . . . . . . . . . . . . . . . . . . .  <a href="#page-3">3</a>
+   <a href="#section-2">2</a>  Definition  . . . . . . . . . . . . . . . . . . . . . . . . . .  <a href="#page-3">3</a>
+     <a href="#section-2.1">2.1</a>  Example . . . . . . . . . . . . . . . . . . . . . . . . . .  <a href="#page-4">4</a>
+   <a href="#section-3">3</a>  Notation  . . . . . . . . . . . . . . . . . . . . . . . . . . .  <a href="#page-4">4</a>
+     <a href="#section-3.1">3.1</a>  Modular Crypt Format Notation . . . . . . . . . . . . . . .  <a href="#page-4">4</a>
+     <a href="#section-3.2">3.2</a>  Heterogenous Systems Notation . . . . . . . . . . . . . . .  <a href="#page-5">5</a>
+   <a href="#section-4">4</a>  Test Vectors  . . . . . . . . . . . . . . . . . . . . . . . . .  <a href="#page-6">6</a>
+   <a href="#section-5">5</a>  Reference implementation  . . . . . . . . . . . . . . . . . . .  <a href="#page-8">8</a>
+   <a href="#section-6">6</a>  Security Considerations . . . . . . . . . . . . . . . . . . . .  <a href="#page-8">8</a>
+     <a href="#section-6.1">6.1</a>  Runtime complexity  . . . . . . . . . . . . . . . . . . . . <a href="#page-10">10</a>
+   <a href="#section-7">7</a>  IANA Considerations . . . . . . . . . . . . . . . . . . . . . . <a href="#page-10">10</a>
+   <a href="#section-8">8</a>  References  . . . . . . . . . . . . . . . . . . . . . . . . . . <a href="#page-10">10</a>
+     <a href="#section-6.1">6.1</a>  Normative References  . . . . . . . . . . . . . . . . . . . <a href="#page-10">10</a>
+     <a href="#section-6.2">6.2</a>  Informative References  . . . . . . . . . . . . . . . . . . <a href="#page-11">11</a>
+   Acknowledgements . . . . . . . . . . . . . . . . . . . . . . . . . <a href="#page-11">11</a>
+   Authors&#x27; Addresses . . . . . . . . . . . . . . . . . . . . . . . . <a href="#page-11">11</a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<span class="grey">Marschall                                                       [Page 2]</span></pre>
+</div><div class="page"><span class="noprint" id="page-3"><span class="grey">VTS/WF STD. 6              ViaThinkSoft MHA2            4 September 2024</span>
+
+
+<h2><a class="selflink" id="section-1" href="#section-1">1</a>  Introduction</h2>
+
+   MHA2 is a method to strengten a weak hash function, e.g. in case that
+   the development environment or hardware does not allow using a new
+   implementation of a modern hash variant like SHA256 or SHA3.
+
+<h3><a class="selflink" id="section-1.1" href="#section-1.1">1.1</a>  Terminology</h3>
+
+   The key words &quot;MUST&quot;, &quot;MUST NOT&quot;, &quot;REQUIRED&quot;, &quot;SHALL&quot;, &quot;SHALL NOT&quot;,
+   &quot;SHOULD&quot;, &quot;SHOULD NOT&quot;, &quot;RECOMMENDED&quot;, &quot;NOT RECOMMENDED&quot;, &quot;MAY&quot;, and
+   &quot;OPTIONAL&quot; in this document are to be interpreted as described in
+   <a href="https://datatracker.ietf.org/doc/html/bcp14">BCP 14</a> [<a href="https://datatracker.ietf.org/doc/html/rfc2119">RFC2119</a>] [<a href="https://datatracker.ietf.org/doc/html/rfc8174">RFC8174</a>] when, and only when, they appear in all
+   capitals, as shown here.
+
+<h2><a class="selflink" id="section-2" href="#section-2">2</a>  Definition</h2>
+
+   MHA2(i,s,x) := A(i,s,x) xor B(i,s,x) xor C(i,s,x)
+
+   with:
+        A(j,s,x) := j&gt;=0: H(P &amp; A(j-1, s, x) &amp; x &amp; s &amp; Q)
+                    j=-1: &#x27;&#x27;
+
+        B(j,s,x) := j&lt;=0: H(Q &amp; s &amp; x &amp; B(j-1, s, x) &amp; P)
+                    j=-1: &#x27;&#x27;
+
+        C(j,s,x) := H( (K&amp;x&amp;s)*(j+1) )
+
+        K := 0x24 &amp; 0x12 &amp; 0x19 &amp; 0x87
+        P := 0x12 &amp; 0x24 &amp; 0x19 &amp; 0x87
+        Q := 0x19 &amp; 0x87 &amp; 0x12 &amp; 0x24
+
+   where:
+
+        i is the number of iterations, i &lt;= 0.
+        j is a number &lt;= -1 .
+
+        s is the salt.
+
+        x is the input data.
+
+        0xd is a single byte with the hexadecimal value d.
+
+        H(z) is an existing hash function.
+
+        All hash operations have a binary output;
+        no string conversation is done.
+
+        x*z are z repetitions (concatenations) of x.
+
+
+
+<span class="grey">Marschall                                                       [Page 3]</span></pre>
+</div><div class="page"><span class="noprint" id="page-4"><span class="grey">VTS/WF STD. 6              ViaThinkSoft MHA2            4 September 2024</span>
+
+
+        &amp; is concatenation.
+
+<h3><a class="selflink" id="section-2.1" href="#section-2.1">2.1</a>  Example</h3>
+
+   - MHA2(1, &#x27;&#x27;, x) = H(P &amp; H(P&amp;x&amp;Q) &amp; x &amp; Q) xor
+     H(Q &amp; x &amp; H(Q&amp;x&amp;P) &amp; P) xor H(K&amp;x&amp;s &amp; K&amp;x&amp;s)
+
+   - MHA2(1,  s, x) = H(P &amp; H(P&amp;x&amp;s&amp;Q) &amp; x &amp; s &amp; Q)
+     xor H(Q &amp; s &amp; x &amp; H(Q&amp;s&amp;x&amp;P) &amp; P) xor H(K&amp;x&amp;s &amp; K&amp;x&amp;s)
+
+<h2><a class="selflink" id="section-3" href="#section-3">3</a>  Notation</h2>
+
+<h3><a class="selflink" id="section-3.1" href="#section-3.1">3.1</a>  Modular Crypt Format Notation</h3>
+
+   Format of the MCF:
+
+   $&lt;id&gt;$&lt;params&gt;$&lt;salt&gt;$&lt;hash&gt;
+
+   &lt;id&gt; is 1.3.6.1.4.1.37476.3.2.1.1
+
+   &lt;params&gt; is a=&lt;algo&gt;,i=&lt;iterations&gt;
+
+   where &lt;algo&gt; is any valid hash algorithm (name scheme of PHP
+   hash_algos() preferred), e.g.
+   - sha3-512
+   - sha3-384
+   - sha3-256
+   - sha3-224
+   - sha512
+   - sha512/256
+   - sha512/224
+   - sha384
+   - sha256
+   - sha224
+   - sha1
+   - md5
+
+   Not possible with MHA2 are these hashes (because they have a special
+   salt-handling and output their own crypt format):
+   - bcrypt [Standardized crypt identifier 2, 2a, 2x, 2y]
+   - argon2i [Crypt identifier argon2i, not standardized]
+   - argon2id [Crypt identifier argon2i, not standardized]
+
+   &lt;iterations&gt; are the iterations.
+
+   Like most Crypt-hashes, &lt;salt&gt; and &lt;hash&gt; are Radix64 coded without
+   padding and with alphabet
+   &#x27;./0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz&#x27;.
+
+
+
+<span class="grey">Marschall                                                       [Page 4]</span></pre>
+</div><div class="page"><span class="noprint" id="page-5"><span class="grey">VTS/WF STD. 6              ViaThinkSoft MHA2            4 September 2024</span>
+
+
+<h3><a class="selflink" id="section-3.2" href="#section-3.2">3.2</a>  Heterogenous Systems Notation</h3>
+
+   The &quot;heterogenous systems notation&quot; (HSN) is DEPRECATED in favor of
+   the modular crypt format notation!
+
+   &lt;mha2-oid&gt;$&lt;base-hash&gt;$&lt;iterations&gt;$&lt;salt-base64&gt;$&lt;hash-base64&gt;
+
+   -  &lt;mha2-oid&gt; is the OID for a MHA2 algorithm in its dot-notation
+   without leading dot,   which is 1.3.6.1.4.1.37476.3.2.1.2
+
+      This OID has ASN.1 Notation:   { iso(1) identified-organization(3)
+   dod(6) internet(1) private(4) enterprise(1)     37476
+   specification(3) algorithm(2) hash(1) mha2(2) }
+
+   -  &lt;base-hash&gt; should be an OID which represents the base hash (&quot;H&quot;)
+   algorithm used, in dot-notation.
+
+      The following table shows the OIDs which have been assigned   for
+   exchange between heterogenous systems. If you want to use a different
+     hash algorithm or a derivate of it, please define your own OID
+   (you can use an UUID OID, get a free IANA PEN OID, or a free
+   ViaThinkSoft OID),   but please do not use this arc, since only
+   ViaThinkSoft may maintain it.
+
+      --------------------------------------------------------------
+      Base algorithm                OID proposal
+      --------------------------------------------------------------
+      Message Digest 4 (MD4)        1.3.6.1.4.1.37476.3.2.1.99.1
+      Message Digest 5 (MD5)        1.3.6.1.4.1.37476.3.2.1.99.2
+      RIPEMD-160                    1.3.6.1.4.1.37476.3.2.1.99.3
+      Secure Hash Algorithm         1.3.6.1.4.1.37476.3.2.1.99.4
+      Secure Hash Algorithm 1       1.3.6.1.4.1.37476.3.2.1.99.5
+      Secure Hash Algorithm 2/224   1.3.6.1.4.1.37476.3.2.1.99.6.224
+      Secure Hash Algorithm 2/256   1.3.6.1.4.1.37476.3.2.1.99.6.256
+      Secure Hash Algorithm 2/384   1.3.6.1.4.1.37476.3.2.1.99.6.384
+      Secure Hash Algorithm 2/512   1.3.6.1.4.1.37476.3.2.1.99.6.512
+      Secure Hash Algorithm 3/224   1.3.6.1.4.1.37476.3.2.1.99.7.224
+      Secure Hash Algorithm 3/256   1.3.6.1.4.1.37476.3.2.1.99.7.256
+      Secure Hash Algorithm 3/384   1.3.6.1.4.1.37476.3.2.1.99.7.384
+      Secure Hash Algorithm 3/512   1.3.6.1.4.1.37476.3.2.1.99.7.512
+      --------------------------------------------------------------
+
+   -  &lt;iterations&gt; is the number of iterations, e.g. 1987.
+
+   -  &lt;salt-base64&gt; is the iterated salt used for MHA2, encoded in
+   Base64.
+
+   -  &lt;hash-base64&gt; is the resulting hash, encoded in Base64.
+
+
+
+<span class="grey">Marschall                                                       [Page 5]</span></pre>
+</div><div class="page"><span class="noprint" id="page-6"><span class="grey">VTS/WF STD. 6              ViaThinkSoft MHA2            4 September 2024</span>
+
+
+<h2><a class="selflink" id="section-4" href="#section-4">4</a>  Test Vectors</h2>
+
+   MHA2 - Base algo &#x27;sha1&#x27;, Input &#x27;&#x27;, Salt &#x27;&#x27;, Iterations 0
+   MCF: $1.3.6.1.4.1.37476.3.2.1.2$a=sha1,i=0$$NKCUx/Vbzl1cuIdoIA
+        WNBJapRpG
+   HSN: 1.3.6.1.4.1.37476.3.2.1.2$1.3.6.1.4.1.37476.3.2.1.99.5$0$
+        $PMEWz1Xd/n3ewKfqKCYPDLcrTrI=
+   Hex: 3cc116cf55ddfe7ddec0a7ea28260f0cb72b4eb2
+
+   MHA2 - Base algo &#x27;sha1&#x27;, Input &#x27;&#x27;, Salt &#x27;&#x27;, Iterations 1
+   MCF: $1.3.6.1.4.1.37476.3.2.1.2$a=sha1,i=1$$PoioZBIxVWuqt0nym5
+        qyhAszLwC
+   HSN: 1.3.6.1.4.1.37476.3.2.1.2$1.3.6.1.4.1.37476.3.2.1.99.5$1$
+        $RqkqbDKzXYwsv2p+o7s+jCu/NyE=
+   Hex: 46a92a6c32b35d8c2cbf6a7ea3bb3e8c2bbf3721
+
+   MHA2 - Base algo &#x27;sha1&#x27;, Input &#x27;&#x27;, Salt &#x27;&#x27;, Iterations 2
+   MCF: $1.3.6.1.4.1.37476.3.2.1.2$a=sha1,i=2$$1zU5hmBQ9/ZewYq43q
+        rXd2D8QRK
+   HSN: 1.3.6.1.4.1.37476.3.2.1.2$1.3.6.1.4.1.37476.3.2.1.99.5$2$
+        $3/W7joDSB1bgyas65stZf4FASTM=
+   Hex: dff5bb8e80d20756e0c9ab3ae6cb597f81404933
+
+   MHA2 - Base algo &#x27;sha1&#x27;, Input &#x27;&#x27;, Salt &#x27;salt&#x27;, Iterations 0
+   MCF: $1.3.6.1.4.1.37476.3.2.1.2$a=sha1,i=0$a0Dqb8$zZjdOSIocsFG
+        Qp/.hpoYQLOfiN6
+   HSN: 1.3.6.1.4.1.37476.3.2.1.2$1.3.6.1.4.1.37476.3.2.1.99.5$0$
+        c2FsdA==$/blfQUKqeuHISr10jrqaSNQhkP8=
+   Hex: fdb95f4142aa7ae1c84abd748eba9a48d42190ff
+
+   MHA2 - Base algo &#x27;sha1&#x27;, Input &#x27;&#x27;, Salt &#x27;salt&#x27;, Iterations 1
+   MCF: $1.3.6.1.4.1.37476.3.2.1.2$a=sha1,i=1$a0Dqb8$BkKmNoOvKEss
+        6ek6EyXArDX1Z.8
+   HSN: 1.3.6.1.4.1.37476.3.2.1.2$1.3.6.1.4.1.37476.3.2.1.99.5$1$
+        c2FsdA==$DmMoPqQxMGuu8gm8G+ZCtFZ3b0A=
+   Hex: 0e63283ea431306baef209bc1be642b456776f40
+
+   MHA2 - Base algo &#x27;sha1&#x27;, Input &#x27;&#x27;, Salt &#x27;salt&#x27;, Iterations 2
+   MCF: $1.3.6.1.4.1.37476.3.2.1.2$a=sha1,i=2$a0Dqb8$8HauBcPn31A4
+        EuUKUf.vcbg1K/O
+   HSN: 1.3.6.1.4.1.37476.3.2.1.2$1.3.6.1.4.1.37476.3.2.1.99.5$2$
+        c2FsdA==$AJcwDeRp53C6GwWMWh0xedi3M1Q=
+   Hex: 0097300de469e770ba1b058c5a1d3179d8b73354
+
+   MHA2 - Base algo &#x27;sha1&#x27;,
+   Input &#x27;The quick brown fox jumps over the lazy dog&#x27;,
+   Salt &#x27;&#x27;, Iterations 0
+   MCF: $1.3.6.1.4.1.37476.3.2.1.2$a=sha1,i=0$$/oEBf.u/XEwY8r12lI
+
+
+
+<span class="grey">Marschall                                                       [Page 6]</span></pre>
+</div><div class="page"><span class="noprint" id="page-7"><span class="grey">VTS/WF STD. 6              ViaThinkSoft MHA2            4 September 2024</span>
+
+
+        lk.4wWH6m
+   HSN: 1.3.6.1.4.1.37476.3.2.1.2$1.3.6.1.4.1.37476.3.2.1.99.5$0$
+        $1qGDh0w1ZGyaAt34nKnm06yYJ8o=
+   Hex: d6a183874c35646c9a02ddf89ca9e6d3ac9827ca
+
+   MHA2 - Base algo &#x27;sha1&#x27;,
+   Input &#x27;The quick brown fox jumps over the lazy dog&#x27;,
+   Salt &#x27;&#x27;, Iterations 1
+   MCF: $1.3.6.1.4.1.37476.3.2.1.2$a=sha1,i=1$$9zbRpQFxyeyoJj0keA
+        dMpjXdvuK
+   HSN: 1.3.6.1.4.1.37476.3.2.1.2$1.3.6.1.4.1.37476.3.2.1.99.5$1$
+        $B/dTrSHz+g+qLl2mgCfOrlZfxwM=
+   Hex: 07f753ad21f3fa0faa2e5da68027ceae565fc703
+
+   MHA2 - Base algo &#x27;sha1&#x27;,
+   Input &#x27;The quick brown fox jumps over the lazy dog&#x27;,
+   Salt &#x27;&#x27;, Iterations 2
+   MCF: $1.3.6.1.4.1.37476.3.2.1.2$a=sha1,i=2$$gGCiACHhKqZgNFztpF
+        zsncKMCTS
+   HSN: 1.3.6.1.4.1.37476.3.2.1.2$1.3.6.1.4.1.37476.3.2.1.99.5$2$
+        $iIEkCEJjMsbiPH/vrH/upeMOEVU=
+   Hex: 88812408426332c6e23c7fefac7feea5e30e1155
+
+   MHA2 - Base algo &#x27;sha1&#x27;,
+   Input &#x27;The quick brown fox jumps over the lazy dog&#x27;,
+   Salt &#x27;salt&#x27;, Iterations 0
+   MCF: $1.3.6.1.4.1.37476.3.2.1.2$a=sha1,i=0$a0Dqb8$EFuadpjXUzjJ
+        BNVfZHS.iQ/.dM2
+   HSN: 1.3.6.1.4.1.37476.3.2.1.2$1.3.6.1.4.1.37476.3.2.1.99.5$0$
+        c2FsdA==$GHwcfrlZW/lLDPXhbJU0kS10fO4=
+   Hex: 187c1c7eb9595bf94b0cf5e16c9534912d747cee
+
+   MHA2 - Base algo &#x27;sha1&#x27;,
+   Input &#x27;The quick brown fox jumps over the lazy dog&#x27;,
+   Salt &#x27;salt&#x27;, Iterations 1
+   MCF: $1.3.6.1.4.1.37476.3.2.1.2$a=sha1,i=1$a0Dqb8$fMnarhbJV/XF
+        qzP38t7RJEdHKJ2
+   HSN: 1.3.6.1.4.1.37476.3.2.1.2$1.3.6.1.4.1.37476.3.2.1.99.5$1$
+        c2FsdA==$hOpctjdLX1ZHs/R5Av9TLGfJML4=
+   Hex: 84ea5cb6374b5f5647b3f47902ff532c67c930be
+
+   MHA2 - Base algo &#x27;sha1&#x27;,
+   Input &#x27;The quick brown fox jumps over the lazy dog&#x27;,
+   Salt &#x27;salt&#x27;, Iterations 2
+   MCF: $1.3.6.1.4.1.37476.3.2.1.2$a=sha1,i=2$a0Dqb8$dECLjkOyRDCv
+        5W9QS4Qm3ZgXRh2
+   HSN: 1.3.6.1.4.1.37476.3.2.1.2$1.3.6.1.4.1.37476.3.2.1.99.5$2$
+        c2FsdA==$fGENlmQ+TFEx7YBSU6So5biZTj4=
+
+
+
+<span class="grey">Marschall                                                       [Page 7]</span></pre>
+</div><div class="page"><span class="noprint" id="page-8"><span class="grey">VTS/WF STD. 6              ViaThinkSoft MHA2            4 September 2024</span>
+
+
+   Hex: 7c610d96643e4c5131ed805253a4a8e5b8994e3e
+
+<h2><a class="selflink" id="section-5" href="#section-5">5</a>  Reference implementation</h2>
+
+   // Implementation in PHP, with hex output
+   define(&#x27;MHA2_K&#x27;,   chr(0x24).chr(0x12).chr(0x19).chr(0x87));
+   define(&#x27;MHA2_P&#x27;,   chr(0x12).chr(0x24).chr(0x19).chr(0x87));
+   define(&#x27;MHA2_Q&#x27;,   chr(0x19).chr(0x87).chr(0x12).chr(0x24));
+   function mha2($message, $salt, $iterations, $base_algo) {
+       assert($iterations&gt;=0);
+       $a = &#x27;&#x27;;
+       $b = &#x27;&#x27;;
+       $c = &#x27;&#x27;;
+       for ($i=0; $i&lt;=$iterations; $i++) { // run $iterations+1 times
+           $a  = hash($base_algo,
+                 MHA2_P.$a.$message.$salt.MHA2_Q, true/*binary*/);
+           $b  = hash($base_algo,
+                 MHA2_Q.$salt.$message.$b.MHA2_P, true/*binary*/);
+           $c .= MHA2_K.$message.$salt;
+       }
+       $c = hash($base_algo, $c, true/*binary*/);
+       return bin2hex($a ^ $b ^ $c);
+   }
+
+   // Framework for PHP, with MCF output and auto-generated salt:
+   // <a href="https://github.com/danielmarschall/php_utils/blob/master///">https://github.com/danielmarschall/php_utils/blob/master/</a>
+   <a href="https://github.com/danielmarschall/php_utils/blob/master///">//</a>                                                  vts_crypt.inc.php
+   include &#x27;vts_crypt.inc.php&#x27;;
+   $hash = vts_password_hash($data, PASSWORD_VTS_MHA2,
+           [&#x27;algo&#x27;=&gt;&#x27;sha1&#x27;, &#x27;salt_length&#x27;=&gt;16, &#x27;iterations&#x27;=&gt;1987]);
+   assert(vts_password_verify($data, $hash));
+
+
+<h2><a class="selflink" id="section-6" href="#section-6">6</a>  Security Considerations</h2>
+
+   Hash values play a crucial role in various security contexts, such as
+   password verification.  For detailed guidance on securely managing
+   hashes, please consult the relevant literature or documentation.
+
+   - The output length of MHA2(i, s, x) is equal to the output length of
+   H(z).
+
+   - MHA2(i, &#x27;&#x27;, s &amp; x) != MHA2(i, s, x) != MHA2(i, &#x27;&#x27;, x &amp; s).
+
+   - It is recommended not to use i=0.
+
+   - P, Q and K are chosen to arbitrary data . It can be chosen to a
+   different value, but should not be empty.
+
+
+
+<span class="grey">Marschall                                                       [Page 8]</span></pre>
+</div><div class="page"><span class="noprint" id="page-9"><span class="grey">VTS/WF STD. 6              ViaThinkSoft MHA2            4 September 2024</span>
+
+
+   - P should never be equal to Q, otherwise, A(i,s,x) could become
+   equal to B(i,s,x).
+
+        Possible &quot;optimizations&quot; (vulnerabilities) can be done if P&amp;Q = Q&amp;P:
+
+                a) If i = 0 and s&amp;x = x&amp;s:
+                   =&gt; A(0, s, x) = B(0, s, x)
+                   =&gt; MHA2(0, s, x) = H(K&amp;x&amp;s)
+                b) If s&amp;x=&#x27;&#x27; (s=&#x27;&#x27; and x=&#x27;&#x27;):
+                   =&gt; A(i, &#x27;&#x27;, &#x27;&#x27;) = B(i, &#x27;&#x27;, &#x27;&#x27;)
+                   =&gt; MHA2(i, &#x27;&#x27;, &#x27;&#x27;) = H(&#x27;&#x27;)
+                c) If z := s&amp;x = x&amp;s:
+                   =&gt; H(s&amp;x) = H(x&amp;s) = H(z)
+                   =&gt; H(s&amp;x) = A(0,s,x) = H(z) = B(0,s,x) = H(P&amp;x&amp;s&amp;Q)
+                        = H(Q&amp;s&amp;x&amp;P)
+                   =&gt; in A(i,s,x) and B(i,s,x),
+                  this embedded value H(z) has to be calculated only once.
+
+        Note: s&amp;x = x&amp;s is true if one of the following conditions is true:
+                x = &#x27;&#x27; or
+                s = &#x27;&#x27; or
+                x = s
+
+   - If H(x) is compromised, MHA2 (even unsalted) would be still safe.
+
+     Examples:
+
+   i = 0, unsalted (s=&#x27;&#x27;):
+   H(P&amp;x&amp;Q) = H(P&amp;y&amp;Q) = c
+   =&gt; MHA2(0, &#x27;&#x27;, x) = c xor c xor H(K&amp;x)
+                     = c xor c xor H(K&amp;y)
+                     = MHA2(0, &#x27;&#x27;, y)
+   =&gt; H(K&amp;x) ?= H(K&amp;y)
+
+   i = 1, unsalted (s=&#x27;&#x27;):
+   H(P&amp;x&amp;Q) = H(P&amp;y&amp;Q) = c
+   =&gt; MHA2(1, &#x27;&#x27;, x) = H(P&amp;c&amp;x&amp;Q) xor H(Q&amp;x&amp;c&amp;P) xor H(K&amp;x&amp;K&amp;x)
+                     = H(P&amp;c&amp;y&amp;Q) xor H(Q&amp;y&amp;c&amp;P) xor H(K&amp;y&amp;K&amp;y)
+                     = MHA2(1, &#x27;&#x27;, y)
+   =&gt; H(P&amp;c&amp;x&amp;Q) xor H(Q&amp;x&amp;c&amp;P) xor H(K&amp;x&amp;K&amp;x)
+                    ?= H(P&amp;c&amp;y&amp;Q) xor H(Q&amp;y&amp;c&amp;P) xor H(K&amp;y&amp;K&amp;y)
+
+   i = 2, unsalted (s=&#x27;&#x27;):
+   H(P&amp;x&amp;Q) = H(P&amp;y&amp;Q) = c
+        =&gt; MHA2(2, &#x27;&#x27;, x) = H(P&amp;H(P&amp;c&amp;x&amp;Q)&amp;x&amp;Q) xor
+               H(Q&amp;x&amp;H(Q&amp;x&amp;c&amp;P)&amp;P) xor H(K&amp;x&amp;K&amp;x&amp;K&amp;x) =
+               H(P&amp;H(P&amp;c&amp;y&amp;Q)&amp;y&amp;Q) xor H(&amp;Qx&amp;H(&amp;Qy&amp;c&amp;P)&amp;P)
+               xor H(K&amp;y&amp;K&amp;y&amp;K&amp;y) = MHA2(2, &#x27;&#x27;, y)
+
+
+
+<span class="grey">Marschall                                                       [Page 9]</span></pre>
+</div><div class="page"><span class="noprint" id="page-10"><span class="grey">VTS/WF STD. 6              ViaThinkSoft MHA2            4 September 2024</span>
+
+
+        =&gt; H(P&amp;H(P&amp;c&amp;x&amp;Q)&amp;x&amp;Q) xor H(Q&amp;x&amp;H(Q&amp;x&amp;c&amp;P)&amp;P)
+               xor H(K&amp;x&amp;K&amp;x&amp;K&amp;x) ?= H(P&amp;H(P&amp;c&amp;y&amp;Q)&amp;y&amp;Q)
+               xor H(Q&amp;x&amp;H(Q&amp;y&amp;c&amp;P)&amp;P) xor H(K&amp;y&amp;K&amp;y&amp;K&amp;y)
+
+   - If a high value for i is chosen, the hash will be slow.  Therefore,
+   the creation of a rainbow table or brute force attacks will be slow
+   (see runtime section).  On the other hand, a brute force attack could
+   result in a DoS if the CPU of the server is too weak.
+
+   - The salt should always be set.  The salt should be a merge of an
+   individual (random unique) user-specific salt, a service-specific
+   salt and server-specific salt.       s = userSalt &amp; serviceSalt &amp;
+   serverSalt
+
+   - For the third xor argument &quot;xor C(i,s,x)&quot; is not required, but does
+   probably strengten the algorithm in case that  an attack can be found
+   where A(i,s,x) = B(i,s,x) can be enforced.
+
+<h3><a class="selflink" id="section-6.1" href="#section-6.1">6.1</a>  Runtime complexity</h3>
+
+   The following table will show the required executions of the hash
+   function H(z) on given number of different values of i:
+
+        ------------------
+        i       H(z)-calls
+        ------------------
+        0       3
+        1       5
+        2       7
+        3       9
+        n       2n+3
+        ------------------
+
+<h2><a class="selflink" id="section-7" href="#section-7">7</a>  IANA Considerations</h2>
+
+   There are no IANA Considerations.
+
+<h2><a class="selflink" id="section-8" href="#section-8">8</a>  References</h2>
+
+<h3><a class="selflink" id="section-6.1" href="#section-6.1">6.1</a>  Normative References</h3>
+
+   [<a id="ref-RFC2119">RFC2119</a>]  Bradner, S., &quot;Key words for use in RFCs to Indicate
+              Requirement Levels&quot;, <a href="https://datatracker.ietf.org/doc/html/bcp14">BCP 14</a>, <a href="https://datatracker.ietf.org/doc/html/rfc2119">RFC 2119</a>,
+              DOI 10.17487/RFC2119, March 1997,
+              &lt;<a href="https://www.rfc-editor.org/info/rfc2119">https://www.rfc-editor.org/info/rfc2119</a>&gt;.
+
+
+
+
+
+
+<span class="grey">Marschall                                                      [Page 10]</span></pre>
+</div><div class="page"><span class="noprint" id="page-11"><span class="grey">VTS/WF STD. 6              ViaThinkSoft MHA2            4 September 2024</span>
+
+
+<h3><a class="selflink" id="section-6.2" href="#section-6.2">6.2</a>  Informative References</h3>
+
+   None
+
+Acknowledgements
+
+   I would like to thank Melanie Wehowski for her long time support in
+   OIDplus and WEID projects.
+
+   This document was written in Nroff Internet Draft Editor by 3xA
+   Security.
+   <a href="https://aaa-sec.com/nroffedit/">https://aaa-sec.com/nroffedit/</a>
+   <a href="https://misc.daniel-marschall.de/patches/nroffedit/">https://misc.daniel-marschall.de/patches/nroffedit/</a> (&quot;year 2020&quot;
+   patch)
+
+Authors&#x27; Addresses
+
+   Daniel Marschall
+   Postfach 11 53
+   69243 Bammental
+   Germany
+
+   Email: daniel-marschall@viathinksoft.de
+   URI:   <a href="https://www.viathinksoft.com/">https://www.viathinksoft.com/</a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Marschall                                                      [Page 11]
+</pre></div></div></div>
+
+</body>
+
+</html>
