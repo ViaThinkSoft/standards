@@ -17,8 +17,7 @@ Identification of this Document
 
    Revision:  2024-09-04
    State:     Deprecated
-   URL:       https://github.com/ViaThinkSoft/standards/blob/main/\
-              viathinksoft-std-0006-mha2.txt
+   Filename:  viathinksoft-std-0006-mha2.txt
    URN:       urn:x-viathinksoft:std:0006:2024-09-04
    OID:       1.3.6.1.4.1.37476.3.2.1.2
               { iso(1) identified-organization(3) dod(6) internet(1)
@@ -39,6 +38,7 @@ Copyright Notice
    the document authors.  All rights reserved.
 
    Licensed under the terms of the Apache 2.0 License.
+
 
 
 

@@ -81,8 +81,7 @@ Identification of this Document
 .nf
 Revision:  2024-09-07
 State:     In Force
-URL:       https://github.com/ViaThinkSoft/standards/blob/main/\\
-           viathinksoft-std-0001-std.txt
+Filename:  viathinksoft-std-0001-std.txt
 URN:       urn:x-viathinksoft:std:0001:2024-09-07
 OID:       1.3.6.1.4.1.37476.3.0.0
            { iso(1) identified-organization(3) dod(6) internet(1)
@@ -139,9 +138,9 @@ Table of Contents
 .ti 0
 1  Introduction
 
-This document describes how the standards for ViaThinkSoft and Webfan are defined, written, and published.
+The current standards are published here:  https://viathinksoft.de/std/
 
-The current standards are published here:  https://github.com/ViaThinkSoft/standards
+The source files are published at GitHub:  https://github.com/ViaThinkSoft/standards
 
 .ti 0
 1.1  Terminology
@@ -199,7 +198,7 @@ Title Page Header Right Top:
 - Line 2:  "State" is either "In Force" or
                              "Work In Progress" or
                              "Deprecated"
-- Line 3:  "URL" links to the TXT file on GitHub
+- Line 3:  "Filename" is the name of the TXT file.
 - Line 4:  "URN" is urn:x-viathinksoft:std:<nnnn>:<yyyy-mm-dd>
 - Line 5:  "OID" is the base OID of the standard,
            in dot-notation and ASN.1 notation
