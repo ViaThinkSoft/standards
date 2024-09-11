@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>File Format Definition File</title>
+	<style>
+
+	/** === DESKTOP === */
+
+	@media (min-width: 601px) {
+
+		a, a:visited, a:link, a:active, a:hover {
+			color: #046D95 !important;
+		}
+
+		body {
+			color: black !important;
+			background-color: #f5f5f5 !important;
+			padding: 20px;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			margin: 0;
+		}
+
+		.page {
+			width: 100%;
+			max-width: 700px; /* 72 Zeichen Breite in Pixel (bei Desktop-Ansicht) */
+			margin-bottom: 20px;
+			padding: 20px;
+			background-color: white;
+			box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+			font-family: monospace;
+			white-space: pre-wrap;
+			overflow: hidden;
+			border: 1px solid #ccc;
+			box-sizing: border-box;
+		}
+
+	}
+
+	/** === MOBILE === */
+
+	@media (max-width: 600px) {
+
+		a, a:visited, a:link, a:active, a:hover {
+			color: #046D95 !important;
+		}
+
+		body {
+			color: black !important;
+			background-color: #f5f5f5 !important;
+			padding: 0;
+			margin: 0;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+		}
+
+		.container {
+			width: 100%;
+			padding: 10px;
+			box-sizing: border-box;
+		}
+
+		.page {
+			width: 100%;
+			max-width: 100%; /* Ensures the page takes up full width on mobile */
+			margin-bottom: 20px;
+			padding: 10px;
+			background-color: white;
+			box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+			font-family: monospace;
+			white-space: pre-wrap;
+			overflow: auto; /* Ensures overflow is handled */
+			border: 1px solid #ccc;
+			box-sizing: border-box;
+			font-size: 8.7px; /* Smaller font size for mobile */
+		}
+
+	}
+
+	</style>
+
+</head>
+
+<body>
+
+<span style="font-family:Verdana">&larr; <a href="index.html">Back to Standards index</a></span><br><br>
+
+<div id="content">
+<div class="container"><div class="page"><pre>VIATHINKSOFT/WEBFAN                                         D. Marschall
+SPECIFICATION No. 9                                         ViaThinkSoft
+First Draft: 2020                                      11 September 2024
+
+
+                  === File Format Definition File ===
+
+Abstract
+
+   This document describes a file format that describes detection of
+   file formats, e.g. by filename extension.
+
+Identification of this Document
+
+   Revision:  2024-09-11
+   State:     In Force
+   Filename:  viathinksoft-std-0009-fileformat-def.txt
+   URN:       urn:x-viathinksoft:std:0009:2024-09-11
+   OID:       1.3.6.1.4.1.37476.3.1.7
+              { iso(1) identified-organization(3) dod(6) internet(1)
+                private(4) enterprise(1) 37476 specifications(3)
+                fileformat(1) }
+   WEID:      weid:pen:SX0-3-1-7-9
+   IETF/RFC:  (None)
+
+Attachments
+
+   Reference implementation in PHP: <a href="https://misc.daniel-marschall.de/code/php/fileformats/">https://misc.daniel-</a>
+   <a href="https://misc.daniel-marschall.de/code/php/fileformats/">marschall.de/code/php/fileformats/</a>
+
+Copyright Notice
+
+   Copyright (c) 2020-2024 ViaThinkSoft and the persons identified as
+   the document authors.  All rights reserved.
+
+   Licensed under the terms of the Apache 2.0 License.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<span class="grey">Marschall                                                       [Page 1]</span></pre>
+</div><div class="page"><span class="noprint" id="page-2"><span class="grey">VTS/WF STD. 9         File Format Definition File      11 September 2024</span>
+
+
+Table of Contents
+
+   <a href="#section-1">1</a>  Introduction  . . . . . . . . . . . . . . . . . . . . . . . . .  <a href="#page-3">3</a>
+     <a href="#section-1.1">1.1</a>  Terminology . . . . . . . . . . . . . . . . . . . . . . . .  <a href="#page-3">3</a>
+   <a href="#section-2">2</a>  File Structure / Example  . . . . . . . . . . . . . . . . . . .  <a href="#page-3">3</a>
+   <a href="#section-3">3</a>  Security Considerations . . . . . . . . . . . . . . . . . . . .  <a href="#page-4">4</a>
+   <a href="#section-4">4</a>  IANA Considerations . . . . . . . . . . . . . . . . . . . . . .  <a href="#page-4">4</a>
+   <a href="#section-5">5</a>  References  . . . . . . . . . . . . . . . . . . . . . . . . . .  <a href="#page-4">4</a>
+     <a href="#section-5.1">5.1</a>  Normative References  . . . . . . . . . . . . . . . . . . .  <a href="#page-4">4</a>
+     <a href="#section-5.2">5.2</a>  Informative References  . . . . . . . . . . . . . . . . . .  <a href="#page-4">4</a>
+   Acknowledgements . . . . . . . . . . . . . . . . . . . . . . . . .  <a href="#page-4">4</a>
+   Authors&#x27; Addresses . . . . . . . . . . . . . . . . . . . . . . . .  <a href="#page-4">4</a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<span class="grey">Marschall                                                       [Page 2]</span></pre>
+</div><div class="page"><span class="noprint" id="page-3"><span class="grey">VTS/WF STD. 9         File Format Definition File      11 September 2024</span>
+
+
+<h2><a class="selflink" id="section-1" href="#section-1">1</a>  Introduction</h2>
+
+   This document describes a file format that describes detection of
+   file formats, e.g. by filename extension.
+
+<h3><a class="selflink" id="section-1.1" href="#section-1.1">1.1</a>  Terminology</h3>
+
+   The key words &quot;MUST&quot;, &quot;MUST NOT&quot;, &quot;REQUIRED&quot;, &quot;SHALL&quot;, &quot;SHALL NOT&quot;,
+   &quot;SHOULD&quot;, &quot;SHOULD NOT&quot;, &quot;RECOMMENDED&quot;, &quot;NOT RECOMMENDED&quot;, &quot;MAY&quot;, and
+   &quot;OPTIONAL&quot; in this document are to be interpreted as described in
+   <a href="https://datatracker.ietf.org/doc/html/bcp14">BCP 14</a> [<a href="https://datatracker.ietf.org/doc/html/rfc2119" title="&quot;Key words for use in RFCs to Indicate Requirement Levels&quot;">RFC2119</a>] [<a href="https://datatracker.ietf.org/doc/html/rfc8174">RFC8174</a>] when, and only when, they appear in all
+   capitals, as shown here.
+
+<h2><a class="selflink" id="section-2" href="#section-2">2</a>  File Structure / Example</h2>
+
+   [<a id="ref-1.3.6.1.4.1.37476.3.1.7.1">1.3.6.1.4.1.37476.3.1.7.1</a>]
+   Title = File Format Descriptions
+   Author = Daniel Marschall, ViaThinkSoft
+   Version = 2023-08-31
+   Language = en-US
+   License = Apache License, Version 2.0
+
+   ; This is a comment line
+
+   [<a id="ref-Static">Static</a>]
+   ; This is the string that will be displayed when no file type has
+   ; been detected.
+   LngUnknown = Unknown
+
+   [<a id="ref-OidHeader">OidHeader</a>]
+   ; Files identified via OID (OID written inside square brackets of the
+   ; first line of a file), e.g. [2.999]
+   1.3.6.1.4.1.37476.3.1.5.1 = ViaThinkSoft OID Illegality Rules File V1
+   1.3.6.1.4.1.37476.3.1.5.2 = ViaThinkSoft OID Illegality Rules File V2
+
+   [<a id="ref-GuidHeader">GuidHeader</a>]
+   ; e.g. [00000000-0000-0000-0000-000000000000]
+   ; Files identified via GUID (GUID written inside square brackets of
+   ; the first line of a file, without curly brackets and lowercase)
+   00000000-0000-0000-0000-000000000000 = Null File
+
+   [<a id="ref-MimeType">MimeType</a>]
+   ; Files identified via MIME type
+   application/css = CSS Stylesheet
+   application/epub+zip = Electronic publication (EPUB)
+   application/gzip = GZip Compressed Archive
+   application/java-archive = Java Archive (JAR)
+
+
+
+
+<span class="grey">Marschall                                                       [Page 3]</span></pre>
+</div><div class="page"><span class="noprint" id="page-4"><span class="grey">VTS/WF STD. 9         File Format Definition File      11 September 2024</span>
+
+
+   [<a id="ref-FileExtension">FileExtension</a>]
+   ; Files identified via an case-insensitive filename extension
+   3G2 = 3GPP2 multimedia file
+   3GP = 3GPP multimedia file
+   7Z = 7-Zip Compressed File
+
+<h2><a class="selflink" id="section-3" href="#section-3">3</a>  Security Considerations</h2>
+
+   None
+
+<h2><a class="selflink" id="section-4" href="#section-4">4</a>  IANA Considerations</h2>
+
+   There are no IANA Considerations.
+
+<h2><a class="selflink" id="section-5" href="#section-5">5</a>  References</h2>
+
+<h3><a class="selflink" id="section-5.1" href="#section-5.1">5.1</a>  Normative References</h3>
+
+   [<a id="ref-RFC2119">RFC2119</a>]  Bradner, S., &quot;Key words for use in RFCs to Indicate
+              Requirement Levels&quot;, <a href="https://datatracker.ietf.org/doc/html/bcp14">BCP 14</a>, <a href="https://datatracker.ietf.org/doc/html/rfc2119">RFC 2119</a>,
+              DOI 10.17487/RFC2119, March 1997,
+              &lt;<a href="https://www.rfc-editor.org/info/rfc2119">https://www.rfc-editor.org/info/rfc2119</a>&gt;.
+
+<h3><a class="selflink" id="section-5.2" href="#section-5.2">5.2</a>  Informative References</h3>
+
+   None
+
+Acknowledgements
+
+   I would like to thank Melanie Wehowski for her long time support in
+   OIDplus and WEID projects.
+
+   This document was written in Nroff Internet Draft Editor by 3xA
+   Security.
+   <a href="https://aaa-sec.com/nroffedit/">https://aaa-sec.com/nroffedit/</a>
+   <a href="https://misc.daniel-marschall.de/patches/nroffedit/">https://misc.daniel-marschall.de/patches/nroffedit/</a> (&quot;year 2020&quot;
+   patch)
+
+Authors&#x27; Addresses
+
+   Daniel Marschall
+   Postfach 11 53
+   69243 Bammental
+   Germany
+
+   Email: daniel-marschall@viathinksoft.de
+   URI:   <a href="https://www.viathinksoft.com/">https://www.viathinksoft.com/</a>
+
+
+
+
+Marschall                                                       [Page 4]
+</pre></div></div></div>
+
+</body>
+
+</html>

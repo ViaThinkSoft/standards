@@ -1,0 +1,224 @@
+ 
+
+
+
+VIATHINKSOFT/WEBFAN                                         D. Marschall
+SPECIFICATION No. 9                                         ViaThinkSoft
+First Draft: 2020                                      11 September 2024
+
+
+                  === File Format Definition File ===
+
+Abstract
+
+   This document describes a file format that describes detection of
+   file formats, e.g. by filename extension.
+
+Identification of this Document
+
+   Revision:  2024-09-11
+   State:     In Force
+   Filename:  viathinksoft-std-0009-fileformat-def.txt
+   URN:       urn:x-viathinksoft:std:0009:2024-09-11
+   OID:       1.3.6.1.4.1.37476.3.1.7
+              { iso(1) identified-organization(3) dod(6) internet(1)
+                private(4) enterprise(1) 37476 specifications(3)
+                fileformat(1) }
+   WEID:      weid:pen:SX0-3-1-7-9
+   IETF/RFC:  (None)
+
+Attachments
+
+   Reference implementation in PHP: https://misc.daniel-
+   marschall.de/code/php/fileformats/
+
+Copyright Notice
+
+   Copyright (c) 2020-2024 ViaThinkSoft and the persons identified as
+   the document authors.  All rights reserved.
+
+   Licensed under the terms of the Apache 2.0 License.
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+Marschall                                                       [Page 1]
+
+VTS/WF STD. 9         File Format Definition File      11 September 2024
+
+
+Table of Contents
+
+   1  Introduction  . . . . . . . . . . . . . . . . . . . . . . . . .  3
+     1.1  Terminology . . . . . . . . . . . . . . . . . . . . . . . .  3
+   2  File Structure / Example  . . . . . . . . . . . . . . . . . . .  3
+   3  Security Considerations . . . . . . . . . . . . . . . . . . . .  4
+   4  IANA Considerations . . . . . . . . . . . . . . . . . . . . . .  4
+   5  References  . . . . . . . . . . . . . . . . . . . . . . . . . .  4
+     5.1  Normative References  . . . . . . . . . . . . . . . . . . .  4
+     5.2  Informative References  . . . . . . . . . . . . . . . . . .  4
+   Acknowledgements . . . . . . . . . . . . . . . . . . . . . . . . .  4
+   Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . . .  4
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+Marschall                                                       [Page 2]
+
+VTS/WF STD. 9         File Format Definition File      11 September 2024
+
+
+1  Introduction
+
+   This document describes a file format that describes detection of
+   file formats, e.g. by filename extension.
+
+1.1  Terminology
+
+   The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
+   "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and
+   "OPTIONAL" in this document are to be interpreted as described in
+   BCP 14 [RFC2119] [RFC8174] when, and only when, they appear in all
+   capitals, as shown here.
+
+2  File Structure / Example
+
+   [1.3.6.1.4.1.37476.3.1.7.1]
+   Title = File Format Descriptions
+   Author = Daniel Marschall, ViaThinkSoft
+   Version = 2023-08-31
+   Language = en-US
+   License = Apache License, Version 2.0
+
+   ; This is a comment line
+
+   [Static]
+   ; This is the string that will be displayed when no file type has
+   ; been detected.
+   LngUnknown = Unknown
+
+   [OidHeader]
+   ; Files identified via OID (OID written inside square brackets of the
+   ; first line of a file), e.g. [2.999]
+   1.3.6.1.4.1.37476.3.1.5.1 = ViaThinkSoft OID Illegality Rules File V1
+   1.3.6.1.4.1.37476.3.1.5.2 = ViaThinkSoft OID Illegality Rules File V2
+
+   [GuidHeader]
+   ; e.g. [00000000-0000-0000-0000-000000000000]
+   ; Files identified via GUID (GUID written inside square brackets of
+   ; the first line of a file, without curly brackets and lowercase)
+   00000000-0000-0000-0000-000000000000 = Null File
+
+   [MimeType]
+   ; Files identified via MIME type
+   application/css = CSS Stylesheet
+   application/epub+zip = Electronic publication (EPUB)
+   application/gzip = GZip Compressed Archive
+   application/java-archive = Java Archive (JAR)
+
+ 
+
+
+Marschall                                                       [Page 3]
+
+VTS/WF STD. 9         File Format Definition File      11 September 2024
+
+
+   [FileExtension]
+   ; Files identified via an case-insensitive filename extension
+   3G2 = 3GPP2 multimedia file
+   3GP = 3GPP multimedia file
+   7Z = 7-Zip Compressed File
+
+3  Security Considerations
+
+   None
+
+4  IANA Considerations
+
+   There are no IANA Considerations.
+
+5  References
+
+5.1  Normative References
+
+   [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
+              Requirement Levels", BCP 14, RFC 2119,
+              DOI 10.17487/RFC2119, March 1997,
+              <https://www.rfc-editor.org/info/rfc2119>.
+
+5.2  Informative References
+
+   None
+
+Acknowledgements
+
+   I would like to thank Melanie Wehowski for her long time support in
+   OIDplus and WEID projects.
+
+   This document was written in Nroff Internet Draft Editor by 3xA
+   Security.
+   https://aaa-sec.com/nroffedit/
+   https://misc.daniel-marschall.de/patches/nroffedit/ ("year 2020"
+   patch)
+
+Authors' Addresses
+
+   Daniel Marschall
+   Postfach 11 53
+   69243 Bammental
+   Germany
+
+   Email: daniel-marschall@viathinksoft.de
+   URI:   https://www.viathinksoft.com/
+
+
+
+
+Marschall                                                       [Page 4]
