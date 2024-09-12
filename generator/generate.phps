@@ -126,8 +126,8 @@ ob_start();
 <?php
 
 $out = [];
-exec('/usr/bin/python3 ./step2.py ../'.$std['basename'].'.txt', $out, $ec);
-//exec('/usr/bin/python3 ./step2.py https://raw.githubusercontent.com/ViaThinkSoft/standards/main/'.$std['basename'].'.txt', $out, $ec);
+exec('/usr/bin/python3 ./rfc2html_bridge.py ../'.$std['basename'].'.txt', $out, $ec);
+//exec('/usr/bin/python3 ./rfc2html_bridge.py https://raw.githubusercontent.com/ViaThinkSoft/standards/main/'.$std['basename'].'.txt', $out, $ec);
 
 // Let it look like pages
 $str = implode("\n", $out);

@@ -1,7 +1,6 @@
 #/usr/bin/python3
 
-#from rfc2html import markup
-from step1 import markup
+from rfc2html import markup
 import sys
 import requests
 import os
