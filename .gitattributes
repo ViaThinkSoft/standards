@@ -1,2 +1,2 @@
-rfc2html.py linguist-vendored
-rfc2html_bridge.py linguist-vendored
+generator/rfc2html.py linguist-vendored
+generator/rfc2html_bridge.py linguist-vendored
