@@ -121,12 +121,12 @@ Table of Contents
    2  File Structure / Example  . . . . . . . . . . . . . . . . . . .  3
    3  Ideas for Future Developments ("Format 3.0")  . . . . . . . . .  3
    4  Security Considerations . . . . . . . . . . . . . . . . . . . .  4
-   5  IANA Considerations . . . . . . . . . . . . . . . . . . . . . .  4
+   5  RA Considerations . . . . . . . . . . . . . . . . . . . . . . .  4
    6  References  . . . . . . . . . . . . . . . . . . . . . . . . . .  4
      6.1  Normative References  . . . . . . . . . . . . . . . . . . .  4
      6.2  Informative References  . . . . . . . . . . . . . . . . . .  4
-   Acknowledgements . . . . . . . . . . . . . . . . . . . . . . . . .  4
-   Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . . .  4
+   Acknowledgements . . . . . . . . . . . . . . . . . . . . . . . . .  5
+   Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . . .  5
 .fi
 .in 3
 
@@ -190,9 +190,21 @@ The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "S
 None
 
 .ti 0
-5  IANA Considerations
+5  RA Considerations
 
-There are no IANA Considerations.
+.nf
+OID:  1.3.6.1.4.1.37476.3.1.5
+WEID: weid:pen:SX0-3-1-5-3
+ASN1: { iso(1) identified-organization(3) dod(6) internet(1)
+private(4) enterprise(1) 37476 specifications(3)
+fileformat(1) oid-illegality-rules(5) }
+IRI:  /.../Specifications/FileFormat/OID-Illegality-Rules
+
+Children:
+
++ v1(1), IRI Version1
++ v2(2), IRI Version2
+.fi
 
 .ti 0
 6  References
@@ -214,7 +226,7 @@ There are no IANA Considerations.
 
 .ti 3
 None
-
+.bp
 .in 3
 .ti 0
 Acknowledgements

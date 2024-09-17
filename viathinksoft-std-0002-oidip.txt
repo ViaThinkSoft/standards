@@ -156,12 +156,12 @@ VTS/WF STD. 2           OID Information Protocol        2 September 2024
        6.1.2  Response  . . . . . . . . . . . . . . . . . . . . . . . 34
    7  Internationalization Considerations . . . . . . . . . . . . . . 34
    8  Security Considerations . . . . . . . . . . . . . . . . . . . . 35
-   9  IANA Considerations . . . . . . . . . . . . . . . . . . . . . . 35
+   9  RA Considerations . . . . . . . . . . . . . . . . . . . . . . . 36
    10  References . . . . . . . . . . . . . . . . . . . . . . . . . . 36
      10.1  Normative References . . . . . . . . . . . . . . . . . . . 36
      10.2  Informative References . . . . . . . . . . . . . . . . . . 38
-   Appendix A.  JSON Format Schema and Example  . . . . . . . . . . . 39
-   Appendix A.1.  JSON Format Schema  . . . . . . . . . . . . . . . . 39
+   Appendix A.  JSON Format Schema and Example  . . . . . . . . . . . 40
+   Appendix A.1.  JSON Format Schema  . . . . . . . . . . . . . . . . 40
  
 
 
@@ -170,12 +170,12 @@ Marschall                                                       [Page 3]
 VTS/WF STD. 2           OID Information Protocol        2 September 2024
 
 
-   Appendix A.2.  JSON Format Example of Output . . . . . . . . . . . 48
-   Appendix B.  XML Format Schema and Example . . . . . . . . . . . . 50
-   Appendix B.1.  XML Format Schema . . . . . . . . . . . . . . . . . 50
-   Appendix B.2.  XML Format Example of Output  . . . . . . . . . . . 59
-   Acknowledgements . . . . . . . . . . . . . . . . . . . . . . . . . 61
-   Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . . . 61
+   Appendix A.2.  JSON Format Example of Output . . . . . . . . . . . 49
+   Appendix B.  XML Format Schema and Example . . . . . . . . . . . . 51
+   Appendix B.1.  XML Format Schema . . . . . . . . . . . . . . . . . 51
+   Appendix B.2.  XML Format Example of Output  . . . . . . . . . . . 60
+   Acknowledgements . . . . . . . . . . . . . . . . . . . . . . . . . 62
+   Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . . . 62
 
 
 
@@ -1948,9 +1948,9 @@ VTS/WF STD. 2           OID Information Protocol        2 September 2024
    (8) If integrity/authenticity is required, the OID-IP response can be
        signed, as described in section 3.3 "Digital Signature".
 
-9  IANA Considerations
 
-   There are no IANA Considerations.
+
+
 
 
 
@@ -1960,6 +1960,18 @@ VTS/WF STD. 2           OID Information Protocol        2 September 2024
 Marschall                                                      [Page 35]
 
 VTS/WF STD. 2           OID Information Protocol        2 September 2024
+
+
+9  RA Considerations
+
+   OID:  1.3.6.1.4.1.37476.3.5.10
+   WEID: weid:pen:SX0-3-5-A-6
+   ASN1: { iso(1) identified-organization(3) dod(6) internet(1)
+   private(4) enterprise(1) 37476 specifications(3)
+   communication(5) oid-ip(10) }
+   IRI:  /.../Specifications/Communication/OID-IP
+
+
 
 
 10  References
@@ -1998,6 +2010,14 @@ VTS/WF STD. 2           OID Information Protocol        2 September 2024
               DOI 10.17487/RFC5234, January 2008,
               <https://www.rfc-editor.org/info/rfc5234>.
 
+ 
+
+
+Marschall                                                      [Page 36]
+
+VTS/WF STD. 2           OID Information Protocol        2 September 2024
+
+
    [RFC5646]  Phillips, A., Ed., and M. Davis, Ed., "Tags for
               Identifying Languages", BCP 47, RFC 5646,
               DOI 10.17487/RFC5646, September 2009,
@@ -2010,14 +2030,6 @@ VTS/WF STD. 2           OID Information Protocol        2 September 2024
 
    [RFC8141]  Saint-Andre, P. and J. Klensin, "Uniform Resource Names
               (URNs)", RFC 8141, DOI 10.17487/RFC8141, April 2017,
- 
-
-
-Marschall                                                      [Page 36]
-
-VTS/WF STD. 2           OID Information Protocol        2 September 2024
-
-
               <https://www.rfc-editor.org/info/rfc8141>.
 
    [RFC8174]  Leiba, B., "Ambiguity of Uppercase vs Lowercase in RFC
@@ -2052,6 +2064,16 @@ VTS/WF STD. 2           OID Information Protocol        2 September 2024
               ISO/IEC 9834-1:2012, July 2011,
               <http://handle.itu.int/11.1002/1000/11336>.
 
+
+
+ 
+
+
+Marschall                                                      [Page 37]
+
+VTS/WF STD. 2           OID Information Protocol        2 September 2024
+
+
    [X680]     "Information technology - Abstract Syntax Notation One
               (ASN.1): Specification of basic notation", Recommendation
               ITU-T X.680 (2015) | ISO/IEC 8824-1:2015, August 2015,
@@ -2066,20 +2088,13 @@ VTS/WF STD. 2           OID Information Protocol        2 September 2024
               W3C Recommendation 11 April 2013,
               <https://www.w3.org/TR/xmldsig-core1/>.
 
- 
-
-
-Marschall                                                      [Page 37]
-
-VTS/WF STD. 2           OID Information Protocol        2 September 2024
-
-
    [XSD]      W3C XML Schema Definition Language (XSD)
               W3C Recommendation 5 April 2012,
               <https://www.w3.org/TR/xmlschema11-1/>.
 
    [JSONSch]  JSON Schema Specification
               <https://json-schema.org/specification.html>.
+
 
 10.2  Informative References
 
@@ -2104,6 +2119,17 @@ VTS/WF STD. 2           OID Information Protocol        2 September 2024
               ISO/IEC 9594-8:2017, October 2016,
               <http://handle.itu.int/11.1002/1000/13031>.
 
+
+
+
+ 
+
+
+Marschall                                                      [Page 38]
+
+VTS/WF STD. 2           OID Information Protocol        2 September 2024
+
+
    [X667]     "Information technology - Procedures for the operation of
               object identifier registration authorities: Generation of
               universally unique identifiers and their use in object
@@ -2122,10 +2148,40 @@ VTS/WF STD. 2           OID Information Protocol        2 September 2024
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
  
 
 
-Marschall                                                      [Page 38]
+Marschall                                                      [Page 39]
 
 VTS/WF STD. 2           OID Information Protocol        2 September 2024
 
@@ -2181,7 +2237,7 @@ NOTE: '\' line wrapping per RFC 8792  [RFC8792]
  
 
 
-Marschall                                                      [Page 39]
+Marschall                                                      [Page 40]
 
 VTS/WF STD. 2           OID Information Protocol        2 September 2024
 
@@ -2237,7 +2293,7 @@ VTS/WF STD. 2           OID Information Protocol        2 September 2024
  
 
 
-Marschall                                                      [Page 40]
+Marschall                                                      [Page 41]
 
 VTS/WF STD. 2           OID Information Protocol        2 September 2024
 
@@ -2293,7 +2349,7 @@ VTS/WF STD. 2           OID Information Protocol        2 September 2024
  
 
 
-Marschall                                                      [Page 41]
+Marschall                                                      [Page 42]
 
 VTS/WF STD. 2           OID Information Protocol        2 September 2024
 
@@ -2349,7 +2405,7 @@ VTS/WF STD. 2           OID Information Protocol        2 September 2024
  
 
 
-Marschall                                                      [Page 42]
+Marschall                                                      [Page 43]
 
 VTS/WF STD. 2           OID Information Protocol        2 September 2024
 
@@ -2405,7 +2461,7 @@ Ra1SectionType et al.",
  
 
 
-Marschall                                                      [Page 43]
+Marschall                                                      [Page 44]
 
 VTS/WF STD. 2           OID Information Protocol        2 September 2024
 
@@ -2461,7 +2517,7 @@ VTS/WF STD. 2           OID Information Protocol        2 September 2024
  
 
 
-Marschall                                                      [Page 44]
+Marschall                                                      [Page 45]
 
 VTS/WF STD. 2           OID Information Protocol        2 September 2024
 
@@ -2517,7 +2573,7 @@ VTS/WF STD. 2           OID Information Protocol        2 September 2024
  
 
 
-Marschall                                                      [Page 45]
+Marschall                                                      [Page 46]
 
 VTS/WF STD. 2           OID Information Protocol        2 September 2024
 
@@ -2573,7 +2629,7 @@ VTS/WF STD. 2           OID Information Protocol        2 September 2024
  
 
 
-Marschall                                                      [Page 46]
+Marschall                                                      [Page 47]
 
 VTS/WF STD. 2           OID Information Protocol        2 September 2024
 
@@ -2629,7 +2685,7 @@ VTS/WF STD. 2           OID Information Protocol        2 September 2024
  
 
 
-Marschall                                                      [Page 47]
+Marschall                                                      [Page 48]
 
 VTS/WF STD. 2           OID Information Protocol        2 September 2024
 
@@ -2685,7 +2741,7 @@ purposes of documenting examples of Object Identifiers.",
  
 
 
-Marschall                                                      [Page 48]
+Marschall                                                      [Page 49]
 
 VTS/WF STD. 2           OID Information Protocol        2 September 2024
 
@@ -2741,7 +2797,7 @@ VTS/WF STD. 2           OID Information Protocol        2 September 2024
  
 
 
-Marschall                                                      [Page 49]
+Marschall                                                      [Page 50]
 
 VTS/WF STD. 2           OID Information Protocol        2 September 2024
 
@@ -2797,7 +2853,7 @@ xml-schema"
  
 
 
-Marschall                                                      [Page 50]
+Marschall                                                      [Page 51]
 
 VTS/WF STD. 2           OID Information Protocol        2 September 2024
 
@@ -2853,7 +2909,7 @@ VTS/WF STD. 2           OID Information Protocol        2 September 2024
  
 
 
-Marschall                                                      [Page 51]
+Marschall                                                      [Page 52]
 
 VTS/WF STD. 2           OID Information Protocol        2 September 2024
 
@@ -2909,7 +2965,7 @@ VTS/WF STD. 2           OID Information Protocol        2 September 2024
  
 
 
-Marschall                                                      [Page 52]
+Marschall                                                      [Page 53]
 
 VTS/WF STD. 2           OID Information Protocol        2 September 2024
 
@@ -2965,7 +3021,7 @@ VTS/WF STD. 2           OID Information Protocol        2 September 2024
  
 
 
-Marschall                                                      [Page 53]
+Marschall                                                      [Page 54]
 
 VTS/WF STD. 2           OID Information Protocol        2 September 2024
 
@@ -3021,7 +3077,7 @@ VTS/WF STD. 2           OID Information Protocol        2 September 2024
  
 
 
-Marschall                                                      [Page 54]
+Marschall                                                      [Page 55]
 
 VTS/WF STD. 2           OID Information Protocol        2 September 2024
 
@@ -3077,7 +3133,7 @@ VTS/WF STD. 2           OID Information Protocol        2 September 2024
  
 
 
-Marschall                                                      [Page 55]
+Marschall                                                      [Page 56]
 
 VTS/WF STD. 2           OID Information Protocol        2 September 2024
 
@@ -3133,7 +3189,7 @@ VTS/WF STD. 2           OID Information Protocol        2 September 2024
  
 
 
-Marschall                                                      [Page 56]
+Marschall                                                      [Page 57]
 
 VTS/WF STD. 2           OID Information Protocol        2 September 2024
 
@@ -3189,7 +3245,7 @@ VTS/WF STD. 2           OID Information Protocol        2 September 2024
  
 
 
-Marschall                                                      [Page 57]
+Marschall                                                      [Page 58]
 
 VTS/WF STD. 2           OID Information Protocol        2 September 2024
 
@@ -3245,7 +3301,7 @@ VTS/WF STD. 2           OID Information Protocol        2 September 2024
  
 
 
-Marschall                                                      [Page 58]
+Marschall                                                      [Page 59]
 
 VTS/WF STD. 2           OID Information Protocol        2 September 2024
 
@@ -3301,7 +3357,7 @@ purposes of documenting examples of Object Identifiers."</description>
  
 
 
-Marschall                                                      [Page 59]
+Marschall                                                      [Page 60]
 
 VTS/WF STD. 2           OID Information Protocol        2 September 2024
 
@@ -3357,7 +3413,7 @@ VTS/WF STD. 2           OID Information Protocol        2 September 2024
  
 
 
-Marschall                                                      [Page 60]
+Marschall                                                      [Page 61]
 
 VTS/WF STD. 2           OID Information Protocol        2 September 2024
 
@@ -3413,4 +3469,4 @@ Authors' Addresses
 
 
 
-Marschall                                                      [Page 61]
+Marschall                                                      [Page 62]

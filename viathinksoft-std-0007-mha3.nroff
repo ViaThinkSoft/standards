@@ -128,11 +128,11 @@ Table of Contents
    5  Reference implementation  . . . . . . . . . . . . . . . . . . .  7
    6  Security Considerations . . . . . . . . . . . . . . . . . . . .  8
      6.1  Runtime complexity  . . . . . . . . . . . . . . . . . . . .  8
-   7  IANA Considerations . . . . . . . . . . . . . . . . . . . . . .  8
-   8  References  . . . . . . . . . . . . . . . . . . . . . . . . . .  8
-     6.1  Normative References  . . . . . . . . . . . . . . . . . . .  8
-     6.2  Informative References  . . . . . . . . . . . . . . . . . .  8
-   Acknowledgements . . . . . . . . . . . . . . . . . . . . . . . . .  8
+   7  RA Considerations . . . . . . . . . . . . . . . . . . . . . . .  8
+   8  References  . . . . . . . . . . . . . . . . . . . . . . . . . .  9
+     6.1  Normative References  . . . . . . . . . . . . . . . . . . .  9
+     6.2  Informative References  . . . . . . . . . . . . . . . . . .  9
+   Acknowledgements . . . . . . . . . . . . . . . . . . . . . . . . .  9
    Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . . .  9
 .fi
 .in 3
@@ -407,9 +407,46 @@ MHA3 has not been proved to be secure.  Use it with caution.
 The number of hash OPs is <iterations> times <length>.
 
 .ti 0
-7  IANA Considerations
+7  RA Considerations
 
-There are no IANA Considerations.
+.nf
+OID:  1.3.6.1.4.1.37476.3.2.1.3
+WEID: weid:pen:SX0-3-2-1-3-7
+ASN1: { iso(1) identified-organization(3) dod(6) internet(1)
+private(4) enterprise(1) 37476 specifications(3)
+algorithm(2) hash(1) mha3(3) }
+IRI:  /.../Specifications/Algorithm/Hash/MHA3
+
+OID:  1.3.6.1.4.1.37476.3.2.1.99
+ASN1: { iso(1) identified-organization(3) dod(6) internet(1)
+private(4) enterprise(1) 37476 specifications(3) algorithm(2)
+hash(1) foreign(99) }
+IRI:  /.../Specifications/Algorithm/Hash/Foreign
+WEID: weid:pen:SX0-3-2-1-2R-2
+
+Children:
+
++ md4(1), IRI MD4
++ md5(3), IRI MD5
++ ripemd160(3), IRI RIPEMD-160
++ sha0(4), IRI SHA0
++ sha1(5), IRI SHA1
++ sha2(6), IRI SHA2
++ ... 224
++ ... 256
++ ... 384
++ ... 512
++ ... ... 224
++ ... ... 256
++ sha3(7), IRI SHA3
++ ... 224
++ ... 256
++ ... 384
++ ... 512
++ shake(8), IRI SHAKE
++ ... 128
++ ... 256
+.fi
 
 .ti 0
 8  References

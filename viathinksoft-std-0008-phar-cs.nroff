@@ -120,12 +120,12 @@ Table of Contents
      1.1  Terminology . . . . . . . . . . . . . . . . . . . . . . . .  3
    2  Implementation in PHP . . . . . . . . . . . . . . . . . . . . .  3
    3  Security Considerations . . . . . . . . . . . . . . . . . . . .  4
-   4  IANA Considerations . . . . . . . . . . . . . . . . . . . . . .  4
-   5  References  . . . . . . . . . . . . . . . . . . . . . . . . . .  4
-     5.1  Normative References  . . . . . . . . . . . . . . . . . . .  4
-     5.2  Informative References  . . . . . . . . . . . . . . . . . .  4
-   Acknowledgements . . . . . . . . . . . . . . . . . . . . . . . . .  4
-   Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . . .  4
+   4  RA Considerations . . . . . . . . . . . . . . . . . . . . . . .  4
+   5  References  . . . . . . . . . . . . . . . . . . . . . . . . . .  5
+     5.1  Normative References  . . . . . . . . . . . . . . . . . . .  5
+     5.2  Informative References  . . . . . . . . . . . . . . . . . .  5
+   Acknowledgements . . . . . . . . . . . . . . . . . . . . . . . . .  5
+   Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . . .  5
 .fi
 .in 3
 
@@ -186,10 +186,17 @@ $phar = null;
 None
 
 .ti 0
-4  IANA Considerations
+4  RA Considerations
 
-There are no IANA Considerations.
-
+.nf
+OID:  1.3.6.1.4.1.37476.3.0.2
+WEID: weid:pen:SX0-3-0-2-1
+ASN1: { iso(1) identified-organization(3) dod(6) internet(1)
+private(4) enterprise(1) 37476 specifications(3)
+misc(0) checksum-string(2) }
+IRI:  /.../Specifications/Misc/ChecksumString
+.fi
+.bp
 .ti 0
 5  References
 

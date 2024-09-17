@@ -119,7 +119,7 @@ Table of Contents
    2  Current Status  . . . . . . . . . . . . . . . . . . . . . . . .  3
    3  Description Of 18 April 2011  . . . . . . . . . . . . . . . . .  3
    4  Security Considerations . . . . . . . . . . . . . . . . . . . .  4
-   5  IANA Considerations . . . . . . . . . . . . . . . . . . . . . .  4
+   5  RA Considerations . . . . . . . . . . . . . . . . . . . . . . .  4
    6  References  . . . . . . . . . . . . . . . . . . . . . . . . . .  4
      6.1  Normative References  . . . . . . . . . . . . . . . . . . .  4
      6.2  Informative References  . . . . . . . . . . . . . . . . . .  4
@@ -181,9 +181,15 @@ This example OID has the same purpose as example.com has for examples of web pag
 None
 
 .ti 0
-5  IANA Considerations
+5  RA Considerations
 
-There are no IANA Considerations.
+.nf
+OID:  1.3.6.1.4.1.37476.9999
+WEID: weid:pen:SX0-7PR-6
+ASN1: { iso(1) identified-organization(3) dod(6) internet(1)
+private(4) enterprise(1) 37476 example(9999) }
+IRI:  /ISO/Identified-Organization/6/1/4/1/37476/Example
+.fi
 
 .ti 0
 6  References
