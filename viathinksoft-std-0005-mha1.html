@@ -158,12 +158,12 @@ Table of Contents
    <a href="#section-5">5</a>  Reference implementation  . . . . . . . . . . . . . . . . . . .  <a href="#page-6">6</a>
    <a href="#section-6">6</a>  Security Considerations . . . . . . . . . . . . . . . . . . . .  <a href="#page-6">6</a>
      <a href="#section-6.1">6.1</a>  Runtime complexity  . . . . . . . . . . . . . . . . . . . .  <a href="#page-6">6</a>
-   <a href="#section-7">7</a>  IANA Considerations . . . . . . . . . . . . . . . . . . . . . .  <a href="#page-6">6</a>
-   <a href="#section-8">8</a>  References  . . . . . . . . . . . . . . . . . . . . . . . . . .  <a href="#page-6">6</a>
-     <a href="#section-6.1">6.1</a>  Normative References  . . . . . . . . . . . . . . . . . . .  <a href="#page-6">6</a>
-     <a href="#section-6.2">6.2</a>  Informative References  . . . . . . . . . . . . . . . . . .  <a href="#page-7">7</a>
-   Acknowledgements . . . . . . . . . . . . . . . . . . . . . . . . .  <a href="#page-7">7</a>
-   Authors&#x27; Addresses . . . . . . . . . . . . . . . . . . . . . . . .  <a href="#page-7">7</a>
+   <a href="#section-7">7</a>  RA Considerations . . . . . . . . . . . . . . . . . . . . . . .  <a href="#page-6">6</a>
+   <a href="#section-8">8</a>  References  . . . . . . . . . . . . . . . . . . . . . . . . . .  <a href="#page-8">8</a>
+     <a href="#section-6.1">6.1</a>  Normative References  . . . . . . . . . . . . . . . . . . .  <a href="#page-8">8</a>
+     <a href="#section-6.2">6.2</a>  Informative References  . . . . . . . . . . . . . . . . . .  <a href="#page-8">8</a>
+   Acknowledgements . . . . . . . . . . . . . . . . . . . . . . . . .  <a href="#page-8">8</a>
+   Authors&#x27; Addresses . . . . . . . . . . . . . . . . . . . . . . . .  <a href="#page-8">8</a>
 
 
 
@@ -400,9 +400,81 @@ Table of Contents
 
    The number of hash OPs is &lt;iterations&gt;.
 
-<h2><a class="selflink" id="section-7" href="#section-7">7</a>  IANA Considerations</h2>
+<h2><a class="selflink" id="section-7" href="#section-7">7</a>  RA Considerations</h2>
 
-   There are no IANA Considerations.
+   OID:  1.3.6.1.4.1.37476.3.2.1.1
+   WEID: weid:pen:SX0-3-2-1-1-1
+   ASN1: { iso(1) identified-organization(3) dod(6) internet(1)
+   private(4) enterprise(1) 37476 specifications(3)
+   algorithm(2) hash(1) mha1(1)|mha-family(1) }
+   IRI:  /.../Specifications/Algorithm/Hash/MHA1|MHA-Family
+
+
+
+
+
+
+
+
+
+<span class="grey">Marschall                                                       [Page 6]</span></pre>
+</div><div class="page"><span class="noprint" id="page-7"><span class="grey">VTS/WF STD. 5              ViaThinkSoft MHA1            4 September 2024</span>
+
+
+   Deprecated children:
+
+   + mha(0), IRI MHA
+   + ... illegal(0)
+   + ... mha-1987(1987)
+   + ... ... binary(0)
+   + ... ... base64(1)
+   + ... ... hexadecimal(2)|base16(2)
+   + md5mha(1), IRI Md5MHA
+   + ... illegal(0)
+   + ... md5mha-1987(1987)
+   + ... ... binary(0)
+   + ... ... base64(1)
+   + ... ... hexadecimal(2)|base16(2)
+
+   OID:  1.3.6.1.4.1.37476.3.2.1.99
+   ASN1: { iso(1) identified-organization(3) dod(6) internet(1)
+   private(4) enterprise(1) 37476 specifications(3) algorithm(2)
+   hash(1) foreign(99) }
+   IRI:  /.../Specifications/Algorithm/Hash/Foreign
+   WEID: weid:pen:SX0-3-2-1-2R-2
+
+   Children:
+
+   + md4(1), IRI MD4
+   + md5(3), IRI MD5
+   + ripemd160(3), IRI RIPEMD-160
+   + sha0(4), IRI SHA0
+   + sha1(5), IRI SHA1
+   + sha2(6), IRI SHA2
+   + ... <a href="#page-224">224</a>
+   + ... <a href="#page-256">256</a>
+   + ... <a href="#page-384">384</a>
+   + ... <a href="#page-512">512</a>
+   + ... ... <a href="#page-224">224</a>
+   + ... ... <a href="#page-256">256</a>
+   + sha3(7), IRI SHA3
+   + ... <a href="#page-224">224</a>
+   + ... <a href="#page-256">256</a>
+   + ... <a href="#page-384">384</a>
+   + ... <a href="#page-512">512</a>
+   + shake(8), IRI SHAKE
+   + ... <a href="#page-128">128</a>
+   + ... <a href="#page-256">256</a>
+
+
+
+
+
+
+
+<span class="grey">Marschall                                                       [Page 7]</span></pre>
+</div><div class="page"><span class="noprint" id="page-8"><span class="grey">VTS/WF STD. 5              ViaThinkSoft MHA1            4 September 2024</span>
+
 
 <h2><a class="selflink" id="section-8" href="#section-8">8</a>  References</h2>
 
@@ -412,14 +484,6 @@ Table of Contents
               Requirement Levels&quot;, <a href="https://datatracker.ietf.org/doc/html/bcp14">BCP 14</a>, <a href="https://datatracker.ietf.org/doc/html/rfc2119">RFC 2119</a>,
               DOI 10.17487/RFC2119, March 1997,
               &lt;<a href="https://www.rfc-editor.org/info/rfc2119">https://www.rfc-editor.org/info/rfc2119</a>&gt;.
-
-
-
-
-
-<span class="grey">Marschall                                                       [Page 6]</span></pre>
-</div><div class="page"><span class="noprint" id="page-7"><span class="grey">VTS/WF STD. 5              ViaThinkSoft MHA1            4 September 2024</span>
-
 
 <h3><a class="selflink" id="section-6.2" href="#section-6.2">6.2</a>  Informative References</h3>
 
@@ -463,16 +527,7 @@ Authors&#x27; Addresses
 
 
 
-
-
-
-
-
-
-
-
-
-Marschall                                                       [Page 7]
+Marschall                                                       [Page 8]
 </pre></div></div></div>
 
 </body>

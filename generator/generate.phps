@@ -1,6 +1,8 @@
 #!/usr/bin/php
 <?php
 
+chdir(__DIR__);
+
 $std_list = [];
 
 foreach (glob('../viathinksoft-std-*.txt') as $f) {
