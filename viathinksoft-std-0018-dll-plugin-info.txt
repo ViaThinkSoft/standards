@@ -1,0 +1,280 @@
+ 
+
+
+
+VIATHINKSOFT/WEBFAN                                         D. Marschall
+SPECIFICATION No. 18                                        ViaThinkSoft
+First Draft: 2024                                        2 November 2024
+
+
+     === Plugin Type+Metadata Mechanism for Windows DLL Plugins ===
+
+Abstract
+
+   This document describes a method for plugins written as Windows DLL
+   files, to present the plugin's type and metadata.
+
+Identification of this Document
+
+   Revision:  2024-11-02
+   State:     In Force
+   Filename:  viathinksoft-std-0018-dll-plugin-info.txt
+   URN:       urn:x-viathinksoft:std:0018:2024-11-02
+   OID:       1.3.6.1.4.1.37476.3.3.1
+              { iso(1) identified-organization(3) dod(6) internet(1)
+                private(4) enterprise(1) 37476 specifications(3)
+                interface(3) dll-plugin-info(1) }
+   WEID:      weid:pen:SX0-3-3-1-0
+   IETF/RFC:  (None)
+
+Attachments
+
+   (None)
+
+Copyright Notice
+
+   Copyright (c) 2011-2024 ViaThinkSoft and the persons identified as
+   the document authors.  All rights reserved.
+
+   Licensed under the terms of the Apache 2.0 License.
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+Marschall                                                       [Page 1]
+
+VTS/WF STD. 18              DLL Plugin Info              2 November 2024
+
+
+Table of Contents
+
+   1  Introduction  . . . . . . . . . . . . . . . . . . . . . . . . .  3
+     1.1  Terminology . . . . . . . . . . . . . . . . . . . . . . . .  3
+   2  Definition  . . . . . . . . . . . . . . . . . . . . . . . . . .  3
+   3  Parameter Description . . . . . . . . . . . . . . . . . . . . .  3
+     3.1  In Paramters  . . . . . . . . . . . . . . . . . . . . . . .  3
+     3.2  Return Value  . . . . . . . . . . . . . . . . . . . . . . .  4
+   4  Security Considerations . . . . . . . . . . . . . . . . . . . .  4
+   5  RA Considerations . . . . . . . . . . . . . . . . . . . . . . .  4
+   6  References  . . . . . . . . . . . . . . . . . . . . . . . . . .  4
+     6.1  Normative References  . . . . . . . . . . . . . . . . . . .  4
+     6.2  Informative References  . . . . . . . . . . . . . . . . . .  4
+   Acknowledgements . . . . . . . . . . . . . . . . . . . . . . . . .  5
+   Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . . .  5
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+Marschall                                                       [Page 2]
+
+VTS/WF STD. 18              DLL Plugin Info              2 November 2024
+
+
+1  Introduction
+
+   This recommendation applies to applications written for Microsoft
+   Windows (EXE files) that use plugins which have a DLL file structure.
+   It defines a method that can be used to check if the plugin is
+   compatible with the application, and also returns metadata about the
+   plugin.
+
+1.1  Terminology
+
+   The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
+   "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and
+   "OPTIONAL" in this document are to be interpreted as described in
+   BCP 14 [RFC2119] [RFC8174] when, and only when, they appear in all
+   capitals, as shown here.
+
+2  Definition
+
+   The undecorated method is defined as follows:
+
+   Delphi: function VtsPluginID(lpTypeOut: PGUID; lpIdOut: PGUID;
+   lpVerOut: PDWORD; lpAuthorInfo: Pointer): HRESULT; stdcall;
+
+   C++: HRESULT __stdcall VtsPluginID(GUID* lpTypeOut, GUID* lpIdOut,
+   DWORD* lpVerOut, void* lpAuthorInfo);
+
+3  Parameter Description
+
+   All data should be little endian.
+
+3.1  In Paramters
+
+   if lpTypeOut is not NULL, then the method MUST write a GUID that
+   defines the plugin "type" (note that an application might support
+   multiple plugin "types").
+
+   If lpIdOut is not NULL, then the method MUST write a GUID that is
+   unique to this plugin, but stays the same for different versions of
+   that plugin.
+
+   If lpVerOut is not NULL, then the method MUST write a DWORD in the
+   following structure: 1 byte major version, 1 byte minor version, 1
+   byte patch, 1 byte build. E.g. 0x01020304 means version 1.2.3.4
+
+
+
+
+
+ 
+
+
+Marschall                                                       [Page 3]
+
+VTS/WF STD. 18              DLL Plugin Info              2 November 2024
+
+
+   If lpAuthorInfo is not NULL, then the method MUST write a variable
+   size structure which contains the following information in order:
+   PluginName, PluginAuthor, PluginVersion, PluginCopyright,
+   PluginLicense, PluginMoreInfo. Each string is an UTF-16 string
+   (WideString) prepended by a 16-bit WORD that defines the length of
+   the string. No zero terminator bytes. Note that the caller must make
+   sure that the size of the memory location is big enough; recommended
+   4096 bytes.
+
+3.2  Return Value
+
+   A valid HRESULT should be returned.
+
+4  Security Considerations
+
+   None
+
+5  RA Considerations
+
+   OID:  1.3.6.1.4.1.37476.3.3.1
+   WEID: weid:pen:SX0-3-3-1-0
+   ASN1: { iso(1) identified-organization(3) dod(6) internet(1)
+   private(4) enterprise(1) 37476 specifications(3) interface(3)
+   dll-plugin-info(1) }
+   IRI:  /ISO/Identified-Organization/6/1/4/1/37476/Specifications/
+   Interface/DLLPluginInfo
+
+6  References
+
+6.1  Normative References
+
+   [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
+              Requirement Levels", BCP 14, RFC 2119,
+              DOI 10.17487/RFC2119, March 1997,
+              <https://www.rfc-editor.org/info/rfc2119>.
+
+6.2  Informative References
+
+   None
+
+
+
+
+
+
+
+
+
+ 
+
+
+Marschall                                                       [Page 4]
+
+VTS/WF STD. 18              DLL Plugin Info              2 November 2024
+
+
+Acknowledgements
+
+   I would like to thank Olivier Dubuisson for his great work with the
+   OID Repository and his help in many OID related topics.
+
+   This document was written in Nroff Internet Draft Editor by 3xA
+   Security.
+   https://aaa-sec.com/nroffedit/
+   https://misc.daniel-marschall.de/patches/nroffedit/ ("year 2020"
+   patch)
+
+Authors' Addresses
+
+   Daniel Marschall
+   Postfach 11 53
+   69243 Bammental
+   Germany
+
+   Email: daniel-marschall@viathinksoft.de
+   URI:   https://www.viathinksoft.com/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Marschall                                                       [Page 5]

@@ -41,6 +41,7 @@ Mirror at ViaThinkSoft: https://www.viathinksoft.de/std/index.html
 | 0015 | StN (String to Number) algorithm         | Reserved              |             | [1.3.6.1.4.1.37476.3.2.3.1](https://hosted.oidplus.com/viathinksoft/?goto=oid%3A1.3.6.1.4.1.37476.3.2.3.1)<br>weid:pen:SX0-3-2-3-1-9 |                                                      |
 | 0016 | Pyrascript 1408                          | Reserved              | 2014-08     | [1.3.6.1.4.1.37476.3.4.1.1408](https://hosted.oidplus.com/viathinksoft/?goto=oid%3A1.3.6.1.4.1.37476.3.4.1.1408)<br>weid:pen:SX0-3-4-1-134-6 |                                                      |
 | 0017 | OID RDAP Extension                       | Reserved              |             | tbd                          |                                                      |
+| 0018 | DLL Plugin Info                          | In Force              | 2024-11-02  | [1.3.6.1.4.1.37476.3.3.1](https://hosted.oidplus.com/viathinksoft/?goto=oid%3A1.3.6.1.4.1.37476.3.3.1)<br>weid:pen:SX0-3-3-1-0 | [TXT](https://github.com/ViaThinkSoft/standards/blob/main/viathinksoft-std-0018-dll-plugin-info.txt) / [NROFF](https://github.com/ViaThinkSoft/standards/blob/main/viathinksoft-std-0018-dll-plugin-info.nroff) |
 
 ## Product specific standards
 

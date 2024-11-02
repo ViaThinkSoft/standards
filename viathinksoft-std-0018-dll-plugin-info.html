@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Plugin Type+Metadata Mechanism for Windows DLL Plugins</title>
+	<style>
+
+	/** === DESKTOP === */
+
+	@media (min-width: 601px) {
+
+		a, a:visited, a:link, a:active, a:hover {
+			color: #046D95 !important;
+		}
+
+		body {
+			color: black !important;
+			background-color: #f5f5f5 !important;
+			padding: 20px;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			margin: 0;
+		}
+
+		.page {
+			width: 100%;
+			max-width: 700px; /* 72 Zeichen Breite in Pixel (bei Desktop-Ansicht) */
+			margin-bottom: 20px;
+			padding: 20px;
+			background-color: white;
+			box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+			font-family: monospace;
+			white-space: pre-wrap;
+			overflow: hidden;
+			border: 1px solid #ccc;
+			box-sizing: border-box;
+		}
+
+	}
+
+	/** === MOBILE === */
+
+	@media (max-width: 600px) {
+
+		a, a:visited, a:link, a:active, a:hover {
+			color: #046D95 !important;
+		}
+
+		body {
+			color: black !important;
+			background-color: #f5f5f5 !important;
+			padding: 0;
+			margin: 0;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+		}
+
+		.container {
+			width: 100%;
+			padding: 10px;
+			box-sizing: border-box;
+		}
+
+		.page {
+			width: 100%;
+			max-width: 100%; /* Ensures the page takes up full width on mobile */
+			margin-bottom: 20px;
+			padding: 10px;
+			background-color: white;
+			box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+			font-family: monospace;
+			white-space: pre-wrap;
+			overflow: auto; /* Ensures overflow is handled */
+			border: 1px solid #ccc;
+			box-sizing: border-box;
+			font-size: 8.7px; /* Smaller font size for mobile */
+		}
+
+	}
+
+	</style>
+
+</head>
+
+<body>
+
+<span style="font-family:Verdana">&larr; <a href="index.html">Back to Standards index</a></span><br><br>
+
+<div id="content">
+<div class="container"><div class="page"><pre>VIATHINKSOFT/WEBFAN                                         D. Marschall
+SPECIFICATION No. 18                                        ViaThinkSoft
+First Draft: 2024                                        2 November 2024
+
+
+     === Plugin Type+Metadata Mechanism for Windows DLL Plugins ===
+
+Abstract
+
+   This document describes a method for plugins written as Windows DLL
+   files, to present the plugin&#x27;s type and metadata.
+
+Identification of this Document
+
+   Revision:  2024-11-02
+   State:     In Force
+   Filename:  viathinksoft-std-0018-dll-plugin-info.txt
+   URN:       urn:x-viathinksoft:std:0018:2024-11-02
+   OID:       1.3.6.1.4.1.37476.3.3.1
+              { iso(1) identified-organization(3) dod(6) internet(1)
+                private(4) enterprise(1) 37476 specifications(3)
+                interface(3) dll-plugin-info(1) }
+   WEID:      weid:pen:SX0-3-3-1-0
+   IETF/RFC:  (None)
+
+Attachments
+
+   (None)
+
+Copyright Notice
+
+   Copyright (c) 2011-2024 ViaThinkSoft and the persons identified as
+   the document authors.  All rights reserved.
+
+   Licensed under the terms of the Apache 2.0 License.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<span class="grey">Marschall                                                       [Page 1]</span></pre>
+</div><div class="page"><span class="noprint" id="page-2"><span class="grey">VTS/WF STD. 18              DLL Plugin Info              2 November 2024</span>
+
+
+Table of Contents
+
+   <a href="#section-1">1</a>  Introduction  . . . . . . . . . . . . . . . . . . . . . . . . .  <a href="#page-3">3</a>
+     <a href="#section-1.1">1.1</a>  Terminology . . . . . . . . . . . . . . . . . . . . . . . .  <a href="#page-3">3</a>
+   <a href="#section-2">2</a>  Definition  . . . . . . . . . . . . . . . . . . . . . . . . . .  <a href="#page-3">3</a>
+   <a href="#section-3">3</a>  Parameter Description . . . . . . . . . . . . . . . . . . . . .  <a href="#page-3">3</a>
+     <a href="#section-3.1">3.1</a>  In Paramters  . . . . . . . . . . . . . . . . . . . . . . .  <a href="#page-3">3</a>
+     <a href="#section-3.2">3.2</a>  Return Value  . . . . . . . . . . . . . . . . . . . . . . .  <a href="#page-4">4</a>
+   <a href="#section-4">4</a>  Security Considerations . . . . . . . . . . . . . . . . . . . .  <a href="#page-4">4</a>
+   <a href="#section-5">5</a>  RA Considerations . . . . . . . . . . . . . . . . . . . . . . .  <a href="#page-4">4</a>
+   <a href="#section-6">6</a>  References  . . . . . . . . . . . . . . . . . . . . . . . . . .  <a href="#page-4">4</a>
+     <a href="#section-6.1">6.1</a>  Normative References  . . . . . . . . . . . . . . . . . . .  <a href="#page-4">4</a>
+     <a href="#section-6.2">6.2</a>  Informative References  . . . . . . . . . . . . . . . . . .  <a href="#page-4">4</a>
+   Acknowledgements . . . . . . . . . . . . . . . . . . . . . . . . .  <a href="#page-5">5</a>
+   Authors&#x27; Addresses . . . . . . . . . . . . . . . . . . . . . . . .  <a href="#page-5">5</a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<span class="grey">Marschall                                                       [Page 2]</span></pre>
+</div><div class="page"><span class="noprint" id="page-3"><span class="grey">VTS/WF STD. 18              DLL Plugin Info              2 November 2024</span>
+
+
+<h2><a class="selflink" id="section-1" href="#section-1">1</a>  Introduction</h2>
+
+   This recommendation applies to applications written for Microsoft
+   Windows (EXE files) that use plugins which have a DLL file structure.
+   It defines a method that can be used to check if the plugin is
+   compatible with the application, and also returns metadata about the
+   plugin.
+
+<h3><a class="selflink" id="section-1.1" href="#section-1.1">1.1</a>  Terminology</h3>
+
+   The key words &quot;MUST&quot;, &quot;MUST NOT&quot;, &quot;REQUIRED&quot;, &quot;SHALL&quot;, &quot;SHALL NOT&quot;,
+   &quot;SHOULD&quot;, &quot;SHOULD NOT&quot;, &quot;RECOMMENDED&quot;, &quot;NOT RECOMMENDED&quot;, &quot;MAY&quot;, and
+   &quot;OPTIONAL&quot; in this document are to be interpreted as described in
+   <a href="https://datatracker.ietf.org/doc/html/bcp14">BCP 14</a> [<a href="https://datatracker.ietf.org/doc/html/rfc2119" title="&quot;Key words for use in RFCs to Indicate Requirement Levels&quot;">RFC2119</a>] [<a href="https://datatracker.ietf.org/doc/html/rfc8174">RFC8174</a>] when, and only when, they appear in all
+   capitals, as shown here.
+
+<h2><a class="selflink" id="section-2" href="#section-2">2</a>  Definition</h2>
+
+   The undecorated method is defined as follows:
+
+   Delphi: function VtsPluginID(lpTypeOut: PGUID; lpIdOut: PGUID;
+   lpVerOut: PDWORD; lpAuthorInfo: Pointer): HRESULT; stdcall;
+
+   C++: HRESULT __stdcall VtsPluginID(GUID* lpTypeOut, GUID* lpIdOut,
+   DWORD* lpVerOut, void* lpAuthorInfo);
+
+<h2><a class="selflink" id="section-3" href="#section-3">3</a>  Parameter Description</h2>
+
+   All data should be little endian.
+
+<h3><a class="selflink" id="section-3.1" href="#section-3.1">3.1</a>  In Paramters</h3>
+
+   if lpTypeOut is not NULL, then the method MUST write a GUID that
+   defines the plugin &quot;type&quot; (note that an application might support
+   multiple plugin &quot;types&quot;).
+
+   If lpIdOut is not NULL, then the method MUST write a GUID that is
+   unique to this plugin, but stays the same for different versions of
+   that plugin.
+
+   If lpVerOut is not NULL, then the method MUST write a DWORD in the
+   following structure: 1 byte major version, 1 byte minor version, 1
+   byte patch, 1 byte build. E.g. 0x01020304 means version 1.2.3.4
+
+
+
+
+
+
+
+
+<span class="grey">Marschall                                                       [Page 3]</span></pre>
+</div><div class="page"><span class="noprint" id="page-4"><span class="grey">VTS/WF STD. 18              DLL Plugin Info              2 November 2024</span>
+
+
+   If lpAuthorInfo is not NULL, then the method MUST write a variable
+   size structure which contains the following information in order:
+   PluginName, PluginAuthor, PluginVersion, PluginCopyright,
+   PluginLicense, PluginMoreInfo. Each string is an UTF-16 string
+   (WideString) prepended by a 16-bit WORD that defines the length of
+   the string. No zero terminator bytes. Note that the caller must make
+   sure that the size of the memory location is big enough; recommended
+   4096 bytes.
+
+<h3><a class="selflink" id="section-3.2" href="#section-3.2">3.2</a>  Return Value</h3>
+
+   A valid HRESULT should be returned.
+
+<h2><a class="selflink" id="section-4" href="#section-4">4</a>  Security Considerations</h2>
+
+   None
+
+<h2><a class="selflink" id="section-5" href="#section-5">5</a>  RA Considerations</h2>
+
+   OID:  1.3.6.1.4.1.37476.3.3.1
+   WEID: weid:pen:SX0-3-3-1-0
+   ASN1: { iso(1) identified-organization(3) dod(6) internet(1)
+   private(4) enterprise(1) 37476 specifications(3) interface(3)
+   dll-plugin-info(1) }
+   IRI:  /ISO/Identified-Organization/6/1/4/1/37476/Specifications/
+   Interface/DLLPluginInfo
+
+<h2><a class="selflink" id="section-6" href="#section-6">6</a>  References</h2>
+
+<h3><a class="selflink" id="section-6.1" href="#section-6.1">6.1</a>  Normative References</h3>
+
+   [<a id="ref-RFC2119">RFC2119</a>]  Bradner, S., &quot;Key words for use in RFCs to Indicate
+              Requirement Levels&quot;, <a href="https://datatracker.ietf.org/doc/html/bcp14">BCP 14</a>, <a href="https://datatracker.ietf.org/doc/html/rfc2119">RFC 2119</a>,
+              DOI 10.17487/RFC2119, March 1997,
+              &lt;<a href="https://www.rfc-editor.org/info/rfc2119">https://www.rfc-editor.org/info/rfc2119</a>&gt;.
+
+<h3><a class="selflink" id="section-6.2" href="#section-6.2">6.2</a>  Informative References</h3>
+
+   None
+
+
+
+
+
+
+
+
+
+
+
+
+<span class="grey">Marschall                                                       [Page 4]</span></pre>
+</div><div class="page"><span class="noprint" id="page-5"><span class="grey">VTS/WF STD. 18              DLL Plugin Info              2 November 2024</span>
+
+
+Acknowledgements
+
+   I would like to thank Olivier Dubuisson for his great work with the
+   OID Repository and his help in many OID related topics.
+
+   This document was written in Nroff Internet Draft Editor by 3xA
+   Security.
+   <a href="https://aaa-sec.com/nroffedit/">https://aaa-sec.com/nroffedit/</a>
+   <a href="https://misc.daniel-marschall.de/patches/nroffedit/">https://misc.daniel-marschall.de/patches/nroffedit/</a> (&quot;year 2020&quot;
+   patch)
+
+Authors&#x27; Addresses
+
+   Daniel Marschall
+   Postfach 11 53
+   69243 Bammental
+   Germany
+
+   Email: daniel-marschall@viathinksoft.de
+   URI:   <a href="https://www.viathinksoft.com/">https://www.viathinksoft.com/</a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Marschall                                                       [Page 5]
+</pre></div></div></div>
+
+</body>
+
+</html>

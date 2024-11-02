@@ -1,0 +1,243 @@
+.\" This document was created using "Nroff Internet Draft Editor"
+.\" Note that a hotfix is required to use this program after 1st January 2020:
+.\" https://misc.daniel-marschall.de/patches/nroffedit/
+.\"
+.\" Alternative, you can compile this document on Linux, using the following command:
+.\"        nroff -T ascii -ms viathinksoft-std-0018-dll-plugin-info.nroff | ./fix_formfeed.pl > viathinksoft-std-0018-dll-plugin-info.txt
+.\" Note that "-ms" only works if the package "groff" is installed.
+.\" fix.pl needs to be executed to replace FORMFEED.
+.\" Note that the Linux command does not auto-generate the Table of Contents, since this is a NroffEdit feature!
+.\"
+.\" Note about section titles: According to RFC7322, the section capitalization should be Chicago Manual of Style
+.\" Use this tool: https://titlecaseconverter.com/ 
+.\"
+.\" These values are required for my Debian Linux system (nroff) so that it outputs the same lines like NroffEdit
+.pl 95n
+.nr HM 6n
+.nr FM 8n
+.\" Page length
+.\".pl 10.0i
+.\" Page offset
+.po 0
+.\" Length of line
+.ll 7.2i
+.\" Length of title
+.lt 7.2i
+.\" Line Length (ms macro)
+.nr LL 7.2i
+.\" Title line length
+.nr LT 7.2i
+.\" Left footer text
+.ds LF Marschall
+.\" Right footer text. "FORMFEED" will be replaced by a post-processing script.
+.ds RF FORMFEED[Page %]
+.\" Left header text
+.ds LH VTS/WF STD. 18
+.\" Right header text
+.ds RH 2 November 2024
+.\" Center header text
+.ds CH DLL Plugin Info
+.\" Center footer text
+.ds CF 
+.\" Hyphenation mode set to 0
+.hy 0
+.\" Disable hyphenation
+.nh
+.\" Adjust text left
+.ad l
+.\" Set indent (can be overridden for a single line using .ti = temporary indent)
+.in 0
+
+.nf
+.tl 'VIATHINKSOFT/WEBFAN''D. Marschall'
+.tl 'SPECIFICATION No. 18''ViaThinkSoft'
+.tl 'First Draft: 2024''2 November 2024'
+.fi
+
+.\" Note. The ".tl" directive is used to generate the leading header 
+.\" in Internet drafts. The information specified after ".tl" provides
+.\" left, center and right components of a line separated by the ' character
+.\" in the following manner:
+.\" 
+.\"  .tl '<left component>'<center component>'<right component>'
+.\"
+.\" Only the left and right components are used in Internet-draft headers
+.\" This and other comments in this template can safely be deleted.
+
+.ce 3
+=== Plugin Type+Metadata Mechanism for Windows DLL Plugins ===
+.fi
+.in 3
+
+.ti 0
+Abstract
+
+This document describes a method for plugins written as Windows DLL files, to present the plugin's type and metadata.
+
+.ti 0
+Identification of this Document
+
+.in 3
+.nf
+Revision:  2024-11-02
+State:     In Force
+Filename:  viathinksoft-std-0018-dll-plugin-info.txt
+URN:       urn:x-viathinksoft:std:0018:2024-11-02
+OID:       1.3.6.1.4.1.37476.3.3.1
+           { iso(1) identified-organization(3) dod(6) internet(1)
+             private(4) enterprise(1) 37476 specifications(3)
+             interface(3) dll-plugin-info(1) }
+WEID:      weid:pen:SX0-3-3-1-0
+IETF/RFC:  (None)
+.fi
+
+.ti 0
+Attachments
+
+(None)
+
+.ti 0
+Copyright Notice
+
+Copyright (c) 2011-2024 ViaThinkSoft and the persons identified as the
+document authors.  All rights reserved.
+
+Licensed under the terms of the Apache 2.0 License.
+.br
+.\" These values are required for my Debian Linux system (nroff) so that it outputs the same lines like NroffEdit
+.nr HM 8n
+.nr FM 8n
+.bp
+.pl 96n
+.\" \# TD4  -- Set TOC depth by altering this value (TD5 = depth 5)
+.\" \# TOC  -- Beginning of auto updated Table of Contents
+.in 0
+Table of Contents
+
+.nf
+   1  Introduction  . . . . . . . . . . . . . . . . . . . . . . . . .  3
+     1.1  Terminology . . . . . . . . . . . . . . . . . . . . . . . .  3
+   2  Definition  . . . . . . . . . . . . . . . . . . . . . . . . . .  3
+   3  Parameter Description . . . . . . . . . . . . . . . . . . . . .  3
+     3.1  In Paramters  . . . . . . . . . . . . . . . . . . . . . . .  3
+     3.2  Return Value  . . . . . . . . . . . . . . . . . . . . . . .  4
+   4  Security Considerations . . . . . . . . . . . . . . . . . . . .  4
+   5  RA Considerations . . . . . . . . . . . . . . . . . . . . . . .  4
+   6  References  . . . . . . . . . . . . . . . . . . . . . . . . . .  4
+     6.1  Normative References  . . . . . . . . . . . . . . . . . . .  4
+     6.2  Informative References  . . . . . . . . . . . . . . . . . .  4
+   Acknowledgements . . . . . . . . . . . . . . . . . . . . . . . . .  5
+   Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . . .  5
+.fi
+.in 3
+
+.\" \# ETC -- End of auto updated Table of Contents
+
+.bp
+.ti 0
+1  Introduction
+
+This recommendation applies to applications written for Microsoft Windows (EXE files) that use plugins which have a DLL file structure. It defines a method that can be used to check if the plugin is compatible with the application, and also returns metadata about the plugin.
+
+.ti 0
+1.1  Terminology
+
+The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in BCP\014 [RFC2119] [RFC8174] when, and only when, they appear in all capitals, as shown here.
+
+.ti 0
+2  Definition
+
+The undecorated method is defined as follows:
+
+Delphi:
+function VtsPluginID(lpTypeOut: PGUID; lpIdOut: PGUID; lpVerOut: PDWORD; lpAuthorInfo: Pointer): HRESULT; stdcall;
+
+C++:
+HRESULT __stdcall VtsPluginID(GUID* lpTypeOut, GUID* lpIdOut, DWORD* lpVerOut, void* lpAuthorInfo);
+
+.ti 0
+3  Parameter Description
+
+All data should be little endian.
+
+.ti 0
+3.1  In Paramters
+
+if lpTypeOut is not NULL, then the method MUST write a GUID that defines the plugin "type" (note that an application might support multiple plugin "types").
+
+If lpIdOut is not NULL, then the method MUST write a GUID that is unique to this plugin, but stays the same for different versions of that plugin.
+
+If lpVerOut is not NULL, then the method MUST write a DWORD in the following structure: 1 byte major version, 1 byte minor version, 1 byte patch, 1 byte build. E.g. 0x01020304 means version 1.2.3.4
+.bp
+If lpAuthorInfo is not NULL, then the method MUST write a variable size structure which contains the following information in order: PluginName, PluginAuthor, PluginVersion, PluginCopyright, PluginLicense, PluginMoreInfo. Each string is an UTF-16 string (WideString) prepended by a 16-bit WORD that defines the length of the string. No zero terminator bytes. Note that the caller must make sure that the size of the memory location is big enough; recommended 4096 bytes.
+
+.ti 0
+3.2  Return Value
+
+A valid HRESULT should be returned.
+
+.ti 0
+4  Security Considerations
+
+None
+
+.ti 0
+5  RA Considerations
+
+.nf
+OID:  1.3.6.1.4.1.37476.3.3.1
+WEID: weid:pen:SX0-3-3-1-0
+ASN1: { iso(1) identified-organization(3) dod(6) internet(1)
+private(4) enterprise(1) 37476 specifications(3) interface(3)
+dll-plugin-info(1) }
+IRI:  /ISO/Identified-Organization/6/1/4/1/37476/Specifications/
+Interface/DLLPluginInfo
+.fi
+
+.ti 0
+6  References
+
+.ti 0
+6.1  Normative References
+.in 14
+
+.\" https://www.rfc-editor.org/refs/ref2119.txt
+.ti 3
+[RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate Requirement Levels", BCP\014, RFC\02119, DOI\010.17487/RFC2119, March\01997,
+.br
+<https://www.rfc-editor.org/info/rfc2119>.
+
+.in 3
+.ti 0
+6.2  Informative References
+.in 14
+
+.ti 3
+None
+.bp
+.in 3
+.ti 0
+Acknowledgements
+.in 3
+
+I would like to thank Olivier Dubuisson for his great work with the OID Repository and his help in many OID related topics.
+
+This document was written in Nroff Internet Draft Editor by 3xA Security.
+.br
+https://aaa-sec.com/nroffedit/
+.br
+https://misc.daniel-marschall.de/patches/nroffedit/ ("year 2020" patch)
+
+.ti 0
+Authors' Addresses
+.in 3
+
+.nf
+Daniel Marschall
+Postfach 11 53
+69243 Bammental
+Germany
+
+Email: daniel-marschall@viathinksoft.de
+URI:   https://www.viathinksoft.com/
+.fi
