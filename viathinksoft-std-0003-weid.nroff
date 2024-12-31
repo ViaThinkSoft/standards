@@ -34,7 +34,7 @@
 .\" Left header text
 .ds LH VTS/WF STD. 3
 .\" Right header text
-.ds RH 9 September 2024
+.ds RH 1 January 2025
 .\" Center header text
 .ds CH Wehowski Identifier (WEID)
 .\" Center footer text
@@ -51,7 +51,7 @@
 .nf
 .tl 'VIATHINKSOFT/WEBFAN''D. Marschall | M. Wehowski'
 .tl 'SPECIFICATION No. 3''ViaThinkSoft |      Webfan'
-.tl 'First Draft: 2011''9 September 2024'
+.tl 'First Draft: 2011''1 January 2025'
 .fi
 
 .\" Note. The ".tl" directive is used to generate the leading header 
@@ -79,10 +79,10 @@ Identification of this Document
 
 .in 3
 .nf
-Revision:  2024-09-09 (Spec Change 12 as of 2024-09-09)
+Revision:  2025-01-01 (Spec Change 13 as of 2025-01-01)
 State:     In Force
 Filename:  viathinksoft-std-0003-weid.txt
-URN:       urn:x-viathinksoft:std:0003:2024-09-09
+URN:       urn:x-viathinksoft:std:0003:2025-01-01
 OID:       1.3.6.1.4.1.37553.8.1.8.1.6
            { iso(1) identified-organization(3) dod(6) internet(1)
              private(4) enterprise(1) frdlweb(37553) weid(8) org(1)
@@ -99,7 +99,7 @@ Attachments
 .ti 0
 Copyright Notice
 
-Copyright (c) 2011-2024 ViaThinkSoft, Webfan and the persons identified as the
+Copyright (c) 2011-2025 ViaThinkSoft, Webfan and the persons identified as the
 document authors.  All rights reserved.
 
 Licensed under the terms of the Apache 2.0 License.
@@ -118,28 +118,30 @@ Table of Contents
    1  Introduction  . . . . . . . . . . . . . . . . . . . . . . . . .  3
      1.1  Terminology . . . . . . . . . . . . . . . . . . . . . . . .  3
    2  Namespaces  . . . . . . . . . . . . . . . . . . . . . . . . . .  3
-     2.1  Namespace "weid:" for "Class C" WEIDs . . . . . . . . . . .  4
-     2.2  Sub-Namespace "weid:pen:" for "Class B" WEIDs . . . . . . .  4
-     2.3  Sub-Namespace "weid:root:" for "Class A" WEIDs  . . . . . .  4
-     2.4  Sub-Namespace "weid:<DomainName>:" for "Class D" (Domain)
-          WEID  . . . . . . . . . . . . . . . . . . . . . . . . . . .  4
-     2.5  Sub-Namespace "weid:x-<Name>:" for Proprietary Namespaces .  5
-   3  Construction of a WEID  . . . . . . . . . . . . . . . . . . . .  5
-     3.1  Construction of a Class A/B/C WEID  . . . . . . . . . . . .  5
-     3.2  Construction of a Class D WEID  . . . . . . . . . . . . . .  7
-     3.3  Construction of a Custom WEID (Proprietary Namespaces)  . .  7
-   4  Notation  . . . . . . . . . . . . . . . . . . . . . . . . . . .  8
-     4.1  Recommendations . . . . . . . . . . . . . . . . . . . . . .  8
-     4.2  Wildcard Notation (No Check Digit)  . . . . . . . . . . . .  8
-     4.3  Uniform Resource Names (URN) Namespace Notation . . . . . .  8
-   5  Additional Notes  . . . . . . . . . . . . . . . . . . . . . . .  8
-   6  Security Considerations . . . . . . . . . . . . . . . . . . . .  9
-   7  RA Considerations . . . . . . . . . . . . . . . . . . . . . . .  9
-   8  References  . . . . . . . . . . . . . . . . . . . . . . . . . . 10
-     8.1  Normative References  . . . . . . . . . . . . . . . . . . . 10
-     8.2  Informative References  . . . . . . . . . . . . . . . . . . 10
-   Acknowledgements . . . . . . . . . . . . . . . . . . . . . . . . . 11
-   Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . . . 11
+     2.1  Namespace "weid:" (Classic "Class C" WEID)  . . . . . . . .  4
+     2.2  Sub-Namespace "weid:pen:" (PEN based, class B)  . . . . . .  4
+     2.3  Sub-Namespace "weid:root:" (OID based, class A) . . . . . .  4
+     2.4  Sub-Namespace "weid:<DomainName>:" (DNS based, class D) . .  4
+     2.5  Sub-Namespace "weid:uuid:<UUID>:" (UUID based, class B) . .  5
+     2.6  Sub-Namespace "weid:x-<Name>:" for Proprietary Namespaces .  5
+   3  Construction of a WEID  . . . . . . . . . . . . . . . . . . . .  6
+     3.1  Constructor of a regular class A/B/C WEID (except UUID,
+          DNS, and Custom WEID) . . . . . . . . . . . . . . . . . . .  6
+     3.2  Construction of a DNS based (Class D) WEID  . . . . . . . .  7
+     3.3  Construction of an UUID based (Class B) WEID  . . . . . . .  8
+     3.4  Construction of a Custom WEID (Proprietary Namespaces)  . .  9
+   4  Notation  . . . . . . . . . . . . . . . . . . . . . . . . . . .  9
+     4.1  Recommendations . . . . . . . . . . . . . . . . . . . . . .  9
+     4.2  Wildcard Notation (No Check Digit)  . . . . . . . . . . . .  9
+     4.3  Uniform Resource Names (URN) Namespace Notation . . . . . .  9
+   5  Additional Notes  . . . . . . . . . . . . . . . . . . . . . . .  9
+   6  Security Considerations . . . . . . . . . . . . . . . . . . . . 10
+   7  RA Considerations . . . . . . . . . . . . . . . . . . . . . . . 10
+   8  References  . . . . . . . . . . . . . . . . . . . . . . . . . . 11
+     8.1  Normative References  . . . . . . . . . . . . . . . . . . . 11
+     8.2  Informative References  . . . . . . . . . . . . . . . . . . 11
+   Acknowledgements . . . . . . . . . . . . . . . . . . . . . . . . . 12
+   Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . . . 12
 .fi
 .in 3
 
@@ -184,6 +186,8 @@ In the initial version of the WEID specification of 2011, only OIDs below the WE
 
 The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in BCP\014 [RFC2119] [RFC8174] when, and only when, they appear in all capitals, as shown here.
 
+For WEID, the names "Class A", "Class B", "Class C", and "Class D" refer to the property of subsets. Class D is a subset of Class C, which is a subset of Class B, etc.
+
 .in 3
 .ti 0
 2  Namespaces
@@ -191,7 +195,7 @@ The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "S
 Sub-namespaces are defined by the WEID consortium (ViaThinkSoft and WebFan) in a Specification Change.  The registry of sub-namespaces (URN prefixes) has currently the following entries:
 .bp
 .ti 0
-2.1  Namespace "weid:" for "Class C" WEIDs
+2.1  Namespace "weid:" (Classic "Class C" WEID)
 
 The root OID is "1.3.6.1.4.1.37553.8".
 
@@ -200,7 +204,7 @@ Example: OID "1.3.6.1.4.1.37553.8.32488192274" can be written as "weid:EXAMPLE-3
 The registration of WEID Alphanumeric OIDs beneath this arc is managed by Webfan.de in order of FRDLWEB.  You can assign a Private WEID by Frdlweb here: https://registry.frdl.de/?goto=com.frdlweb.freeweid
 
 .ti 0
-2.2  Sub-Namespace "weid:pen:" for "Class B" WEIDs
+2.2  Sub-Namespace "weid:pen:" (PEN based, class B)
 
 The root OID is "1.3.6.1.4.1".
 
@@ -209,14 +213,14 @@ Example: OID "1.3.6.1.4.1.37476.9999" can be written as "weid:pen:SX0-7PR-6" (6 
 The registration of Private Enterprise Numbers (PEN) is managed by IANA.  You can register a PEN here: https://pen.iana.org/pen/PenApplication.page
 
 .ti 0
-2.3  Sub-Namespace "weid:root:" for "Class A" WEIDs
+2.3  Sub-Namespace "weid:root:" (OID based, class A)
 
 The root OID is the root of the OID tree.
 
-Example: OID "2.999" can be written as "weid:root:2-RR-2" (2 is the check digit) or "weid:root:2-RR-2" (check digit wildcard).
+Example: OID "2.999" can be written as "weid:root:2-RR-2" (2 is the check digit) or "weid:root:2-RR-?" (check digit wildcard).
 
 .ti 0
-2.4  Sub-Namespace "weid:<DomainName>:" for "Class D" (Domain) WEID
+2.4  Sub-Namespace "weid:<DomainName>:" (DNS based, class D)
 
 All WEID sub-namespaces containing at least one dot (.) in the second URN part are treated as domain names.
 
@@ -231,7 +235,18 @@ Only ASCII notations can be used; therefore the Punycode notation MUST be used f
 A Domain-WEID can be converted to Class A/B/C WEID, but the reverse conversion is ambiguous ("where does the domain name end and where does the identifier part start?")
 
 .ti 0
-2.5  Sub-Namespace "weid:x-<Name>:" for Proprietary Namespaces
+2.5  Sub-Namespace "weid:uuid:<UUID>:" (UUID based, class B)
+
+The root OID is the UUID OID which in OID "2.25".
+
+Example: "weid:uuid:1efc604b-dca1-6ad8-b7ac-4cf95d479851:HALLO-WELT-?"
+is equal to OID "2.25.41187251803614235665922727894359447633.29048028.1511921",
+where "2.25.41187251803614235665922727894359447633" is the UUID-OID
+for "1efc604b-dca1-6ad8-b7ac-4cf95d479851", "29048028" stands for "HALLO" in base 36, and
+"1511921" stands for "WELT" in base 36.
+
+.ti 0
+2.6  Sub-Namespace "weid:x-<Name>:" for Proprietary Namespaces
 
 For Proprietary WEID Namespaces, the second URN part must begin with "x-", for example, "weid:x-contoso:ABC-DEF-?" could be a WEID defined by Contoso Ltd.
 
@@ -251,13 +266,12 @@ Currently, the following custom namespaces are known:
 .in 3
 
 If you know more namespaces, or if you are the author of a custom namespace, please let us know.
-
-
+.bp
 .ti 0
 3  Construction of a WEID
 
 .ti 0
-3.1  Construction of a Class A/B/C WEID
+3.1  Constructor of a regular class A/B/C WEID (except UUID, DNS, and Custom WEID)
 
 The construction of a WEID is demonstrated with the example OID "2.999":
 
@@ -275,7 +289,7 @@ The construction of a WEID is demonstrated with the example OID "2.999":
 .ti 3
 (3) A Luhn-based check digit (called WeLuhn) is added, preceded by a hyphen.  Alternatively, you can replace the check digit with the wildcard symbol "?" (see section 4.2).
 .in 3
-.bp
+
 The WeLuhn check digit is calculated as follows:
 
 .in 9
@@ -319,7 +333,7 @@ This number is the payload for the standard Luhn algorithm which works as follow
 .ti 3
 (3.8) The check digit is calculated by "((10-s mod 10) mod 10)".  In our case, the Luhn check digit is "2".
 .in 3
-
+.bp
 .in 7
 .ti 3
 (4) Choose the (sub-)namespace that is closest to the OID your are describing:
@@ -332,12 +346,12 @@ This number is the payload for the standard Luhn algorithm which works as follow
 .in 3
 
 In our example, we choose "weid:root:" and our final WEID notation for OID "2.999" is "weid:root:2-RR-2", which is a Class A WEID.
-.bp
+
 
 .ti 0
-3.2  Construction of a Class D WEID
+3.2  Construction of a DNS based (Class D) WEID
 
-The construction of a Domain WEID is demonstrated with the example domain "example.com" and the payload "ABC-DEF":
+The construction of a DNS/Domain WEID is demonstrated with the example domain "example.com" and the payload "ABC-DEF":
 
 .in 7
 .ti 3
@@ -388,12 +402,65 @@ To calculate the check digit:
 
 
 .ti 0
-3.3  Construction of a Custom WEID (Proprietary Namespaces)
+3.3  Construction of an UUID based (Class B) WEID
+
+The construction of a UUID WEID is demonstrated with the example UUID
+"1efc604b-dca1-6ad8-b7ac-4cf95d479851" and the payload "HALLO-WELT".
+
+.in 7
+.ti 3
+(1) Prepend "weid:uuid:" in front of the UUID, and append a colon.  This gives "weid:uuid:1efc604b-dca1-6ad8-b7ac-4cf95d479851:".
+.in 3
+
+.in 7
+.ti 3
+(2) If you want to add a payload, then append a the payload together with a hyphen.  This gives "weid:uuid:1efc604b-dca1-6ad8-b7ac-4cf95d479851:HALLO-WELT-".
+.in 3
+
+.in 7
+.ti 3
+(3) Add a question-mark to have a wildcard check digit (e.g. "weid:uuid:1efc604b-dca1-6ad8-b7ac-4cf95d479851:HALLO-WELT-?"), as defined in section 4.2, or calculate the correct check digit and add it.  In the latter case you will receive the result: "weid:uuid:1efc604b-dca1-6ad8-b7ac-4cf95d479851:HALLO-WELT-1".
+.in 3
+
+To calculate the check digit:
+
+.in 9
+.ti 3
+(3.1) Convert the UUID to an UUID-OID (located in OID 2.25).  To do this, you need to convert the UUID from a base 128 number to a base 10 number, and then prepend "2.25.".  Example: "1efc604b-dca1-6ad8-b7ac-4cf95d479851" is equal to OID 2.25.41187251803614235665922727894359447633.
+.in 3
+
+.in 9
+.ti 3
+(3.2) Convert this UUID-OID to a WEID and remove the WEID check digit.  In our example "2.25.41187251803614235665922727894359447633" becomes "weid:root:2-P-1U1FHP8PBAM0UTK1O9S7G1H01-".
+.in 3
+
+.in 9
+.ti 3
+(3.3) If available, add the actual payload, in our example "HALLO-WELT".   This gives "weid:root:2-P-1U1FHP8PBAM0UTK1O9S7G1H01-HALLO-WELT"
+.in 3
+
+.in 9
+.ti 3
+(3.4) Remove "weid:root:" as well as the hyphens, and convert everything to upper-case.  This gives "2P1U1FHP8PBAM0UTK1O9S7G1H01HALLOWELT".
+.in 3
+
+.in 9
+.ti 3
+(3.5) "A" will be replaced with 10, "B" will be replaced with "11", etc.
+.in 3
+
+.in 9
+.ti 3
+(3.6) The standard Luhn algorithm (see section 3.1) will be applied, which gives the check digit, in our example "1".
+.in 3
+
+
+.ti 0
+3.4  Construction of a Custom WEID (Proprietary Namespaces)
 
 The construction of a Custom WEID is vendor specific and hence outside the scope of this specification.
 
 
-.bp
 .ti 0
 4  Notation
 
@@ -402,7 +469,7 @@ The construction of a Custom WEID is vendor specific and hence outside the scope
 
 The arcs in a WEID SHOULD be written in upper-case, but lowercase can be interpreted, too.
 
-The URN namespace (weid:, weid:pen:, weid:root:) is case insensitive, but it is RECOMMENDED to write it in lowercase.
+The URN namespace (weid:, weid:pen:, weid:root:, weid:uuid:) is case insensitive, but it is RECOMMENDED to write it in lowercase.
 
 Padding with 0 characters is valid (e.g. weid:000EXAMPLE-3), but NOT RECOMMENDED.  The paddings do not count toward the WeLuhn check digit.
 
@@ -426,7 +493,6 @@ Please note that some clients handling OIDs cannot handle arcs that have a speci
 At www.weid.info you can find more information and announcements of changes.
 
 The current version of the specification is 11, which is identified with the OID 1.3.6.1.4.1.37553.8.1.8.1.6.1.12 (weid:1-8-1-6-1-C-5).
-.bp
 
 .ti 0
 6  Security Considerations
@@ -471,13 +537,13 @@ colon(5) }
 
 OID:   1.3.6.1.4.1.37553.8.1.8.1.6.1.6
 ASN1:  { ... weid-spec-change-2013-10-2-camel-case-identifier(6) }
-
+.bp
 OID:   1.3.6.1.4.1.37553.8.1.8.1.6.1.7
 ASN1:  { ... weid-spec-change-2013-10-2-thesaurus(7) }
 
 OID:   1.3.6.1.4.1.37553.8.1.8.1.6.1.8
 ASN1:  { ... weid-spec-change-2021-12-8-marschall-indi-version(8) }
-.bp
+
 OID:   1.3.6.1.4.1.37553.8.1.8.1.6.1.9
 ASN1:  { ... weid-spec-change-2022-03-08-marschall-checksum-
 wildcard(9) }
@@ -490,6 +556,9 @@ ASN1:  { ... weid-spec-change-2023-08-07-custom-namespace(11) }
 
 OID:   1.3.6.1.4.1.37553.8.1.8.1.6.1.12
 ASN1:  { ... weid-spec-change-2024-09-09-urn(12) }
+
+OID:   1.3.6.1.4.1.37553.8.1.8.1.6.1.13
+ASN1:  { ... weid-spec-change-2025-01-01-uuid(13) }
 .fi
 
 .ti 0
