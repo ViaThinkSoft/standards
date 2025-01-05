@@ -4,7 +4,7 @@
 
 VIATHINKSOFT/WEBFAN                           D. Marschall | M. Wehowski
 SPECIFICATION No. 3                           ViaThinkSoft |      Webfan
-First Draft: 2011                                         1 January 2025
+First Draft: 2011                                         5 January 2025
 
 
                    === Wehowski Identifier (WEID) ===
@@ -16,10 +16,10 @@ Abstract
 
 Identification of this Document
 
-   Revision:  2025-01-01 (Spec Change 13 as of 2025-01-01)
+   Revision:  2025-01-05 (Spec Change 13 as of 2025-01-01)
    State:     In Force
    Filename:  viathinksoft-std-0003-weid.txt
-   URN:       urn:x-viathinksoft:std:0003:2025-01-01
+   URN:       urn:x-viathinksoft:std:0003:2025-01-05
    OID:       1.3.6.1.4.1.37553.8.1.8.1.6
               { iso(1) identified-organization(3) dod(6) internet(1)
                 private(4) enterprise(1) frdlweb(37553) weid(8) org(1)
@@ -55,7 +55,7 @@ Copyright Notice
 
 Marschall / Wehowski                                            [Page 1]
 
-VTS/WF STD. 3          Wehowski Identifier (WEID)         1 January 2025
+VTS/WF STD. 3          Wehowski Identifier (WEID)         5 January 2025
 
 
 Table of Contents
@@ -63,15 +63,14 @@ Table of Contents
    1  Introduction  . . . . . . . . . . . . . . . . . . . . . . . . .  3
      1.1  Terminology . . . . . . . . . . . . . . . . . . . . . . . .  3
    2  Namespaces  . . . . . . . . . . . . . . . . . . . . . . . . . .  3
-     2.1  Namespace "weid:" (Classic "Class C" WEID)  . . . . . . . .  4
-     2.2  Sub-Namespace "weid:pen:" (PEN based, class B)  . . . . . .  4
-     2.3  Sub-Namespace "weid:root:" (OID based, class A) . . . . . .  4
-     2.4  Sub-Namespace "weid:<DomainName>:" (DNS based, class D) . .  4
-     2.5  Sub-Namespace "weid:uuid:<UUID>:" (UUID based, class B) . .  5
+     2.1  Namespace "weid:" (Classic WEID, Class C) . . . . . . . . .  4
+     2.2  Sub-Namespace "weid:pen:" (PEN based, Class B)  . . . . . .  4
+     2.3  Sub-Namespace "weid:root:" (OID based, Class A) . . . . . .  4
+     2.4  Sub-Namespace "weid:<DomainName>:" (DNS based, Class D) . .  4
+     2.5  Sub-Namespace "weid:uuid:<UUID>:" (UUID based, Class B) . .  5
      2.6  Sub-Namespace "weid:x-<Name>:" for Proprietary Namespaces .  5
    3  Construction of a WEID  . . . . . . . . . . . . . . . . . . . .  6
-     3.1  Constructor of a regular class A/B/C WEID (except UUID,
-          DNS, and Custom WEID) . . . . . . . . . . . . . . . . . . .  6
+     3.1  Construction of a Regular WEID  . . . . . . . . . . . . . .  6
      3.2  Construction of a DNS based (Class D) WEID  . . . . . . . .  7
      3.3  Construction of an UUID based (Class B) WEID  . . . . . . .  8
      3.4  Construction of a Custom WEID (Proprietary Namespaces)  . .  9
@@ -106,12 +105,13 @@ Table of Contents
 
 
 
+
  
 
 
 Marschall / Wehowski                                            [Page 2]
 
-VTS/WF STD. 3          Wehowski Identifier (WEID)         1 January 2025
+VTS/WF STD. 3          Wehowski Identifier (WEID)         5 January 2025
 
 
 1  Introduction
@@ -167,10 +167,10 @@ VTS/WF STD. 3          Wehowski Identifier (WEID)         1 January 2025
 
 Marschall / Wehowski                                            [Page 3]
 
-VTS/WF STD. 3          Wehowski Identifier (WEID)         1 January 2025
+VTS/WF STD. 3          Wehowski Identifier (WEID)         5 January 2025
 
 
-2.1  Namespace "weid:" (Classic "Class C" WEID)
+2.1  Namespace "weid:" (Classic WEID, Class C)
 
    The root OID is "1.3.6.1.4.1.37553.8".
 
@@ -183,7 +183,7 @@ VTS/WF STD. 3          Wehowski Identifier (WEID)         1 January 2025
    WEID by Frdlweb here:
    https://registry.frdl.de/?goto=com.frdlweb.freeweid
 
-2.2  Sub-Namespace "weid:pen:" (PEN based, class B)
+2.2  Sub-Namespace "weid:pen:" (PEN based, Class B)
 
    The root OID is "1.3.6.1.4.1".
 
@@ -195,14 +195,14 @@ VTS/WF STD. 3          Wehowski Identifier (WEID)         1 January 2025
    IANA.  You can register a PEN here:
    https://pen.iana.org/pen/PenApplication.page
 
-2.3  Sub-Namespace "weid:root:" (OID based, class A)
+2.3  Sub-Namespace "weid:root:" (OID based, Class A)
 
    The root OID is the root of the OID tree.
 
    Example: OID "2.999" can be written as "weid:root:2-RR-2" (2 is the
    check digit) or "weid:root:2-RR-?" (check digit wildcard).
 
-2.4  Sub-Namespace "weid:<DomainName>:" (DNS based, class D)
+2.4  Sub-Namespace "weid:<DomainName>:" (DNS based, Class D)
 
    All WEID sub-namespaces containing at least one dot (.) in the second
    URN part are treated as domain names.
@@ -223,23 +223,32 @@ VTS/WF STD. 3          Wehowski Identifier (WEID)         1 January 2025
 
 Marschall / Wehowski                                            [Page 4]
 
-VTS/WF STD. 3          Wehowski Identifier (WEID)         1 January 2025
+VTS/WF STD. 3          Wehowski Identifier (WEID)         5 January 2025
 
 
    A Domain-WEID can be converted to Class A/B/C WEID, but the reverse
    conversion is ambiguous ("where does the domain name end and where
    does the identifier part start?")
 
-2.5  Sub-Namespace "weid:uuid:<UUID>:" (UUID based, class B)
+2.5  Sub-Namespace "weid:uuid:<UUID>:" (UUID based, Class B)
 
-   The root OID is the UUID OID which in OID "2.25".
+   The root OID for the WEID "weid:uuid:<Base-16-UUID>:" is the UUID-OID
+   which is "2.25.<Base-10-UUID>".
 
-   Example: "weid:uuid:1efc604b-dca1-6ad8-b7ac-4cf95d479851:HALLO-WELT-
-   ?" is equal to OID
-   "2.25.41187251803614235665922727894359447633.29048028.1511921", where
-   "2.25.41187251803614235665922727894359447633" is the UUID-OID for
-   "1efc604b-dca1-6ad8-b7ac-4cf95d479851", "29048028" stands for "HALLO"
-   in base 36, and "1511921" stands for "WELT" in base 36.
+   As an example, this Class B UUID-WEID: weid:uuid:1efc604b-dca1-6ad8-
+   b7ac-4cf95d479851:HALLO-WELT-? (Base 16 UUID + Base 36 WEID arcs)
+
+   is the same as this Class A WEID: weid:root:2-P-
+   1U1FHP8PBAM0UTK1O9S7G1H01-HALLO-WELT-? (Base 36 UUID + Base 36 WEID
+   arcs)
+
+   which is the same as this OID:
+   oid:2.25.41187251803614235665922727894359447633.29048028.1511921
+   (Base 10 UUID + Base 10 OID arcs)
+
+   Please note that unlike "weid:pen:?", the identifier "weid:uuid:?" is
+   NOT a valid WEID.  "weid:uuid:" MUST BE used with a valid UUID only. 
+   The UUID is a mandatory part of the namespace.
 
 2.6  Sub-Namespace "weid:x-<Name>:" for Proprietary Namespaces
 
@@ -265,30 +274,23 @@ VTS/WF STD. 3          Wehowski Identifier (WEID)         1 January 2025
 
    (1) weid:x-frdl:[Base36_NS]-[SubNS]:[Base36_ID]-[CheckDigit] to be
        defined/implemented by Frdlweb.
-
-   If you know more namespaces, or if you are the author of a custom
-   namespace, please let us know.
-
-
-
-
-
-
  
 
 
 Marschall / Wehowski                                            [Page 5]
 
-VTS/WF STD. 3          Wehowski Identifier (WEID)         1 January 2025
+VTS/WF STD. 3          Wehowski Identifier (WEID)         5 January 2025
 
+
+   If you know more namespaces, or if you are the author of a custom
+   namespace, please let us know.
 
 3  Construction of a WEID
 
-3.1  Constructor of a regular class A/B/C WEID (except UUID, DNS, and
-   Custom WEID)
+3.1  Construction of a Regular WEID
 
-   The construction of a WEID is demonstrated with the example OID
-   "2.999":
+   The construction of a regular WEID (class A/B/C, but not DNS, UUID,
+   or Custom WEID) is demonstrated with the example OID "2.999":
 
    (1) The numeric arcs (e.g. "2" and "999") are converted from base 10
        to base 36, so the arcs become "2" and "RR".
@@ -328,14 +330,12 @@ VTS/WF STD. 3          Wehowski Identifier (WEID)         1 January 2025
 
 
 
-
-
  
 
 
 Marschall / Wehowski                                            [Page 6]
 
-VTS/WF STD. 3          Wehowski Identifier (WEID)         1 January 2025
+VTS/WF STD. 3          Wehowski Identifier (WEID)         5 January 2025
 
 
    (4) Choose the (sub-)namespace that is closest to the OID your are
@@ -391,7 +391,7 @@ VTS/WF STD. 3          Wehowski Identifier (WEID)         1 January 2025
 
 Marschall / Wehowski                                            [Page 7]
 
-VTS/WF STD. 3          Wehowski Identifier (WEID)         1 January 2025
+VTS/WF STD. 3          Wehowski Identifier (WEID)         5 January 2025
 
 
    (3.6) The standard Luhn algorithm (see section 3.1) will be applied,
@@ -419,7 +419,7 @@ VTS/WF STD. 3          Wehowski Identifier (WEID)         1 January 2025
    To calculate the check digit:
 
    (3.1) Convert the UUID to an UUID-OID (located in OID 2.25).  To do
-         this, you need to convert the UUID from a base 128 number to a
+         this, you need to convert the UUID from a base 16 number to a
          base 10 number, and then prepend "2.25.".  Example: "1efc604b-
          dca1-6ad8-b7ac-4cf95d479851" is equal to OID
          2.25.41187251803614235665922727894359447633.
@@ -447,7 +447,7 @@ VTS/WF STD. 3          Wehowski Identifier (WEID)         1 January 2025
 
 Marschall / Wehowski                                            [Page 8]
 
-VTS/WF STD. 3          Wehowski Identifier (WEID)         1 January 2025
+VTS/WF STD. 3          Wehowski Identifier (WEID)         5 January 2025
 
 
 3.4  Construction of a Custom WEID (Proprietary Namespaces)
@@ -503,14 +503,14 @@ VTS/WF STD. 3          Wehowski Identifier (WEID)         1 January 2025
 
 Marschall / Wehowski                                            [Page 9]
 
-VTS/WF STD. 3          Wehowski Identifier (WEID)         1 January 2025
+VTS/WF STD. 3          Wehowski Identifier (WEID)         5 January 2025
 
 
    At www.weid.info you can find more information and announcements of
    changes.
 
-   The current version of the specification is 11, which is identified
-   with the OID 1.3.6.1.4.1.37553.8.1.8.1.6.1.12 (weid:1-8-1-6-1-C-5).
+   The current version of the specification is 13, which is identified
+   with the OID 1.3.6.1.4.1.37553.8.1.8.1.6.1.13 (weid:1-8-1-6-1-D-3).
 
 6  Security Considerations
 
@@ -559,7 +559,7 @@ VTS/WF STD. 3          Wehowski Identifier (WEID)         1 January 2025
 
 Marschall / Wehowski                                           [Page 10]
 
-VTS/WF STD. 3          Wehowski Identifier (WEID)         1 January 2025
+VTS/WF STD. 3          Wehowski Identifier (WEID)         5 January 2025
 
 
    OID:   1.3.6.1.4.1.37553.8.1.8.1.6.1.7
@@ -615,7 +615,7 @@ VTS/WF STD. 3          Wehowski Identifier (WEID)         1 January 2025
 
 Marschall / Wehowski                                           [Page 11]
 
-VTS/WF STD. 3          Wehowski Identifier (WEID)         1 January 2025
+VTS/WF STD. 3          Wehowski Identifier (WEID)         5 January 2025
 
 
 Acknowledgements

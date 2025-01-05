@@ -4,7 +4,7 @@
 
 VIATHINKSOFT/WEBFAN                                         D. Marschall
 SPECIFICATION No. 18                                        ViaThinkSoft
-First Draft: 2024                                        2 November 2024
+First Draft: 2024                                         5 January 2025
 
 
      === Plugin Type+Metadata Mechanism for Windows DLL Plugins ===
@@ -16,10 +16,10 @@ Abstract
 
 Identification of this Document
 
-   Revision:  2024-11-02
+   Revision:  2025-01-05
    State:     In Force
    Filename:  viathinksoft-std-0018-dll-plugin-info.txt
-   URN:       urn:x-viathinksoft:std:0018:2024-11-02
+   URN:       urn:x-viathinksoft:std:0018:2025-01-05
    OID:       1.3.6.1.4.1.37476.3.3.1
               { iso(1) identified-organization(3) dod(6) internet(1)
                 private(4) enterprise(1) 37476 specifications(3)
@@ -33,7 +33,7 @@ Attachments
 
 Copyright Notice
 
-   Copyright (c) 2011-2024 ViaThinkSoft and the persons identified as
+   Copyright (c) 2011-2025 ViaThinkSoft and the persons identified as
    the document authors.  All rights reserved.
 
    Licensed under the terms of the Apache 2.0 License.
@@ -55,7 +55,7 @@ Copyright Notice
 
 Marschall                                                       [Page 1]
 
-VTS/WF STD. 18              DLL Plugin Info              2 November 2024
+VTS/WF STD. 18              DLL Plugin Info               5 January 2025
 
 
 Table of Contents
@@ -64,15 +64,15 @@ Table of Contents
      1.1  Terminology . . . . . . . . . . . . . . . . . . . . . . . .  3
    2  Definition  . . . . . . . . . . . . . . . . . . . . . . . . . .  3
    3  Parameter Description . . . . . . . . . . . . . . . . . . . . .  3
-     3.1  In Paramters  . . . . . . . . . . . . . . . . . . . . . . .  3
+     3.1  Input Paramters . . . . . . . . . . . . . . . . . . . . . .  3
      3.2  Return Value  . . . . . . . . . . . . . . . . . . . . . . .  4
    4  Security Considerations . . . . . . . . . . . . . . . . . . . .  4
    5  RA Considerations . . . . . . . . . . . . . . . . . . . . . . .  4
    6  References  . . . . . . . . . . . . . . . . . . . . . . . . . .  4
      6.1  Normative References  . . . . . . . . . . . . . . . . . . .  4
      6.2  Informative References  . . . . . . . . . . . . . . . . . .  4
-   Acknowledgements . . . . . . . . . . . . . . . . . . . . . . . . .  5
    Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . . .  5
+
 
 
 
@@ -111,7 +111,7 @@ Table of Contents
 
 Marschall                                                       [Page 2]
 
-VTS/WF STD. 18              DLL Plugin Info              2 November 2024
+VTS/WF STD. 18              DLL Plugin Info               5 January 2025
 
 
 1  Introduction
@@ -142,9 +142,9 @@ VTS/WF STD. 18              DLL Plugin Info              2 November 2024
 
 3  Parameter Description
 
-   All data should be little endian.
+   All data MUST BE little endian.
 
-3.1  In Paramters
+3.1  Input Paramters
 
    if lpTypeOut is not NULL, then the method MUST write a GUID that
    defines the plugin "type" (note that an application might support
@@ -155,29 +155,36 @@ VTS/WF STD. 18              DLL Plugin Info              2 November 2024
    that plugin.
 
    If lpVerOut is not NULL, then the method MUST write a DWORD in the
-   following structure: 1 byte major version, 1 byte minor version, 1
-   byte patch, 1 byte build. E.g. 0x01020304 means version 1.2.3.4
+   following structure:
+   - 1 byte major version
+   - 1 byte minor version
+   - 1 byte patch
+   - 1 byte build
 
-
-
-
-
+   Example: 0x01020304 means version 1.2.3.4
  
 
 
 Marschall                                                       [Page 3]
 
-VTS/WF STD. 18              DLL Plugin Info              2 November 2024
+VTS/WF STD. 18              DLL Plugin Info               5 January 2025
 
 
    If lpAuthorInfo is not NULL, then the method MUST write a variable
    size structure which contains the following information in order:
-   PluginName, PluginAuthor, PluginVersion, PluginCopyright,
-   PluginLicense, PluginMoreInfo. Each string is an UTF-16 string
-   (WideString) prepended by a 16-bit WORD that defines the length of
-   the string. No zero terminator bytes. Note that the caller must make
-   sure that the size of the memory location is big enough; recommended
-   4096 bytes.
+   - PluginName
+   - PluginAuthor
+   - PluginVersion
+   - PluginCopyright
+   - PluginLicense
+   - PluginMoreInfo
+
+   Each string is an UTF-16 string (WideString) prepended by a 16-bit
+   WORD that defines the length of the string.  No zero terminator
+   bytes.
+
+   Note that the caller must make sure that the size of the memory
+   location is big enough; recommended 4096 bytes.
 
 3.2  Return Value
 
@@ -211,31 +218,13 @@ VTS/WF STD. 18              DLL Plugin Info              2 November 2024
    None
 
 
-
-
-
-
-
-
-
  
 
 
 Marschall                                                       [Page 4]
 
-VTS/WF STD. 18              DLL Plugin Info              2 November 2024
+VTS/WF STD. 18              DLL Plugin Info               5 January 2025
 
-
-Acknowledgements
-
-   I would like to thank Olivier Dubuisson for his great work with the
-   OID Repository and his help in many OID related topics.
-
-   This document was written in Nroff Internet Draft Editor by 3xA
-   Security.
-   https://aaa-sec.com/nroffedit/
-   https://misc.daniel-marschall.de/patches/nroffedit/ ("year 2020"
-   patch)
 
 Authors' Addresses
 
@@ -246,6 +235,17 @@ Authors' Addresses
 
    Email: daniel-marschall@viathinksoft.de
    URI:   https://www.viathinksoft.com/
+
+
+
+
+
+
+
+
+
+
+
 
 
 

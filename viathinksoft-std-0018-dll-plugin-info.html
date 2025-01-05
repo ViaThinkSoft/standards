@@ -93,7 +93,7 @@
 <div id="content">
 <div class="container"><div class="page"><pre>VIATHINKSOFT/WEBFAN                                         D. Marschall
 SPECIFICATION No. 18                                        ViaThinkSoft
-First Draft: 2024                                        2 November 2024
+First Draft: 2024                                         5 January 2025
 
 
      === Plugin Type+Metadata Mechanism for Windows DLL Plugins ===
@@ -105,10 +105,10 @@ Abstract
 
 Identification of this Document
 
-   Revision:  2024-11-02
+   Revision:  2025-01-05
    State:     In Force
    Filename:  viathinksoft-std-0018-dll-plugin-info.txt
-   URN:       urn:x-viathinksoft:std:0018:2024-11-02
+   URN:       urn:x-viathinksoft:std:0018:2025-01-05
    OID:       1.3.6.1.4.1.37476.3.3.1
               { iso(1) identified-organization(3) dod(6) internet(1)
                 private(4) enterprise(1) 37476 specifications(3)
@@ -122,7 +122,7 @@ Attachments
 
 Copyright Notice
 
-   Copyright (c) 2011-2024 ViaThinkSoft and the persons identified as
+   Copyright (c) 2011-2025 ViaThinkSoft and the persons identified as
    the document authors.  All rights reserved.
 
    Licensed under the terms of the Apache 2.0 License.
@@ -143,7 +143,7 @@ Copyright Notice
 
 
 <span class="grey">Marschall                                                       [Page 1]</span></pre>
-</div><div class="page"><span class="noprint" id="page-2"><span class="grey">VTS/WF STD. 18              DLL Plugin Info              2 November 2024</span>
+</div><div class="page"><span class="noprint" id="page-2"><span class="grey">VTS/WF STD. 18              DLL Plugin Info               5 January 2025</span>
 
 
 Table of Contents
@@ -152,14 +152,13 @@ Table of Contents
      <a href="#section-1.1">1.1</a>  Terminology . . . . . . . . . . . . . . . . . . . . . . . .  <a href="#page-3">3</a>
    <a href="#section-2">2</a>  Definition  . . . . . . . . . . . . . . . . . . . . . . . . . .  <a href="#page-3">3</a>
    <a href="#section-3">3</a>  Parameter Description . . . . . . . . . . . . . . . . . . . . .  <a href="#page-3">3</a>
-     <a href="#section-3.1">3.1</a>  In Paramters  . . . . . . . . . . . . . . . . . . . . . . .  <a href="#page-3">3</a>
+     <a href="#section-3.1">3.1</a>  Input Paramters . . . . . . . . . . . . . . . . . . . . . .  <a href="#page-3">3</a>
      <a href="#section-3.2">3.2</a>  Return Value  . . . . . . . . . . . . . . . . . . . . . . .  <a href="#page-4">4</a>
    <a href="#section-4">4</a>  Security Considerations . . . . . . . . . . . . . . . . . . . .  <a href="#page-4">4</a>
    <a href="#section-5">5</a>  RA Considerations . . . . . . . . . . . . . . . . . . . . . . .  <a href="#page-4">4</a>
    <a href="#section-6">6</a>  References  . . . . . . . . . . . . . . . . . . . . . . . . . .  <a href="#page-4">4</a>
      <a href="#section-6.1">6.1</a>  Normative References  . . . . . . . . . . . . . . . . . . .  <a href="#page-4">4</a>
      <a href="#section-6.2">6.2</a>  Informative References  . . . . . . . . . . . . . . . . . .  <a href="#page-4">4</a>
-   Acknowledgements . . . . . . . . . . . . . . . . . . . . . . . . .  <a href="#page-5">5</a>
    Authors&#x27; Addresses . . . . . . . . . . . . . . . . . . . . . . . .  <a href="#page-5">5</a>
 
 
@@ -197,8 +196,9 @@ Table of Contents
 
 
 
+
 <span class="grey">Marschall                                                       [Page 2]</span></pre>
-</div><div class="page"><span class="noprint" id="page-3"><span class="grey">VTS/WF STD. 18              DLL Plugin Info              2 November 2024</span>
+</div><div class="page"><span class="noprint" id="page-3"><span class="grey">VTS/WF STD. 18              DLL Plugin Info               5 January 2025</span>
 
 
 <h2><a class="selflink" id="section-1" href="#section-1">1</a>  Introduction</h2>
@@ -229,9 +229,9 @@ Table of Contents
 
 <h2><a class="selflink" id="section-3" href="#section-3">3</a>  Parameter Description</h2>
 
-   All data should be little endian.
+   All data MUST BE little endian.
 
-<h3><a class="selflink" id="section-3.1" href="#section-3.1">3.1</a>  In Paramters</h3>
+<h3><a class="selflink" id="section-3.1" href="#section-3.1">3.1</a>  Input Paramters</h3>
 
    if lpTypeOut is not NULL, then the method MUST write a GUID that
    defines the plugin &quot;type&quot; (note that an application might support
@@ -242,28 +242,35 @@ Table of Contents
    that plugin.
 
    If lpVerOut is not NULL, then the method MUST write a DWORD in the
-   following structure: 1 byte major version, 1 byte minor version, 1
-   byte patch, 1 byte build. E.g. 0x01020304 means version 1.2.3.4
+   following structure:
+   - 1 byte major version
+   - 1 byte minor version
+   - 1 byte patch
+   - 1 byte build
 
-
-
-
-
+   Example: 0x01020304 means version 1.2.3.4
 
 
 
 <span class="grey">Marschall                                                       [Page 3]</span></pre>
-</div><div class="page"><span class="noprint" id="page-4"><span class="grey">VTS/WF STD. 18              DLL Plugin Info              2 November 2024</span>
+</div><div class="page"><span class="noprint" id="page-4"><span class="grey">VTS/WF STD. 18              DLL Plugin Info               5 January 2025</span>
 
 
    If lpAuthorInfo is not NULL, then the method MUST write a variable
    size structure which contains the following information in order:
-   PluginName, PluginAuthor, PluginVersion, PluginCopyright,
-   PluginLicense, PluginMoreInfo. Each string is an UTF-16 string
-   (WideString) prepended by a 16-bit WORD that defines the length of
-   the string. No zero terminator bytes. Note that the caller must make
-   sure that the size of the memory location is big enough; recommended
-   4096 bytes.
+   - PluginName
+   - PluginAuthor
+   - PluginVersion
+   - PluginCopyright
+   - PluginLicense
+   - PluginMoreInfo
+
+   Each string is an UTF-16 string (WideString) prepended by a 16-bit
+   WORD that defines the length of the string.  No zero terminator
+   bytes.
+
+   Note that the caller must make sure that the size of the memory
+   location is big enough; recommended 4096 bytes.
 
 <h3><a class="selflink" id="section-3.2" href="#section-3.2">3.2</a>  Return Value</h3>
 
@@ -300,27 +307,9 @@ Table of Contents
 
 
 
-
-
-
-
-
-
-
 <span class="grey">Marschall                                                       [Page 4]</span></pre>
-</div><div class="page"><span class="noprint" id="page-5"><span class="grey">VTS/WF STD. 18              DLL Plugin Info              2 November 2024</span>
+</div><div class="page"><span class="noprint" id="page-5"><span class="grey">VTS/WF STD. 18              DLL Plugin Info               5 January 2025</span>
 
-
-Acknowledgements
-
-   I would like to thank Olivier Dubuisson for his great work with the
-   OID Repository and his help in many OID related topics.
-
-   This document was written in Nroff Internet Draft Editor by 3xA
-   Security.
-   <a href="https://aaa-sec.com/nroffedit/">https://aaa-sec.com/nroffedit/</a>
-   <a href="https://misc.daniel-marschall.de/patches/nroffedit/">https://misc.daniel-marschall.de/patches/nroffedit/</a> (&quot;year 2020&quot;
-   patch)
 
 Authors&#x27; Addresses
 
@@ -331,6 +320,17 @@ Authors&#x27; Addresses
 
    Email: daniel-marschall@viathinksoft.de
    URI:   <a href="https://www.viathinksoft.com/">https://www.viathinksoft.com/</a>
+
+
+
+
+
+
+
+
+
+
+
 
 
 
