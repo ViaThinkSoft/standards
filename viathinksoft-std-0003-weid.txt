@@ -4,7 +4,7 @@
 
 VIATHINKSOFT/WEBFAN                           D. Marschall | M. Wehowski
 SPECIFICATION No. 3                           ViaThinkSoft |      Webfan
-First Draft: 2011                                         5 January 2025
+First Draft: 2011                                         6 January 2025
 
 
                    === Wehowski Identifier (WEID) ===
@@ -16,10 +16,10 @@ Abstract
 
 Identification of this Document
 
-   Revision:  2025-01-05 (Spec Change 13 as of 2025-01-01)
+   Revision:  2025-01-06 (Spec Change 14 as of 2025-01-06)
    State:     In Force
    Filename:  viathinksoft-std-0003-weid.txt
-   URN:       urn:x-viathinksoft:std:0003:2025-01-05
+   URN:       urn:x-viathinksoft:std:0003:2025-01-06
    OID:       1.3.6.1.4.1.37553.8.1.8.1.6
               { iso(1) identified-organization(3) dod(6) internet(1)
                 private(4) enterprise(1) frdlweb(37553) weid(8) org(1)
@@ -55,7 +55,7 @@ Copyright Notice
 
 Marschall / Wehowski                                            [Page 1]
 
-VTS/WF STD. 3          Wehowski Identifier (WEID)         5 January 2025
+VTS/WF STD. 3          Wehowski Identifier (WEID)         6 January 2025
 
 
 Table of Contents
@@ -68,7 +68,8 @@ Table of Contents
      2.3  Sub-Namespace "weid:root:" (OID based, Class A) . . . . . .  4
      2.4  Sub-Namespace "weid:<DomainName>:" (DNS based, Class D) . .  4
      2.5  Sub-Namespace "weid:uuid:<UUID>:" (UUID based, Class B) . .  5
-     2.6  Sub-Namespace "weid:x-<Name>:" for Proprietary Namespaces .  5
+       2.5.1  Special case "weid:uuid:" . . . . . . . . . . . . . . .  5
+     2.6  Sub-Namespace "weid:x-<Name>:" (Proprietary Namespaces) . .  5
    3  Construction of a WEID  . . . . . . . . . . . . . . . . . . . .  6
      3.1  Construction of a Regular WEID  . . . . . . . . . . . . . .  6
      3.2  Construction of a DNS based (Class D) WEID  . . . . . . . .  7
@@ -81,12 +82,11 @@ Table of Contents
    5  Additional Notes  . . . . . . . . . . . . . . . . . . . . . . .  9
    6  Security Considerations . . . . . . . . . . . . . . . . . . . . 10
    7  RA Considerations . . . . . . . . . . . . . . . . . . . . . . . 10
-   8  References  . . . . . . . . . . . . . . . . . . . . . . . . . . 11
-     8.1  Normative References  . . . . . . . . . . . . . . . . . . . 11
-     8.2  Informative References  . . . . . . . . . . . . . . . . . . 11
-   Acknowledgements . . . . . . . . . . . . . . . . . . . . . . . . . 12
-   Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . . . 12
-
+   8  References  . . . . . . . . . . . . . . . . . . . . . . . . . . 12
+     8.1  Normative References  . . . . . . . . . . . . . . . . . . . 12
+     8.2  Informative References  . . . . . . . . . . . . . . . . . . 12
+   Acknowledgements . . . . . . . . . . . . . . . . . . . . . . . . . 13
+   Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . . . 13
 
 
 
@@ -111,7 +111,7 @@ Table of Contents
 
 Marschall / Wehowski                                            [Page 2]
 
-VTS/WF STD. 3          Wehowski Identifier (WEID)         5 January 2025
+VTS/WF STD. 3          Wehowski Identifier (WEID)         6 January 2025
 
 
 1  Introduction
@@ -167,7 +167,7 @@ VTS/WF STD. 3          Wehowski Identifier (WEID)         5 January 2025
 
 Marschall / Wehowski                                            [Page 3]
 
-VTS/WF STD. 3          Wehowski Identifier (WEID)         5 January 2025
+VTS/WF STD. 3          Wehowski Identifier (WEID)         6 January 2025
 
 
 2.1  Namespace "weid:" (Classic WEID, Class C)
@@ -223,7 +223,7 @@ VTS/WF STD. 3          Wehowski Identifier (WEID)         5 January 2025
 
 Marschall / Wehowski                                            [Page 4]
 
-VTS/WF STD. 3          Wehowski Identifier (WEID)         5 January 2025
+VTS/WF STD. 3          Wehowski Identifier (WEID)         6 January 2025
 
 
    A Domain-WEID can be converted to Class A/B/C WEID, but the reverse
@@ -246,11 +246,17 @@ VTS/WF STD. 3          Wehowski Identifier (WEID)         5 January 2025
    oid:2.25.41187251803614235665922727894359447633.29048028.1511921
    (Base 10 UUID + Base 10 OID arcs)
 
-   Please note that unlike "weid:pen:?", the identifier "weid:uuid:?" is
-   NOT a valid WEID.  "weid:uuid:" MUST BE used with a valid UUID only. 
-   The UUID is a mandatory part of the namespace.
+2.5.1  Special case "weid:uuid:"
 
-2.6  Sub-Namespace "weid:x-<Name>:" for Proprietary Namespaces
+   The identifiers "weid:uuid:?" (with wildcard checksum) and
+   "weid:uuid:3" (with checksum) are an alias for "weid:root:2-P-3"
+   which represents OID "2.25".
+
+   Other than these two exceptions, the UUID is a mandatory part of the
+   namespace and MUST BE written in base 16, i.e. "weid:uuid:ABC-?" MUST
+   NOT be used to represent OID "2.25.13368".
+
+2.6  Sub-Namespace "weid:x-<Name>:" (Proprietary Namespaces)
 
    For Proprietary WEID Namespaces, the second URN part must begin with
    "x-", for example, "weid:x-contoso:ABC-DEF-?" could be a WEID defined
@@ -268,19 +274,20 @@ VTS/WF STD. 3          Wehowski Identifier (WEID)         5 January 2025
    Since the vendor specifies the namespace, it is up to the vendor if
    they allow the mapping of their WEID-Namespace to the OID-Tree.  In
    comparison to class A/B/C/D WEID which are 100% OID compatible,
+ 
+
+
+Marschall / Wehowski                                            [Page 5]
+
+VTS/WF STD. 3          Wehowski Identifier (WEID)         6 January 2025
+
+
    custom / vendor-specific WEIDs might not be OID-compatible at all.
 
    Currently, the following custom namespaces are known:
 
    (1) weid:x-frdl:[Base36_NS]-[SubNS]:[Base36_ID]-[CheckDigit] to be
        defined/implemented by Frdlweb.
- 
-
-
-Marschall / Wehowski                                            [Page 5]
-
-VTS/WF STD. 3          Wehowski Identifier (WEID)         5 January 2025
-
 
    If you know more namespaces, or if you are the author of a custom
    namespace, please let us know.
@@ -323,20 +330,16 @@ VTS/WF STD. 3          Wehowski Identifier (WEID)         5 January 2025
    (3.6) Sum the digits of the resulting value in each position.
 
    (3.7) Sum the resulting values from all positions, "s".
-
-   (3.8) The check digit is calculated by "((10-s mod 10) mod 10)".  In
-         our case, the Luhn check digit is "2".
-
-
-
-
  
 
 
 Marschall / Wehowski                                            [Page 6]
 
-VTS/WF STD. 3          Wehowski Identifier (WEID)         5 January 2025
+VTS/WF STD. 3          Wehowski Identifier (WEID)         6 January 2025
 
+
+   (3.8) The check digit is calculated by "((10-s mod 10) mod 10)".  In
+         our case, the Luhn check digit is "2".
 
    (4) Choose the (sub-)namespace that is closest to the OID your are
        describing:
@@ -383,16 +386,16 @@ VTS/WF STD. 3          Wehowski Identifier (WEID)         5 January 2025
 
    (3.4) Remove the hyphens and dots, and convert everything to upper-
          case.  This gives "136141SZ589DNSCOMEXAMPLEABCDEF".
-
-   (3.5) "A" will be replaced with 10, "B" will be replaced with "11",
-         etc.
  
 
 
 Marschall / Wehowski                                            [Page 7]
 
-VTS/WF STD. 3          Wehowski Identifier (WEID)         5 January 2025
+VTS/WF STD. 3          Wehowski Identifier (WEID)         6 January 2025
 
+
+   (3.5) "A" will be replaced with 10, "B" will be replaced with "11",
+         etc.
 
    (3.6) The standard Luhn algorithm (see section 3.1) will be applied,
          which gives the check digit, in our example "8".
@@ -439,15 +442,16 @@ VTS/WF STD. 3          Wehowski Identifier (WEID)         5 January 2025
 
    (3.5) "A" will be replaced with 10, "B" will be replaced with "11",
          etc.
-
-   (3.6) The standard Luhn algorithm (see section 3.1) will be applied,
-         which gives the check digit, in our example "1".
  
 
 
 Marschall / Wehowski                                            [Page 8]
 
-VTS/WF STD. 3          Wehowski Identifier (WEID)         5 January 2025
+VTS/WF STD. 3          Wehowski Identifier (WEID)         6 January 2025
+
+
+   (3.6) The standard Luhn algorithm (see section 3.1) will be applied,
+         which gives the check digit, in our example "1".
 
 
 3.4  Construction of a Custom WEID (Proprietary Namespaces)
@@ -494,17 +498,18 @@ VTS/WF STD. 3          Wehowski Identifier (WEID)         5 January 2025
    Namespace UUID "6ba7b812-9dad-11d1-80b4-00c04fd430c8" according to
    [RFC 4122]).
 
-   Please note that some clients handling OIDs cannot handle arcs that
-   have a specific size.  Implementers of WEID strongly encourage
-   allowing arbitrary length arcs (i.e. implementing BigInteger rather
-   than 32-bit integers).
  
 
 
 Marschall / Wehowski                                            [Page 9]
 
-VTS/WF STD. 3          Wehowski Identifier (WEID)         5 January 2025
+VTS/WF STD. 3          Wehowski Identifier (WEID)         6 January 2025
 
+
+   Please note that some clients handling OIDs cannot handle arcs that
+   have a specific size.  Implementers of WEID strongly encourage
+   allowing arbitrary length arcs (i.e. implementing BigInteger rather
+   than 32-bit integers).
 
    At www.weid.info you can find more information and announcements of
    changes.
@@ -549,18 +554,16 @@ VTS/WF STD. 3          Wehowski Identifier (WEID)         5 January 2025
    OID:   1.3.6.1.4.1.37553.8.1.8.1.6.1.5
    ASN1:  { ... weid-spec-change-2013-6-27-4-determine-seperator-
    colon(5) }
-
-   OID:   1.3.6.1.4.1.37553.8.1.8.1.6.1.6
-   ASN1:  { ... weid-spec-change-2013-10-2-camel-case-identifier(6) }
-
-
  
 
 
 Marschall / Wehowski                                           [Page 10]
 
-VTS/WF STD. 3          Wehowski Identifier (WEID)         5 January 2025
+VTS/WF STD. 3          Wehowski Identifier (WEID)         6 January 2025
 
+
+   OID:   1.3.6.1.4.1.37553.8.1.8.1.6.1.6
+   ASN1:  { ... weid-spec-change-2013-10-2-camel-case-identifier(6) }
 
    OID:   1.3.6.1.4.1.37553.8.1.8.1.6.1.7
    ASN1:  { ... weid-spec-change-2013-10-2-thesaurus(7) }
@@ -583,6 +586,37 @@ VTS/WF STD. 3          Wehowski Identifier (WEID)         5 January 2025
 
    OID:   1.3.6.1.4.1.37553.8.1.8.1.6.1.13
    ASN1:  { ... weid-spec-change-2025-01-01-uuid(13) }
+
+   OID:   1.3.6.1.4.1.37553.8.1.8.1.6.1.14
+   ASN1:  { ... weid-spec-change-2025-01-06-uuid(14) }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+Marschall / Wehowski                                           [Page 11]
+
+VTS/WF STD. 3          Wehowski Identifier (WEID)         6 January 2025
+
 
 8  References
 
@@ -610,12 +644,34 @@ VTS/WF STD. 3          Wehowski Identifier (WEID)         5 January 2025
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
  
 
 
-Marschall / Wehowski                                           [Page 11]
+Marschall / Wehowski                                           [Page 12]
 
-VTS/WF STD. 3          Wehowski Identifier (WEID)         5 January 2025
+VTS/WF STD. 3          Wehowski Identifier (WEID)         6 January 2025
 
 
 Acknowledgements
@@ -669,4 +725,4 @@ Authors' Addresses
 
 
 
-Marschall / Wehowski                                           [Page 12]
+Marschall / Wehowski                                           [Page 13]

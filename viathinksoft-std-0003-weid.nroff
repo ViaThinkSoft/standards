@@ -34,7 +34,7 @@
 .\" Left header text
 .ds LH VTS/WF STD. 3
 .\" Right header text
-.ds RH 5 January 2025
+.ds RH 6 January 2025
 .\" Center header text
 .ds CH Wehowski Identifier (WEID)
 .\" Center footer text
@@ -51,7 +51,7 @@
 .nf
 .tl 'VIATHINKSOFT/WEBFAN''D. Marschall | M. Wehowski'
 .tl 'SPECIFICATION No. 3''ViaThinkSoft |      Webfan'
-.tl 'First Draft: 2011''5 January 2025'
+.tl 'First Draft: 2011''6 January 2025'
 .fi
 
 .\" Note. The ".tl" directive is used to generate the leading header 
@@ -79,10 +79,10 @@ Identification of this Document
 
 .in 3
 .nf
-Revision:  2025-01-05 (Spec Change 13 as of 2025-01-01)
+Revision:  2025-01-06 (Spec Change 14 as of 2025-01-06)
 State:     In Force
 Filename:  viathinksoft-std-0003-weid.txt
-URN:       urn:x-viathinksoft:std:0003:2025-01-05
+URN:       urn:x-viathinksoft:std:0003:2025-01-06
 OID:       1.3.6.1.4.1.37553.8.1.8.1.6
            { iso(1) identified-organization(3) dod(6) internet(1)
              private(4) enterprise(1) frdlweb(37553) weid(8) org(1)
@@ -123,7 +123,8 @@ Table of Contents
      2.3  Sub-Namespace "weid:root:" (OID based, Class A) . . . . . .  4
      2.4  Sub-Namespace "weid:<DomainName>:" (DNS based, Class D) . .  4
      2.5  Sub-Namespace "weid:uuid:<UUID>:" (UUID based, Class B) . .  5
-     2.6  Sub-Namespace "weid:x-<Name>:" for Proprietary Namespaces .  5
+       2.5.1  Special case "weid:uuid:" . . . . . . . . . . . . . . .  5
+     2.6  Sub-Namespace "weid:x-<Name>:" (Proprietary Namespaces) . .  5
    3  Construction of a WEID  . . . . . . . . . . . . . . . . . . . .  6
      3.1  Construction of a Regular WEID  . . . . . . . . . . . . . .  6
      3.2  Construction of a DNS based (Class D) WEID  . . . . . . . .  7
@@ -136,11 +137,11 @@ Table of Contents
    5  Additional Notes  . . . . . . . . . . . . . . . . . . . . . . .  9
    6  Security Considerations . . . . . . . . . . . . . . . . . . . . 10
    7  RA Considerations . . . . . . . . . . . . . . . . . . . . . . . 10
-   8  References  . . . . . . . . . . . . . . . . . . . . . . . . . . 11
-     8.1  Normative References  . . . . . . . . . . . . . . . . . . . 11
-     8.2  Informative References  . . . . . . . . . . . . . . . . . . 11
-   Acknowledgements . . . . . . . . . . . . . . . . . . . . . . . . . 12
-   Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . . . 12
+   8  References  . . . . . . . . . . . . . . . . . . . . . . . . . . 12
+     8.1  Normative References  . . . . . . . . . . . . . . . . . . . 12
+     8.2  Informative References  . . . . . . . . . . . . . . . . . . 12
+   Acknowledgements . . . . . . . . . . . . . . . . . . . . . . . . . 13
+   Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . . . 13
 .fi
 .in 3
 
@@ -247,10 +248,15 @@ weid:root:2-P-1U1FHP8PBAM0UTK1O9S7G1H01-HALLO-WELT-? (Base 36 UUID + Base 36 WEI
 which is the same as this OID:
 oid:2.25.41187251803614235665922727894359447633.29048028.1511921 (Base 10 UUID + Base 10 OID arcs)
 
-Please note that unlike "weid:pen:?", the identifier "weid:uuid:?" is NOT a valid WEID.  "weid:uuid:" MUST BE used with a valid UUID only.  The UUID is a mandatory part of the namespace.
+.ti 0
+2.5.1  Special case "weid:uuid:"
+
+The identifiers "weid:uuid:?" (with wildcard checksum) and "weid:uuid:3" (with checksum) are an alias for "weid:root:2-P-3" which represents OID "2.25".
+
+Other than these two exceptions, the UUID is a mandatory part of the namespace and MUST BE written in base 16, i.e. "weid:uuid:ABC-?" MUST NOT be used to represent OID "2.25.13368".
 
 .ti 0
-2.6  Sub-Namespace "weid:x-<Name>:" for Proprietary Namespaces
+2.6  Sub-Namespace "weid:x-<Name>:" (Proprietary Namespaces)
 
 For Proprietary WEID Namespaces, the second URN part must begin with "x-", for example, "weid:x-contoso:ABC-DEF-?" could be a WEID defined by Contoso Ltd.
 
@@ -337,7 +343,7 @@ This number is the payload for the standard Luhn algorithm which works as follow
 .ti 3
 (3.8) The check digit is calculated by "((10-s mod 10) mod 10)".  In our case, the Luhn check digit is "2".
 .in 3
-.bp
+
 .in 7
 .ti 3
 (4) Choose the (sub-)namespace that is closest to the OID your are describing:
@@ -541,7 +547,7 @@ colon(5) }
 
 OID:   1.3.6.1.4.1.37553.8.1.8.1.6.1.6
 ASN1:  { ... weid-spec-change-2013-10-2-camel-case-identifier(6) }
-.bp
+
 OID:   1.3.6.1.4.1.37553.8.1.8.1.6.1.7
 ASN1:  { ... weid-spec-change-2013-10-2-thesaurus(7) }
 
@@ -563,8 +569,11 @@ ASN1:  { ... weid-spec-change-2024-09-09-urn(12) }
 
 OID:   1.3.6.1.4.1.37553.8.1.8.1.6.1.13
 ASN1:  { ... weid-spec-change-2025-01-01-uuid(13) }
-.fi
 
+OID:   1.3.6.1.4.1.37553.8.1.8.1.6.1.14
+ASN1:  { ... weid-spec-change-2025-01-06-uuid(14) }
+.fi
+.bp
 .ti 0
 8  References
 
