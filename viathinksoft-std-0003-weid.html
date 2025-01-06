@@ -105,7 +105,7 @@ Abstract
 
 Identification of this Document
 
-   Revision:  2025-01-06 (Spec Change 14 as of 2025-01-06)
+   Revision:  2025-01-06 (Spec Change 15 as of 2025-01-06)
    State:     In Force
    Filename:  viathinksoft-std-0003-weid.txt
    URN:       urn:x-viathinksoft:std:0003:2025-01-06
@@ -153,10 +153,11 @@ Table of Contents
    <a href="#section-2">2</a>  Namespaces  . . . . . . . . . . . . . . . . . . . . . . . . . .  <a href="#page-3">3</a>
      <a href="#section-2.1">2.1</a>  Namespace &quot;weid:&quot; (Classic WEID, Class C) . . . . . . . . .  <a href="#page-4">4</a>
      <a href="#section-2.2">2.2</a>  Sub-Namespace &quot;weid:pen:&quot; (PEN based, Class B)  . . . . . .  <a href="#page-4">4</a>
+       <a href="#section-2.2.1">2.2.1</a>  Sub-Namespace &quot;weid:pen:&lt;pen-base10&gt;:&quot;  . . . . . . . .  <a href="#page-4">4</a>
      <a href="#section-2.3">2.3</a>  Sub-Namespace &quot;weid:root:&quot; (OID based, Class A) . . . . . .  <a href="#page-4">4</a>
      <a href="#section-2.4">2.4</a>  Sub-Namespace &quot;weid:&lt;DomainName&gt;:&quot; (DNS based, Class D) . .  <a href="#page-4">4</a>
-     <a href="#section-2.5">2.5</a>  Sub-Namespace &quot;weid:uuid:&lt;UUID&gt;:&quot; (UUID based, Class B) . .  <a href="#page-5">5</a>
-       <a href="#section-2.5.1">2.5.1</a>  Special case &quot;weid:uuid:&quot; . . . . . . . . . . . . . . .  <a href="#page-5">5</a>
+     <a href="#section-2.5">2.5</a>  Sub-Namespace &quot;weid:uuid:&quot; (UUID based, Class B)  . . . . .  <a href="#page-5">5</a>
+       <a href="#section-2.5.1">2.5.1</a>  Sub-Namespace &quot;weid:uuid:&lt;uuid-base16&gt;:&quot;  . . . . . . .  <a href="#page-5">5</a>
      <a href="#section-2.6">2.6</a>  Sub-Namespace &quot;weid:x-&lt;Name&gt;:&quot; (Proprietary Namespaces) . .  <a href="#page-5">5</a>
    <a href="#section-3">3</a>  Construction of a WEID  . . . . . . . . . . . . . . . . . . . .  <a href="#page-6">6</a>
      <a href="#section-3.1">3.1</a>  Construction of a Regular WEID  . . . . . . . . . . . . . .  <a href="#page-6">6</a>
@@ -166,16 +167,15 @@ Table of Contents
    <a href="#section-4">4</a>  Notation  . . . . . . . . . . . . . . . . . . . . . . . . . . .  <a href="#page-9">9</a>
      <a href="#section-4.1">4.1</a>  Recommendations . . . . . . . . . . . . . . . . . . . . . .  <a href="#page-9">9</a>
      <a href="#section-4.2">4.2</a>  Wildcard Notation (No Check Digit)  . . . . . . . . . . . .  <a href="#page-9">9</a>
-     <a href="#section-4.3">4.3</a>  Uniform Resource Names (URN) Namespace Notation . . . . . .  <a href="#page-9">9</a>
-   <a href="#section-5">5</a>  Additional Notes  . . . . . . . . . . . . . . . . . . . . . . .  <a href="#page-9">9</a>
+     <a href="#section-4.3">4.3</a>  Uniform Resource Names (URN) Namespace Notation . . . . . . <a href="#page-10">10</a>
+   <a href="#section-5">5</a>  Additional Notes  . . . . . . . . . . . . . . . . . . . . . . . <a href="#page-10">10</a>
    <a href="#section-6">6</a>  Security Considerations . . . . . . . . . . . . . . . . . . . . <a href="#page-10">10</a>
    <a href="#section-7">7</a>  RA Considerations . . . . . . . . . . . . . . . . . . . . . . . <a href="#page-10">10</a>
    <a href="#section-8">8</a>  References  . . . . . . . . . . . . . . . . . . . . . . . . . . <a href="#page-12">12</a>
      <a href="#section-8.1">8.1</a>  Normative References  . . . . . . . . . . . . . . . . . . . <a href="#page-12">12</a>
      <a href="#section-8.2">8.2</a>  Informative References  . . . . . . . . . . . . . . . . . . <a href="#page-12">12</a>
-   Acknowledgements . . . . . . . . . . . . . . . . . . . . . . . . . <a href="#page-13">13</a>
-   Authors&#x27; Addresses . . . . . . . . . . . . . . . . . . . . . . . . <a href="#page-13">13</a>
-
+   Acknowledgements . . . . . . . . . . . . . . . . . . . . . . . . . <a href="#page-12">12</a>
+   Authors&#x27; Addresses . . . . . . . . . . . . . . . . . . . . . . . . <a href="#page-12">12</a>
 
 
 
@@ -281,6 +281,19 @@ Table of Contents
    IANA.  You can register a PEN here:
    <a href="https://pen.iana.org/pen/PenApplication.page">https://pen.iana.org/pen/PenApplication.page</a>
 
+<h4><a class="selflink" id="section-2.2.1" href="#section-2.2.1">2.2.1</a>  Sub-Namespace &quot;weid:pen:&lt;pen-base10&gt;:&quot;</h4>
+
+   An alternative notation of &quot;weid:pen:&lt;pen-base-36&gt;-ABC-?&quot; is
+   &quot;weid:pen:&lt;pen-base-10&gt;:ABC-?&quot;.
+
+   This means, the following identifiers are equal:
+
+   - weid:pen:SX0-7PR-?
+
+   - weid:pen:37476:7PR-?
+
+   - oid:1.3.6.1.4.1.37476.9999
+
 <h3><a class="selflink" id="section-2.3" href="#section-2.3">2.3</a>  Sub-Namespace &quot;weid:root:&quot; (OID based, Class A)</h3>
 
    The root OID is the root of the OID tree.
@@ -291,6 +304,13 @@ Table of Contents
 <h3><a class="selflink" id="section-2.4" href="#section-2.4">2.4</a>  Sub-Namespace &quot;weid:&lt;DomainName&gt;:&quot; (DNS based, Class D)</h3>
 
    All WEID sub-namespaces containing at least one dot (.) in the second
+
+
+
+<span class="grey">Marschall / Wehowski                                            [Page 4]</span></pre>
+</div><div class="page"><span class="noprint" id="page-5"><span class="grey">VTS/WF STD. 3          Wehowski Identifier (WEID)         6 January 2025</span>
+
+
    URN part are treated as domain names.
 
    The notation &quot;weid:example.com:ABC-DEF-?&quot; is equal to the Class C
@@ -305,46 +325,47 @@ Table of Contents
    Only ASCII notations can be used; therefore the Punycode notation
    MUST be used for Unicode domain names.
 
-
-
-<span class="grey">Marschall / Wehowski                                            [Page 4]</span></pre>
-</div><div class="page"><span class="noprint" id="page-5"><span class="grey">VTS/WF STD. 3          Wehowski Identifier (WEID)         6 January 2025</span>
-
-
    A Domain-WEID can be converted to Class A/B/C WEID, but the reverse
    conversion is ambiguous (&quot;where does the domain name end and where
    does the identifier part start?&quot;)
 
-<h3><a class="selflink" id="section-2.5" href="#section-2.5">2.5</a>  Sub-Namespace &quot;weid:uuid:&lt;UUID&gt;:&quot; (UUID based, Class B)</h3>
+<h3><a class="selflink" id="section-2.5" href="#section-2.5">2.5</a>  Sub-Namespace &quot;weid:uuid:&quot; (UUID based, Class B)</h3>
 
-   The root OID for the WEID &quot;weid:uuid:&lt;Base-16-UUID&gt;:&quot; is the UUID-OID
-   which is &quot;2.25.&lt;Base-10-UUID&gt;&quot;.
+   The root OID is &quot;2.25&quot;.
 
-   As an example, this Class B UUID-WEID: weid:uuid:1efc604b-dca1-6ad8-
-   b7ac-4cf95d479851:HALLO-WELT-? (Base 16 UUID + Base 36 WEID arcs)
+   Example: OID &quot;2.25.41187251803614235665922727894359447633&quot; can be
+   written as &quot;weid:uuid:1U1FHP8PBAM0UTK1O9S7G1H01-?&quot;.
 
-   is the same as this Class A WEID: weid:root:2-P-
-   1U1FHP8PBAM0UTK1O9S7G1H01-HALLO-WELT-? (Base 36 UUID + Base 36 WEID
-   arcs)
+<h4><a class="selflink" id="section-2.5.1" href="#section-2.5.1">2.5.1</a>  Sub-Namespace &quot;weid:uuid:&lt;uuid-base16&gt;:&quot;</h4>
 
-   which is the same as this OID:
-   oid:2.25.41187251803614235665922727894359447633.29048028.1511921
+   An alternative notation of &quot;weid:uuid:&lt;uuid-base-36&gt;-ABC-?&quot; is
+   &quot;weid:uuid:&lt;uuid-base-16&gt;:ABC-?&quot;.
+
+   This means, the following identifiers are equal:
+
+   - weid:uuid:1efc604b-dca1-6ad8-b7ac-4cf95d479851:HALLO-WELT-? (Base
+   16 UUID + Base 36 WEID arcs)
+
+   - weid:uuid:1U1FHP8PBAM0UTK1O9S7G1H01-HALLO-WELT-?  (Base 36 UUID +
+   Base 36 WEID arcs)
+
+   - weid:root:2-P-1U1FHP8PBAM0UTK1O9S7G1H01-HALLO-WELT-? (Base 36 UUID
+   + Base 36 WEID arcs)
+
+   - oid:2.25.41187251803614235665922727894359447633.29048028.1511921
    (Base 10 UUID + Base 10 OID arcs)
-
-<h4><a class="selflink" id="section-2.5.1" href="#section-2.5.1">2.5.1</a>  Special case &quot;weid:uuid:&quot;</h4>
-
-   The identifiers &quot;weid:uuid:?&quot; (with wildcard checksum) and
-   &quot;weid:uuid:3&quot; (with checksum) are an alias for &quot;weid:root:2-P-3&quot;
-   which represents OID &quot;2.25&quot;.
-
-   Other than these two exceptions, the UUID is a mandatory part of the
-   namespace and MUST BE written in base 16, i.e. &quot;weid:uuid:ABC-?&quot; MUST
-   NOT be used to represent OID &quot;2.25.13368&quot;.
 
 <h3><a class="selflink" id="section-2.6" href="#section-2.6">2.6</a>  Sub-Namespace &quot;weid:x-&lt;Name&gt;:&quot; (Proprietary Namespaces)</h3>
 
    For Proprietary WEID Namespaces, the second URN part must begin with
    &quot;x-&quot;, for example, &quot;weid:x-contoso:ABC-DEF-?&quot; could be a WEID defined
+
+
+
+<span class="grey">Marschall / Wehowski                                            [Page 5]</span></pre>
+</div><div class="page"><span class="noprint" id="page-6"><span class="grey">VTS/WF STD. 3          Wehowski Identifier (WEID)         6 January 2025</span>
+
+
    by Contoso Ltd.
 
    As usual for WEID, the namespace is case insensitive.
@@ -359,13 +380,6 @@ Table of Contents
    Since the vendor specifies the namespace, it is up to the vendor if
    they allow the mapping of their WEID-Namespace to the OID-Tree.  In
    comparison to class A/B/C/D WEID which are 100% OID compatible,
-
-
-
-<span class="grey">Marschall / Wehowski                                            [Page 5]</span></pre>
-</div><div class="page"><span class="noprint" id="page-6"><span class="grey">VTS/WF STD. 3          Wehowski Identifier (WEID)         6 January 2025</span>
-
-
    custom / vendor-specific WEIDs might not be OID-compatible at all.
 
    Currently, the following custom namespaces are known:
@@ -400,6 +414,13 @@ Table of Contents
          &quot;2-RR&quot;.  Padding zeros must not be present and need to be
          stripped.
 
+
+
+
+<span class="grey">Marschall / Wehowski                                            [Page 6]</span></pre>
+</div><div class="page"><span class="noprint" id="page-7"><span class="grey">VTS/WF STD. 3          Wehowski Identifier (WEID)         6 January 2025</span>
+
+
    (3.3) The hyphens are removed, so we now have &quot;2RR&quot;.
 
    (3.4) &quot;A&quot; will be replaced with 10, &quot;B&quot; will be replaced with &quot;11&quot;,
@@ -414,12 +435,6 @@ Table of Contents
    (3.6) Sum the digits of the resulting value in each position.
 
    (3.7) Sum the resulting values from all positions, &quot;s&quot;.
-
-
-
-<span class="grey">Marschall / Wehowski                                            [Page 6]</span></pre>
-</div><div class="page"><span class="noprint" id="page-7"><span class="grey">VTS/WF STD. 3          Wehowski Identifier (WEID)         6 January 2025</span>
-
 
    (3.8) The check digit is calculated by &quot;((10-s mod 10) mod 10)&quot;.  In
          our case, the Luhn check digit is &quot;2&quot;.
@@ -455,6 +470,12 @@ Table of Contents
        calculate the correct check digit and add it.  In the latter case
        you will receive the result: &quot;weid:example.com:ABC-DEF-8&quot;.
 
+
+
+<span class="grey">Marschall / Wehowski                                            [Page 7]</span></pre>
+</div><div class="page"><span class="noprint" id="page-8"><span class="grey">VTS/WF STD. 3          Wehowski Identifier (WEID)         6 January 2025</span>
+
+
    To calculate the check digit:
 
    (3.1) Reverse the order of the domain parts, i.e. &quot;example.com&quot;
@@ -469,12 +490,6 @@ Table of Contents
 
    (3.4) Remove the hyphens and dots, and convert everything to upper-
          case.  This gives &quot;136141SZ589DNSCOMEXAMPLEABCDEF&quot;.
-
-
-
-<span class="grey">Marschall / Wehowski                                            [Page 7]</span></pre>
-</div><div class="page"><span class="noprint" id="page-8"><span class="grey">VTS/WF STD. 3          Wehowski Identifier (WEID)         6 January 2025</span>
-
 
    (3.5) &quot;A&quot; will be replaced with 10, &quot;B&quot; will be replaced with &quot;11&quot;,
          etc.
@@ -509,6 +524,13 @@ Table of Contents
          dca1-6ad8-b7ac-4cf95d479851&quot; is equal to OID
          2.25.41187251803614235665922727894359447633.
 
+
+
+
+<span class="grey">Marschall / Wehowski                                            [Page 8]</span></pre>
+</div><div class="page"><span class="noprint" id="page-9"><span class="grey">VTS/WF STD. 3          Wehowski Identifier (WEID)         6 January 2025</span>
+
+
    (3.2) Convert this UUID-OID to a WEID and remove the WEID check
          digit.  In our example
          &quot;2.25.41187251803614235665922727894359447633&quot; becomes
@@ -524,12 +546,6 @@ Table of Contents
 
    (3.5) &quot;A&quot; will be replaced with 10, &quot;B&quot; will be replaced with &quot;11&quot;,
          etc.
-
-
-
-<span class="grey">Marschall / Wehowski                                            [Page 8]</span></pre>
-</div><div class="page"><span class="noprint" id="page-9"><span class="grey">VTS/WF STD. 3          Wehowski Identifier (WEID)         6 January 2025</span>
-
 
    (3.6) The standard Luhn algorithm (see <a href="#section-3.1">section 3.1</a>) will be applied,
          which gives the check digit, in our example &quot;1&quot;.
@@ -563,6 +579,13 @@ Table of Contents
    scenario can be the documentation of incomplete/template WEIDs, e.g.
    &quot;weid:pen:SX0-Something-?&quot;.  Another usage is converters (like our
    online converter) which can help you replace the wildcard with the
+
+
+
+<span class="grey">Marschall / Wehowski                                            [Page 9]</span></pre>
+</div><div class="page"><span class="noprint" id="page-10"><span class="grey">VTS/WF STD. 3          Wehowski Identifier (WEID)         6 January 2025</span>
+
+
    correct check digit.
 
 <h3><a class="selflink" id="section-4.3" href="#section-4.3">4.3</a>  Uniform Resource Names (URN) Namespace Notation</h3>
@@ -579,13 +602,6 @@ Table of Contents
    Namespace UUID &quot;6ba7b812-9dad-11d1-80b4-00c04fd430c8&quot; according to
    [<a href="https://datatracker.ietf.org/doc/html/rfc4122">RFC 4122</a>]).
 
-
-
-
-<span class="grey">Marschall / Wehowski                                            [Page 9]</span></pre>
-</div><div class="page"><span class="noprint" id="page-10"><span class="grey">VTS/WF STD. 3          Wehowski Identifier (WEID)         6 January 2025</span>
-
-
    Please note that some clients handling OIDs cannot handle arcs that
    have a specific size.  Implementers of WEID strongly encourage
    allowing arbitrary length arcs (i.e. implementing BigInteger rather
@@ -594,8 +610,8 @@ Table of Contents
    At www.weid.info you can find more information and announcements of
    changes.
 
-   The current version of the specification is 13, which is identified
-   with the OID 1.3.6.1.4.1.37553.8.1.8.1.6.1.13 (weid:1-8-1-6-1-D-3).
+   The current version of the specification is 15, which is identified
+   with the OID 1.3.6.1.4.1.37553.8.1.8.1.6.1.15 (weid:1-8-1-6-1-F-8).
 
 <h2><a class="selflink" id="section-6" href="#section-6">6</a>  Security Considerations</h2>
 
@@ -618,6 +634,13 @@ Table of Contents
    Subordinates 2nd level:
 
    OID:   1.3.6.1.4.1.37553.8.1.8.1.6.1.1
+
+
+
+<span class="grey">Marschall / Wehowski                                           [Page 10]</span></pre>
+</div><div class="page"><span class="noprint" id="page-11"><span class="grey">VTS/WF STD. 3          Wehowski Identifier (WEID)         6 January 2025</span>
+
+
    ASN1:  { ... weid-spec-change-2013-6-27-1-identifier(1) }
 
    OID:   1.3.6.1.4.1.37553.8.1.8.1.6.1.2
@@ -634,12 +657,6 @@ Table of Contents
    OID:   1.3.6.1.4.1.37553.8.1.8.1.6.1.5
    ASN1:  { ... weid-spec-change-2013-6-27-4-determine-seperator-
    colon(5) }
-
-
-
-<span class="grey">Marschall / Wehowski                                           [Page 10]</span></pre>
-</div><div class="page"><span class="noprint" id="page-11"><span class="grey">VTS/WF STD. 3          Wehowski Identifier (WEID)         6 January 2025</span>
-
 
    OID:   1.3.6.1.4.1.37553.8.1.8.1.6.1.6
    ASN1:  { ... weid-spec-change-2013-10-2-camel-case-identifier(6) }
@@ -669,25 +686,8 @@ Table of Contents
    OID:   1.3.6.1.4.1.37553.8.1.8.1.6.1.14
    ASN1:  { ... weid-spec-change-2025-01-06-uuid(14) }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+   OID:   1.3.6.1.4.1.37553.8.1.8.1.6.1.15
+   ASN1:  { ... weid-spec-change-2025-01-06-uuid(15) }
 
 
 
@@ -716,40 +716,6 @@ Table of Contents
               Unique IDentifier (UUID) URN Namespace&quot;, <a href="https://datatracker.ietf.org/doc/html/rfc4122">RFC 4122</a>,
               DOI 10.17487/RFC4122, July 2005,
               &lt;<a href="https://www.rfc-editor.org/info/rfc4122">https://www.rfc-editor.org/info/rfc4122</a>&gt;.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<span class="grey">Marschall / Wehowski                                           [Page 12]</span></pre>
-</div><div class="page"><span class="noprint" id="page-13"><span class="grey">VTS/WF STD. 3          Wehowski Identifier (WEID)         6 January 2025</span>
-
 
 Acknowledgements
 
@@ -781,28 +747,7 @@ Authors&#x27; Addresses
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Marschall / Wehowski                                           [Page 13]
+Marschall / Wehowski                                           [Page 12]
 </pre></div></div></div>
 
 </body>
