@@ -586,10 +586,10 @@ OID:   1.3.6.1.4.1.37553.8.1.8.1.6.1.13
 ASN1:  { ... weid-spec-change-2025-01-01-uuid(13) }
 
 OID:   1.3.6.1.4.1.37553.8.1.8.1.6.1.14
-ASN1:  { ... weid-spec-change-2025-01-06-uuid(14) }
+ASN1:  { ... weid-spec-change-2025-01-06-uuid-update1(14) }
 
 OID:   1.3.6.1.4.1.37553.8.1.8.1.6.1.15
-ASN1:  { ... weid-spec-change-2025-01-06-uuid(15) }
+ASN1:  { ... weid-spec-change-2025-01-06-uuid-update2(15) }
 .fi
 .bp
 .ti 0
