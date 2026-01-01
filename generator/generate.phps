@@ -1,8 +1,6 @@
 #!/usr/bin/php
 <?php
 
-// TODO: Support MarkDown (newer standards do not have NROFF/TXT, but MD) incl. MD-to-HTML
-
 chdir(__DIR__);
 
 $std_list = [];
@@ -37,6 +35,7 @@ foreach (glob('../viathinksoft-std-*.txt') as $f) {
 foreach ($std_list as $std) {
 
 	if ($std['is_markdown']) {
+		// TODO: Support MarkDown-to-HTML
 		echo "Note: ".$std['basename']." needs manual MD-to-HTML convert (not implemented in HTML generator)\n";
 	} else {
 
@@ -145,6 +144,7 @@ exec('/usr/bin/python3 ./rfc2html_bridge.py ../'.$std['basename'].'.txt', $out, 
 
 // Let it look like pages
 $str = implode("\n", $out);
+$success = $str != '';
 $str = str_replace('<pre class="newpage">', '</div><div class="page">', $str);
 $str = str_replace('<hr', '<span', $str);
 $str = '<div class="container"><div class="page">'.$str.'</div></div>';
@@ -161,7 +161,7 @@ echo $str;
 $cont = ob_get_contents();
 ob_end_clean();
 
-file_put_contents('../'.$std['basename'].'.html', $cont);
+if ($success) file_put_contents('../'.$std['basename'].'.html', $cont);
 
 	}
 
@@ -213,7 +213,7 @@ foreach ($std_list as &$std) {
 	foreach ($files as $f) {
 		$g = substr($f, strlen('../'.$std['basename']));
 		$shorts = ltrim(strtoupper($g),'.-');
-		$item = '<a href="'.htmlentities(basename($f)).'">'.htmlentities($shorts).'</a>';
+		$item = '<a href="'.htmlentities(basename($f)).'">'.htmlentities($shorts=='MD'?'MarkDown':$shorts).'</a>';
 		if ($shorts == 'HTML') {
 			$std['view'][] = '<b>'.$item.'</b>';
 		} else if ($shorts == 'TXT') {
@@ -236,8 +236,8 @@ foreach ($std_list as &$std) {
 	echo '<br><font color="gray" size="-2">URN: <a href="https://hosted.oidplus.com/viathinksoft/?goto=urn%3Ax-viathinksoft%3Astd%3A'.$std['no'].'"><font color="gray">urn:x-viathinksoft:std:'.$std['no'].'</font></a>:'.explode(' ',$std['revision'])[0]."</font>\n";
 	echo '<br><font color="gray" size="-2">OID: <a href="https://hosted.oidplus.com/viathinksoft/?goto=oid%3A'.$std['oid'].'"><font color="gray">'.$std['oid'].'</font></a>'."</font>\n";
 	echo '<br><font color="gray" size="-2">WEID: '.$std['weid']."</font></li>\n";
-	echo '<li>View: '.implode(', ',$std['view']).'</li>'."\n";
-	echo '<li>Resources: '.implode(', ',$std['resources']).'</li>'."\n";
+	if (count($std['view']) > 0) echo '<li>View: '.implode(', ',$std['view']).'</li>'."\n";
+	if (count($std['resources']) > 0) echo '<li>Resources: '.implode(', ',$std['resources']).'</li>'."\n";
 	echo '</ul><br></li>'."\n\n";
 
 }
