@@ -416,3 +416,4 @@ The detailed descriptions of the changes of Spec Change 1 through 7 are not avai
 
 *   Removal of check-digit, as it is often confused with an arc, and is seldom calculated and usually written as wildcard `-?`.
 *   Replacing `urn:x-weid` (WEhowski IDentifier) with `urn:x-mwid` (Marschall Wehowski IDentifier) due to the incompatibility that would arise by removing the check-digit.
+*   If NSS prefixes are NOT used and the application context explicitly describes an identifier as WEID, the NSS `urn:x-weid:` can be omitted. For example, if a GUI field has the label "WEID", then `urn:x-weid:` can be ommitted, but NSS prefixes (such as `urn:x-weid:pen:`) must be forbidden.
