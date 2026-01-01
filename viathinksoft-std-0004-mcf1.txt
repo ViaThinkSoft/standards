@@ -24,7 +24,7 @@ Identification of this Document
               { iso(1) identified-organization(3) dod(6) internet(1)
                 private(4) enterprise(1) 37476 specifications(3)
                 misc(0) modular-crypt-format(1) vts-crypt-v1(1) }
-   WEID:      weid:pen:SX0-3-0-1-1-5
+   WEID:      P-SX0-3-0-1-1-5
    IETF/RFC:  (None)
 
 Attachments
@@ -233,7 +233,7 @@ VTS/WF STD. 4              ViaThinkSoft MCF1            3 September 2024
    private(4) enterprise(1) 37476 specifications(3)
    misc(0) modular-crypt-format(1) vts-crypt-v1(1) }
    IRI:  /.../Specifications/Misc/ModularCryptFormat/VtsCryptV1
-   WEID: weid:pen:SX0-3-0-1-1-5
+   WEID: P-SX0-3-0-1-1-5
 
 
 6  References

@@ -23,7 +23,7 @@ Identification of this Document
               { iso(1) identified-organization(3) dod(6) internet(1)
                 private(4) enterprise(1) 37476 specifications(3)
                 algorithm(2) hash(1) mha2(2) }
-   WEID:      weid:pen:SX0-3-2-1-2-9
+   WEID:      P-SX0-3-2-1-2-9
    IETF/RFC:  (None)
 
 Attachments
@@ -565,7 +565,7 @@ VTS/WF STD. 6              ViaThinkSoft MHA2            4 September 2024
 7  RA Considerations
 
    OID:  1.3.6.1.4.1.37476.3.2.1.2
-   WEID: weid:pen:SX0-3-2-1-2-9
+   WEID: P-SX0-3-2-1-2-9
    ASN1: { iso(1) identified-organization(3) dod(6) internet(1)
    private(4) enterprise(1) 37476 specifications(3)
    algorithm(2) hash(1) mha2(2) }
@@ -576,7 +576,7 @@ VTS/WF STD. 6              ViaThinkSoft MHA2            4 September 2024
    private(4) enterprise(1) 37476 specifications(3) algorithm(2)
    hash(1) foreign(99) }
    IRI:  /.../Specifications/Algorithm/Hash/Foreign
-   WEID: weid:pen:SX0-3-2-1-2R-2
+   WEID: P-SX0-3-2-1-2R-2
 
    Children:
 

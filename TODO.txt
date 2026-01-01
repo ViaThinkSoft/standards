@@ -3,3 +3,6 @@ Publish all previously defined standards
 
 Each standard could have a section "OID RA Considerations"
 where allocated OIDs (or other allocations) are defined.
+
+As of 2026, new versions of standards should be MarkDown instead of NrOff.
+So, viathinksoft-std-0001-std should describe that.

@@ -24,7 +24,7 @@ Identification of this Document
               { iso(1) identified-organization(3) dod(6) internet(1)
                 private(4) enterprise(1) 37476 specifications(3)
                 misc(0) checksum-string(2) }
-   WEID:      weid:pen:SX0-3-0-2-1
+   WEID:      P-SX0-3-0-2-1
    IETF/RFC:  (None)
 
 Attachments
@@ -183,7 +183,7 @@ VTS/WF STD. 8          PHAR File List / Checksums       4 September 2024
 4  RA Considerations
 
    OID:  1.3.6.1.4.1.37476.3.0.2
-   WEID: weid:pen:SX0-3-0-2-1
+   WEID: P-SX0-3-0-2-1
    ASN1: { iso(1) identified-organization(3) dod(6) internet(1)
    private(4) enterprise(1) 37476 specifications(3)
    misc(0) checksum-string(2) }
