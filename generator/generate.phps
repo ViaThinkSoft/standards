@@ -220,6 +220,10 @@ foreach ($std_list as &$std) {
 			if (!$std['is_markdown']) {
 				$std['view'][] = $item;
 			}
+		} else if ($shorts == 'NROFF') {
+			if (!$std['is_markdown']) {
+				$std['view'][] = $item;
+			}
 		} else if ($shorts == 'MD') {
 			if ($std['is_markdown']) {
 				$std['view'][] = $item;
