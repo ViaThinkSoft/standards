@@ -50,11 +50,11 @@ Mirror at ViaThinkSoft: https://www.viathinksoft.de/std/index.html
 **WEID**:	`P-SX0-2-...`
 
 Not an official standard, because it’s too product-specific?? Should they get a "ViaThinkSoft Standard ID-Number" anyways...??
--	“Level file with optional savegame, for SpaceMission version 1.2”, OID { viathinksoft products(2) spacemission(8) file-format(1) lev-sav-v12(1) }
--	“File format of OIDplus 1.0, internal codename "Volcano"”, OID { viathinksoft products(2) oidplus(5) v1(1) volcano(1) }
--	OIDplus 2.0 XML/JSON Plugin Schema, OIDs { viathinksoft products(2) oidplus(5) v2(2) xmlSchema(5) }, { viathinksoft products(2) oidplus(5) v2(2) jsonSchema(7) }
--	“OIDplus Nostalgia OID Definition File”, OID { viathinksoft products(2) oidplus(5) nostalgia(3) file-formats(1) oid-file(1) }
--	“OIDplus Nostalgia RA Definition File”, OID { viathinksoft products(2) oidplus(5) nostalgia(3) file-formats(1) ra-file(2) }
--	“VNag JSON Data that is embedded in an HTML page”, OID { viathinksoft products(2) vnag(3) jsondata(1) }
--	(De)Coder 3.x File Format, OID { viathinksoft products(2) decoder(2) fileformat(1) dc3(3) … }
--	[(De)Coder 4.x/5.x File Format](https://github.com/danielmarschall/decoder/blob/master/Decoder50/Private/DC4-Format-Specification.txt), Latest Revision 2024-05-27, OID { viathinksoft products(2) decoder(2) fileformat(1) dc4(4) … }
+-	“Level file with optional savegame, for SpaceMission version 1.2”, OID `{ viathinksoft products(2) spacemission(8) file-format(1) lev-sav-v12(1) }`
+-	“File format of OIDplus 1.0, internal codename "Volcano"”, OID `{ viathinksoft products(2) oidplus(5) v1(1) volcano(1) }`
+-	OIDplus 2.0 XML/JSON Plugin Schema, OIDs { viathinksoft products(2) oidplus(5) v2(2) xmlSchema(5) }, `{ viathinksoft products(2) oidplus(5) v2(2) jsonSchema(7) }`
+-	“OIDplus Nostalgia OID Definition File”, OID `{ viathinksoft products(2) oidplus(5) nostalgia(3) file-formats(1) oid-file(1) }`
+-	“OIDplus Nostalgia RA Definition File”, OID `{ viathinksoft products(2) oidplus(5) nostalgia(3) file-formats(1) ra-file(2) }`
+-	“VNag JSON Data that is embedded in an HTML page”, OID `{ viathinksoft products(2) vnag(3) jsondata(1) }`
+-	(De)Coder 3.x File Format, OID `{ viathinksoft products(2) decoder(2) fileformat(1) dc3(3) ... }`
+-	[(De)Coder 4.x/5.x File Format](https://github.com/danielmarschall/decoder/blob/master/Decoder50/Private/DC4-Format-Specification.txt), Latest Revision 2024-05-27, OID `{ viathinksoft products(2) decoder(2) fileformat(1) dc4(4) ... }`
