@@ -197,9 +197,9 @@ where <algo> is any valid hash algorithm (name scheme of PHP hash_algos() prefer
 
 Not possible with MHA1 are these hashes (because they have a special salt-handling and output their own crypt format):
 .nf
-- bcrypt [Standardized crypt identifier 2, 2a, 2x, 2y]
+- bcrypt [Standardized crypt identifier 2, 2a, 2b, 2x, 2y]
 - argon2i [Crypt identifier argon2i, not standardized]
-- argon2id [Crypt identifier argon2i, not standardized]
+- argon2id [Crypt identifier argon2id, not standardized]
 .fi
 
 <iterations> are the iterations.

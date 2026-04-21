@@ -245,9 +245,9 @@ VTS/WF STD. 7              ViaThinkSoft MHA3            4 September 2024
 
    Not possible with MHA3 are these hashes (because they have a special
    salt-handling and output their own crypt format):
-   - bcrypt [Standardized crypt identifier 2, 2a, 2x, 2y]
+   - bcrypt [Standardized crypt identifier 2, 2a, 2b, 2x, 2y]
    - argon2i [Crypt identifier argon2i, not standardized]
-   - argon2id [Crypt identifier argon2i, not standardized]
+   - argon2id [Crypt identifier argon2id, not standardized]
 
    <iterations> are the iterations.
 
