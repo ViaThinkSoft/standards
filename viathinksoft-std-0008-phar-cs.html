@@ -243,7 +243,7 @@ Table of Contents
        $phar = new Phar($filename);
        $metadata = $phar-&gt;getMetadata();
        if (($metadata[&#x27;1.3.6.1.4.1.37476.3.0.2&#x27;]??&#x27;&#x27;) == $checksums) {
-           echo &quot;PHAR file is already up-to-daten&quot;;
+           echo &quot;PHAR file is already up-to-date&quot;;
            $phar = null;
            return;
        }
